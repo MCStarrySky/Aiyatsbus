@@ -26,6 +26,7 @@ subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
+        maven("https://repo.papermc.io/repository/maven-public/")
     }
     // 全局依赖
     dependencies {

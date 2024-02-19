@@ -31,8 +31,7 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
     private val enchantmentRegisterer: AiyatsbusEnchantmentRegisterer = if (MinecraftVersion.majorLegacy <= 12002) {
         DefaultLegacyEnchantmentRegisterer
     } else run {
-        Class.forName("com.mcstarrysky.aiyatsbus.impl.registration.modern.DefaultModernEnchantmentRegisterer")
-            .invokeConstructor() as ModernEnchantmentRegisterer
+        nmsProxy(Class.forName("com.mcstarrysky.aiyatsbus.impl.registration.modern.DefaultModernEnchantmentRegisterer")) as ModernEnchantmentRegisterer
     }
 
     override fun getEnchantmentFilter(): AiyatsbusEnchantmentFilter {
@@ -64,9 +63,8 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
         @Awake(LifeCycle.CONST)
         fun init() {
             if (MinecraftVersion.majorLegacy >= 12003) {
-                (Class.forName("com.mcstarrysky.aiyatsbus.impl.registration.modern.DefaultModernEnchantmentRegisterer")
-                    .invokeConstructor() as ModernEnchantmentRegisterer)
-                    .replaceRegistry()
+                val reg = nmsProxy(Class.forName("com.mcstarrysky.aiyatsbus.impl.registration.modern.DefaultModernEnchantmentRegisterer")) as ModernEnchantmentRegisterer
+                reg.replaceRegistry()
             }
         }
     }
