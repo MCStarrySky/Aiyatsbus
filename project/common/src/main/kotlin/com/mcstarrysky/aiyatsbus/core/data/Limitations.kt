@@ -106,7 +106,7 @@ data class Limitations(
 
         @Awake(LifeCycle.CONST)
         fun initConflicts() {
-            registerLifeCycleTask(LifeCycle.ENABLE, 4) {
+            registerLifeCycleTask(LifeCycle.ENABLE, 5) {
                 conflicts.forEach { (a, b) ->
                     val etA = aiyatsbusEt(a) ?: return@forEach
                     val etB = aiyatsbusEt(b) ?: return@forEach

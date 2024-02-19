@@ -30,7 +30,7 @@ data class Group(
 
         @Awake(LifeCycle.CONST)
         fun load() {
-            registerLifeCycleTask(LifeCycle.ENABLE, 3) {
+            registerLifeCycleTask(LifeCycle.ENABLE, 4) {
                 Configuration.loadFromFile(releaseResourceFile("enchants/group.yml", false))
                     .let { config ->
                         config.getKeys(false).map { name ->

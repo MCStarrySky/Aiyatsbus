@@ -1,5 +1,7 @@
 package com.mcstarrysky.aiyatsbus.core
 
+import com.mcstarrysky.aiyatsbus.core.customization.CustomTrigger
+import com.mcstarrysky.aiyatsbus.core.customization.TriggerType
 import com.mcstarrysky.aiyatsbus.core.data.*
 import com.mcstarrysky.aiyatsbus.core.data.Target
 import org.bukkit.NamespacedKey
@@ -35,4 +37,6 @@ class AiyatsbusEnchantmentBase(
     override val targets: List<Target> = config.getStringList("targets").map { t -> Target.targets.values.firstOrNull { it.name == t } ?: Target.targets[t] }.filterNotNull()
 
     override val limitations: Limitations = Limitations(this, config.getStringList("limitations"))
+
+    override val trigger: CustomTrigger = TriggerType.new(this, config)
 }

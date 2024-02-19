@@ -37,7 +37,7 @@ object AiyatsbusCommand {
     @CommandBody
     val devEnchant = subCommand {
         execute<Player> { sender, _, _ ->
-            sender.equipment!!.itemInMainHand.addEt(aiyatsbusEt("test") ?: return@execute)
+            sender.equipment!!.itemInMainHand.addEt(aiyatsbusEt("ice_bear") ?: return@execute)
         }
     }
 
