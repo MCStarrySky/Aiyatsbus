@@ -6,7 +6,9 @@ import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantmentBase
 import com.mcstarrysky.aiyatsbus.core.registration.modern.ModernEnchantmentRegisterer
 import com.mcstarrysky.aiyatsbus.core.util.setStaticFinal
 import com.mcstarrysky.aiyatsbus.impl.registration.v12004_paper.AiyatsbusCraftEnchantment
+import net.minecraft.core.Holder
 import net.minecraft.core.IRegistry
+import net.minecraft.core.RegistryMaterials
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.IChatBaseComponent
@@ -42,6 +44,16 @@ class DefaultModernEnchantmentRegisterer : ModernEnchantmentRegisterer {
 //        .declaredFields
 //        .last { it.type == Map::class.java }
 //        .apply { isAccessible = true }
+
+    private val frozenField = RegistryMaterials::class.java
+        .declaredFields
+        .filter { it.type.isPrimitive }[0]
+        .apply { isAccessible = true }
+
+    private val unregisteredIntrusiveHoldersField = RegistryMaterials::class.java
+        .declaredFields
+        .last { it.type.isPrimitive }
+        .apply { isAccessible = true }
 
     private val registries by unsafeLazy {
         Bukkit.getServer().getProperty<HashMap<Class<*>, org.bukkit.Registry<*>>>("registries")!!
@@ -88,6 +100,15 @@ class DefaultModernEnchantmentRegisterer : ModernEnchantmentRegisterer {
 //            IdentityHashMap<net.minecraft.world.item.enchantment.Enchantment,
 //                    Holder.Reference<net.minecraft.world.item.enchantment.Enchantment>>()
 //        )
+
+
+        // Unfreeze NMS registry
+        frozenField.set(BuiltInRegistries.ENCHANTMENT, false)
+        unregisteredIntrusiveHoldersField.set(
+            BuiltInRegistries.ENCHANTMENT,
+            IdentityHashMap<net.minecraft.world.item.enchantment.Enchantment,
+                    Holder.c<net.minecraft.world.item.enchantment.Enchantment>>()
+        )
     }
 
     override fun register(enchant: AiyatsbusEnchantmentBase): Enchantment {

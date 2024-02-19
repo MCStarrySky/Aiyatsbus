@@ -5,6 +5,8 @@ import com.mcstarrysky.aiyatsbus.core.registration.AiyatsbusEnchantmentRegistere
 import com.mcstarrysky.aiyatsbus.core.registration.modern.ModernEnchantmentRegisterer
 import com.mcstarrysky.aiyatsbus.impl.registration.legacy.DefaultLegacyEnchantmentRegisterer
 import taboolib.common.LifeCycle
+import taboolib.common.TabooLib
+import taboolib.common.io.runningClassMap
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
 import taboolib.library.reflex.Reflex.Companion.invokeConstructor
@@ -31,7 +33,7 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
     private val enchantmentRegisterer: AiyatsbusEnchantmentRegisterer = if (MinecraftVersion.majorLegacy <= 12002) {
         DefaultLegacyEnchantmentRegisterer
     } else run {
-        nmsProxy(Class.forName("com.mcstarrysky.aiyatsbus.impl.registration.modern.DefaultModernEnchantmentRegisterer")) as ModernEnchantmentRegisterer
+        nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
     }
 
     override fun getEnchantmentFilter(): AiyatsbusEnchantmentFilter {
@@ -62,8 +64,10 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
         @Awake(LifeCycle.CONST)
         fun init() {
+            println("能不能找到: " + (TabooLib::class.java.classLoader.getResourceAsStream("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer".replace('.', '/') + ".class") != null))
+            runningClassMap.keys.filter { it.startsWith("com.mcstarrysky.aiyatsbus.impl") }.forEach(::println)
             if (MinecraftVersion.majorLegacy >= 12003) {
-                val reg = nmsProxy(Class.forName("com.mcstarrysky.aiyatsbus.impl.registration.modern.DefaultModernEnchantmentRegisterer")) as ModernEnchantmentRegisterer
+                val reg = nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
                 reg.replaceRegistry()
             }
         }
