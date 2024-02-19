@@ -20,6 +20,8 @@ enchant_cost:
   #浮点数运算，最后一步修约到整数
   per_level: "6.0/{max_level}"
 
+allow_different_material: false
+
 #vip权限的玩家，可以节省经验等级
 privilege:
   - "splendidenchants.privilege.anvil.vip:{cost}-1"

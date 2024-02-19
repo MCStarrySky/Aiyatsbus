@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.impl.registration.modern
+package com.mcstarrysky.aiyatsbus.impl.registration.v12004_paper
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantmentBase

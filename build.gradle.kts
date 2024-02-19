@@ -19,13 +19,14 @@ subprojects {
         env {
             install(UNIVERSAL, BUKKIT_ALL, NMS_UTIL, KETHER, UI)
         }
-        version { taboolib = "6.1.0" }
+        version { taboolib = "6.1.0-dev" }
     }
 
     // 全局仓库
     repositories {
         mavenLocal()
         mavenCentral()
+        maven("https://repo.papermc.io/repository/maven-public/")
     }
     // 全局依赖
     dependencies {

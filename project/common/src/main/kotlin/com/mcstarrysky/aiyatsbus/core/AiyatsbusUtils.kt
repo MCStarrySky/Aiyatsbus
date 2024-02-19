@@ -109,7 +109,7 @@ fun ItemMeta.clearEts() {
     else enchants.forEach { removeEnchant(it.key) }
 }
 
-fun Material.isInTarget(target: Target?): Boolean = target?.itemTypes?.contains(this) ?: false
+fun Material.isInTarget(target: Target?): Boolean = target?.types?.contains(this) ?: false
 
 val Material.belongedTargets get() = Target.targets.values.filter(::isInTarget)
 

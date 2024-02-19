@@ -7,7 +7,6 @@ import com.mcstarrysky.aiyatsbus.impl.registration.legacy.DefaultLegacyEnchantme
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
-import taboolib.library.reflex.Reflex.Companion.invokeConstructor
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.nmsProxy
 
@@ -31,8 +30,7 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
     private val enchantmentRegisterer: AiyatsbusEnchantmentRegisterer = if (MinecraftVersion.majorLegacy <= 12002) {
         DefaultLegacyEnchantmentRegisterer
     } else run {
-        Class.forName("com.mcstarrysky.aiyatsbus.impl.registration.modern.DefaultModernEnchantmentRegisterer")
-            .invokeConstructor() as ModernEnchantmentRegisterer
+        nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
     }
 
     override fun getEnchantmentFilter(): AiyatsbusEnchantmentFilter {
@@ -64,9 +62,8 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
         @Awake(LifeCycle.CONST)
         fun init() {
             if (MinecraftVersion.majorLegacy >= 12003) {
-                (Class.forName("com.mcstarrysky.aiyatsbus.impl.registration.modern.DefaultModernEnchantmentRegisterer")
-                    .invokeConstructor() as ModernEnchantmentRegisterer)
-                    .replaceRegistry()
+                val reg = nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
+                reg.replaceRegistry()
             }
         }
     }

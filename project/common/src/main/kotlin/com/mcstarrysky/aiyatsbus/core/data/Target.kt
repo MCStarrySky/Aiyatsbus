@@ -17,21 +17,13 @@ import java.util.concurrent.ConcurrentHashMap
  * @since 2024/2/17 23:32
  */
 data class Target(
+    val id: String,
     val name: String,
     val capability: Int,
-    private val active_slots: List<String>,
-    private val types: List<String>,
+    val activeSlots: List<EquipmentSlot>,
+    val types: List<Material>,
     val skull: String
 ) {
-
-    @Transient
-    lateinit var id: String
-
-    @Transient
-    lateinit var activeSlots: List<EquipmentSlot>
-
-    @Transient
-    lateinit var itemTypes: List<Material>
 
     companion object {
 
@@ -43,11 +35,11 @@ data class Target(
                 Configuration.loadFromFile(releaseResourceFile("enchants/target.yml", false))
                     .let { config ->
                         config.getKeys(false)
-                            .map { it to Configuration.deserialize<Target>(config.getConfigurationSection(it)!!, ignoreConstructor = true).apply {
-                                id = it
-                                activeSlots = active_slots.map(EquipmentSlot::valueOf)
-                                itemTypes = types.map(Material::valueOf)
-                            } }
+                            .map { it to Target(it, config.getString("$it.name")!!, config.getInt("$it.max"),
+                                config.getStringList("$it.active_slots").map { EquipmentSlot.valueOf(it) },
+                                config.getStringList("$it.types").map { Material.valueOf(it) },
+                                config.getString("$it.skull") ?: ""
+                            ) }
                     }
                     .let {
                         targets.clear()
