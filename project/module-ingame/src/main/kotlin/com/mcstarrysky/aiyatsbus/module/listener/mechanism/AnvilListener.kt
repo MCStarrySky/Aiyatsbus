@@ -59,7 +59,7 @@ object AnvilListener {
 
     @Awake(LifeCycle.CONST)
     fun init() {
-        registerLifeCycleTask(LifeCycle.ENABLE, 8) {
+        registerLifeCycleTask(LifeCycle.ENABLE, 9) {
             reload()
         }
     }

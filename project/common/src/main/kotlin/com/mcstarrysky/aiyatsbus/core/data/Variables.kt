@@ -81,6 +81,7 @@ class Variables(
                 VariableType.LEVELED -> leveled(variable, level, withUnit)
                 VariableType.PLAYER_RELATED -> playerRelated(variable, entity as? Player)
                 VariableType.MODIFIABLE -> modifiable(variable, item)
+                else -> return@mapNotNull null
             }
         }.toMap()
     }
@@ -127,5 +128,5 @@ class Variables(
 
 enum class VariableType {
 
-    LEVELED, PLAYER_RELATED, MODIFIABLE
+    LEVELED, PLAYER_RELATED, MODIFIABLE, FLEXIBLE
 }

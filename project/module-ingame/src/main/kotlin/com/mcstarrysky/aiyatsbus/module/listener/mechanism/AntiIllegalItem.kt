@@ -22,7 +22,7 @@ object AntiIllegalItem {
 
     @Awake(LifeCycle.CONST)
     fun load() {
-        registerLifeCycleTask(LifeCycle.ENABLE, 7) {
+        registerLifeCycleTask(LifeCycle.ENABLE, 8) {
             checkList += AiyatsbusSettings.antiIllegalItemCheckList.map(LimitType::valueOf)
 
             if (!AiyatsbusSettings.enableAntiIllegalItem)

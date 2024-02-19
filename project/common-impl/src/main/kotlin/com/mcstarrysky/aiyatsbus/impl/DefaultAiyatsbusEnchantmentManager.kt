@@ -74,7 +74,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
     }
 
     init {
-        registerLifeCycleTask(LifeCycle.ENABLE, 2) { loadEnchantments() }
+        registerLifeCycleTask(LifeCycle.ENABLE, 3) { loadEnchantments() }
     }
 
     companion object {

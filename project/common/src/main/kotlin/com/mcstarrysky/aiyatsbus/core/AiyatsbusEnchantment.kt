@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.core
 
+import com.mcstarrysky.aiyatsbus.core.customization.CustomTrigger
 import com.mcstarrysky.aiyatsbus.core.data.*
 import com.mcstarrysky.aiyatsbus.core.data.Target
 import com.mcstarrysky.aiyatsbus.core.util.roman
@@ -69,6 +70,11 @@ interface AiyatsbusEnchantment {
      * 附魔限制
      */
     val limitations: Limitations
+
+    /**
+     * 附魔的触发器
+     */
+    val trigger: CustomTrigger
 
     fun conflictsWith(other: Enchantment): Boolean {
         return false
