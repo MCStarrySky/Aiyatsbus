@@ -48,7 +48,7 @@ class DefaultAiyatsbusPlayerDataHandler : AiyatsbusPlayerDataHandler {
         fun init() {
             PlatformFactory.registerAPI<AiyatsbusPlayerDataHandler>(DefaultAiyatsbusPlayerDataHandler())
 
-            registerLifeCycleTask(LifeCycle.ENABLE, 5) {
+            registerLifeCycleTask(LifeCycle.ENABLE, 6) {
                 val api = PlatformFactory.getAPI<AiyatsbusPlayerDataHandler>()
                 onlinePlayers.forEach(api::load)
             }

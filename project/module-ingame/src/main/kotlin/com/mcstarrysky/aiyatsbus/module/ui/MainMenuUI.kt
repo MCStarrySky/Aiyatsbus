@@ -52,7 +52,7 @@ object MainMenuUI {
 
     @Awake(LifeCycle.CONST)
     fun init() {
-        registerLifeCycleTask(LifeCycle.ENABLE, 6) {
+        registerLifeCycleTask(LifeCycle.ENABLE, 7) {
             MenuFunctions.unregister("Back")
             MenuFunctions.register("Back", false) { back }
             Reloadables.execute()

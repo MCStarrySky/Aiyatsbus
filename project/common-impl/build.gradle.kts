@@ -2,7 +2,7 @@ import io.izzel.taboolib.gradle.UNIVERSAL
 
 dependencies {
     compileOnly(project(":project:common"))
-    compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
 }
 
 // 子模块
