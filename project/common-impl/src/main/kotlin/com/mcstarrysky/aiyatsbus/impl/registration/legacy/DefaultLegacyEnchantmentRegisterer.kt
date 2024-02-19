@@ -8,6 +8,7 @@ import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.library.reflex.Reflex.Companion.setProperty
+import taboolib.module.nms.MinecraftVersion
 
 /**
  * Aiyatsbus
@@ -20,12 +21,16 @@ object DefaultLegacyEnchantmentRegisterer : AiyatsbusEnchantmentRegisterer {
 
     @Awake(LifeCycle.CONST)
     fun init() {
-        Enchantment::class.java.setProperty("acceptingNew", value = true, isStatic = true)
+        if (MinecraftVersion.majorLegacy <= 12002) {
+            Enchantment::class.java.setProperty("acceptingNew", value = true, isStatic = true)
+        }
     }
 
     @Awake(LifeCycle.DISABLE)
     fun exit() {
-        Enchantment::class.java.setProperty("acceptingNew", value = false, isStatic = true)
+        if (MinecraftVersion.majorLegacy <= 12002) {
+            Enchantment::class.java.setProperty("acceptingNew", value = false, isStatic = true)
+        }
     }
 
     override fun register(enchant: AiyatsbusEnchantmentBase): Enchantment {

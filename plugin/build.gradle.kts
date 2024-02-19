@@ -17,7 +17,7 @@ tasks {
         // 构件名
         archiveFileName.set("${rootProject.name}-${archiveFileName.get().substringAfter('-')}")
         // 打包子项目源代码
-        rootProject.subprojects.filterNot { it.plugins.hasPlugin("io.papermc.paperweight.userdev") }.forEach { from(it.sourceSets["main"].output) }
+        rootProject.subprojects.forEach { from(it.sourceSets["main"].output) }
     }
     sourcesJar {
         // 构件名

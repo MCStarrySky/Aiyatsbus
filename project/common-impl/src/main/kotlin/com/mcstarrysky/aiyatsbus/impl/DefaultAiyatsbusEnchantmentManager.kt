@@ -57,8 +57,8 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
             .forEach { file ->
                 val config = Configuration.loadFromFile(file)
                 val id = config["basic.id"].toString()
-                val enchantment = AiyatsbusEnchantmentBase(id, config)
-                Aiyatsbus.api().getEnchantmentRegisterer().register(enchantment)
+                val enchant = AiyatsbusEnchantmentBase(id, config)
+                val enchantment = Aiyatsbus.api().getEnchantmentRegisterer().register(enchant) as AiyatsbusEnchantment
 
                 BY_ID[id] = enchantment
                 BY_NAME[enchantment.basicData.name] = enchantment

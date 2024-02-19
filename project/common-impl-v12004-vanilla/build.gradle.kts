@@ -2,9 +2,9 @@ import io.izzel.taboolib.gradle.UNIVERSAL
 
 dependencies {
     compileOnly(project(":project:common"))
-    compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
+    compileOnly(project(":project:common-impl-v12004-paper"))
     compileOnly("ink.ptms.core:v12004:12004:mapped")
-    compileOnly("ink.ptms.core:v11605:11605")
+    compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
 }
 
 // 子模块
