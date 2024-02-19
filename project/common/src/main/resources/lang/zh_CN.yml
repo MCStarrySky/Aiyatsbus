@@ -1,0 +1,28 @@
+limitations-not-enabled: "附魔未启用"
+
+limitations-typename-target: "附魔对象"
+limitations-typename-capability: "词条个数"
+limitations-typename-papi_expression: "表达式"
+limitations-typename-permission: "权限"
+limitations-typename-conflict_enchant: "冲突"
+limitations-typename-conflict_group: "冲突"
+limitations-typename-dependence_enchant: "依赖"
+limitations-typename-dependence_group: "依赖"
+limitations-typename-disable_world: "禁用世界"
+limitations-typename-slots: "可用位置"
+
+limitations-check-failed: "{typename}错误"
+
+filter-type-rarity: "品质"
+filter-type-target: "物品类别"
+filter-type-group: "类型/定位"
+filter-type-string: "名字/描述"
+
+filter-statement-symbol-on: "§a✔"
+filter-statement-symbol-off: "§c✘"
+
+messages-menu-search-input: "&e请在聊天栏中输入字段..."
+messages-menu-search-input_finish: "&a输入完成"
+messages-misc-cool_down: "冷却未结束，还有{second}s"
+
+info-illegal_item: "&7你背包中的物品 &a{item} &7包含非法附魔 &d{enchant}&7，已经分离(&c{reason}&7)"

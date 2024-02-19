@@ -1,0 +1,73 @@
+title: "铁砧 点击背包物品上传"
+shape:
+  - 'FFFFFFFFF'
+  - 'FAPBERFIF'
+  - 'FFFFFFFFF'
+
+template:
+  'F':
+    material: BLACK_STAINED_GLASS_PANE
+    name: "&7"
+
+  'P':
+    material: PLAYER_HEAD
+    name: "&e+"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhMGZjNmRjZjczOWMxMWZlY2U0M2NkZDE4NGRlYTc5MWNmNzU3YmY3YmQ5MTUzNmZkYmM5NmZhNDdhY2ZiIn19fQ=="
+
+  'E':
+    material: PLAYER_HEAD
+    name: "&e="
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzAzMDgyZjAzM2Y5NzI0Y2IyMmZlMjdkMGRlNDk3NTA5MDMzNTY0MWVlZTVkOGQ5MjdhZGY1YThiNjdmIn19fQ=="
+
+  'I':
+    material: PLAYER_HEAD
+    name: "&b拼合信息"
+    lore:
+      - "&8| &7拼合检测 > {allowed}"
+      - "&8| &7等级消耗 > &e{level}级"
+      - "&8| &7详情 > "
+      - "   &7{reasons}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTFjNDEzYThkMjZkNDY1NDFmYmVhZTRkM2U4MzBiYzRmYjE3YWIwNDAzODZkMTJjYzQzMDE0ZGE4N2VkOGFhZiJ9fX0="
+      - ==: Functional
+        keyword: Anvil:information
+
+  'A':
+    material: PLAYER_HEAD
+    name: "&b物品A"
+    lore:
+      - "&8| &7点击背包内物品上传"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjViOTVkYTEyODE2NDJkYWE1ZDAyMmFkYmQzZTdjYjY5ZGMwOTQyYzgxY2Q2M2JlOWMzODU3ZDIyMmUxYzhkOSJ9fX0="
+      - ==: Functional
+        keyword: Anvil:a
+
+  'B':
+    material: PLAYER_HEAD
+    name: "&b物品B"
+    lore:
+      - "&8| &7点击背包内物品上传"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjViOTVkYTEyODE2NDJkYWE1ZDAyMmFkYmQzZTdjYjY5ZGMwOTQyYzgxY2Q2M2JlOWMzODU3ZDIyMmUxYzhkOSJ9fX0="
+      - ==: Functional
+        keyword: Anvil:b
+
+  'R':
+    material: PLAYER_HEAD
+    name: "&b结果"
+    lore:
+      - "&8| &7物品上传完毕后此处将会显示结果"
+      - "&8| &7若未显示，则说明无法拼合"
+      - "&8| &7具体详情见右侧信息显示"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTY5NTkwNThjMGMwNWE0MTdmZDc1N2NiODViNDQxNWQ5NjZmMjczM2QyZTdjYTU0ZjdiYTg2OGUzMjQ5MDllMiJ9fX0="
+      - ==: Functional
+        keyword: Anvil:result

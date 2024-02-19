@@ -1,0 +1,20 @@
+basic:
+  id: loyalty
+  name: "忠诚"
+  max_level: 3
+
+alternative:
+  is_vanilla: true
+
+rarity: 精良
+targets:
+  - 三叉戟
+
+limitations:
+  - "CONFLICT_ENCHANT:激流"
+
+display:
+  description:
+    general: "使掷出后的三叉戟返回"
+
+#TODO 数据录入

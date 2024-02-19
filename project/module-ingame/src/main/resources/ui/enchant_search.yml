@@ -1,0 +1,126 @@
+title: "附魔大全 | 左侧按钮可筛选附魔"
+#W-按照品质筛选菜单
+#X-按照对象筛选
+#Y-按照附魔定位/类型筛选
+#Z-输入字符串搜索
+shape:
+  - 'BCFFFFFFF'
+  - 'FFFEEEEEE'
+  - 'WXFEEEEEE'
+  - 'YZFEEEEEE'
+  - 'FFFEEEEEE'
+  - 'PNFFFFFFF'
+
+template:
+  'F':
+    material: BLACK_STAINED_GLASS_PANE
+    name: "&7"
+
+  'C':
+    material: PLAYER_HEAD
+    name: "&c关闭"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc1NDgzNjJhMjRjMGZhODQ1M2U0ZDkzZTY4YzU5NjlkZGJkZTU3YmY2NjY2YzAzMTljMWVkMWU4NGQ4OTA2NSJ9fX0="
+      - ==: Close
+
+  'B':
+    material: PLAYER_HEAD
+    name: "&b返回 {last}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzk3OGYzNWM2Mzg2MGQ2OTRmZWU0YWIzYzM2OTRmZGU0MDQ2Yzk2NmU0YzFiZjA2NjVmODg3NDhmOWY4MDI1In19fQ=="
+      - ==: Functional
+        keyword: Back
+
+  'P':
+    material: PLAYER_HEAD
+    name: "&e上一页"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjllYTFkODYyNDdmNGFmMzUxZWQxODY2YmNhNmEzMDQwYTA2YzY4MTc3Yzc4ZTQyMzE2YTEwOThlNjBmYjdkMyJ9fX0="
+      - ==: Functional
+        keyword: Previous
+
+  'N':
+    material: PLAYER_HEAD
+    name: "&e下一页"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODI3MWE0NzEwNDQ5NWUzNTdjM2U4ZTgwZjUxMWE5ZjEwMmIwNzAwY2E5Yjg4ZTg4Yjc5NWQzM2ZmMjAxMDVlYiJ9fX0="
+      - ==: Functional
+        keyword: Next
+
+  'W':
+    material: PLAYER_HEAD
+    name: "&b筛选 &7>> &e按品质"
+    lore:
+      - "&8| &7当前筛选的品质 > "
+      - "&7    {rarities}"
+      - "&7"
+      - "&8| &7点击选择显示或不显示特定品质的附魔"
+      - "&8| &7中键清除当前筛选"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzg2YjgwMjZhNjU5NmQ5MjJiM2I5ZTI0NWM2YjNmYWYzMTdhY2Q0ZjNjOTU3YTU4ZmE4NTNhZjY2MzJhOWViMiJ9fX0="
+      - ==: Functional
+        keyword: EnchantSearch:filter_rarity
+
+  'X':
+    material: PLAYER_HEAD
+    name: "&b筛选 &7>> &e按物品类别"
+    lore:
+      - "&8| &7当前筛选的物品类别 > "
+      - "&7    {targets}"
+      - "&7"
+      - "&8| &7点击选择显示或不显示特定物品类别的附魔"
+      - "&8| &7中键清除当前筛选"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjZlYTIxMzU4Mzg0NjE1MzQzNzJmMmRhNmM4NjJkMjFjZDVmM2QyYzcxMTlmMmJiNjc0YmJkNDI3OTEifX19"
+      - ==: Functional
+        keyword: EnchantSearch:filter_target
+
+  'Y':
+    material: PLAYER_HEAD
+    name: "&b筛选 &7>> &e按类型/定位"
+    lore:
+      - "&8| &7当前筛选的类型/定位 > "
+      - "&7    {groups}"
+      - "&7"
+      - "&8| &7点击选择显示或不显示特定类型/定位的附魔"
+      - "&8| &7中键清除当前筛选"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzkyYTBhMzY5Yzg5ZTRiYTJjOTNkMWNhN2Y1YzY1MDkwOTVlMGI5YmUyNWI3MzIxNmVhODgyZGM2NzFjMWE3NiJ9fX0="
+      - ==: Functional
+        keyword: EnchantSearch:filter_group
+
+  'Z':
+    material: PLAYER_HEAD
+    name: "&b筛选 &7>> &e按名字/描述"
+    lore:
+      - "&8| &7当前筛选的名字/描述 > "
+      - "&7    {strings}"
+      - "&7"
+      - "&8| &7左击 &a✓只看含有特定字段的附魔"
+      - "&8| &7中键 &e੦清除当前筛选"
+      - "&8| &7右击 &c✗不看含有特定字段的附魔"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmEyYWZhN2JiMDYzYWMxZmYzYmJlMDhkMmM1NThhN2RmMmUyYmFjZGYxNWRhYzJhNjQ2NjJkYzQwZjhmZGJhZCJ9fX0="
+      - ==: Functional
+        keyword: EnchantSearch:filter_string
+  'E':
+    material: PLAYER_HEAD
+    name: "{enchant_display_lore}"
+    lore:
+      - "&8| &7附魔 > {enchant_display}"
+      - "&8| &7等级 > &e{level} / &c{max_level}"
+      - "&8| &7品质 > {rarity_display}"
+      - "&8| &7简介 > {description}"
+      - "&7"
+      - "&8| &7点击查看详细信息"
+    feature:
+      - ==: Functional
+        keyword: EnchantSearch:enchant

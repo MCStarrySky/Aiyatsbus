@@ -1,0 +1,15 @@
+
+
+#         Powered by TabooLib 6.0         #
+
+
+Settings:
+  default-rarity: common
+  main-menu-back: cd
+  anti-illegal-item:
+    enable: false
+    interval: 60
+    check-list:
+      - MAX_CAPABILITY
+      - CONFLICT_GROUP
+      - CONFLICT_ENCHANT

@@ -1,0 +1,20 @@
+basic:
+  id: piercing
+  name: "穿透"
+  max_level: 5
+
+alternative:
+  is_vanilla: true
+
+rarity: 稀有
+targets:
+  - 弩
+
+limitations:
+  - "CONFLICT_ENCHANT:多重射击"
+
+display:
+  description:
+    general: "使射出的箭可以穿过多个实体"
+
+#TODO 数据录入

@@ -1,0 +1,21 @@
+basic:
+  id: fortune
+  name: "时运"
+  max_level: 3
+
+alternative:
+  is_vanilla: true
+
+rarity: 史诗
+targets:
+  - 斧
+  - 镐
+  - 铲
+  - 锄
+
+limitations:
+  - "CONFLICT_ENCHANT:精准采集"
+
+display:
+  description:
+    general: "增加破坏方块时物品的掉落数量或掉落概率"

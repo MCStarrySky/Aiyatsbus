@@ -1,0 +1,19 @@
+basic:
+  id: vanishing_curse
+  name: "消失诅咒"
+  max_level: 1
+
+alternative:
+  is_vanilla: true
+
+rarity: 诅咒
+targets:
+  - 所有物品
+
+display:
+  description:
+    general: "被诅咒的物品会在玩家死亡时消失"
+
+alternatives:
+  grindstoneable: false
+  is_cursed: true

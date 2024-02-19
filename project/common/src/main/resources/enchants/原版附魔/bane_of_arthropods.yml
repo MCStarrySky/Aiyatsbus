@@ -1,0 +1,26 @@
+basic:
+  id: bane_of_arthropods
+  name: "节肢杀手"
+  max_level: 5
+
+alternative:
+  is_vanilla: true
+
+rarity: 普通
+targets:
+  - 剑
+  - 斧
+
+limitations:
+  - "CONFLICT_GROUP:原版增伤类附魔"
+
+display:
+  description:
+    general: "增加对节肢动物的基础伤害，并对其施加缓慢IV效果"
+    specific: "§7对节肢动物的基础伤害§a+{增加基础伤害}§7，并对其施加缓慢IV效果§a{施加缓慢时间}"
+
+#原版附魔机制本插件不提供修改，因此此处改了也没有效果
+variables:
+  leveled:
+    增加基础伤害: "点:2.5*{level}"
+    施加缓慢时间: "秒:1+0.5*{level}"

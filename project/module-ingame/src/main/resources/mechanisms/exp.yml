@@ -1,0 +1,10 @@
+enable: false
+
+exp_per_level:
+  0: 2*{level}+7
+  15: 5*{level}-38
+  30: 9*{level}-158
+
+privilege:
+  - "splendidenchants.privilege.exp_vip:{exp}+1"
+  - "splendidenchants.privilege.exp_svip:{exp}+2"

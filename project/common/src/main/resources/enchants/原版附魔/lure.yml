@@ -1,0 +1,17 @@
+basic:
+  id: lure
+  name: "饵钓"
+  max_level: 3
+
+alternative:
+  is_vanilla: true
+
+rarity: 稀有
+targets:
+  - 钓鱼竿
+
+display:
+  description:
+    general: "减少钓鱼所需的时间"
+
+#TODO 数据录入

@@ -1,0 +1,17 @@
+basic:
+  id: looting
+  name: "抢夺"
+  max_level: 3
+
+alternative:
+  is_vanilla: true
+
+rarity: 史诗
+targets:
+  - 剑
+
+display:
+  description:
+    general: "增加击杀生物时物品的掉落数量或掉落概率"
+
+#TODO 数据录入

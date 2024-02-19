@@ -1,0 +1,17 @@
+basic:
+  id: quick_charge
+  name: "快速装填"
+  max_level: 3
+
+alternative:
+  is_vanilla: true
+
+rarity: 稀有
+targets:
+  - 弩
+
+display:
+  description:
+    general: "减少弩填装箭矢的时间"
+
+#TODO 数据录入

@@ -1,0 +1,17 @@
+basic:
+  id: unbreaking
+  name: "耐久"
+  max_level: 3
+
+alternative:
+  is_vanilla: true
+
+rarity: 稀有
+targets:
+  - 可损坏物品
+
+display:
+  description:
+    general: "减少物品损耗耐久的概率"
+
+#TODO 数据录入

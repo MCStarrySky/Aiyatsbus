@@ -1,0 +1,18 @@
+basic:
+  id: efficiency
+  name: "效率"
+  max_level: 5
+
+alternative:
+  is_vanilla: true
+
+rarity: 稀有
+targets:
+  - 斧
+  - 镐
+  - 铲
+  - 剪刀
+
+display:
+  description:
+    general: "提升破坏合适方块的速度"

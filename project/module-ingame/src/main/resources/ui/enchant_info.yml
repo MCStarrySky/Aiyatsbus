@@ -1,0 +1,210 @@
+title: "附魔详情 [enchant_display_roman]"
+shape:
+  - 'FIFJFXZYF'
+  - 'FKFMFFFFF'
+  - 'FFFFFSDGF'
+  - 'FEEEEEEEF'
+  - 'FEEEEEEEF'
+  - 'FBCFLFPNF'
+
+template:
+  'F':
+    material: BLACK_STAINED_GLASS_PANE
+    name: "&7"
+
+  'C':
+    material: PLAYER_HEAD
+    name: "&c关闭"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc1NDgzNjJhMjRjMGZhODQ1M2U0ZDkzZTY4YzU5NjlkZGJkZTU3YmY2NjY2YzAzMTljMWVkMWU4NGQ4OTA2NSJ9fX0="
+      - ==: Close
+
+  'O':
+    material: PLAYER_HEAD
+    name: "&7"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjgyYWQxYjljYjRkZDIxMjU5YzBkNzVhYTMxNWZmMzg5YzNjZWY3NTJiZTM5NDkzMzgxNjRiYWM4NGE5NmUifX19"
+
+  'B':
+    material: PLAYER_HEAD
+    name: "&b返回 {last}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzk3OGYzNWM2Mzg2MGQ2OTRmZWU0YWIzYzM2OTRmZGU0MDQ2Yzk2NmU0YzFiZjA2NjVmODg3NDhmOWY4MDI1In19fQ=="
+      - ==: Functional
+        keyword: Back
+
+  'P':
+    material: PLAYER_HEAD
+    name: "&e上一页"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjllYTFkODYyNDdmNGFmMzUxZWQxODY2YmNhNmEzMDQwYTA2YzY4MTc3Yzc4ZTQyMzE2YTEwOThlNjBmYjdkMyJ9fX0="
+      - ==: Functional
+        keyword: Previous
+
+  'N':
+    material: PLAYER_HEAD
+    name: "&e下一页"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODI3MWE0NzEwNDQ5NWUzNTdjM2U4ZTgwZjUxMWE5ZjEwMmIwNzAwY2E5Yjg4ZTg4Yjc5NWQzM2ZmMjAxMDVlYiJ9fX0="
+      - ==: Functional
+        keyword: Next
+
+  'L':
+    material: PLAYER_HEAD
+    name: "&b收藏夹"
+    lore:
+      - "&8| &7记不清楚想要什么附魔？"
+      - "&8| &7把它们收集起来，方便查阅"
+      - "&8| &7"
+      - "&8| &7点击按钮将{state}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTYzMzBhNGEyMmZmNTU4NzFmYzhjNjE4ZTQyMWEzNzczM2FjMWRjYWI5YzhlMWE0YmI3M2FlNjQ1YTRhNGUifX19"
+      - ==: Functional
+        keyword: EnchantInfo:favorite
+
+  'E':
+    material: PLAYER_HEAD
+    name: "&e{group} &7(&a{amount}&7)||{enchant_display_lore}"
+    lore:
+      - "&8| &7最大共存数 > &c{max_coexist}"
+      - "&8| &7点击查看该分组下的所有附魔"
+      - "分隔符号"
+      - "&8| &7附魔 > {enchant_display}"
+      - "&8| &7等级 > &e{level} / &c{max_level}"
+      - "&8| &7品质 > {rarity_display}"
+      - "&8| &7简介 > {description}"
+      - "&7"
+      - "&8| &7点击查看详细信息"
+    feature:
+      - ==: Functional
+        keyword: EnchantInfo:element
+
+  'S':
+    material: PLAYER_HEAD
+    name: "&c冲突"
+    lore:
+      - "&8| &7点击在下方显示与"
+      - "&8| &7本附魔冲突的附魔"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTFkYTNjZWNlMWI3ZGRlZjMwMzgyMWRkODljY2I3NGExNjU5NmNmZTE5MGQzYTMwYTg0NDYzYTI3Mjc4NzE0MiJ9fX0="
+      - ==: Functional
+        keyword: EnchantInfo:conflicts
+
+  'D':
+    material: PLAYER_HEAD
+    name: "&a依赖"
+    lore:
+      - "&8| &7点击在下方显示与"
+      - "&8| &7本附魔依赖的附魔"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTIyNzVhOTQ1NmM0ZTE1Yzc3Y2UxNTk0YjNmYmUxZGM1MmI4ZDc1OWQyNmQ0MjIyOWI3Zjk5ZjM2MmQ1NDEyMiJ9fX0="
+      - ==: Functional
+        keyword: EnchantInfo:dependencies
+
+  'G':
+    material: PLAYER_HEAD
+    name: "&e相关"
+    lore:
+      - "&8| &7点击在下方显示与"
+      - "&8| &7本附魔同分类的附魔"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzUzYjRkMTEzMzg3NThmMzdmZjIwMmYwZjk5NmI0YzUxOGJmZjM4OTdhZWRkZmEyZDg0NjY0NmYxYzNjMDcyZSJ9fX0="
+      - ==: Functional
+        keyword: EnchantInfo:related
+
+  'Z':
+    material: PLAYER_HEAD
+    name: "&7等级数据 &a{roman}"
+    lore:
+      - "&8| &7{params}"
+      - "&7"
+      - "&8| &7&c点击&7按钮还原至最大级"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0="
+      - ==: Functional
+        keyword: EnchantInfo:level
+
+  'X':
+    material: RED_STAINED_GLASS_PANE
+    name: "&c-1"
+    lore:
+      - "&8| &7&c点击&7按钮使查询等级&c-1级"
+    feature:
+      - ==: Functional
+        keyword: EnchantInfo:minus
+
+  'Y':
+    material: GREEN_STAINED_GLASS_PANE
+    name: "&a+1"
+    lore:
+      - "&8| &7&a点击&7按钮使查询等级&a+1级"
+    feature:
+      - ==: Functional
+        keyword: EnchantInfo:plus
+
+  'I':
+    material: PLAYER_HEAD
+    name: "{enchant_display_lore}"
+    lore:
+      - "&8| &7附魔 > {enchant_display}"
+      - "&8| &7等级 > &e{level} / &c{max_level}"
+      - "&8| &7品质 > {rarity_display}"
+      - "&8| &7简介 > {description}"
+    feature:
+      - ==: Functional
+        keyword: EnchantInfo:basic
+
+  'J':
+    material: PLAYER_HEAD
+    name: "&6限制"
+    lore:
+      - "&8| &7对象 > {targets}"
+      - "&8| &7位置 > {active_slots}"
+      - "&8| &7冲突 > {conflicts}"
+      - "&8| &7依赖 > {dependencies}"
+      - "&8| &7权限 > {permission}"
+      - "&8| &7禁用世界 > {disable_worlds}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTFjMGU2OWYyY2RiNTQyNmFhZWQ3MTFjZTAzZWE2ZDcwOWM5MmU5YmViODRhZDFkMjJiNTg0YzQ2MWQ1MzM1ZCJ9fX0="
+      - ==: Functional
+        keyword: EnchantInfo:limitations
+
+  'K':
+    material: PLAYER_HEAD
+    name: "&e其他属性"
+    lore:
+      - "&8| &7获取 > {attain_ways}"
+      - "&8| &7磨砂 > {grindstoneable}"
+      - "&8| &7宝藏 > {treasure}"
+      - "&8| &7诅咒 > {curse}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmEyYWZhN2JiMDYzYWMxZmYzYmJlMDhkMmM1NThhN2RmMmUyYmFjZGYxNWRhYzJhNjQ2NjJkYzQwZjhmZGJhZCJ9fX0="
+      - ==: Functional
+        keyword: EnchantInfo:other
+
+  'M':
+    material: PLAYER_HEAD
+    name: "&e物品检测"
+    lore:
+      - "&8| &7点击背包内的一个物品"
+      - "&8| &7检测本附魔是否可安装"
+      - "&7"
+      - "&8| &7状态 > {state}"
+      - "&8| &7原因 > {reasons}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzBjN2VlYjU3MmUwYzEyMjcxYmUwMGRkMDc0MGQzMWVjMDViYWI2YWNjNDNhNTYwNDhmMTgyMmUxYzNhY2Y4NSJ9fX0="
+      - ==: Functional
+        keyword: EnchantInfo:available

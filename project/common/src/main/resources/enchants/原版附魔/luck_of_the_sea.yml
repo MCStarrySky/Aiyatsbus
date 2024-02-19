@@ -1,0 +1,17 @@
+basic:
+  id: luck_of_the_sea
+  name: "海之眷顾"
+  max_level: 3
+
+alternative:
+  is_vanilla: true
+
+rarity: 精良
+targets:
+  - 钓鱼竿
+
+display:
+  description:
+    general: "增加钓鱼时获得宝藏的概率"
+
+#TODO 数据录入

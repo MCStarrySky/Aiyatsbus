@@ -1,0 +1,18 @@
+basic:
+  id: channeling
+  name: "引雷"
+  max_level: 1
+
+alternative:
+  is_vanilla: true
+
+rarity: 普通
+targets:
+  - 三叉戟
+
+limitations:
+  - "CONFLICT_ENCHANT:激流"
+
+display:
+  description:
+    general: "在雨天召唤闪电攻击生物，仅在雷暴天气时生效"

@@ -1,0 +1,34 @@
+#不适用插件的附魔随机器，只用原版机制
+#打开意味着玩家只能从附魔台得到原版附魔
+vanilla_table: false
+#一次性附魔得到的附魔个数对应的概率
+#可用变量：{cost}
+more_enchant_chance:
+  - "0.2*{cost}" #一次性出俩附魔的概率
+  - "0.15*{cost}" #在一次出俩附魔的基础上出第三个附魔的概率
+  - "0.1*{cost}" #同理，第四个在出三个基础上的概率
+#计算出货的等级，最小为1，可用变量：
+#{cost} {max_level} {bonus} {random}
+#不是特别想改，就请勿改动
+#因为你永远也不知道自己调出来的公式是什么妖魔鬼怪
+level_formula: "{max_level}*{cost}/3.0*({bonus}+1.0)/17.0-{random}"
+#玩家附魔出特定品质的物品，执行的操作
+#message，发送聊天栏信息
+#actionbar，发送行为栏信息
+#title，发送标题信息，大小标题用分号隔开
+#bossbar，发送boss血条信息 格式： 信息;颜色;秒数
+#command，发送后台指令
+celebrate_notice:
+  史诗:
+    - "message:恭喜玩家{player}获得了史诗附魔{enchant}"
+  传奇:
+    - "message:恭喜玩家{player}获得了传奇附魔{enchant}"
+    - "title:恭喜玩家{player};获得了传奇附魔{enchant}"
+  稀世:
+    - "message:恭喜玩家{player}获得了稀世附魔{enchant}"
+    - "title:恭喜玩家{player};获得了稀世附魔{enchant}"
+privilege:
+  chance:
+    - "splendidenchants.privilege.table.vip:{chance}*1.2"
+    - "splendidenchants.privilege.table.svip:{chance}*1.4"
+  full_level: "splendidenchants.privilege.table.full"

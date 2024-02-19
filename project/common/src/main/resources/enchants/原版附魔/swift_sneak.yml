@@ -1,0 +1,20 @@
+basic:
+  id: swift_sneak
+  name: "迅捷潜行"
+  max_level: 3
+
+alternative:
+  is_vanilla: true
+
+rarity: 精良
+targets:
+  - 护腿
+
+limitations:
+  - "CONFLICT_GROUP:原版移动机制类附魔"
+
+display:
+  description:
+    general: "增加玩家下蹲时的移动速度"
+
+#TODO 数据录入

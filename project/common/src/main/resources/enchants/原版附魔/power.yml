@@ -1,0 +1,17 @@
+basic:
+  id: power
+  name: "力量"
+  max_level: 5
+
+alternative:
+  is_vanilla: true
+
+rarity: 精良
+targets:
+  - 弓
+
+display:
+  description:
+    general: "增加射出的箭的伤害"
+
+#TODO 数据录入

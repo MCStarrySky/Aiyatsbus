@@ -1,0 +1,18 @@
+basic:
+  id: multishot
+  name: "多重射击"
+  max_level: 1
+
+alternative:
+  is_vanilla: true
+
+rarity: 稀有
+targets:
+  - 弩
+
+limitations:
+  - "CONFLICT_ENCHANT:穿透"
+
+display:
+  description:
+    general: "消耗一支箭可射出三只箭"

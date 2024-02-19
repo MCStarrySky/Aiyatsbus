@@ -1,0 +1,24 @@
+basic:
+  id: depth_strider
+  name: "深海探索者"
+  max_level: 3
+
+alternative:
+  is_vanilla: true
+
+rarity: 精良
+targets:
+  - 靴子
+
+limitations:
+  - "CONFLICT_GROUP:原版移动机制类附魔"
+
+display:
+  description:
+    general: "抵消在水中收到的减速效果"
+    specific: "§7减少§a{抵消减速百分比}§7在水中收到的减速效果"
+
+#原版附魔机制本插件不提供修改，因此此处改了也没有效果
+variables:
+  leveled:
+    抵消减速百分比: "%:33*{level}"

@@ -1,0 +1,51 @@
+title: "        Aiyatsbus"
+shape:
+  - 'FFFFFFFFF'
+  - 'FAFBFCF F'
+  - 'FFFFFFFFF'
+
+template:
+  'F':
+    material: BLACK_STAINED_GLASS_PANE
+    name: "&7"
+  'A':
+    material: PLAYER_HEAD
+    name: "&b附魔大全"
+    lore:
+      - "&8| &7在这里查询所有附魔"
+      - "&8| &7通过以下条件&e筛选附魔"
+      - "     &7- 品质"
+      - "     &7- 物品类别"
+      - "     &7- 分类/定位"
+      - "     &7- 中英文名"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmM0NDViMDA3YjU1MWM0YTAyNjQ4YmIzODA1MTc3NmJiMGVkMGJiMGQ5MDk3ODIwMjI1ZWJlZmFmNWExZWMzZSJ9fX0="
+      - ==: Functional
+        keyword: Menu:enchant_search
+  'B':
+    material: PLAYER_HEAD
+    name: "&b物品查询"
+    lore:
+      - "&8| &7在这里查询物品上的附魔"
+      - "&8| &7你可以点击附魔进入&e详细界面"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWFjZTZiMTgwZjMwYmFlZTJiOTdjN2QwNmY2NDY0ZjcyNDJiNjRjZmMyNzJiZjZlNWE2YjJhNjNkM2JiMjczNyJ9fX0="
+      - ==: Functional
+        keyword: Menu:item_check
+  'C':
+    material: PLAYER_HEAD
+    name: "&c铁砧模拟器"
+    lore:
+      - "&8| &7在这里预览铁砧拼合的结果"
+      - "&8| &7或得知&e为什么不能进行拼合"
+      - "     &7- 冲突"
+      - "     &7- 依赖"
+      - "     &7- 等级限制"
+      - "     &7- 词条限制"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjkyZDVkZjgwNWMyMzkwMjJmZTFiNDVmOTQwODgyYmY0MGI1NTk2NzE5MzdkYzcxZmJjOTZmNjMwMjUwZWJjNCJ9fX0="
+      - ==: Functional
+        keyword: Menu:anvil

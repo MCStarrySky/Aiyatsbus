@@ -1,0 +1,20 @@
+basic:
+  id: soul_speed
+  name: "灵魂疾行"
+  max_level: 3
+
+alternative:
+  is_vanilla: true
+
+rarity: 稀有
+targets:
+  - 靴子
+
+limitations:
+  - "CONFLICT_GROUP:原版移动机制类附魔"
+
+display:
+  description:
+    general: "增加玩家在灵魂沙和灵魂土上的移动速度"
+
+#TODO 数据录入

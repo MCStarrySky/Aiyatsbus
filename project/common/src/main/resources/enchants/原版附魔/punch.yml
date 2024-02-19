@@ -1,0 +1,17 @@
+basic:
+  id: punch
+  name: "冲击"
+  max_level: 2
+
+alternative:
+  is_vanilla: true
+
+rarity: 精良
+targets:
+  - 弓
+
+display:
+  description:
+    general: "增加射出的箭矢的击退距离"
+
+#TODO 数据录入

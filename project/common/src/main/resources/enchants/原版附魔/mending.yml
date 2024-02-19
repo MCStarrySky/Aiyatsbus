@@ -1,0 +1,19 @@
+basic:
+  id: mending
+  name: "经验修补"
+  max_level: 1
+
+alternative:
+  is_vanilla: true
+
+rarity: 传奇
+targets:
+  - 可损坏物品
+
+limitations:
+  - "CONFLICT_ENCHANT:无限"
+  - "CONFLICT_ENCHANT:反重力"
+
+display:
+  description:
+    general: "转化获得的经验为物品的耐久度"

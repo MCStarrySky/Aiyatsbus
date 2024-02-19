@@ -1,0 +1,363 @@
+
+swords:
+  max: 12
+  name: 剑
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBkZmM4YTM1NjNiZjk5NmY1YzFiNzRiMGIwMTViMmNjZWIyZDA0Zjk0YmJjZGFmYjIyOTlkOGE1OTc5ZmFjMSJ9fX0="
+  active_slots:
+    - HAND
+  types:
+    - DIAMOND_SWORD
+    - GOLDEN_SWORD
+    - IRON_SWORD
+    - STONE_SWORD
+    - WOODEN_SWORD
+    - NETHERITE_SWORD
+axes:
+  max: 12
+  name: 斧
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjRiYTQ5Mzg0ZGJhN2I3YWNkYjRmNzBlOTM2MWU2ZDU3Y2JiY2JmNzIwY2Y0ZjE2YzJiYjgzZTQ1NTcifX19"
+  active_slots:
+    - HAND
+  types:
+    - DIAMOND_AXE
+    - GOLDEN_AXE
+    - IRON_AXE
+    - STONE_AXE
+    - WOODEN_AXE
+    - NETHERITE_AXE
+pickaxes:
+  max: 7
+  name: 镐
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjZlYTIxMzU4Mzg0NjE1MzQzNzJmMmRhNmM4NjJkMjFjZDVmM2QyYzcxMTlmMmJiNjc0YmJkNDI3OTEifX19"
+  active_slots:
+    - HAND
+  types:
+    - DIAMOND_PICKAXE
+    - GOLDEN_PICKAXE
+    - IRON_PICKAXE
+    - STONE_PICKAXE
+    - WOODEN_PICKAXE
+    - NETHERITE_PICKAXE
+shovels:
+  max: 6
+  name: 铲
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMThkN2QxOWEzZmQ4ZTI2NTI0YWFiMzJmOTQ0ZGM3ZDJmNTYwZTFkOGZlMTc4ZTg5M2NlZWE3NGNmY2YifX19"
+  active_slots:
+    - HAND
+  types:
+    - DIAMOND_SHOVEL
+    - GOLDEN_SHOVEL
+    - IRON_SHOVEL
+    - STONE_SHOVEL
+    - WOODEN_SHOVEL
+    - NETHERITE_SHOVEL
+hoes:
+  max: 6
+  name: 锄
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzMyMzVjOThkYjA3Zjk3NmRlZjI3Y2VhYWNhODljNzcxNzgzMWI0YmNjN2YyZjNhMTQ2MjJlNzhjMmRiZSJ9fX0="
+  active_slots:
+    - HAND
+    - OFF_HAND
+  types:
+    - DIAMOND_HOE
+    - GOLDEN_HOE
+    - IRON_HOE
+    - STONE_HOE
+    - WOODEN_HOE
+    - NETHERITE_HOE
+bow:
+  max: 12
+  name: 弓
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU0Nzk1MTA0MjJiMWM1ZGNjNzdmNzVmZGMzMzQ2ZWQ0ZDlkYmJjYzFlODg1YjRhMjk5MmEyNzM3MzM2NDZhOSJ9fX0="
+  active_slots:
+    - HAND
+  types:
+    - BOW
+crossbow:
+  max: 8
+  name: 弩
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTM3ZWYyOTJiM2E0YzI1ZmUyMDBhYzJjNTMxYjk4MmZmYWFiYmYxMjNiMWE0ZWI1YjVjNTQ1ZDBlOWExOGEzNCJ9fX0="
+  active_slots:
+    - HAND
+  types:
+    - CROSSBOW
+trident:
+  max: 8
+  name: 三叉戟
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzkyOTM1OWE1MWNjMDMzNjcxZDY0MTQ3ZTVjZmYyYTQyMjU4Zjk0OThmNDYzMTZiZTA5ZjJiM2JmNjgwOTFjMSJ9fX0="
+  active_slots:
+    - HAND
+  types:
+    - TRIDENT
+helmets:
+  max: 8
+  name: 头盔
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2I5MjRiMzdmZTMyOTQyNzNhNzQzODZjODc4Y2EyMTBmYzg5ZjQ3ODcwMjk0M2EwMjcyZTcxMzk1NjMwYmVkYSJ9fX0="
+  active_slots:
+    - HEAD
+  types:
+    - DIAMOND_HELMET
+    - GOLDEN_HELMET
+    - IRON_HELMET
+    - LEATHER_HELMET
+    - NETHERITE_HELMET
+    - CHAINMAIL_HELMET
+    - TURTLE_HELMET
+chestplates:
+  max: 8
+  name: 胸甲
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2I5MjRiMzdmZTMyOTQyNzNhNzQzODZjODc4Y2EyMTBmYzg5ZjQ3ODcwMjk0M2EwMjcyZTcxMzk1NjMwYmVkYSJ9fX0="
+  active_slots:
+    - CHEST
+  types:
+    - DIAMOND_CHESTPLATE
+    - GOLDEN_CHESTPLATE
+    - IRON_CHESTPLATE
+    - LEATHER_CHESTPLATE
+    - NETHERITE_CHESTPLATE
+    - CHAINMAIL_CHESTPLATE
+leggings:
+  max: 8
+  name: 护腿
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2I5MjRiMzdmZTMyOTQyNzNhNzQzODZjODc4Y2EyMTBmYzg5ZjQ3ODcwMjk0M2EwMjcyZTcxMzk1NjMwYmVkYSJ9fX0="
+  active_slots:
+    - LEGS
+  types:
+    - DIAMOND_LEGGINGS
+    - GOLDEN_LEGGINGS
+    - IRON_LEGGINGS
+    - LEATHER_LEGGINGS
+    - NETHERITE_LEGGINGS
+    - CHAINMAIL_LEGGINGS
+boots:
+  max: 8
+  name: 靴子
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2I5MjRiMzdmZTMyOTQyNzNhNzQzODZjODc4Y2EyMTBmYzg5ZjQ3ODcwMjk0M2EwMjcyZTcxMzk1NjMwYmVkYSJ9fX0="
+  active_slots:
+    - FEET
+  types:
+    - DIAMOND_BOOTS
+    - GOLDEN_BOOTS
+    - IRON_BOOTS
+    - LEATHER_BOOTS
+    - NETHERITE_BOOTS
+    - CHAINMAIL_BOOTS
+elytra:
+  max: 6
+  name: 鞘翅
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzMyYzFmMjUyNjNhZWJkNTdiODBiM2I3YjJiZTkxOGUxNGEyNzc3NmYxZTk5NTE3NDk1MjczZTU4M2NjNmY2ZCJ9fX0="
+  active_slots:
+    - CHEST
+  types:
+    - ELYTRA
+shears:
+  max: 3
+  name: 剪刀
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2MzNWQzNDdkZTRmNGRlNjdkOWUzNmE1NDdlNmJkMGE0YWVhZjZkMTRjYjU1ZGVlNjdiZTRiYTM1YzgxNTEifX19"
+  active_slots:
+    - HAND
+  types:
+    - SHEARS
+shield:
+  max: 6
+  name: 盾牌
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjUyNTU5ZjJiY2VhZDk4M2Y0YjY1NjFjMmI1ZjJiNTg4ZjBkNjExNmQ0NDY2NmNlZmYxMjAyMDc5ZDI3Y2E3NCJ9fX0="
+  active_slots:
+    - HAND
+    - OFF_HAND
+  types:
+    - SHIELD
+rod:
+  max: 7
+  name: 钓鱼竿
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2FjMmIxMTkzYzEyNDU5ZGEzMjc3N2E2NmU3N2MzM2ViYTgzODhkOWNkNTE2ZDgzZjM2NTFiOWY3YmFmMCJ9fX0="
+  active_slots:
+    - HAND
+  types:
+    - FISHING_ROD
+flint_and_steel:
+  max: 3
+  name: 打火石
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmY4MmYwYTVhMTRiZjcxNTczODljYWJjYzcwMWVkZjM5NjIzNGQ3N2Y0MGY5MzRjZTg3OTcwMjc0MWU5Y2RiZiJ9fX0="
+  active_slots:
+    - HAND
+  types:
+    - FLINT_AND_STEEL
+carrot_stick:
+  max: 3
+  name: 萝卜钓竿
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2YyODM1OWNmOGY5NWY1NmUwYjQ1ZDkxNzE4NWQwMTM3YjUzODAxZjliYzU1MWQ0NThmNjM2NzE4ZmQifX19"
+  active_slots:
+    - HAND
+  types:
+    - CARROT_ON_A_STICK
+headable:
+  max: 3
+  name: 头饰
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmE2NTAzNmUyZjllZmFhMTQ4NGE5NGVhYjc2MzE4NThmNzU4MzI2NWM1OWM5NzliOThlYjM4MmFjYTNlNjljMCJ9fX0="
+  active_slots:
+    - HEAD
+  types:
+    - PLAYER_HEAD
+    - CARVED_PUMPKIN
+    - CREEPER_HEAD
+    - ZOMBIE_HEAD
+    - SKELETON_SKULL
+    - WITHER_SKELETON_SKULL
+damageable:
+  max: 16
+  name: 可损坏物品
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmJiMTI1NmViOWY2NjdjMDVmYjIxZTAyN2FhMWQ1MzU1OGJkYTc0ZTI0MGU0ZmE5ZTEzN2Q4NTFjNDE2ZmU5OCJ9fX0="
+  active_slots:
+    - HAND
+    - OFF_HAND
+    - FEET
+    - LEGS
+    - CHEST
+    - HEAD
+  types:
+    - FLINT_AND_STEEL
+    - FISHING_ROD
+    - SHIELD
+    - SHEARS
+    - ELYTRA
+    - DIAMOND_BOOTS
+    - GOLDEN_BOOTS
+    - IRON_BOOTS
+    - LEATHER_BOOTS
+    - NETHERITE_BOOTS
+    - CHAINMAIL_BOOTS
+    - DIAMOND_LEGGINGS
+    - GOLDEN_LEGGINGS
+    - IRON_LEGGINGS
+    - LEATHER_LEGGINGS
+    - NETHERITE_LEGGINGS
+    - CHAINMAIL_LEGGINGS
+    - DIAMOND_CHESTPLATE
+    - GOLDEN_CHESTPLATE
+    - IRON_CHESTPLATE
+    - LEATHER_CHESTPLATE
+    - NETHERITE_CHESTPLATE
+    - CHAINMAIL_CHESTPLATE
+    - DIAMOND_HELMET
+    - GOLDEN_HELMET
+    - IRON_HELMET
+    - LEATHER_HELMET
+    - NETHERITE_HELMET
+    - CHAINMAIL_HELMET
+    - TURTLE_HELMET
+    - TRIDENT
+    - CROSSBOW
+    - BOW
+    - DIAMOND_HOE
+    - GOLDEN_HOE
+    - IRON_HOE
+    - STONE_HOE
+    - WOODEN_HOE
+    - NETHERITE_HOE
+    - DIAMOND_SHOVEL
+    - GOLDEN_SHOVEL
+    - IRON_SHOVEL
+    - STONE_SHOVEL
+    - WOODEN_SHOVEL
+    - NETHERITE_SHOVEL
+    - DIAMOND_PICKAXE
+    - GOLDEN_PICKAXE
+    - IRON_PICKAXE
+    - STONE_PICKAXE
+    - WOODEN_PICKAXE
+    - NETHERITE_PICKAXE
+    - DIAMOND_AXE
+    - GOLDEN_AXE
+    - IRON_AXE
+    - STONE_AXE
+    - WOODEN_AXE
+    - NETHERITE_AXE
+    - DIAMOND_SWORD
+    - GOLDEN_SWORD
+    - IRON_SWORD
+    - STONE_SWORD
+    - WOODEN_SWORD
+    - NETHERITE_SWORD
+all:
+  max: 16
+  name: 所有物品
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzFhNzg1OTE2ZDJkMTdjYTBlYTJhZDIzZDgwMjQ3YzdjNTAyMTQ0MzkwM2JiYWI3YjI0Yjc5MzRiNmEzNjFhYiJ9fX0="
+  active_slots:
+    - HAND
+    - OFF_HAND
+    - FEET
+    - LEGS
+    - CHEST
+    - HEAD
+  types:
+    - PLAYER_HEAD
+    - CARVED_PUMPKIN
+    - CREEPER_HEAD
+    - ZOMBIE_HEAD
+    - SKELETON_SKULL
+    - WITHER_SKELETON_SKULL
+    - CARROT_ON_A_STICK
+    - FLINT_AND_STEEL
+    - FISHING_ROD
+    - SHIELD
+    - SHEARS
+    - ELYTRA
+    - DIAMOND_BOOTS
+    - GOLDEN_BOOTS
+    - IRON_BOOTS
+    - LEATHER_BOOTS
+    - NETHERITE_BOOTS
+    - CHAINMAIL_BOOTS
+    - DIAMOND_LEGGINGS
+    - GOLDEN_LEGGINGS
+    - IRON_LEGGINGS
+    - LEATHER_LEGGINGS
+    - NETHERITE_LEGGINGS
+    - CHAINMAIL_LEGGINGS
+    - DIAMOND_CHESTPLATE
+    - GOLDEN_CHESTPLATE
+    - IRON_CHESTPLATE
+    - LEATHER_CHESTPLATE
+    - NETHERITE_CHESTPLATE
+    - CHAINMAIL_CHESTPLATE
+    - DIAMOND_HELMET
+    - GOLDEN_HELMET
+    - IRON_HELMET
+    - LEATHER_HELMET
+    - NETHERITE_HELMET
+    - CHAINMAIL_HELMET
+    - TURTLE_HELMET
+    - TRIDENT
+    - CROSSBOW
+    - BOW
+    - DIAMOND_HOE
+    - GOLDEN_HOE
+    - IRON_HOE
+    - STONE_HOE
+    - WOODEN_HOE
+    - NETHERITE_HOE
+    - DIAMOND_SHOVEL
+    - GOLDEN_SHOVEL
+    - IRON_SHOVEL
+    - STONE_SHOVEL
+    - WOODEN_SHOVEL
+    - NETHERITE_SHOVEL
+    - DIAMOND_PICKAXE
+    - GOLDEN_PICKAXE
+    - IRON_PICKAXE
+    - STONE_PICKAXE
+    - WOODEN_PICKAXE
+    - NETHERITE_PICKAXE
+    - DIAMOND_AXE
+    - GOLDEN_AXE
+    - IRON_AXE
+    - STONE_AXE
+    - WOODEN_AXE
+    - NETHERITE_AXE
+    - DIAMOND_SWORD
+    - GOLDEN_SWORD
+    - IRON_SWORD
+    - STONE_SWORD
+    - WOODEN_SWORD
+    - NETHERITE_SWORD

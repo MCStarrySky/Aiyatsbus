@@ -1,0 +1,31 @@
+grindstone:
+  #是否开启原版砂轮
+  vanilla: false
+  #使用本插件提供的砂轮界面代替原版的砂轮界面
+  custom: true
+
+#请注意，只有使用本插件提供的砂轮界面，以下配置才会生效！！！
+
+#每条附魔返还的经验点数公式
+exp_per_enchant: "30*{level}/{max_level}*{bonus}"
+#磨砂的物品同时含有多个附魔，返还的经验是
+#每个附魔之和（true）
+#还是返还最多的附魔（false）
+accumulation: true
+#不同品质的额外倍率，默认公式下，越稀有返还的经验越多
+rarity_bonus:
+  稀有: 1.25
+  精良: 1.5
+  史诗: 2
+  传奇: 4
+  稀世: 8
+#如果附魔的品质在上方不存在，则使用以下默认的倍率计算
+default_bonus: 1.0
+#不允许磨砂的附魔对应的组
+#即经理磨砂过程不返还经验，附魔仍然保留在物品上
+blacklist_group: 不可磨砂类附魔
+
+#拥有不同权限可以增加返还的经验
+privilege:
+  - "splendidenchants.privilege.grindstone.vip:{refund}*1.25"
+  - "splendidenchants.privilege.grindstone.svip:{refund}*1.5"
