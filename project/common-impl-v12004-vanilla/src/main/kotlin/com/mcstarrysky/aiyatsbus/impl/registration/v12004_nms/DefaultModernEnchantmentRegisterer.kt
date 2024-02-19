@@ -8,10 +8,12 @@ import com.mcstarrysky.aiyatsbus.core.util.setStaticFinal
 import com.mcstarrysky.aiyatsbus.impl.registration.v12004_paper.AiyatsbusCraftEnchantment
 import net.minecraft.core.Holder
 import net.minecraft.core.IRegistry
+import net.minecraft.core.IRegistryCustom
 import net.minecraft.core.RegistryMaterials
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.IChatBaseComponent
+import net.minecraft.server.MinecraftServer
 import net.minecraft.world.item.enchantment.EnchantmentSlotType
 import net.minecraft.world.item.enchantment.Enchantments
 import org.bukkit.Bukkit
@@ -35,16 +37,6 @@ import kotlin.collections.HashMap
  */
 class DefaultModernEnchantmentRegisterer : ModernEnchantmentRegisterer {
 
-//    private val frozenField = MappedRegistry::class.java
-//        .declaredFields
-//        .filter { it.type.isPrimitive }[0]
-//        .apply { isAccessible = true }
-//
-//    private val unregisteredIntrusiveHoldersField = MappedRegistry::class.java
-//        .declaredFields
-//        .last { it.type == Map::class.java }
-//        .apply { isAccessible = true }
-
     private val frozenField = RegistryMaterials::class.java
         .declaredFields
         .filter { it.type.isPrimitive }[0]
@@ -52,7 +44,7 @@ class DefaultModernEnchantmentRegisterer : ModernEnchantmentRegisterer {
 
     private val unregisteredIntrusiveHoldersField = RegistryMaterials::class.java
         .declaredFields
-        .last { it.type.isPrimitive }
+        .last { it.type == Map::class.java }
         .apply { isAccessible = true }
 
     private val registries by unsafeLazy {
@@ -73,7 +65,8 @@ class DefaultModernEnchantmentRegisterer : ModernEnchantmentRegisterer {
         @Suppress("UNCHECKED_CAST")
         val registry = CraftRegistry(
             Enchantment::class.java as Class<in Enchantment?>,
-            server.handle.server.registryAccess().registryOrThrow(Registries.ENCHANTMENT)
+            // TabooLib NMSProxy 已知问题: 调用对象中「仅在父类」声明的方法或字段无法被 TabooLib NMSProxy 重定向
+            ((server.handle.server as MinecraftServer).registryAccess() as IRegistryCustom).registryOrThrow(Registries.ENCHANTMENT)
         ) { key, registry ->
             val isVanilla = vanillaEnchantments.contains(key)
             val aiyatsbus = Aiyatsbus.api().getEnchantmentManager().getByID(key.key)
@@ -92,15 +85,6 @@ class DefaultModernEnchantmentRegisterer : ModernEnchantmentRegisterer {
         org.bukkit.Registry::class.java
             .getDeclaredField("ENCHANTMENT")
             .setStaticFinal(registry)
-
-        // Unfreeze NMS registry
-//        frozenField.set(BuiltInRegistries.ENCHANTMENT, false)
-//        unregisteredIntrusiveHoldersField.set(
-//            BuiltInRegistries.ENCHANTMENT,
-//            IdentityHashMap<net.minecraft.world.item.enchantment.Enchantment,
-//                    Holder.Reference<net.minecraft.world.item.enchantment.Enchantment>>()
-//        )
-
 
         // Unfreeze NMS registry
         frozenField.set(BuiltInRegistries.ENCHANTMENT, false)
@@ -144,14 +128,6 @@ class DefaultModernEnchantmentRegisterer : ModernEnchantmentRegisterer {
         override fun isTradeable(): Boolean = false
 
         override fun isTreasureOnly(): Boolean = true
-
-//    override fun b(other: Enchantment): Boolean {
-//        return enchant?.conflictsWith(CraftEnchantment.minecraftToBukkit(other)) == false
-//    }
-
-//    override fun d(level: Int): Component {
-//        return if (enchant != null) PaperAdventure.asVanilla((enchant?.displayName(level) ?: "").toAdventureComponent()) else super.getFullname(level)
-//    }
 
         override fun getFullname(level: Int): IChatBaseComponent {
             return if (enchant != null) IChatBaseComponent::class.java.invokeMethod<IChatBaseComponent>("a", enchant!!.displayName(level), remap = false)!! else super.getFullname(level)

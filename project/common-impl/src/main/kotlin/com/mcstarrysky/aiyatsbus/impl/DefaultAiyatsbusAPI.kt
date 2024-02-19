@@ -5,11 +5,8 @@ import com.mcstarrysky.aiyatsbus.core.registration.AiyatsbusEnchantmentRegistere
 import com.mcstarrysky.aiyatsbus.core.registration.modern.ModernEnchantmentRegisterer
 import com.mcstarrysky.aiyatsbus.impl.registration.legacy.DefaultLegacyEnchantmentRegisterer
 import taboolib.common.LifeCycle
-import taboolib.common.TabooLib
-import taboolib.common.io.runningClassMap
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
-import taboolib.library.reflex.Reflex.Companion.invokeConstructor
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.nmsProxy
 
@@ -64,8 +61,6 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
         @Awake(LifeCycle.CONST)
         fun init() {
-            println("能不能找到: " + (TabooLib::class.java.classLoader.getResourceAsStream("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer".replace('.', '/') + ".class") != null))
-            runningClassMap.keys.filter { it.startsWith("com.mcstarrysky.aiyatsbus.impl") }.forEach(::println)
             if (MinecraftVersion.majorLegacy >= 12003) {
                 val reg = nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
                 reg.replaceRegistry()
