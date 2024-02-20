@@ -26,8 +26,8 @@ enum class TriggerType(val clazz: String) {
          * @param load 是否自动初始化
          */
         fun new(enchant: AiyatsbusEnchantment, config: Configuration, load: Boolean = true): CustomTrigger {
-            val section = config.getConfigurationSection("trigger")!!
-            val type = TriggerType.valueOf(section["type"] as? String ?: "SPLENDID")
+            val section = config.getConfigurationSection("trigger")
+            val type = TriggerType.valueOf(section?.get("type")?.toString() ?: "SPLENDID")
             return (Class.forName(type.clazz).invokeConstructor(enchant, config, type) as? CustomTrigger ?: error("")).also {
                 if (load) it.initialize()
             }

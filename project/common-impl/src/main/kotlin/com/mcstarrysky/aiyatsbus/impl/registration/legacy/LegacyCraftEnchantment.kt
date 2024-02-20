@@ -50,6 +50,14 @@ class LegacyCraftEnchantment(
 
     override fun isDiscoverable(): Boolean = enchant.alternativeData.isDiscoverable
 
+    override fun getMinModifiedCost(level: Int): Int {
+        return 0
+    }
+
+    override fun getMaxModifiedCost(level: Int): Int {
+        return 0
+    }
+
     override fun getRarity(): EnchantmentRarity = EnchantmentRarity.VERY_RARE
 
     override fun getDamageIncrease(level: Int, entityCategory: EntityCategory): Float = 0.0f
