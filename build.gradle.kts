@@ -4,6 +4,7 @@ import io.izzel.taboolib.gradle.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    `maven-publish`
     java
     id("io.izzel.taboolib") version "2.0.6"
     id("org.jetbrains.kotlin.jvm") version "1.8.22"
@@ -12,6 +13,7 @@ plugins {
 subprojects {
     apply<JavaPlugin>()
     apply(plugin = "io.izzel.taboolib")
+    apply(plugin = "maven-publish")
     apply(plugin = "org.jetbrains.kotlin.jvm")
 
     // TabooLib 配置
@@ -52,4 +54,35 @@ subprojects {
 
 gradle.buildFinished {
     buildDir.deleteRecursively()
+}
+
+subprojects
+    .filter { it.name != "project" && it.name != "plugin" }
+    .forEach { proj ->
+        proj.publishing { applyToSub(proj) }
+    }
+
+fun PublishingExtension.applyToSub(subProject: Project) {
+    repositories {
+        maven("https://repo.mcstarrysky.com/releases") {
+            credentials {
+                username = project.findProperty("starryskyUsername").toString()
+                password = project.findProperty("starryskyPassword").toString()
+            }
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
+        }
+        mavenLocal()
+    }
+    publications {
+        create<MavenPublication>("maven") {
+            artifactId = subProject.name
+            groupId = "com.mcstarrysky.aiyatsbus"
+            version = project.version.toString()
+            artifact(subProject.tasks["kotlinSourcesJar"])
+            artifact(subProject.tasks["jar"])
+            println("> Apply \"$groupId:$artifactId:$version\"")
+        }
+    }
 }
