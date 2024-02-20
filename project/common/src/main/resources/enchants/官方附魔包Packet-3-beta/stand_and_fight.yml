@@ -1,0 +1,29 @@
+basic:
+  id: stand_and_fight
+  name: "浴血"
+  max_level: 2
+
+rarity: 史诗
+targets:
+  - 剑
+
+limitations: [ ]
+
+display:
+  description:
+    general: "当前的血量越低，暴击伤害越高"
+    specific: "§7血量≤§a{阈值}§7时每损失§a1%§7的血量增加§a{增幅}§7的暴击伤害"
+
+variables:
+  leveled:
+    阈值: "%:{level}*5+35"
+    增幅: "%:{level}*0.5"
+
+mechanisms:
+  listeners:
+    attack:
+      type: ATTACK
+      chains:
+        - "条件::{是否暴击}==true"
+        - "条件::{攻击者.血量}<={阈值}/100.0*{攻击者.最大血量}"
+        - "事件::设置伤害:{伤害}*(1+(1-{攻击者.血量}/({攻击者.最大血量}*{阈值}))*{增幅})"

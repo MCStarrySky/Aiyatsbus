@@ -1,0 +1,45 @@
+
+basic:
+  enable: true
+  disable_worlds: [ ]
+  id: accumulating
+  name: "蓄能"
+  max_level: 2
+
+rarity: 史诗
+targets:
+  - 剑
+  - 斧
+
+limitations: [ ]
+
+display:
+  format:
+    previous: "{default_previous}  §7{是否充能完毕}(§e{当前累计}§7/§a{击杀累计}§7)"
+  description:
+    general: "每击杀若干只怪物后，下一次攻击伤害增加"
+    specific: "§7每击杀§a{击杀累计}§7生物后，下一次攻击伤害增加§a{伤害增加百分比}"
+
+variables:
+  leveled:
+    击杀累计: "只:4-{level}"
+    伤害增加百分比: "%:15.0*{level}"
+  modifiable:
+    当前累计: test_current_total=0
+    是否充能完毕: can_discharge=充能中
+
+mechanisms:
+  listeners:
+    kill:
+      type: KILL
+      chains:
+        - "赋值::当前累计:{当前累计}+1"
+        - "条件::{当前累计}>={击杀累计}"
+        - "赋值::是否充能完毕:充能完毕"
+    attack:
+      type: ATTACK
+      chains:
+        - "条件::{当前累计}>={击杀累计}"
+        - "赋值::当前累计:0"
+        - "赋值::是否充能完毕:充能中"
+        - "事件::设置伤害:{伤害}*(1+{伤害增加百分比}/100)"

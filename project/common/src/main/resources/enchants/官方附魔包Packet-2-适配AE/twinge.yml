@@ -1,0 +1,44 @@
+basic:
+  id: twinge
+  name: "扎刺"
+  max_level: 4
+
+rarity: 传奇
+targets:
+  - 三叉戟
+
+limitations:
+  - "CONFLICT_GROUP:持续类附魔"
+  - "CONFLICT_GROUP:概率类附魔"
+
+display:
+  description:
+    general: "近战攻击时有概率使对手流血"
+    specific: "§7近战攻击时§a{概率}§7使对手流血 (伤害:§a{每次伤害}§7/§a{间隔} §7持续§a{持续时间}§7)"
+
+variables:
+  leveled:
+    概率: "%:8*{level}"
+    冷却: "秒:30-2.5*{level}"
+    间隔: "秒:1-0.1*{level}"
+    每次伤害: "点:0.5*{level}"
+    持续时间: "秒:5-0.5*{level}"
+  flexible:
+    计数器: "int::0"
+
+mechanisms:
+  listeners:
+    attack:
+      type: ATTACK
+      chains:
+        - "条件::{蓄能程度}>=0.8"
+        - "条件::{伤害类型}==ENTITY_ATTACK"
+        - "条件::{随机数}<={概率}"
+        - "冷却::{冷却}:false"
+        - "对象::受伤者:发送信息:enchant.twinge.damaged:who:{攻击者.名称}"
+        - "对象::攻击者:发送信息:enchant.twinge.attacker:who:{受伤者.名称}"
+        - "延时::{间隔}"
+        - "对象::受伤者:真实伤害:{每次伤害}:{攻击者}"
+        - "赋值::计数器:{计数器}+1"
+        - "条件::{计数器}<={持续时间}/{间隔}"
+        - "跳转::7"

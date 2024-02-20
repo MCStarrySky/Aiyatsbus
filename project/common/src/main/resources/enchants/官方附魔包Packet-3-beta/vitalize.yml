@@ -1,0 +1,34 @@
+basic:
+  id: vitalize
+  name: "急救"
+  max_level: 3
+
+rarity: 传奇
+targets:
+  - 盾牌
+
+limitations: [ ]
+
+display:
+  description:
+    general: "受到攻击时如果血量较低则恢复自身血量 §7(冷却:§a{冷却时间}秒§7)"
+    specific: "§7受到攻击时如果血量小于§a{阈值}§7则恢复§a{恢复量}§7血量 (§7冷却:§a{冷却时间}§7)"
+
+alternative:
+  is_tradeable: false
+
+variables:
+  leveled:
+    阈值: "点:4*{level}"
+    恢复量: "点:6*{level}"
+    冷却时间: "秒:105-15*{level}"
+
+mechanisms:
+  listeners:
+    damage:
+      type: DAMAGED
+      chains:
+        - "条件::{受伤者.血量}<={阈值}"
+        - "冷却::{冷却时间}:false"
+        - "对象::受伤者:设置血量:{受伤者.血量}+{恢复量}"
+        - "对象::受伤者:发送信息:enchant.vitalize.recovered:amount:{恢复量}"

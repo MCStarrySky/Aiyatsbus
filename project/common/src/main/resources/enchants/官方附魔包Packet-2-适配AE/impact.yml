@@ -1,0 +1,35 @@
+basic:
+  id: impact
+  name: "会心"
+  max_level: 4
+
+rarity: 史诗
+targets:
+  - 三叉戟
+  - 弓
+  - 弩
+
+limitations:
+  - "CONFLICT_GROUP:概率类附魔"
+
+display:
+  description:
+    general: "远程攻击时有概率造成双倍伤害"
+    specific: "§7远程攻击时有§a{概率}§7造成双倍伤害"
+
+variables:
+  leveled:
+    概率: "%:3*{level}"
+    冷却: "秒:20-2.5*{level}"
+
+mechanisms:
+  listeners:
+    attack:
+      type: ATTACK
+      chains:
+        - "条件::{伤害类型}==PROJECTILE"
+        - "条件::{随机数}<={概率}"
+        - "冷却::{冷却}:false"
+        - "事件::设置伤害:{伤害}*2"
+        - "对象::受伤者:发送信息:enchant.impact.damaged:who:{攻击者.名称}"
+        - "对象::攻击者:发送信息:enchant.impact.attacker:who:{受伤者.名称}"

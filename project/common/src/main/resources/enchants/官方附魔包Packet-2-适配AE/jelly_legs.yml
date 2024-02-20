@@ -1,0 +1,35 @@
+basic:
+  id: jelly_legs
+  name: "弹跳鞋"
+  max_level: 3
+
+rarity: 精良
+targets:
+  - 靴子
+
+limitations:
+  - "CONFLICT_ENCHANT:轻功"
+
+display:
+  description:
+    general: "摔伤时可减少伤害并弹起"
+    specific: "§7不超过§a{最大高度}§7的摔伤时减少§a{减少伤害}§7伤害并弹起"
+
+variables:
+  leveled:
+    最大高度:
+      1: 16
+      2: 48
+      3: 256
+      unit: "格"
+    减少伤害: "点:3*{level}"
+
+mechanisms:
+  listeners:
+    damaged:
+      type: DAMAGED
+      chains:
+        - "条件::{伤害类型}==FALL"
+        - "条件::{受伤者.下落高度}<={最大高度}"
+        - "对象::受伤者:弹飞:{受伤者.下落高度}/2"
+        - "事件::设置伤害:{伤害}-{减少伤害}"

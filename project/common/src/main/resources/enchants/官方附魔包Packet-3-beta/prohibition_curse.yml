@@ -1,0 +1,36 @@
+basic:
+  id: prohibition_curse
+  name: "缄默诅咒"
+  max_level: 3
+
+rarity: 诅咒
+targets:
+  - 所有物品
+
+limitations: [ ]
+
+alternatives:
+  grindstoneable: false
+  is_cursed: true
+
+display:
+  description:
+    general: "手持被诅咒的物品时发言会受到百分比真实伤害"
+    specific: "§7手持被诅咒的物品时发言会受到等同于当前生命值§a{比例}§7的真实伤害"
+
+variables:
+  leveled:
+    比例:
+      unit: "%"
+      1: "11.45"
+      2: "19.19"
+      3: "81.0"
+      4: "99.9"
+
+mechanisms:
+  listeners:
+    chat:
+      type: CHAT
+      chains:
+        - "对象::发送者:真实伤害:{发送者.血量}*{比例}/100.0"
+        - "对象::发送者:发送信息:enchant.prohibition_curse.damaged:amount:{伤害}"

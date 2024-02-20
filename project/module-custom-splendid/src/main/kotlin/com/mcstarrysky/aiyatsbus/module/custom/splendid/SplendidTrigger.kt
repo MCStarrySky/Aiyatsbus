@@ -44,9 +44,9 @@ class SplendidTrigger(
             val init = expression.toString().split("::")[1]
             flexible[variable] = type to init
             enchant.variables.variables[variable] = VariableType.FLEXIBLE
-
-            listeners = Listeners(enchant, this, config.getConfigurationSection("mechanisms.listeners"))
-            tickers = Tickers(enchant, config.getConfigurationSection("mechanisms.tickers"))
         }
+
+        listeners = Listeners(enchant, this, config.getConfigurationSection("mechanisms.listeners"))
+        tickers = Tickers(enchant, config.getConfigurationSection("mechanisms.tickers"))
     }
 }

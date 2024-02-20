@@ -34,7 +34,7 @@ class AiyatsbusEnchantmentBase(
 
     override val displayer: Displayer = Displayer.load(config.getConfigurationSection("display")!!, this)
 
-    override val targets: List<Target> = config.getStringList("targets").map { t -> Target.targets.values.firstOrNull { it.name == t } ?: Target.targets[t] }.filterNotNull()
+    override val targets: List<Target> = config.getStringList("targets").mapNotNull { t -> Target.targets.values.firstOrNull { it.name == t } ?: Target.targets[t] }
 
     override val limitations: Limitations = Limitations(this, config.getStringList("limitations"))
 
