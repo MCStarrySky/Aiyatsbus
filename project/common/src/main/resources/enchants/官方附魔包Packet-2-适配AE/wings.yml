@@ -1,0 +1,31 @@
+basic:
+  id: wings
+  name: "反重力"
+  max_level: 1
+
+rarity: 传奇
+targets:
+  - 靴子
+
+limitations:
+  - "CONFLICT_ENCHANT:经验修补"
+
+display:
+  description:
+    general: "可进入飞行状态，飞行时持续消耗靴子耐久"
+
+mechanisms:
+  tickers:
+    durability:
+      interval: 20
+      chains:
+        - "条件::{玩家.游戏模式}==SURVIVAL"
+        - "条件::{玩家.在飞行}"
+        - "物品::损耗耐久:2:{玩家}"
+      chains_before:
+        - "条件::{玩家.游戏模式}==SURVIVAL"
+        - "对象::玩家:设置可飞行:true"
+      chains_after:
+        - "条件::{玩家.游戏模式}==SURVIVAL"
+        - "对象::玩家:设置可飞行:false"
+        - "对象::玩家:设置飞行:false"

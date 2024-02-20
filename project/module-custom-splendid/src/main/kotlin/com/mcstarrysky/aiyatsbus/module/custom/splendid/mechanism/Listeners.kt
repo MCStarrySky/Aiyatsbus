@@ -57,6 +57,7 @@ class Listeners(val enchant: AiyatsbusEnchantment, val trigger: SplendidTrigger,
 
             val chains = byId[id]!!.second
             fun next(tot: Int = 0) {
+                if (tot < 0) return // FIXME: 意外情况
                 if (tot >= chains.size) return
                 val chain = chains[tot]
                 sHolders["随机数"] = (Math.random() * 100).roundToInt().toString()

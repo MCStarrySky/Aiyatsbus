@@ -1,0 +1,28 @@
+basic:
+  id: replanter
+  name: "再植"
+  max_level: 2
+
+rarity: 稀有
+targets:
+  - 靴子
+
+limitations: [ ]
+
+display:
+  description:
+    general: "把庄稼踩坏时，只会让其退化而不是掉落"
+    specific: "§7把庄稼踩坏时，只会让其退化§a{退化阶段}"
+
+variables:
+  leveled:
+    退化阶段: "阶段:3-{level}"
+
+mechanisms:
+  listeners:
+    physical_interact:
+      type: PHYSICAL_INTERACT
+      chains:
+        - "条件::{交互方块.类型}==FARMLAND"
+        - "事件::取消交互"
+        - "对象::交互方块.临近方块(0,1,0):设置年龄:{年龄}-{退化阶段}"

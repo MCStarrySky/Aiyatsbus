@@ -63,7 +63,9 @@ var ItemStack?.fixedEnchants: Map<AiyatsbusEnchantment, Int>
 /**
  * 获取附魔等级, 若不存在则为 -1
  */
-fun ItemMeta.etLevel(enchant: AiyatsbusEnchantment) = fixedEnchants[enchant] ?: -1
+fun ItemMeta.etLevel(enchant: AiyatsbusEnchantment): Int {
+    return fixedEnchants[enchant.enchantment as AiyatsbusEnchantment] ?: -1
+}
 
 /**
  * 获取附魔等级, 若不存在则为 -1

@@ -54,6 +54,7 @@ class Tickers(val enchant: AiyatsbusEnchantment, config: ConfigurationSection?) 
             val fHolders = mutableMapOf<String, Pair<ObjectEntry<*>, String>>()
 
             fun next(tot: Int = 0) {
+                if (tot < 0) return // FIXME: 意外情况
                 if (tot >= chains.size) return
                 val chain = chains[tot]
                 sHolders["随机数"] = (Math.random() * 100).roundToInt().toString()
@@ -108,7 +109,7 @@ class Tickers(val enchant: AiyatsbusEnchantment, config: ConfigurationSection?) 
                             slots.forEach slot@{ slot ->
                                 val item = player.inventory.getItem(slot)
                                 if (item.isNull) return@slot
-                                if (item.etLevel(enchant) > 0) {
+                                if (item!!.etLevel(enchant) > 0) {
                                     if (!enchant.limitations.checkAvailable(CheckType.USE, item, player, slot).first) return@slot
                                     flag = true
 

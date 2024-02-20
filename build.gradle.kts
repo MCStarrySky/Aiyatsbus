@@ -19,7 +19,7 @@ subprojects {
         env {
             install(UNIVERSAL, BUKKIT_ALL, NMS_UTIL, KETHER, UI)
         }
-        version { taboolib = "6.1.0-dev" }
+        version { taboolib = "6.1.0" }
     }
 
     // 全局仓库

@@ -75,7 +75,7 @@ class Chain(val enchant: AiyatsbusEnchantment, line: String) {
 
                 val result = entity.checkCd(key, cdInSec)
                 if (!result.first) {
-                    if (info) entity.sendLang("messages.misc.cool_down", "second" to result.second)
+                    if (info) entity.sendLang("messages-misc-cool_down", result.second to "second")
                     return false
                 }
                 entity.addCd(key)

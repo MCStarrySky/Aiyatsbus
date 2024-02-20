@@ -1,0 +1,29 @@
+basic:
+  id: planter
+  name: "播种机"
+  max_level: 3
+
+rarity: 传奇
+targets:
+  - 锄
+
+limitations:
+  - "CONFLICT_GROUP:播种类附魔"
+
+display:
+  description:
+    general: "右击可范围播种作物(需要种子)"
+    specific: "§7右击可范围播种作物(需要种子) (§a{边长}×§a{边长} §7冷却:§a{冷却}§7)"
+
+variables:
+  leveled:
+    冷却: "秒:3.5-{level}"
+    边长: "格:{level}+1"
+
+mechanisms:
+  listeners:
+    right_click:
+      type: RIGHT_CLICK
+      chains:
+        - "冷却::{冷却}:true"
+        - "操作::plant:{边长}:ALL"

@@ -6,10 +6,8 @@ import com.mcstarrysky.aiyatsbus.core.aiyatsbusEt
 import com.mcstarrysky.aiyatsbus.module.ui.MainMenuUI
 import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyCommandSender
-import taboolib.common.platform.command.CommandBody
-import taboolib.common.platform.command.CommandHeader
-import taboolib.common.platform.command.mainCommand
-import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.command.*
+import taboolib.common5.cint
 import taboolib.expansion.createHelper
 
 /**
@@ -36,8 +34,14 @@ object AiyatsbusCommand {
 
     @CommandBody
     val devEnchant = subCommand {
-        execute<Player> { sender, _, _ ->
-            sender.equipment!!.itemInMainHand.addEt(aiyatsbusEt("ice_bear") ?: return@execute)
+        dynamic("enchant") {
+            suggestion<Player> { sender, _ -> with(Aiyatsbus.api().getEnchantmentManager()) { getByIDs().keys.toList() + getByNames().keys.toList() } }
+
+            int("level") {
+                execute<Player> { sender, ctx, _ ->
+                    sender.equipment.itemInMainHand.addEt(aiyatsbusEt(ctx["enchant"]) ?: return@execute, ctx["level"].cint)
+                }
+            }
         }
     }
 
