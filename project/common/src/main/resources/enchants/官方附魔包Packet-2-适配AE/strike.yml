@@ -33,5 +33,5 @@ mechanisms:
         - "条件::{随机数}<={概率}"
         - "冷却::{冷却}:false"
         - "对象::受伤者:霹雷:{真实伤害}"
-        - "对象::受伤者:发送信息:enchant.strike.damaged:who:{攻击者.名称}"
-        - "对象::攻击者:发送信息:enchant.strike.attacker:who:{受伤者.名称}"
+        - "对象::受伤者:发送信息:enchant-strike-damaged:who:{攻击者.名称}"
+        - "对象::攻击者:发送信息:enchant-strike-attacker:who:{受伤者.名称}"

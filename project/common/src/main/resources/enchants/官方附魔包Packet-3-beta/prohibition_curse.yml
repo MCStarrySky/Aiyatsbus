@@ -33,4 +33,4 @@ mechanisms:
       type: CHAT
       chains:
         - "对象::发送者:真实伤害:{发送者.血量}*{比例}/100.0"
-        - "对象::发送者:发送信息:enchant.prohibition_curse.damaged:amount:{伤害}"
+        - "对象::发送者:发送信息:enchant-prohibition_curse-damaged:amount:{伤害}"

@@ -13,7 +13,7 @@ import taboolib.module.configuration.Configuration
  */
 enum class TriggerType(val clazz: String) {
 
-    KOTLIN_SCRIPT(""), // 使用 Artifex 驱动的 Kotlin script 触发器
+    KOTLIN_SCRIPT("com.mcstarrysky.aiyatsbus.module.custom.kotlin_script.KotlinScriptTrigger"), // 使用 Artifex 驱动的 Kotlin script 触发器
     SPLENDID("com.mcstarrysky.aiyatsbus.module.custom.splendid.SplendidTrigger"); // 从 3.0 继承下来的自定义附魔体系
 
     companion object {

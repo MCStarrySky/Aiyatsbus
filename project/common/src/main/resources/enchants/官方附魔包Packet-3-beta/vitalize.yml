@@ -31,4 +31,4 @@ mechanisms:
         - "条件::{受伤者.血量}<={阈值}"
         - "冷却::{冷却时间}:false"
         - "对象::受伤者:设置血量:{受伤者.血量}+{恢复量}"
-        - "对象::受伤者:发送信息:enchant.vitalize.recovered:amount:{恢复量}"
+        - "对象::受伤者:发送信息:enchant-vitalize-recovered:amount:{恢复量}"
