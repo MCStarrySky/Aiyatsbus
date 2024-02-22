@@ -11,6 +11,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.EnchantmentStorageMeta
 import org.bukkit.inventory.meta.ItemMeta
+import taboolib.common5.RandomList
 import taboolib.platform.util.modifyMeta
 
 /**
@@ -109,6 +110,15 @@ fun ItemStack.removeEt(enchant: AiyatsbusEnchantment) {
 fun ItemMeta.clearEts() {
     if (this is EnchantmentStorageMeta) storedEnchants.forEach { removeStoredEnchant(it.key) }
     else enchants.forEach { removeEnchant(it.key) }
+}
+
+fun ItemStack.clearEts() {
+    modifyMeta<ItemMeta> { clearEts() }
+}
+
+fun Collection<AiyatsbusEnchantment>.drawEt(): AiyatsbusEnchantment? {
+    val rarity = RandomList(*associate { it.rarity to it.rarity.weight }.toList().toTypedArray()).random()
+    return RandomList(*filter { rarity == it.rarity }.associateWith { it.alternativeData.weight }.toList().toTypedArray()).random()
 }
 
 fun Material.isInTarget(target: Target?): Boolean = target?.types?.contains(this) ?: false
