@@ -51,7 +51,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
     override fun loadEnchantments() {
         (newFolder(getDataFolder(), "enchants")
             .listFiles { dir, _ -> dir.isDirectory }?.toList() ?: emptyList())
-            .map(File::listFiles)
+            .map { it.listFiles { _, name -> name.endsWith(".yml") } }
             .map{ it?.toList() ?: emptyList() }
             .flatten()
             .forEach { file ->

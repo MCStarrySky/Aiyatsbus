@@ -20,6 +20,7 @@ import taboolib.platform.util.modifyMeta
  * leveled - 与等级有关的变量, 例如等级越高触发概率越大, 公式需要带入等级计算
  * player_related - 依赖玩家的变量, 例如 PlaceholderAPI
  * modifiable - 与物品强相关的数据, 需要写在物品的 PDC 里, 武器击杀次数累积多少触发什么东西
+ * ordinary - 普通的变量, 你也可以理解为配置项, 不提供任何计算
  * flexible - 读取代码有关的数据, 与 BukkitAPI 强相关, 这个麻烦, 先不写
  *
  * @author mical
@@ -33,8 +34,12 @@ class Variables(
     /** 依赖玩家的变量, 变量名对 PAPI 变量 */
     val playerRelated: MutableMap<String, String>,
     /** 与物品强相关的数据, 变量名对初始值 */
-    val modifiable: MutableMap<String, Pair<String, String>>
+    val modifiable: MutableMap<String, Pair<String, String>>,
+    /** 普通的变量, 变量名对值 */
+    val ordinary: MutableMap<String, String>
 ) {
+
+    fun ordinary(variable: String): String = ordinary[variable]!!
 
     /**
      * 计算与等级有关的变量并返回结果
@@ -81,6 +86,7 @@ class Variables(
                 VariableType.LEVELED -> leveled(variable, level, withUnit)
                 VariableType.PLAYER_RELATED -> playerRelated(variable, entity as? Player)
                 VariableType.MODIFIABLE -> modifiable(variable, item)
+                VariableType.ORDINARY -> ordinary(variable)
                 else -> return@mapNotNull null
             }
         }.toMap()
@@ -96,7 +102,7 @@ class Variables(
     companion object {
 
         fun load(variableConfig: ConfigurationSection?): Variables {
-            return Variables(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf()).apply {
+            return Variables(mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf(), mutableMapOf()).apply {
                 variableConfig?.run {
                     getConfigurationSection("leveled").asMap().forEach { (variable, any) ->
                         if (any is ConfigurationSection) {
@@ -120,6 +126,10 @@ class Variables(
                         modifiable[variable] = parts[0] to parts[1]
                         variables[variable] = VariableType.MODIFIABLE
                     }
+                    getConfigurationSection("ordinary").asMap().forEach { (variable, value) ->
+                        ordinary[variable] = value.toString()
+                        variables[variable] = VariableType.ORDINARY
+                    }
                 }
             }
         }
@@ -128,5 +138,5 @@ class Variables(
 
 enum class VariableType {
 
-    LEVELED, PLAYER_RELATED, MODIFIABLE, FLEXIBLE
+    LEVELED, PLAYER_RELATED, MODIFIABLE, FLEXIBLE, ORDINARY
 }
