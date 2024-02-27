@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.core.util
 
+import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -24,7 +25,7 @@ object FurtherOperation {
 
     @Awake(LifeCycle.CONST)
     fun load() {
-        registerLifeCycleTask(LifeCycle.ENABLE, 14) {
+        registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.FURTHER_OPERATION) {
             submit(delay = 0L, period = 20L) {
                 val tick = Bukkit.getCurrentTick()
                 lastDamageTracker.values.removeIf { tick - it >= 20 }

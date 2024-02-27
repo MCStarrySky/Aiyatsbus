@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.ui
 
+import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
 import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadables
 import com.mcstarrysky.aiyatsbus.module.ui.internal.*
@@ -52,7 +53,7 @@ object MainMenuUI {
 
     @Awake(LifeCycle.CONST)
     fun init() {
-        registerLifeCycleTask(LifeCycle.ENABLE, 7) {
+        registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.MENU) {
             MenuFunctions.unregister("Back")
             MenuFunctions.register("Back", false) { back }
             Reloadables.execute()

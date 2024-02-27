@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
+import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.etLevel
 import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
@@ -90,7 +91,7 @@ class Tickers(val enchant: AiyatsbusEnchantment, config: ConfigurationSection?) 
 
         @Awake(LifeCycle.CONST)
         fun load() {
-            registerLifeCycleTask(LifeCycle.ENABLE, 2) {
+            registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.TICKERS) {
                 routine.clear()
 
                 var counter = 0

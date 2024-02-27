@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.core.data
 
+import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import org.bukkit.Material
 import org.bukkit.inventory.EquipmentSlot
 import taboolib.common.LifeCycle
@@ -31,7 +32,7 @@ data class Target(
 
         @Awake(LifeCycle.CONST)
         fun init() {
-            registerLifeCycleTask(LifeCycle.ENABLE, 1) {
+            registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.TARGET) {
                 Configuration.loadFromFile(releaseResourceFile("enchants/target.yml", false))
                     .let { config ->
                         config.getKeys(false)

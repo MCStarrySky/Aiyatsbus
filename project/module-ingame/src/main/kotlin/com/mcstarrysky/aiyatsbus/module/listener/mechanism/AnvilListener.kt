@@ -1,10 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.listener.mechanism
 
-import com.mcstarrysky.aiyatsbus.core.addEt
-import com.mcstarrysky.aiyatsbus.core.belongedTargets
+import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
-import com.mcstarrysky.aiyatsbus.core.etLevel
-import com.mcstarrysky.aiyatsbus.core.fixedEnchants
 import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
 import com.mcstarrysky.aiyatsbus.core.util.calcToInt
 import com.mcstarrysky.aiyatsbus.core.util.damage
@@ -59,8 +56,8 @@ object AnvilListener {
 
     @Awake(LifeCycle.CONST)
     fun init() {
-        registerLifeCycleTask(LifeCycle.ENABLE, 9) {
-            reload()
+        registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.ANVIL_LISTENER) {
+            reload() // FIXME: 优化载入
         }
     }
 

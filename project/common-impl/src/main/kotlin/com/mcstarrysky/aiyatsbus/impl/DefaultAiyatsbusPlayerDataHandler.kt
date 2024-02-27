@@ -2,6 +2,7 @@ package com.mcstarrysky.aiyatsbus.impl
 
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusPlayerDataHandler
+import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.data.PlayerData
 import com.mcstarrysky.aiyatsbus.core.util.get
 import com.mcstarrysky.aiyatsbus.core.util.set
@@ -48,7 +49,7 @@ class DefaultAiyatsbusPlayerDataHandler : AiyatsbusPlayerDataHandler {
         fun init() {
             PlatformFactory.registerAPI<AiyatsbusPlayerDataHandler>(DefaultAiyatsbusPlayerDataHandler())
 
-            registerLifeCycleTask(LifeCycle.ENABLE, 6) {
+            registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.PLAYER_DATA) {
                 val api = PlatformFactory.getAPI<AiyatsbusPlayerDataHandler>()
                 onlinePlayers.forEach(api::load)
             }

@@ -1,10 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.listener.mechanism
 
-import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
-import com.mcstarrysky.aiyatsbus.core.book
+import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.LimitType
-import com.mcstarrysky.aiyatsbus.core.fixedEnchants
-import com.mcstarrysky.aiyatsbus.core.removeEt
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.registerLifeCycleTask
@@ -22,7 +19,7 @@ object AntiIllegalItem {
 
     @Awake(LifeCycle.CONST)
     fun load() {
-        registerLifeCycleTask(LifeCycle.ENABLE, 8) {
+        registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.ANTI_ILLEGAL_ITEM) {
             checkList += AiyatsbusSettings.antiIllegalItemCheckList.map(LimitType::valueOf)
 
             if (!AiyatsbusSettings.enableAntiIllegalItem)

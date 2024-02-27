@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.core.data
 
+import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.registerLifeCycleTask
@@ -33,7 +34,7 @@ data class Rarity(
 
         @Awake(LifeCycle.CONST)
         fun init() {
-            registerLifeCycleTask(LifeCycle.ENABLE, 0) {
+            registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.RARITY) {
                 Configuration.loadFromFile(releaseResourceFile("enchants/rarity.yml", false))
                     .let { config ->
                         config.getKeys(false)
