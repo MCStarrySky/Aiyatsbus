@@ -19,14 +19,5 @@ enum class TriggerSlots(val slots: Set<EquipmentSlot>) {
     CHESTPLATE(setOf(EquipmentSlot.CHEST)),
     LEGGINGS(setOf(EquipmentSlot.LEGS)),
     BOOTS(setOf(EquipmentSlot.FEET)),
-    ALL(
-        setOf(
-            EquipmentSlot.HAND,
-            EquipmentSlot.OFF_HAND,
-            EquipmentSlot.HEAD,
-            EquipmentSlot.CHEST,
-            EquipmentSlot.LEGS,
-            EquipmentSlot.FEET
-        )
-    );
+    ALL(EquipmentSlot.values().toSet());
 }
