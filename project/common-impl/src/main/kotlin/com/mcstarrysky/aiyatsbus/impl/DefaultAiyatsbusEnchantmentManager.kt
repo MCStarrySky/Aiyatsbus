@@ -1,9 +1,6 @@
 package com.mcstarrysky.aiyatsbus.impl
 
-import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
-import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
-import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantmentBase
-import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantmentManager
+import com.mcstarrysky.aiyatsbus.core.*
 import taboolib.common.LifeCycle
 import taboolib.common.io.newFolder
 import taboolib.common.platform.Awake
@@ -74,7 +71,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
     }
 
     init {
-        registerLifeCycleTask(LifeCycle.ENABLE, 3) { loadEnchantments() }
+        registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.ENCHANTMENT) { loadEnchantments() }
     }
 
     companion object {

@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.core.data
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
+import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.aiyatsbusEt
 import com.mcstarrysky.aiyatsbus.core.aiyatsbusEts
 import taboolib.common.LifeCycle
@@ -30,7 +31,7 @@ data class Group(
 
         @Awake(LifeCycle.CONST)
         fun load() {
-            registerLifeCycleTask(LifeCycle.ENABLE, 4) {
+            registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.GROUP) {
                 Configuration.loadFromFile(releaseResourceFile("enchants/group.yml", false))
                     .let { config ->
                         config.getKeys(false).map { name ->
