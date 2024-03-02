@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.core.util
 
+import com.google.gson.Gson
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.FluidCollisionMode
@@ -34,6 +35,8 @@ val LEGACY_COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
     .useUnusualXRepeatedCharacterHexFormat()
     .hexColors()
     .build()
+
+val GSON = Gson()
 
 fun String.toAdventureComponent(): Component {
     return LEGACY_COMPONENT_SERIALIZER.deserialize(this)

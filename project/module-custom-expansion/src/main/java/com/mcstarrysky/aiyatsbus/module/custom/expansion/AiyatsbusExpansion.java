@@ -27,14 +27,6 @@ public abstract class AiyatsbusExpansion {
     protected final List<PlatformExecutor.PlatformTask> executors = new ArrayList<>();
 
     /**
-     * 初始化扩展实例
-     */
-    public AiyatsbusExpansion() {
-        // 执行 启动时 代码
-        onStarting();
-    }
-
-    /**
      * 获取拓展名称
      * @return 拓展名称
      */

@@ -20,8 +20,14 @@ subprojects {
     taboolib {
         env {
             install(UNIVERSAL, BUKKIT_ALL, NMS_UTIL, KETHER, UI)
+            // 开启隔离类加载器
+            enableIsolatedClassloader = true
         }
-        version { taboolib = "6.1.1-beta4" }
+        version {
+            taboolib = "6.1.1-beta4"
+
+            skipKotlinRelocate = true
+        }
     }
 
     // 全局仓库
