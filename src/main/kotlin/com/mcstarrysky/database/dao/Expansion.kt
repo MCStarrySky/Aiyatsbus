@@ -40,7 +40,7 @@ class Expansion {
     val formattedTime: String by unsafeLazy { TIME_FORMAT.format(time) }
 
     fun toViewedExpansion(): ViewedExpansion {
-        return ViewedExpansion(name, version, author, downloadCount, time, formattedTime, description)
+        return ViewedExpansion(name, version, author, downloadCount, time, formattedTime, description, file.split("/").last())
     }
 
     override fun toString(): String {

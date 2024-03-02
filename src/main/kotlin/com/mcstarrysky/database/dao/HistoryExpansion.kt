@@ -43,7 +43,7 @@ class HistoryExpansion {
     val formattedTime: String by unsafeLazy { TIME_FORMAT.format(time) }
 
     fun toViewedExpansion(): ViewedExpansion {
-        return ViewedExpansion(name, version, author, downloadCount, time, formattedTime, description).apply {
+        return ViewedExpansion(name, version, author, downloadCount, time, formattedTime, description, file.split("/").last()).apply {
             historyId = id
         }
     }

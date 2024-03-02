@@ -14,7 +14,8 @@ data class ViewedExpansion(
     val downloadCount: Long,
     val time: Long,
     val formattedTime: String,
-    val description: String
+    val description: String,
+    val fileName: String
 ) {
 
     var historyId: Int = -1
