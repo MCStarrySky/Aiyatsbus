@@ -32,12 +32,12 @@ interface AiyatsbusExpansionManager {
     /**
      * 安装在线扩展
      */
-    fun installExpansions(info: ExpansionInfo)
+    fun installExpansion(info: ExpansionInfo)
 
     /**
      * 获取正在运行的所有扩展信息
      */
-    fun getExpansionInfos(): List<ExpansionInfo>
+    fun getExpansions(): Map<String, ExpansionInfo>
 
     /**
      * 重载某一扩展
@@ -47,10 +47,18 @@ interface AiyatsbusExpansionManager {
         loadExpansion(name)
     }
 
-    data class ExpansionInfo(val identifier: String, val author: String, val version: String) {
+    /**
+     * 获取可下载使用的所有附魔
+     */
+    fun fetchExpansionInfo(): List<ExpansionInfo>
 
-        constructor(identifier: String) : this(identifier, "", "")
+    data class ExpansionInfo(val name: String, val version: String, val author: String, val downloadCount: Long, val time: Long, val formattedTime: String, val description: String, val historyId: Int, val fileName: String) {
 
-        constructor(identifier: String, version: String): this(identifier, "", "")
+        companion object {
+
+            fun of(identifier: String, version: String, author: String): ExpansionInfo {
+                return ExpansionInfo(identifier, "", "", -1, -1, "", "", -2, "")
+            }
+        }
     }
 }
