@@ -1,8 +1,10 @@
 package com.mcstarrysky.aiyatsbus.core
 
+import com.mcstarrysky.aiyatsbus.core.data.LimitType
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
+import taboolib.module.configuration.conversion
 
 /**
  * Aiyatsbus
@@ -16,6 +18,12 @@ object AiyatsbusSettings {
     @Config("config.yml", autoReload = true)
     lateinit var conf: Configuration
         private set
+
+    /**
+     * 自动释放插件内置的附魔包
+     */
+    @ConfigNode("Settings.auto-release-enchants")
+    var autoReleaseEnchants = true
 
     /**
      * 默认品质
@@ -44,6 +52,8 @@ object AiyatsbusSettings {
     /**
      * 自动修改玩家背包内非法物品的检测列表
      */
-    @ConfigNode("Settings.anti-illegal-item.check-list")
-    var antiIllegalItemCheckList = emptyList<String>()
+    @delegate:ConfigNode("Settings.anti-illegal-item.check-list")
+    val antiIllegalItemCheckList by conversion<List<String>, List<LimitType>> {
+        toTypedArray().map(LimitType::valueOf)
+    }
 }

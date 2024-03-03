@@ -18,19 +18,20 @@ import taboolib.module.configuration.Configuration
  * @author mical
  * @since 2024/2/22 23:35
  */
+@ConfigNode(bind = "mechanisms/villager.yml")
 object VillagerListener {
 
-    @Config("mechanisms/villager.yml")
+    @Config("mechanisms/villager.yml", autoReload = true)
     lateinit var conf: Configuration
         private set
 
-    @ConfigNode(bind = "mechanisms/villager.yml", value = "enableEnchantTrade")
+    @ConfigNode("enableEnchantTrade")
     var enableEnchantTrade = true
 
-    @ConfigNode(bind = "mechanisms/villager.yml", value = "tradeGroup")
+    @ConfigNode("tradeGroup")
     var tradeGroup = "可交易附魔"
 
-    @ConfigNode(bind = "mechanisms/villager.yml", value = "amount")
+    @ConfigNode("amount")
     var amount = 2
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

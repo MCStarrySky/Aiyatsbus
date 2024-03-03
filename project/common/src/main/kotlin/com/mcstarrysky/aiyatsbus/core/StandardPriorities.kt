@@ -19,6 +19,5 @@ object StandardPriorities {
     const val PLAYER_DATA = 7
     const val MENU = 8
     const val ANTI_ILLEGAL_ITEM = 9
-    const val ANVIL_LISTENER = 10
-    const val FURTHER_OPERATION = 15
+    const val FURTHER_OPERATION = 14
 }

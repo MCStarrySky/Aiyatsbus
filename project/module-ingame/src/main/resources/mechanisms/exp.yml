@@ -6,5 +6,5 @@ exp_per_level:
   30: 9*{level}-158
 
 privilege:
-  - "splendidenchants.privilege.exp_vip:{exp}+1"
-  - "splendidenchants.privilege.exp_svip:{exp}+2"
+  - "aiyatsbus.privilege.exp_vip:{exp}+1"
+  - "aiyatsbus.privilege.exp_svip:{exp}+2"
