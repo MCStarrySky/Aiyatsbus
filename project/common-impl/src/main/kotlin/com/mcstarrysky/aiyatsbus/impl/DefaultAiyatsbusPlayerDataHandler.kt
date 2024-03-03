@@ -4,6 +4,7 @@ import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusPlayerDataHandler
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.data.PlayerData
+import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.get
 import com.mcstarrysky.aiyatsbus.core.util.set
 import org.bukkit.entity.Player
@@ -48,7 +49,11 @@ class DefaultAiyatsbusPlayerDataHandler : AiyatsbusPlayerDataHandler {
         @Awake(LifeCycle.CONST)
         fun init() {
             PlatformFactory.registerAPI<AiyatsbusPlayerDataHandler>(DefaultAiyatsbusPlayerDataHandler())
+        }
 
+        @Reloadable
+        @Awake(LifeCycle.CONST)
+        fun load() {
             registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.PLAYER_DATA) {
                 val api = PlatformFactory.getAPI<AiyatsbusPlayerDataHandler>()
                 onlinePlayers.forEach(api::load)

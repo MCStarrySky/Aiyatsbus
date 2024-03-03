@@ -4,6 +4,7 @@ import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.etLevel
+import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
 import com.mcstarrysky.aiyatsbus.core.util.calcToInt
 import com.mcstarrysky.aiyatsbus.core.util.isNull
@@ -89,6 +90,7 @@ class Tickers(val enchant: AiyatsbusEnchantment, config: ConfigurationSection?) 
             recorder.remove(event.player.uniqueId)
         }
 
+        @Reloadable
         @Awake(LifeCycle.CONST)
         fun load() {
             registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.TICKERS) {
@@ -117,6 +119,7 @@ class Tickers(val enchant: AiyatsbusEnchantment, config: ConfigurationSection?) 
                                     if (!set.contains(id)) {
                                         set += pair.second
                                         trigger.tickers.trigger(player, item, BEFORE)
+
                                     }
                                     trigger.tickers.trigger(player, item, NORMAL)
                                 }

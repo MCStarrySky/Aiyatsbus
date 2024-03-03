@@ -1,8 +1,10 @@
 package com.mcstarrysky.aiyatsbus.module.custom.expansion
 
 import com.google.gson.reflect.TypeToken
+import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusExpansionManager
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
+import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.GSON
 import taboolib.common.ClassAppender
 import taboolib.common.LifeCycle
@@ -70,6 +72,8 @@ class DefaultAiyatsbusExpansionManager : AiyatsbusExpansionManager {
     }
 
     override fun loadExpansions() {
+        uninstallExpansions()
+
         newFolder(getDataFolder(), "expansions").listFiles { _, file -> file.endsWith(".jar") }?.map {
             JarFile(it).use { jar ->
                 val entry = jar.getJarEntry("expansion.properties")
@@ -111,15 +115,19 @@ class DefaultAiyatsbusExpansionManager : AiyatsbusExpansionManager {
         )
     }
 
-    init {
-        registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.EXPANSIONS) { loadExpansions() }
-    }
-
     companion object {
 
         @Awake(LifeCycle.CONST)
         fun init() {
             PlatformFactory.registerAPI<AiyatsbusExpansionManager>(DefaultAiyatsbusExpansionManager())
+        }
+
+        @Reloadable
+        @Awake(LifeCycle.CONST)
+        fun load() {
+            registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.EXPANSIONS) {
+                Aiyatsbus.api().getExpansionManager().loadExpansions()
+            }
         }
     }
 }

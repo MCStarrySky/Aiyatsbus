@@ -24,7 +24,6 @@ object MainMenuUI {
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 
-    @Reloadable
     fun reload() {
         source.reload()
         config = MenuConfiguration(source)
@@ -51,12 +50,20 @@ object MainMenuUI {
     @MenuComponent
     private val anvil = MenuFunctionBuilder { onClick { (_, _, _, event, _) -> AnvilUI.open(event.clicker) } }
 
+    @Reloadable
     @Awake(LifeCycle.CONST)
     fun init() {
         registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.MENU) {
             MenuFunctions.unregister("Back")
             MenuFunctions.register("Back", false) { back }
-            Reloadables.execute()
+            AnvilUI.reload()
+            EnchantInfoUI.reload()
+            EnchantSearchUI.reload()
+            FilterGroupUI.reload()
+            FilterRarityUI.reload()
+            FilterTargetUI.reload()
+            ItemCheckUI.reload()
+            MainMenuUI.reload()
         }
     }
 }

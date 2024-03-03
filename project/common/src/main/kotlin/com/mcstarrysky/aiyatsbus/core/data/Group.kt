@@ -4,6 +4,7 @@ import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.aiyatsbusEt
 import com.mcstarrysky.aiyatsbus.core.aiyatsbusEts
+import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.registerLifeCycleTask
@@ -29,6 +30,7 @@ data class Group(
 
         val groups = ConcurrentHashMap<String, Group>()
 
+        @Reloadable
         @Awake(LifeCycle.CONST)
         fun load() {
             registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.GROUP) {

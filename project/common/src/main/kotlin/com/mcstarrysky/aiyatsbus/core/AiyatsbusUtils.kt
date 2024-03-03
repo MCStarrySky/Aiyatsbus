@@ -43,6 +43,8 @@ fun ItemStack.etsAvailable(
     player: Player? = null
 ) = Aiyatsbus.api().getEnchantmentManager().getByIDs().values.filter { it.limitations.checkAvailable(checkType, this, player).first }
 
+fun Rarity.drawEt() = RandomList(*aiyatsbusEts(this).associateWith { it.alternativeData.weight }.toList().toTypedArray()).random()
+
 /**
  * 从物品元数据获取附魔并自动转换为 AiyatsbusEnchantment
  */

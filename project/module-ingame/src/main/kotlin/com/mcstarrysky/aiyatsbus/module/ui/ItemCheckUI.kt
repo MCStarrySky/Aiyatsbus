@@ -32,7 +32,6 @@ object ItemCheckUI {
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 
-    @Reloadable
     fun reload() {
         source.reload()
         config = MenuConfiguration(source)

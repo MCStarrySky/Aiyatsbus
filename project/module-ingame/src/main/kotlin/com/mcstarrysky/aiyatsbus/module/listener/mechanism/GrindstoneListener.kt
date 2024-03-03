@@ -14,13 +14,19 @@ import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.library.configuration.ConfigurationSection
+import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
+import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.conversion
 import java.util.*
 import kotlin.math.roundToInt
 
 @ConfigNode(bind = "mechanisms/grindstone.yml")
 object GrindstoneListener {
+
+    @Config("mechanisms/grindstone.yml", autoReload = true)
+    lateinit var conf: Configuration
+        private set
 
     @ConfigNode("grindstone.vanilla")
     var enableVanilla = false

@@ -2,6 +2,7 @@ package com.mcstarrysky.aiyatsbus.core.data
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.LimitType.*
+import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.LivingEntity
@@ -104,6 +105,7 @@ data class Limitations(
          */
         val conflicts = mutableMapOf<String, String>()
 
+        @Reloadable
         @Awake(LifeCycle.CONST)
         fun initConflicts() {
             registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.LIMITATIONS) {
