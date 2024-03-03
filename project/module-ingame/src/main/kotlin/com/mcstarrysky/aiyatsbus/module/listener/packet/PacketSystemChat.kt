@@ -24,7 +24,7 @@ object PacketSystemChat {
                 runCatching { Class.forName("io.papermc.paper.configuration.Configuration") }.isSuccess
     } */
 
-    @SubscribeEvent(priority = EventPriority.MONITOR)
+    // @SubscribeEvent(priority = EventPriority.MONITOR) FIXME: 待修复
     fun e(e: PacketSendEvent) {
         if (e.packet.name == "ClientboundSystemChatPacket") {
             runCatching {

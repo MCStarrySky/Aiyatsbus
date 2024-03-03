@@ -3,10 +3,12 @@ package com.mcstarrysky.aiyatsbus.impl
 import com.mcstarrysky.aiyatsbus.core.*
 import taboolib.common.LifeCycle
 import taboolib.common.io.newFolder
+import taboolib.common.io.runningResourcesInJar
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.registerLifeCycleTask
+import taboolib.common.platform.function.releaseResourceFile
 import taboolib.module.configuration.Configuration
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
@@ -46,6 +48,14 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
     }
 
     override fun loadEnchantments() {
+        if (!File(getDataFolder(), "enchants").exists()) {
+            runningResourcesInJar.keys.filter {
+                it.endsWith(".yml")
+                        && it.startsWith("enchants/")
+                        && it.count { c -> c == '/' } >= 2
+            }.forEach { releaseResourceFile(it) }
+        }
+
         (newFolder(getDataFolder(), "enchants")
             .listFiles { dir, _ -> dir.isDirectory }?.toList() ?: emptyList())
             .map { it.listFiles { _, name -> name.endsWith(".yml") } }

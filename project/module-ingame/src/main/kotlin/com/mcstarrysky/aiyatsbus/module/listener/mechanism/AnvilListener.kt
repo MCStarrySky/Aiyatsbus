@@ -10,65 +10,50 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.PrepareAnvilEvent
 import org.bukkit.inventory.ItemStack
-import taboolib.common.LifeCycle
-import taboolib.common.platform.Awake
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.common5.cdouble
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
+import taboolib.module.configuration.conversion
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
+@ConfigNode(bind = "mechanisms/anvil.yml")
 object AnvilListener {
 
     @Config("mechanisms/anvil.yml", autoReload = true)
     lateinit var conf: Configuration
         private set
 
-    @ConfigNode("limit.unsafe_level", bind = "mechanisms/anvil.yml")
+    @ConfigNode("limit.unsafe_level")
     var allowUnsafeLevel = true
 
-    @ConfigNode("limit.unsafe_combine", bind = "mechanisms/anvil.yml")
+    @ConfigNode("limit.unsafe_combine")
     var allowUnsafeCombine = false
 
-    @ConfigNode("max_cost", bind = "mechanisms/anvil.yml")
+    @ConfigNode("max_cost")
     var maxCost = 100
 
-    @ConfigNode("rename_cost", bind = "mechanisms/anvil.yml")
+    @ConfigNode("rename_cost")
     var renameCost = 3
 
-    @ConfigNode("repair_cost", bind = "mechanisms/anvil.yml")
+    @ConfigNode("repair_cost")
     var repairCost = 5
 
-    @ConfigNode("enchant_cost.new_extra", bind = "mechanisms/anvil.yml")
+    @ConfigNode("enchant_cost.new_extra")
     var newEnchantExtraCost = 2
 
-    @ConfigNode("enchant_cost.per_level", bind = "mechanisms/anvil.yml")
+    @ConfigNode("enchant_cost.per_level")
     var enchantCostPerLevel = "6.0/{max_level}"
 
-    @ConfigNode("allow_different_material", bind = "mechanisms/anvil.yml")
+    @ConfigNode("allow_different_material")
     var allowDifferentMaterial = false
 
-    var privilege = mutableMapOf<String, String>()
-
-    @Awake(LifeCycle.CONST)
-    fun init() {
-        registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.ANVIL_LISTENER) {
-            reload() // FIXME: 优化载入
-        }
-    }
-
-    @Awake(LifeCycle.ENABLE)
-    fun autoReload() {
-        conf.onReload { reload() }
-    }
-
-    private fun reload() {
-        privilege.clear()
-        privilege.putAll(conf.getStringList("privilege").map { it.split(":")[0] to it.split(":")[1] })
+    @delegate:ConfigNode("privilege")
+    val privilege by conversion<List<String>, Map<String, String>> {
+        mapOf(*toTypedArray().map { it.split(":")[0] to it.split(":")[1] }.toTypedArray())
     }
 
     @SubscribeEvent(priority = EventPriority.MONITOR, ignoreCancelled = true)

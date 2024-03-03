@@ -14,13 +14,11 @@ import taboolib.platform.util.sendLang
 
 object AntiIllegalItem {
 
-    var checkList = listOf<LimitType>()
     var task: PlatformExecutor.PlatformTask? = null
 
     @Awake(LifeCycle.CONST)
     fun load() {
         registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.ANTI_ILLEGAL_ITEM) {
-            checkList += AiyatsbusSettings.antiIllegalItemCheckList.map(LimitType::valueOf)
 
             if (!AiyatsbusSettings.enableAntiIllegalItem)
                 return@registerLifeCycleTask
@@ -39,7 +37,7 @@ object AntiIllegalItem {
                             val et = enchants[j].first
                             val level = enchants[j].second
                             tmp.removeEt(et)
-                            val result = et.limitations.checkAvailable(checkList, tmp)
+                            val result = et.limitations.checkAvailable(AiyatsbusSettings.antiIllegalItemCheckList, tmp)
                             if (!result.first) {
                                 enchants.removeAt(j)
                                 player.giveItem(et.book(level))

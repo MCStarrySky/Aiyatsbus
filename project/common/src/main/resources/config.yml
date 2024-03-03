@@ -4,6 +4,7 @@
 
 
 Settings:
+  auto-release-enchants: true
   default-rarity: common
   main-menu-back: cd
   anti-illegal-item:

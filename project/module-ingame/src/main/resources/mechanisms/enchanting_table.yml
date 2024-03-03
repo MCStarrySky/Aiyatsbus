@@ -29,6 +29,6 @@ celebrate_notice:
     - "title:恭喜玩家{player};获得了稀世附魔{enchant}"
 privilege:
   chance:
-    - "splendidenchants.privilege.table.vip:{chance}*1.2"
-    - "splendidenchants.privilege.table.svip:{chance}*1.4"
-  full_level: "splendidenchants.privilege.table.full"
+    - "aiyatsbus.privilege.table.vip:{chance}*1.2"
+    - "aiyatsbus.privilege.table.svip:{chance}*1.4"
+  full_level: "aiyatsbus.privilege.table.full"
