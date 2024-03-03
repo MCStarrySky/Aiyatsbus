@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.core.data
 
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
+import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
 import org.bukkit.Material
 import org.bukkit.inventory.EquipmentSlot
 import taboolib.common.LifeCycle
@@ -30,6 +31,7 @@ data class Target(
 
         val targets = ConcurrentHashMap<String, Target>()
 
+        @Reloadable
         @Awake(LifeCycle.CONST)
         fun init() {
             registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.TARGET) {

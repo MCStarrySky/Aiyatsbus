@@ -1,3 +1,10 @@
+thanks:
+  - "&8\[&{#D8D8FA}Aiyatsbus&8\] &7欢迎使用 Aiyatsbus v{0}! 作者: 南外丶仓鼠(白熊)"
+  - "&8\[&{#D8D8FA}Aiyatsbus&8\] &7|- 感谢 次元互联 对本项目的支持 售前服务群: 1064601581"
+  - "&8\[&{#D8D8FA}Aiyatsbus&8\] &7|- 感谢 YiMiner 对本项目的支持 强力宝石插件交流群: 777905589"
+  - "&8\[&{#D8D8FA}Aiyatsbus&8\] &7|- 感谢以下服务器的所有玩家对本项目的帮助: &bStarLight&3繁星工坊 &eHAPPYLAND"
+  - "&8\[&{#D8D8FA}Aiyatsbus&8\] &7|- 该信息只有服务器管理员能看到, 可在配置文件中关闭"
+
 limitations-not-enabled: "附魔未启用"
 
 limitations-typename-target: "附魔对象"
@@ -18,20 +25,81 @@ filter-type-target: "物品类别"
 filter-type-group: "类型/定位"
 filter-type-string: "名字/描述"
 
-filter-statement-symbol-on: "§a✔"
-filter-statement-symbol-off: "§c✘"
+filter-statement-symbol-on: "&a✔"
+filter-statement-symbol-off: "&c✘"
 
-messages-menu-search-input: "&e请在聊天栏中输入字段..."
-messages-menu-search-input_finish: "&a输入完成"
-messages-misc-cool_down: "冷却未结束，还有{second}s"
+add: "添加"
+remove: "移除"
 
-info-illegal_item: "&7你背包中的物品 &a{item} &7包含非法附魔 &d{enchant}&7，已经分离(&c{reason}&7)"
+messages-menu-search-input: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7请在聊天栏中输入字段..."
+messages-menu-search-input_finish: "&8\[&{#D8D8FA}Aiyatsbus&8\] &a输入完成"
+messages-misc-cool_down: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7冷却未结束，还有{second}s"
 
-enchant-strike-attacker: "&7你的武器召唤了雷电击中 &e{who}"
-enchant-strike-damaged: "&7你被 &e{who} &7召唤的雷电击中"
-enchant-twinge-attacker: "&7你的武器使得 &e{who} &7流血"
-enchant-twinge-damaged: "&7你被 &e{who} &7施加了流血效果"
-enchant-impact-attacker: "&7本次远程攻击命中 &e{who} &7触发了&b会心一击"
-enchant-impact-damaged: "&7你被 &e{who} &7的弹射物会心一击"
-enchant-vitalize-recovered: "&7你的盾牌为你恢复了 &e{amount} &7点血量"
-enchant-prohibition_curse-damaged: "&7你的装备对你造成了 &c{amount} &7点真实伤害"
+info-illegal_item: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7你背包中的物品 &a{item} &7包含非法附魔 &d{enchant}&7，已经分离(&c{reason}&7)"
+
+enchant-strike-attacker: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7你的武器召唤了雷电击中 &e{who}"
+enchant-strike-damaged: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7你被 &e{who} &7召唤的雷电击中"
+enchant-twinge-attacker: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7你的武器使得 &e{who} &7流血"
+enchant-twinge-damaged: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7你被 &e{who} &7施加了流血效果"
+enchant-impact-attacker: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7本次远程攻击命中 &e{who} &7触发了&b会心一击"
+enchant-impact-damaged: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7你被 &e{who} &7的弹射物会心一击"
+enchant-vitalize-recovered: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7你的盾牌为你恢复了 &e{amount} &7点血量"
+enchant-prohibition_curse-damaged: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7你的装备对你造成了 &c{amount} &7点真实伤害"
+
+command-helper:
+  - ' '
+  - '  [&6Aiyatsbus](h=&7Aiyatsbus 附魔扩展插件) &f[{pluginVersion}](h=&7插件版本: &2{pluginVersion}<br>&7游戏版本: &b{minecraftVersion})'
+  - ' '
+  - '  &7命令: [&f/aiyatsbus &8\[...\]](h=&f/aiyatsbus &8\[...\];suggest=/aiyatsbus )'
+  - '  &7参数:'
+  - '{subCommands}'
+  - ' '
+command-sub:
+  - '    &8- [&f{name}](h=/aiyatsbus {name} {usage}&8- &7{description};suggest=/aiyatsbus {name})'
+  - '      &7{description}'
+command-argument-missing:
+  - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7指令 &f{name} &7参数不足 正确用法:'
+  - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7/aiyatsbus {name} {usage}&8- &7{description}'
+command-argument-wrong:
+  - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7指令 &f{name} &7参数有误 正确用法:'
+  - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7/aiyatsbus {name} {usage}&8- &7{description}'
+command-argument-unknown:
+  - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7指令 &f{name} &7不存在 你可能想要:'
+  - '&8\[&{#D8D8FA}Aiyatsbus&8\] &f{similar}'
+command-incorrect-sender: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7指令 &f{name} &7只能由 &f玩家 &7执行'
+command-subCommands-book-description: "给玩家一本指定的附魔书"
+command-subCommands-book-usage: "<附魔> \[等级\] \[玩家\]"
+command-subCommands-book-sender: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7附魔书已经发送给 &e{name}"
+command-subCommands-book-receiver: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7你收到了附魔书 {enchantment}"
+command-subCommands-book-fail: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7控制台无法给予自己附魔书"
+
+command-subCommands-enchant-description: "为玩家手持物品增加/清除附魔"
+command-subCommands-enchant-usage: "<附魔> \[等级\(0为清除\)\] \[玩家\]"
+command-subCommands-enchant-empty: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7手持物品为空"
+command-subCommands-enchant-sender: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7为 &e{name} &7手上的物品 {state}了附魔 {enchantment}"
+command-subCommands-enchant-receiver: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7手上的物品被 {state}了附魔 {enchantment}"
+command-subCommands-enchant-fail: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7控制台无法给予自己附魔书"
+
+command-subCommands-menu-description: "打开附魔菜单"
+command-subCommands-menu-usage: "\[玩家\]"
+command-subCommands-menu-fail: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7控制台无法打开菜单"
+
+command-subCommands-mode-description: "设置玩家的菜单模式"
+command-subCommands-mode-usage: "<模式> \[玩家\]"
+command-subCommands-mode-sender: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7成功将 &e{name} &7的菜单模式修改为 &a{mode}"
+command-subCommands-mode-receiver: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7菜单模式修改为 &a{mode}"
+command-subCommands-mode-fail: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7控制台无法设置自己的菜单模式"
+
+command-subCommands-reload-description: "重载插件"
+command-subCommands-reload-usage: ""
+
+command-subCommands-calculate-description: "查看帮助"
+command-subCommands-calculate-usage: ""
+
+command-subCommands-random-description: "为玩家随机抽取一本指定品质的附魔书"
+command-subCommands-random-usage: "<品质> \[等级\] \[玩家\]"
+command-subCommands-random-rarity: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7品质中附魔为空"
+command-subCommands-random-number: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7请输入正整数"
+command-subCommands-random-sender: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7给 &e{name} &7发送了随机的附魔书 {enchantment}"
+command-subCommands-random-receiver: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7你收到了随机附魔书 {enchantment}"
+command-subCommands-random-fail: "&8\[&{#D8D8FA}Aiyatsbus&8\] &7控制台无法接受随机附魔书"

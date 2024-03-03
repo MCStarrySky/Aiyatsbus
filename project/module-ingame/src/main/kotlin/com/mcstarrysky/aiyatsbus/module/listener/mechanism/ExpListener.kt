@@ -7,11 +7,17 @@ import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.submit
 import taboolib.library.configuration.ConfigurationSection
+import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
+import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.conversion
 
 @ConfigNode(bind = "mechanisms/exp.yml")
 object ExpListener {
+
+    @Config("mechanisms/exp.yml", autoReload = true)
+    lateinit var conf: Configuration
+        private set
 
     @ConfigNode("enable")
     var enable: Boolean = false

@@ -20,6 +20,12 @@ object AiyatsbusSettings {
         private set
 
     /**
+     * 是否在管理员登录游戏时发送鸣谢信息
+     */
+    @ConfigNode("Settings.send-thank-messages")
+    var sendThankMessages = true
+
+    /**
      * 自动释放插件内置的附魔包
      */
     @ConfigNode("Settings.auto-release-enchants")
@@ -57,3 +63,5 @@ object AiyatsbusSettings {
         toTypedArray().map(LimitType::valueOf)
     }
 }
+
+const val AIYATSBUS_PREFIX = "&8\\[&{#D8D8FA}Aiyatsbus&8\\] &7"

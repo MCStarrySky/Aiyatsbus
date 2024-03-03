@@ -20,7 +20,9 @@ import taboolib.common.platform.function.submit
 import taboolib.common5.util.replace
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.chat.colored
+import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
+import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.conversion
 import taboolib.platform.util.onlinePlayers
 import kotlin.math.roundToInt
@@ -29,6 +31,10 @@ import kotlin.math.roundToInt
 object AttainListener {
 
     private val shelfAmount = mutableMapOf<String, Int>()
+
+    @Config("mechanisms/enchanting_table.yml", autoReload = true)
+    lateinit var conf: Configuration
+        private set
 
     @ConfigNode("vanilla_table")
     var vanillaTable = false

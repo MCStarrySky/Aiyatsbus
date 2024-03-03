@@ -7,8 +7,12 @@ taboolib {
     description {
         name(rootProject.name)
         contributors {
-            name("Bkm016")
+            name("Mical")
+            name("南外丶仓鼠")
+            name("xiaozhangup")
         }
+        desc("Aiyatsbus is an powerful enchantment framework for Paper servers.")
+        load("STARTUP")
     }
 }
 

@@ -4,11 +4,18 @@
 
 
 Settings:
+  # 是否在管理员登录游戏时发送鸣谢信息
+  send-thank-messages: true
+  # 若第一次启动, 则自动释放所有内置附魔
   auto-release-enchants: true
+  # 默认附魔品质
   default-rarity: common
+  # 如果为附魔主菜单设置了返回按钮, 则点击返回按钮时执行这个命令
   main-menu-back: cd
+  # 自动检测非法附魔
   anti-illegal-item:
     enable: false
+    # 检测间隔 (tick)
     interval: 60
     check-list:
       - MAX_CAPABILITY

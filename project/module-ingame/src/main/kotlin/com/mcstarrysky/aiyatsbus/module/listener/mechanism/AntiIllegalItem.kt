@@ -2,6 +2,7 @@ package com.mcstarrysky.aiyatsbus.module.listener.mechanism
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.LimitType
+import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.registerLifeCycleTask
@@ -16,14 +17,15 @@ object AntiIllegalItem {
 
     var task: PlatformExecutor.PlatformTask? = null
 
+    @Reloadable
     @Awake(LifeCycle.CONST)
     fun load() {
         registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.ANTI_ILLEGAL_ITEM) {
+            task?.cancel()
 
             if (!AiyatsbusSettings.enableAntiIllegalItem)
                 return@registerLifeCycleTask
 
-            task?.cancel()
             task = submit(period = AiyatsbusSettings.antiIllegalItemInterval) {
                 onlinePlayers.forEach { player ->
                     val inv = player.inventory
