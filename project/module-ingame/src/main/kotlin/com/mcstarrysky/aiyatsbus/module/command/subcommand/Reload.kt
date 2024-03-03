@@ -6,9 +6,11 @@ import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
 import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadables
 import com.mcstarrysky.aiyatsbus.module.listener.mechanism.*
 import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 import taboolib.common.platform.command.subCommand
 import taboolib.module.chat.colored
 import taboolib.module.configuration.ConfigLoader
+import taboolib.platform.util.onlinePlayers
 
 /**
  * Aiyatsbus
@@ -28,6 +30,7 @@ val reloadSubCommand = subCommand {
         // VillagerListener.conf.reload()
         ConfigLoader.files.values.forEach { it.configuration.reload() }
         Reloadables.execute()
+        onlinePlayers.forEach(Player::updateInventory)
         sender.sendMessage("$AIYATSBUS_PREFIX Done.".colored())
     }
 }

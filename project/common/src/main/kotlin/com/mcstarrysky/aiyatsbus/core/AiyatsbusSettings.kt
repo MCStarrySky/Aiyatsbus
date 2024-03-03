@@ -64,4 +64,4 @@ object AiyatsbusSettings {
     }
 }
 
-const val AIYATSBUS_PREFIX = "&8\\[&{#D8D8FA}Aiyatsbus&8\\] &7"
+const val AIYATSBUS_PREFIX = "&8[&{#D8D8FA}Aiyatsbus&8] &7"

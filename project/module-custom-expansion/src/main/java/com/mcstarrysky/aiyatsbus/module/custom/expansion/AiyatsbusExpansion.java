@@ -1,8 +1,8 @@
 package com.mcstarrysky.aiyatsbus.module.custom.expansion;
 
 import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
-import kotlin.jvm.functions.Function2;
+//import kotlin.jvm.functions.Function1;
+//import kotlin.jvm.functions.Function2;
 import org.jetbrains.annotations.NotNull;
 import taboolib.common.platform.event.EventPriority;
 import taboolib.common.platform.event.ProxyListener;
@@ -23,8 +23,8 @@ import java.util.List;
  */
 public abstract class AiyatsbusExpansion {
 
-    protected final List<ProxyListener> listeners = new ArrayList<>();
-    protected final List<PlatformExecutor.PlatformTask> executors = new ArrayList<>();
+ //   protected final List<ProxyListener> listeners = new ArrayList<>();
+   // protected final List<PlatformExecutor.PlatformTask> executors = new ArrayList<>();
 
     /**
      * 获取拓展名称
@@ -58,17 +58,17 @@ public abstract class AiyatsbusExpansion {
      * 扩展被卸载时运行代码
      */
     public void onStopping() {
-        try {
-            listeners.forEach(ListenerKt::unregisterListener);
-            executors.forEach(PlatformExecutor.PlatformTask::cancel);
-        } catch (Throwable ignored) {
-            // FIXME
-        }
-
-        listeners.clear();
-        executors.clear();
+      //  try {
+      //      listeners.forEach(ListenerKt::unregisterListener);
+      //      executors.forEach(PlatformExecutor.PlatformTask::cancel);
+      //  } catch (Throwable ignored) {
+      //      // FIXME
+      //  }
+//
+      //  listeners.clear();
+      ///  executors.clear();
     }
-
+/*
     public <T> void registerListener(final Class<T> event, final EventPriority priority, final boolean ignoreCancelled, final Function2<Closeable, T, Object> func) {
         final ProxyListener listener = ListenerKt.registerBukkitListener(event, priority, ignoreCancelled, (closeable, t) -> {
             func.invoke(closeable, t);
@@ -84,4 +84,6 @@ public abstract class AiyatsbusExpansion {
         });
         executors.add(t);
     }
+
+ */
 }

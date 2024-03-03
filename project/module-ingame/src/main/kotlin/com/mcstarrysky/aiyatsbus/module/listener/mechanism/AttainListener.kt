@@ -36,21 +36,21 @@ object AttainListener {
     lateinit var conf: Configuration
         private set
 
-    @ConfigNode("vanilla_table")
+    @ConfigNode("vanilla_table", bind = "mechanisms/enchanting_table.yml")
     var vanillaTable = false
-    @ConfigNode("more_enchant_chance")
+    @ConfigNode("more_enchant_chance", bind = "mechanisms/enchanting_table.yml")
     var moreEnchantChance = listOf("0.2*{cost}", "0.15*{cost}", "0.1*{cost}")
-    @ConfigNode("level_formula")
+    @ConfigNode("level_formula", bind = "mechanisms/enchanting_table.yml")
     var levelFormula = "{cost}/3*{max_level}+{cost}*({random}-{random})"
-    @ConfigNode("privilege.full_level")
+    @ConfigNode("privilege.full_level", bind = "mechanisms/enchanting_table.yml")
     var fullLevelPrivilege = "aiyatsbus.privilege.table.full"
 
-    @delegate:ConfigNode("celebrate_notice")
+    @delegate:ConfigNode("celebrate_notice", bind = "mechanisms/enchanting_table.yml")
     val celebrateNotice by conversion<ConfigurationSection, Map<Rarity?, List<String>>> {
         mapOf(*getKeys(false).map { Rarity.getRarity(it) to getStringList(it) }.toTypedArray())
     }
 
-    @delegate:ConfigNode("privilege.chance")
+    @delegate:ConfigNode("privilege.chance", bind = "mechanisms/enchanting_table.yml")
     val moreEnchantPrivilege by conversion<List<String>, Map<String, String>> {
         mapOf(*map { it.split(":")[0] to it.split(":")[1] }.toTypedArray())
     }
@@ -91,7 +91,7 @@ object AttainListener {
         }
 
         event.enchantsToAdd.clear()
-        event.enchantsToAdd.putAll(result.first.mapKeys { it as Enchantment })
+        event.enchantsToAdd.putAll(result.first.mapKeys { it.key as Enchantment })
 
         // 对书的附魔，必须手动进行，因为原版处理会掉特殊附魔
         // 也许可以用更好的方法兼容，submit有一定风险 FIXME

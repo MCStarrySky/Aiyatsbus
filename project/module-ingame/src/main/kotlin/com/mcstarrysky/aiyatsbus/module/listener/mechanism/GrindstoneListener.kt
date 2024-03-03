@@ -28,25 +28,25 @@ object GrindstoneListener {
     lateinit var conf: Configuration
         private set
 
-    @ConfigNode("grindstone.vanilla")
+    @ConfigNode("grindstone.vanilla", bind = "mechanisms/grindstone.yml")
     var enableVanilla = false
-    @ConfigNode("grindstone.custom")
+    @ConfigNode("grindstone.custom", bind = "mechanisms/grindstone.yml")
     var enableCustomGrindstone = true
-    @ConfigNode("exp_per_enchant")
+    @ConfigNode("exp_per_enchant", bind = "mechanisms/grindstone.yml")
     var expPerEnchant = "30*{level}/{max_level}*{rarity_bonus}"
-    @ConfigNode("accumulation")
+    @ConfigNode("accumulation", bind = "mechanisms/grindstone.yml")
     var accumulation = true
-    @ConfigNode("default_bonus")
+    @ConfigNode("default_bonus", bind = "mechanisms/grindstone.yml")
     var defaultBonus = 1.0
-    @ConfigNode("blacklist_group")
+    @ConfigNode("blacklist_group", bind = "mechanisms/grindstone.yml")
     var blacklist = "不可磨砂类附魔"
 
-    @delegate:ConfigNode("rarity_bonus")
+    @delegate:ConfigNode("rarity_bonus", bind = "mechanisms/grindstone.yml")
     val rarityBonus by conversion<ConfigurationSection, Map<String, Double>> {
         mapOf(*getKeys(false).map { it to getDouble(it) }.toTypedArray())
     }
 
-    @delegate:ConfigNode("privilege")
+    @delegate:ConfigNode("privilege", bind = "mechanisms/grindstone.yml")
     val privilege by conversion<List<String>, Map<String, String>> {
         mapOf(*map { it.split(":")[0] to it.split(":")[1] }.toTypedArray())
     }

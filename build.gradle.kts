@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     `maven-publish`
     java
-    id("io.izzel.taboolib") version "2.0.9"
+    id("io.izzel.taboolib") version "2.0.8"
     id("org.jetbrains.kotlin.jvm") version "1.8.22"
 }
 
@@ -21,11 +21,11 @@ subprojects {
         env {
             install(CHAT, CONFIGURATION, LANG, BUKKIT_ALL, NMS, NMS_UTIL, KETHER, UI)
             // 开启隔离类加载器
-            enableIsolatedClassloader = true
+            // enableIsolatedClassloader = true
         }
         version {
-            taboolib = "6.1.1-beta4"
-            skipKotlinRelocate = true
+            taboolib = "6.1.1-beta5"
+            // skipKotlinRelocate = true
         }
     }
 
