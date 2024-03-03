@@ -1,6 +1,6 @@
 #默认的格式，分为前部和后部
 format:
-  default_previous: "{enchant_display_roman}"
+  default_previous: "%icon% {enchant_display_roman}"
   default_subsequent: "\n§8| §7{description}"
 #剩余词条数显示
 capability_line: "§8| §7附魔词条数空余: §e{capability}"

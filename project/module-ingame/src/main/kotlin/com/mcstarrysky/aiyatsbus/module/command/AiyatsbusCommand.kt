@@ -84,10 +84,10 @@ fun CommandComponent.createTabooLegacyHelper() {
                 else if (command.hidden) continue
             }
             val name = command.aliases[0]
-            var usage = sender.asLangText("command-$name-usage")
+            var usage = sender.asLangText("command-subCommands-$name-usage")
             if (usage.isNotEmpty()) usage += " "
-            val description = sender.asLangText("command-$name-description")
-            text += sender.asLangText("command-sub", name to "name", description to "description", usage to "usage")
+            val description = sender.asLangText("command-subCommands-$name-description")
+            text += sender.asLangTextList("command-sub", name to "name", description to "description", usage to "usage")
         }
 
         sender.asLangTextList(
@@ -102,9 +102,9 @@ fun CommandComponent.createTabooLegacyHelper() {
             val input = ctx.args().first()
             val name = children.filterIsInstance<CommandComponentLiteral>()
                 .firstOrNull { it.aliases.contains(input) }?.aliases?.get(0) ?: input
-            var usage = sender.asLangText("command-$name-usage")
+            var usage = sender.asLangText("command-subCommands-$name-usage")
             if (usage.isNotEmpty()) usage += " "
-            val description = sender.asLangText("command-$name-description")
+            val description = sender.asLangText("command-subCommands-$name-description")
 
             when (state) {
                 // 缺参数

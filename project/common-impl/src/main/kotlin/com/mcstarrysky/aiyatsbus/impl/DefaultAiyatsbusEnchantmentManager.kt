@@ -2,6 +2,9 @@ package com.mcstarrysky.aiyatsbus.impl
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.unwatch
+import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.watch
+import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.io.newFolder
 import taboolib.common.io.runningResourcesInJar
@@ -12,6 +15,7 @@ import taboolib.common.platform.function.info
 import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.common.platform.function.releaseResourceFile
 import taboolib.module.configuration.Configuration
+import taboolib.platform.util.onlinePlayers
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 
@@ -26,6 +30,8 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
 
     private val BY_ID = ConcurrentHashMap<String, AiyatsbusEnchantment>()
     private val BY_NAME = ConcurrentHashMap<String, AiyatsbusEnchantment>()
+
+    private val FILES = ConcurrentHashMap<String, File>()
 
     override fun getByIDs(): Map<String, AiyatsbusEnchantment> {
         return BY_ID
@@ -52,7 +58,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
     override fun loadEnchantments() {
         clearEnchantments()
 
-        if (!File(getDataFolder(), "enchants").exists()) {
+        if (newFolder(getDataFolder(), "enchants").listFiles()?.none { it.isDirectory } == true) {
             runningResourcesInJar.keys.filter {
                 it.endsWith(".yml")
                         && it.startsWith("enchants/")
@@ -68,11 +74,29 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
             .forEach { file ->
                 val config = Configuration.loadFromFile(file)
                 val id = config["basic.id"].toString()
+
+                file.watch {
+                    val enchantName = BY_ID[id]?.basicData?.name
+                    Aiyatsbus.api().getEnchantmentRegisterer().unregister(BY_ID[id]!!)
+                    BY_ID.remove(id)
+                    BY_NAME.remove(enchantName)
+
+                    val enchant = AiyatsbusEnchantmentBase(id, Configuration.loadFromFile(it))
+                    val enchantment = Aiyatsbus.api().getEnchantmentRegisterer().register(enchant) as AiyatsbusEnchantment
+                    BY_ID[id] = enchantment
+                    BY_NAME[enchantment.basicData.name] = enchantment
+
+                    onlinePlayers.forEach(Player::updateInventory)
+
+                    info("Auto-reloaded changes for enchantment $id.")
+                }
+
                 val enchant = AiyatsbusEnchantmentBase(id, config)
                 val enchantment = Aiyatsbus.api().getEnchantmentRegisterer().register(enchant) as AiyatsbusEnchantment
 
                 BY_ID[id] = enchantment
                 BY_NAME[enchantment.basicData.name] = enchantment
+                FILES[id] = file
             }
 
         info("${BY_ID.size} enchantments loaded.")
@@ -84,6 +108,9 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
         }
         BY_ID.clear()
         BY_NAME.clear()
+
+        FILES.values.forEach { it.unwatch() }
+        FILES.clear()
     }
 
     companion object {
@@ -99,6 +126,11 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
             registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.ENCHANTMENT) {
                 Aiyatsbus.api().getEnchantmentManager().loadEnchantments()
             }
+        }
+
+        @Awake(LifeCycle.DISABLE)
+        fun unload() {
+            Aiyatsbus.api().getEnchantmentManager().clearEnchantments()
         }
     }
 }

@@ -27,31 +27,31 @@ object AnvilListener {
     lateinit var conf: Configuration
         private set
 
-    @ConfigNode("limit.unsafe_level")
+    @ConfigNode("limit.unsafe_level", bind = "mechanisms/anvil.yml")
     var allowUnsafeLevel = true
 
-    @ConfigNode("limit.unsafe_combine")
+    @ConfigNode("limit.unsafe_combine", bind = "mechanisms/anvil.yml")
     var allowUnsafeCombine = false
 
-    @ConfigNode("max_cost")
+    @ConfigNode("max_cost", bind = "mechanisms/anvil.yml")
     var maxCost = 100
 
-    @ConfigNode("rename_cost")
+    @ConfigNode("rename_cost", bind = "mechanisms/anvil.yml")
     var renameCost = 3
 
-    @ConfigNode("repair_cost")
+    @ConfigNode("repair_cost", bind = "mechanisms/anvil.yml")
     var repairCost = 5
 
-    @ConfigNode("enchant_cost.new_extra")
+    @ConfigNode("enchant_cost.new_extra", bind = "mechanisms/anvil.yml")
     var newEnchantExtraCost = 2
 
-    @ConfigNode("enchant_cost.per_level")
+    @ConfigNode("enchant_cost.per_level", bind = "mechanisms/anvil.yml")
     var enchantCostPerLevel = "6.0/{max_level}"
 
-    @ConfigNode("allow_different_material")
+    @ConfigNode("allow_different_material", bind = "mechanisms/anvil.yml")
     var allowDifferentMaterial = false
 
-    @delegate:ConfigNode("privilege")
+    @delegate:ConfigNode("privilege", bind = "mechanisms/anvil.yml")
     val privilege by conversion<List<String>, Map<String, String>> {
         mapOf(*toTypedArray().map { it.split(":")[0] to it.split(":")[1] }.toTypedArray())
     }
