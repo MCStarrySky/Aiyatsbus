@@ -25,6 +25,8 @@ class Chain(val enchant: AiyatsbusEnchantment, line: String) {
 
     //注意：这里的item一定要是原物品，不能是副本
     //前两个参数在ticker trigger时为空
+    //
+    // 一般返回布尔值, 像 OPERATION 可能会返回一个冒号分割的包含布尔值结果和调转行数的字符串, 需要手动读一下
     @Suppress("UNCHECKED_CAST")
     fun trigger(
         event: Event?,
@@ -33,7 +35,7 @@ class Chain(val enchant: AiyatsbusEnchantment, line: String) {
         item: ItemStack,
         sHolders: MutableMap<String, String>,
         fHolders: MutableMap<String, Pair<ObjectEntry<*>, String>>
-    ): Boolean {
+    ): String {
         //首先全部替换
         var variabled = content.replace(sHolders).replace(fHolders.mapValues { it.value.second })
 
@@ -67,7 +69,7 @@ class Chain(val enchant: AiyatsbusEnchantment, line: String) {
             //冷却::冷却时间(s):是否播报给玩家
             COOLDOWN -> {
                 if (entity !is Player)
-                    return true
+                    return true.toString()
 
                 val cdInSec = parts[0].toDouble()
                 val key = enchant.basicData.id
@@ -76,12 +78,17 @@ class Chain(val enchant: AiyatsbusEnchantment, line: String) {
                 val result = entity.checkCd(key, cdInSec)
                 if (!result.first) {
                     if (info) entity.sendLang("messages-misc-cool_down", result.second to "second")
-                    return false
+                    return false.toString()
                 }
                 entity.addCd(key)
             }
 
-            CONDITION -> return variabled.calcToBoolean()
+            // CONDITION -> return variabled.calcToBoolean()
+            CONDITION -> {
+                return if (parts.size == 1) variabled.calcToBoolean().toString()
+                else if (parts[1] != "-1") "${variabled.calcToBoolean()}:${parts[1].toInt()}"
+                else variabled.calcToBoolean().toString()
+            }
 
             ASSIGNMENT -> {
                 val tmp = enchant.variables
@@ -111,7 +118,7 @@ class Chain(val enchant: AiyatsbusEnchantment, line: String) {
                     val path = parts[0].split(".")
                     val obj = getObj(path)
                     val type = obj.first
-                    return type.m(type.d(obj.second), parts[1], parts.subList(2))
+                    return type.m(type.d(obj.second), parts[1], parts.subList(2)).toString()
                 }
             }
 
@@ -136,7 +143,7 @@ class Chain(val enchant: AiyatsbusEnchantment, line: String) {
                                 }
                             }
                             line.calcToBoolean()
-                        }
+                        }.toString()
                     }
 
                     "至少" -> {}
@@ -146,6 +153,6 @@ class Chain(val enchant: AiyatsbusEnchantment, line: String) {
 
             else -> {}
         }
-        return true
+        return true.toString()
     }
 }

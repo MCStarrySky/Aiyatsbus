@@ -2,9 +2,11 @@ package com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
+import com.mcstarrysky.aiyatsbus.core.data.VariableType
 import com.mcstarrysky.aiyatsbus.core.etLevel
 import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
 import com.mcstarrysky.aiyatsbus.core.util.calcToInt
+import com.mcstarrysky.aiyatsbus.core.util.replace
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.SplendidTrigger
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.Event
@@ -16,6 +18,8 @@ import taboolib.library.configuration.ConfigurationSection
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.chain.Chain
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.chain.ChainType
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.ObjectEntry
+import taboolib.common5.cbool
+import taboolib.common5.cint
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
@@ -69,9 +73,15 @@ class Listeners(val enchant: AiyatsbusEnchantment, val trigger: SplendidTrigger,
                     ChainType.END -> return
                     else -> {
                         val result = chain.trigger(event, eventType, entity, item, sHolders, fHolders)
-                        if (!result && chain.type == ChainType.COOLDOWN && chain.content.split(":").size > 1)
-                            next(chain.content.split(":")[1].calcToInt() - 1)
-                        if (result) next(tot + 1)
+                        if (chain.type == ChainType.OPERATION) {
+                            val parts = result.split(":")
+                            if (!parts[0].cbool) next(parts[1].cint - 1)
+                            else next(tot + 1)
+                        } else {
+                            if (!result.cbool && chain.type == ChainType.COOLDOWN && chain.content.split(":").size > 1)
+                                next(chain.content.split(":")[1].calcToInt() - 1)
+                            if (result.cbool) next(tot + 1)
+                        }
                     }
                 }
             }

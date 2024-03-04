@@ -10,6 +10,7 @@ import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.objItem
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.objLivingEntity
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.objString
+import taboolib.common5.cfloat
 import java.util.*
 
 object ObjectPlayer : ObjectEntry<Player>() {
@@ -21,6 +22,7 @@ object ObjectPlayer : ObjectEntry<Player>() {
     ): Boolean {
         objLivingEntity.modify(obj, cmd, params)
         when (cmd) {
+            "播放音乐" -> obj.playSound(obj.location, params[0], params[1].cfloat, params[2].cfloat)
             "设置飞行" -> obj.isFlying = params[0].calcToBoolean()
             "设置可飞行" -> obj.allowFlight = params[0].calcToBoolean()
             "扣除物品" -> return obj.takeItem(params[1, "1"].calcToInt()) { it.isSimilar(objItem.disholderize(params[0])) }

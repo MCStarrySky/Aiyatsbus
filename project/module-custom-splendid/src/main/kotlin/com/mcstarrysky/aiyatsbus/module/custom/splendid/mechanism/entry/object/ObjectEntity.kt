@@ -7,6 +7,7 @@ import taboolib.library.reflex.Reflex.Companion.invokeMethod
 import taboolib.module.nms.getI18nName
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.ObjectEntry
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.objString
+import taboolib.common5.cbool
 import taboolib.platform.util.sendLang
 import java.util.*
 
@@ -18,6 +19,7 @@ object ObjectEntity : ObjectEntry<Entity>() {
         params: List<String>
     ): Boolean {
         when (cmd) {
+            "设置下顿" -> obj.isSneaking = params[0].cbool
             "传送" -> obj.teleport(params[0].toLoc())
             "发送信息" -> {
                 val tmp = if (params.size > 1) {
@@ -34,6 +36,7 @@ object ObjectEntity : ObjectEntry<Entity>() {
 
     override fun get(from: Entity, objName: String): Pair<ObjectEntry<*>, Any?> {
         return when (objName) {
+            "在下蹲" -> objString.h(from.isSneaking)
             "下落高度" -> objString.h(from.fallDistance)
             "名称" -> objString.h(from.customName() ?: from.getI18nName())
             "在空中" -> objString.h(!from.isOnGround)

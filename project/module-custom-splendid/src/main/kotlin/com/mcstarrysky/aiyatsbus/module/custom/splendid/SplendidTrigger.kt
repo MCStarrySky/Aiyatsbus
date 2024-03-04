@@ -39,6 +39,7 @@ class SplendidTrigger(
                 "player" -> objPlayer
                 "item" -> objItem
                 "vector" -> objVector
+                "location" -> objLocation
                 else -> objString
             }
             val init = expression.toString().split("::")[1]
