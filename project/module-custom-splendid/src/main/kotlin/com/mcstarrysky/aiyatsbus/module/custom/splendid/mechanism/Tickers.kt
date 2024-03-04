@@ -3,6 +3,7 @@ package com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
+import com.mcstarrysky.aiyatsbus.core.data.VariableType
 import com.mcstarrysky.aiyatsbus.core.etLevel
 import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
@@ -26,6 +27,8 @@ import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.registerLifeCycleTask
+import taboolib.common5.cbool
+import taboolib.common5.cint
 import java.util.*
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
@@ -63,9 +66,20 @@ class Tickers(val enchant: AiyatsbusEnchantment, config: ConfigurationSection?) 
                 sHolders += enchant.variables.variables(item.etLevel(enchant), player, item, false)
                 fHolders["玩家"] = objPlayer.h(player)
 
-                if (chain.type == ChainType.DELAY) submit(delay = (chain.content.calcToDouble(sHolders) * 20).roundToLong()) { next(tot + 1) }
-                else if (chain.type == ChainType.GOTO) next(chain.content.calcToInt(sHolders) - 1)
-                else if (chain.trigger(null, null, player, item, sHolders, fHolders)) next(tot + 1)
+                when (chain.type) {
+                    ChainType.DELAY -> submit(delay = (chain.content.calcToDouble(sHolders) * 20).roundToLong()) { next(tot + 1) }
+                    ChainType.GOTO -> next(chain.content.calcToInt(sHolders) - 1)
+                    else -> {
+                        val result = chain.trigger(null, null, player, item, sHolders, fHolders)
+                        if (chain.type == ChainType.OPERATION) {
+                            val parts = result.split(":")
+                            if (!parts[0].cbool) next(parts[1].cint - 1)
+                            else next(tot + 1)
+                        } else {
+                            if (result.cbool) next(tot + 1)
+                        }
+                    }
+                }
             }
             next()
         }
@@ -112,7 +126,7 @@ class Tickers(val enchant: AiyatsbusEnchantment, config: ConfigurationSection?) 
                             slots.forEach slot@{ slot ->
                                 val item = player.inventory.getItem(slot)
                                 if (item.isNull) return@slot
-                                if (item!!.etLevel(enchant) > 0) {
+                                if (item.etLevel(enchant) > 0) {
                                     if (!enchant.limitations.checkAvailable(CheckType.USE, item, player, slot).first) return@slot
                                     flag = true
 

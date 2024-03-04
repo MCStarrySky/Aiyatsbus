@@ -11,6 +11,7 @@ object ObjectList : ObjectEntry<Pair<ObjectEntry<*>, List<String>>>() {
         objLivingEntity -> "living_entity"
         objPlayer -> "player"
         objVector -> "vector"
+        objLocation -> "location"
         else -> "string"
     } + ":[" + obj.second.joinToString(",") + "]"
 
@@ -23,6 +24,7 @@ object ObjectList : ObjectEntry<Pair<ObjectEntry<*>, List<String>>>() {
             "living_entity" -> objLivingEntity
             "player" -> objPlayer
             "vector" -> objVector
+            "location" -> objLocation
             else -> objString
         }
         return objEntry to parts[1].replace("[", "").replace("]", "").split(",")

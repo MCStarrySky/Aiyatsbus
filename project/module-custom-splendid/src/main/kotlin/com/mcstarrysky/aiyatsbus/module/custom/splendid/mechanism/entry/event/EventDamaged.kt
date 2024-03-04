@@ -1,12 +1,9 @@
 package com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.event
 
 import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
+import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.*
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.entity.EntityDamageEvent
-import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.EventEntry
-import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.ObjectEntry
-import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.objLivingEntity
-import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.objString
 
 object EventDamaged : EventEntry<EntityDamageEvent>() {
 

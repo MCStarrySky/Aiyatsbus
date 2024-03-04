@@ -1,14 +1,11 @@
 package com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.`object`
 
 import com.mcstarrysky.aiyatsbus.core.util.*
+import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.*
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.block.data.Ageable
 import taboolib.library.reflex.Reflex.Companion.invokeMethod
-import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.ObjectEntry
-import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.objBlock
-import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.objPlayer
-import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.objString
 
 object ObjectBlock : ObjectEntry<Block>() {
 
@@ -59,6 +56,7 @@ object ObjectBlock : ObjectEntry<Block>() {
             "类型" -> objString.h(from.type)
             "生物群系" -> objString.h(from.biome)
             "充能等级" -> objString.h(from.blockPower)
+            "位置" -> objLocation.h(from.location)
             "x" -> objString.h(from.x)
             "y" -> objString.h(from.y)
             "z" -> objString.h(from.z)
