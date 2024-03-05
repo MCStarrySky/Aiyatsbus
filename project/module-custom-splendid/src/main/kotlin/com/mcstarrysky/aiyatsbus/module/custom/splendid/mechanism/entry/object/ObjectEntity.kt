@@ -19,7 +19,7 @@ object ObjectEntity : ObjectEntry<Entity>() {
         params: List<String>
     ): Boolean {
         when (cmd) {
-            "设置下顿" -> obj.isSneaking = params[0].cbool
+            "设置下蹲" -> obj.isSneaking = params[0].cbool
             "传送" -> obj.teleport(params[0].toLoc())
             "发送信息" -> {
                 val tmp = if (params.size > 1) {
