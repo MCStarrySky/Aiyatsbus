@@ -71,10 +71,12 @@ class Tickers(val enchant: AiyatsbusEnchantment, config: ConfigurationSection?) 
                     ChainType.GOTO -> next(chain.content.calcToInt(sHolders) - 1)
                     else -> {
                         val result = chain.trigger(null, null, player, item, sHolders, fHolders, ench, level)
-                        if (chain.type == ChainType.OPERATION) {
+                        if (chain.type == ChainType.COOLDOWN) {
                             val parts = result.split(":")
-                            if (!parts[0].cbool) next(parts[1].cint - 1)
-                            else next(tot + 1)
+                            if (parts[0].cbool) next(tot + 1)
+                            else {
+                                if (parts.size == 2) next(parts[1].cint - 1)
+                            }
                         } else {
                             if (result.cbool) next(tot + 1)
                         }

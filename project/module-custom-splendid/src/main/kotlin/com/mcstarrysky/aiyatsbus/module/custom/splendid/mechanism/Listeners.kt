@@ -18,6 +18,7 @@ import taboolib.library.configuration.ConfigurationSection
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.chain.Chain
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.chain.ChainType
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.ObjectEntry
+import taboolib.common.platform.function.info
 import taboolib.common5.cbool
 import taboolib.common5.cint
 import kotlin.math.roundToInt
@@ -75,10 +76,13 @@ class Listeners(val enchant: AiyatsbusEnchantment, val trigger: SplendidTrigger,
                     ChainType.END -> return
                     else -> {
                         val result = chain.trigger(event, eventType, entity, item, sHolders, fHolders, ench, level)
-                        if (chain.type == ChainType.OPERATION) {
+                        println(result)
+                        if (chain.type == ChainType.CONDITION) {
                             val parts = result.split(":")
-                            if (!parts[0].cbool) next(parts[1].cint - 1)
-                            else next(tot + 1)
+                            if (parts[0].cbool) next(tot + 1)
+                            else {
+                                if (parts.size == 2) next(parts[1].cint - 1)
+                            }
                         } else {
                             if (!result.cbool && chain.type == ChainType.COOLDOWN && chain.content.split(":").size > 1)
                                 next(chain.content.split(":")[1].calcToInt() - 1)

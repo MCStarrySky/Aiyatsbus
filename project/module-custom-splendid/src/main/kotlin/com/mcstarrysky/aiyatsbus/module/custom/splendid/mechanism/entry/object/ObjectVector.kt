@@ -53,9 +53,6 @@ object ObjectVector : ObjectEntry<Vector>() {
     }
 
     override fun disholderize(holder: String): Vector {
-        // MCStarrySky - 这里没搞明白, 为什么不手动解析?
-        // val (x, y, z) = holder.removePrefix("向量=").split(',', limit = 3).map(String::cdouble)
-        // return Vector(x, y, z)
         val numbers = holder.numbers
         return Vector(numbers[0], numbers[1], numbers[2])
     }
