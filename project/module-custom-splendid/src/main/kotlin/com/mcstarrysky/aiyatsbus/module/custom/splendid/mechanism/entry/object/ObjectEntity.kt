@@ -36,6 +36,7 @@ object ObjectEntity : ObjectEntry<Entity>() {
 
     override fun get(from: Entity, objName: String): Pair<ObjectEntry<*>, Any?> {
         return when (objName) {
+            "所处世界" -> objString.h(from.world.name)
             "在下蹲" -> objString.h(from.isSneaking)
             "下落高度" -> objString.h(from.fallDistance)
             "名称" -> objString.h(from.customName() ?: from.getI18nName())

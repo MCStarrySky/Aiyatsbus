@@ -25,28 +25,29 @@ import taboolib.common.platform.function.warning
 object FastMultiBreak {
 
     fun breakExtraBlock(player: Player, block: Block, ench: AiyatsbusEnchantment? = null, level: Int? = null) {
-        try {
-            if (AiyatsbusBlockBreakEvent(player, block, ench, level).call()) {
+        if (AiyatsbusBlockBreakEvent(player, block, ench, level).call()) {
+            println(1)
+            try {
                 BlockBreak.breakExtra(block)
                 player.breakBlock(block)
-                BlockBreak.extraBlocks -= block.location.serialized
-            }
-        } catch (ex: Throwable) {
-            ex.printStackTrace()
-        } finally {
-            if (block.type != Material.AIR) {
-                if (AiyatsbusSettings.supportItemsAdder && itemsAdderEnabled) {
-                    if (CustomBlock.byAlreadyPlaced(block) != null) {
-                        CustomBlock.getLoot(block, player.inventory.itemInMainHand, true).forEach {
-                            player.world.dropItem(block.location, it)
+            } catch (ex: Throwable) {
+                ex.printStackTrace()
+            } finally {
+                if (block.type != Material.AIR) {
+                    if (AiyatsbusSettings.supportItemsAdder && itemsAdderEnabled) {
+                        if (CustomBlock.byAlreadyPlaced(block) != null) {
+                            CustomBlock.getLoot(block, player.inventory.itemInMainHand, true).forEach {
+                                player.world.dropItem(block.location, it)
+                            }
+                            CustomBlock.remove(block.location)
+                        } else {
+                            block.breakNaturally(player.inventory.itemInMainHand)
                         }
-                        CustomBlock.remove(block.location)
                     } else {
                         block.breakNaturally(player.inventory.itemInMainHand)
                     }
-                } else {
-                    block.breakNaturally(player.inventory.itemInMainHand)
                 }
+                BlockBreak.extraBlocks -= block.location.serialized
             }
         }
     }
@@ -55,6 +56,7 @@ object FastMultiBreak {
         submit(delay = 0L, period = 0L) {
             for (i in 0 until speed) {
                 val loc = breaks.firstOrNull()
+                println(loc)
                 if (loc == null) {
                     cancel()
                     continue
@@ -70,6 +72,8 @@ object FastMultiBreak {
                 }
 
                 if (!PermissionChecker.hasBlockPermission(player, block)) continue
+
+                println("break")
 
                 breakExtraBlock(player, block, ench, level)
             }

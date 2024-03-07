@@ -4,6 +4,7 @@ import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
 import com.mcstarrysky.aiyatsbus.core.util.serialized
 import com.mcstarrysky.aiyatsbus.core.util.toLoc
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.ObjectEntry
+import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.objBlock
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.objLocation
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.objString
 import org.bukkit.Location
@@ -27,6 +28,7 @@ object ObjectLocation : ObjectEntry<Location>() {
 
     override fun get(from: Location, objName: String): Pair<ObjectEntry<*>, Any?> {
         return when (objName) {
+            "方块" -> objBlock.h(from.block)
             "克隆" -> objLocation.h(from.clone())
             else -> objString.h("?")
         }
