@@ -2,6 +2,7 @@ package com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.operati
 
 import com.mcstarrysky.aiyatsbus.core.util.PermissionChecker
 import com.mcstarrysky.aiyatsbus.core.util.blockLookingAt
+import com.mcstarrysky.aiyatsbus.core.util.placeBlock
 import org.bukkit.Material
 import org.bukkit.block.data.Ageable
 import org.bukkit.entity.Player
@@ -10,7 +11,7 @@ import taboolib.platform.util.takeItem
 
 object Plant {
 
-    val seedsMap = mapOf(
+    val seedsMap = linkedMapOf(
         Material.BEETROOT_SEEDS to Material.BEETROOTS,
         Material.MELON_SEEDS to Material.MELON_STEM,
         Material.PUMPKIN_SEEDS to Material.PUMPKIN_STEM,
@@ -48,11 +49,13 @@ object Plant {
                 if (!PermissionChecker.hasBlockPermission(player, planted))
                     continue
                 if (planted.type != Material.AIR) continue
-                planted.type = seedsMap[type]!!
-                val data = planted.blockData as Ageable
-                data.age = 0
-                planted.blockData = data
-                player.inventory.takeItem(1) { it.type == type }
+                if (player.placeBlock(planted, ItemStack(type, 1))) {
+                    planted.type = seedsMap[type]!!
+                    val data = planted.blockData as Ageable
+                    data.age = 0
+                    planted.blockData = data
+                    player.inventory.takeItem(1) { it.type == type }
+                }
             }
         }
     }

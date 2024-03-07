@@ -49,7 +49,7 @@ class Tickers(val enchant: AiyatsbusEnchantment, config: ConfigurationSection?) 
         }
     }
 
-    fun trigger(player: Player, item: ItemStack, mode: Mode) {
+    fun trigger(player: Player, item: ItemStack, mode: Mode, ench: AiyatsbusEnchantment? = null, level: Int? = null) {
         when (mode) {
             BEFORE -> beforeById
             AFTER -> afterById
@@ -70,7 +70,7 @@ class Tickers(val enchant: AiyatsbusEnchantment, config: ConfigurationSection?) 
                     ChainType.DELAY -> submit(delay = (chain.content.calcToDouble(sHolders) * 20).roundToLong()) { next(tot + 1) }
                     ChainType.GOTO -> next(chain.content.calcToInt(sHolders) - 1)
                     else -> {
-                        val result = chain.trigger(null, null, player, item, sHolders, fHolders)
+                        val result = chain.trigger(null, null, player, item, sHolders, fHolders, ench, level)
                         if (chain.type == ChainType.OPERATION) {
                             val parts = result.split(":")
                             if (!parts[0].cbool) next(parts[1].cint - 1)
@@ -132,15 +132,15 @@ class Tickers(val enchant: AiyatsbusEnchantment, config: ConfigurationSection?) 
 
                                     if (!set.contains(id)) {
                                         set += pair.second
-                                        trigger.tickers.trigger(player, item, BEFORE)
+                                        trigger.tickers.trigger(player, item, BEFORE, enchant, item.etLevel(enchant))
 
                                     }
-                                    trigger.tickers.trigger(player, item, NORMAL)
+                                    trigger.tickers.trigger(player, item, NORMAL, enchant)
                                 }
                             }
                             if (!flag && set.contains(id)) {
                                 set -= pair.second
-                                trigger.tickers.trigger(player, ItemStack(Material.STONE), AFTER)
+                                trigger.tickers.trigger(player, ItemStack(Material.STONE), AFTER, enchant)
                             }
                         }
                     }

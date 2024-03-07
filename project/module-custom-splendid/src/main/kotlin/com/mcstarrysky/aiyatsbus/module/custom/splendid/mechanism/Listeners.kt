@@ -49,7 +49,9 @@ class Listeners(val enchant: AiyatsbusEnchantment, val trigger: SplendidTrigger,
         priority: EventPriority,
         entity: LivingEntity,
         item: ItemStack,
-        slot: EquipmentSlot
+        slot: EquipmentSlot,
+        ench: AiyatsbusEnchantment? = null,
+        level: Int? = null
     ) {
         if (!enchant.limitations.checkAvailable(CheckType.USE, item, entity, slot).first) return
 
@@ -72,7 +74,7 @@ class Listeners(val enchant: AiyatsbusEnchantment, val trigger: SplendidTrigger,
                     ChainType.GOTO -> next(chain.content.calcToInt(sHolders) - 1)
                     ChainType.END -> return
                     else -> {
-                        val result = chain.trigger(event, eventType, entity, item, sHolders, fHolders)
+                        val result = chain.trigger(event, eventType, entity, item, sHolders, fHolders, ench, level)
                         if (chain.type == ChainType.OPERATION) {
                             val parts = result.split(":")
                             if (!parts[0].cbool) next(parts[1].cint - 1)

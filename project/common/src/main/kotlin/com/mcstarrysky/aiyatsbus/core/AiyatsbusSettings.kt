@@ -62,6 +62,12 @@ object AiyatsbusSettings {
     val antiIllegalItemCheckList by conversion<List<String>, List<LimitType>> {
         toTypedArray().map(LimitType::valueOf)
     }
+
+    /**
+     * 是否开启 ItemsAdder 支持
+     */
+    @ConfigNode("Settings.support-items-adder")
+    val supportItemsAdder = false
 }
 
 const val AIYATSBUS_PREFIX = "&8[&{#D8D8FA}Aiyatsbus&8] &7"
