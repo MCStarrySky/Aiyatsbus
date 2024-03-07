@@ -117,3 +117,5 @@ fun ItemStack.serializeToBase64(): String {
 fun String.deserializeItemStackFromBase64(): ItemStack {
     return Base64.getDecoder().decode(this).deserializeToItemStack()
 }
+
+val itemsAdderEnabled = runCatching { Class.forName("dev.lone.itemsadder.api.ItemsAdder") }.isSuccess

@@ -14,6 +14,7 @@ import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.objItem
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.objString
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.operation.Broadcast
+import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.operation.FastMultiBreak
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.operation.Plant
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.operation.Println
 import taboolib.platform.util.sendLang
@@ -34,7 +35,9 @@ class Chain(val enchant: AiyatsbusEnchantment, line: String) {
         entity: LivingEntity,
         item: ItemStack,
         sHolders: MutableMap<String, String>,
-        fHolders: MutableMap<String, Pair<ObjectEntry<*>, String>>
+        fHolders: MutableMap<String, Pair<ObjectEntry<*>, String>>,
+        ench: AiyatsbusEnchantment? = null,
+        level: Int? = null
     ): String {
         //首先全部替换
         var variabled = content.replace(sHolders).replace(fHolders.mapValues { it.value.second })
@@ -104,6 +107,7 @@ class Chain(val enchant: AiyatsbusEnchantment, line: String) {
                 "plant", "播种" -> submit submit@{ Plant.plant(toPlayer ?: return@submit, parts[1].toInt(), parts[2]) }
                 "println", "控制台输出" -> Println.println(entity, parts.subList(1).joinToString(""))
                 "broadcast", "播报" -> Broadcast.broadcast(parts.subList(1).joinToString(""))
+                "fastMultiBreak", "快速破坏" -> FastMultiBreak.fastMultiBreak(toPlayer ?: return false.toString(), parts[2].split(parts[3]).map(String::toLoc).toMutableList(), parts[4].toInt(), ench, level)
                 else -> {}
             }
 

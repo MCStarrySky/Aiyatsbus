@@ -26,14 +26,9 @@ fun EventType.triggerEts(
         if (item.isNull) return@forEach
 
         item.fixedEnchants.forEach { enchantPair ->
-            (enchantPair.key.trigger as? SplendidTrigger ?: return).listeners.trigger(
-                event,
-                this,
-                priority,
-                entity,
-                item,
-                it
-            )
+            (enchantPair.key.trigger as? SplendidTrigger ?: return)
+                .listeners
+                .trigger(event, this, priority, entity, item, it, enchantPair.key, enchantPair.value)
         }
     }
 }

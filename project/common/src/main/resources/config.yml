@@ -21,3 +21,5 @@ Settings:
       - MAX_CAPABILITY
       - CONFLICT_GROUP
       - CONFLICT_ENCHANT
+  # 是否开启 ItemsAdder 支持
+  support-items-adder: false

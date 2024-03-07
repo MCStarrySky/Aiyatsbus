@@ -75,4 +75,4 @@ mechanisms:
         - "跳转::9"
         - "赋值::临时X:{临时X}+1"
         - "跳转::7"
-        - "操作::fastMultiBreak:{破坏者}:{破坏位置}:{速度}:blast_mining:{level}"
+        - "操作::fastMultiBreak:{破坏者}:{破坏位置}:,:{速度}"
