@@ -3,6 +3,13 @@ package com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.interna
 import com.google.common.collect.HashBiMap
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.ObjectEntry.Companion.getObject
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.`object`.*
+import org.bukkit.Location
+import org.bukkit.block.Block
+import org.bukkit.entity.Entity
+import org.bukkit.entity.LivingEntity
+import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
+import org.bukkit.util.Vector
 
 @Suppress("UNCHECKED_CAST")
 abstract class ObjectEntry<E> : Entry() {
@@ -60,13 +67,13 @@ abstract class ObjectEntry<E> : Entry() {
     }
 }
 
-internal val objString = getObject<ObjectString>("string")
+internal val objString = getObject<String>("string") as ObjectString
 
-internal val objBlock = getObject<ObjectBlock>("block")
-internal val objEntity = getObject<ObjectEntity>("entity")
-internal val objLivingEntity = getObject<ObjectLivingEntity>("living_entity")
-internal val objPlayer = getObject<ObjectPlayer>("player")
-internal val objItem = getObject<ObjectItem>("item")
-internal val objVector = getObject<ObjectVector>("vector")
-internal val objList = getObject<ObjectList>("list")
-internal val objLocation = getObject<ObjectLocation>("location")
+internal val objBlock = getObject<Block>("block") as ObjectBlock
+internal val objEntity = getObject<Entity>("entity") as ObjectEntity
+internal val objLivingEntity = getObject<LivingEntity>("living_entity") as ObjectLivingEntity
+internal val objPlayer = getObject<Player>("player") as ObjectPlayer
+internal val objItem = getObject<ItemStack>("item") as ObjectItem
+internal val objVector = getObject<Vector>("vector") as ObjectVector
+internal val objList = getObject<Pair<ObjectEntry<*>, MutableList<String>>>("list") as ObjectList
+internal val objLocation = getObject<Location>("location") as ObjectLocation
