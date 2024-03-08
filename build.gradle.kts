@@ -24,7 +24,7 @@ subprojects {
             // enableIsolatedClassloader = true
         }
         version {
-            taboolib = "6.1.1-beta5"
+            taboolib = "6.1.1-beta6"
             // skipKotlinRelocate = true
         }
     }
