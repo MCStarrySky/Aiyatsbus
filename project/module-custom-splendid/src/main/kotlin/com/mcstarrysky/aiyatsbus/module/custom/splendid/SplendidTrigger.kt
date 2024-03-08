@@ -32,16 +32,7 @@ class SplendidTrigger(
 
     override fun initialize() {
         config.getConfigurationSection("variables")?.getConfigurationSection("flexible").asMap().forEach { (variable, expression) ->
-            val type = when (expression.toString().split("::")[0]) {
-                "block" -> objBlock
-                "entity" -> objEntity
-                "living_entity" -> objLivingEntity
-                "player" -> objPlayer
-                "item" -> objItem
-                "vector" -> objVector
-                "location" -> objLocation
-                else -> objString
-            }
+            val type = ObjectEntry.registeredRegistries[expression.toString().split("::")[0]] ?: objString
             val init = expression.toString().split("::")[1]
             flexible[variable] = type to init
             enchant.variables.variables[variable] = VariableType.FLEXIBLE

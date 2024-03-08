@@ -18,9 +18,4 @@ operator fun <T> List<T>.get(index: Int, default: T) = getOrElse(index) { defaul
 
 val number = "(-?\\d+)(\\.\\d+)?".toRegex()
 
-// ()
-val parenthese = "/\\((.+?)\\)/g".toRegex()
-
 val String.numbers get() = number.findAll(this).toList().map { it.value.cdouble }
-
-val String.parentheses get() = parenthese.findAll(this).toList().map { it.value }
