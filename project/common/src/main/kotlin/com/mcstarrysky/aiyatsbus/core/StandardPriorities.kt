@@ -11,7 +11,7 @@ object StandardPriorities {
 
     const val RARITY = 0
     const val TARGET = 1
-    const val TICKERS = 2
+    const val EVENT_EXECUTORS = 2
     const val EXPANSIONS = 3
     const val ENCHANTMENT = 4
     const val GROUP = 5

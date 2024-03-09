@@ -33,6 +33,8 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
         nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
     }
 
+    private val ketherHandler = PlatformFactory.getAPI<AiyatsbusKetherHandler>()
+
     override fun getEnchantmentFilter(): AiyatsbusEnchantmentFilter {
         return enchantmentFilter
     }
@@ -43,6 +45,10 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
     override fun getEnchantmentRegisterer(): AiyatsbusEnchantmentRegisterer {
         return enchantmentRegisterer
+    }
+
+    override fun getKetherHandler(): AiyatsbusKetherHandler {
+        return ketherHandler
     }
 
     override fun getDisplayManager(): AiyatsbusDisplayManager {

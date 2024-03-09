@@ -27,6 +27,11 @@ interface AiyatsbusAPI {
     fun getEnchantmentRegisterer(): AiyatsbusEnchantmentRegisterer
 
     /**
+     * 获取 Kether 处理接口
+     */
+    fun getKetherHandler(): AiyatsbusKetherHandler
+
+    /**
      * 获取附魔展示接口
      */
     fun getDisplayManager(): AiyatsbusDisplayManager

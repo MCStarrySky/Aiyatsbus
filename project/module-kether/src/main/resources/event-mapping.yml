@@ -1,0 +1,11 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+# 事件映射文件
+# 别名 -> 事件全类名
+
+mappings:
+  # 破坏方块事件
+  block-break: 'org.bukkit.event.block.BlockBreakEvent'
