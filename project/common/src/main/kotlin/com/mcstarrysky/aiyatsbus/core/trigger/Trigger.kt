@@ -10,20 +10,20 @@ import java.util.concurrent.ConcurrentHashMap
  * @author mical
  * @since 2024/3/9 18:36
  */
-data class Trigger(private val section: ConfigurationSection) {
+data class Trigger(private val section: ConfigurationSection?) {
 
-    lateinit var listeners: ConcurrentHashMap<String, EventExecutor>
+    val listeners: ConcurrentHashMap<String, EventExecutor> = ConcurrentHashMap()
 
     init {
         loadListeners()
     }
 
     fun loadListeners() {
-        if (::listeners.isInitialized) listeners.clear()
+        listeners.clear()
 
-        section.getConfigurationSection("listeners")?.let { listenersSection ->
-            listeners = ConcurrentHashMap(listenersSection.getKeys(false)
-                .associateWith { EventExecutor.load(listenersSection.getConfigurationSection(it)!!) })
+        section?.getConfigurationSection("listeners")?.let { listenersSection ->
+            listeners += listenersSection.getKeys(false)
+                .associateWith { EventExecutor.load(listenersSection.getConfigurationSection(it)!!) }
         }
     }
 }
