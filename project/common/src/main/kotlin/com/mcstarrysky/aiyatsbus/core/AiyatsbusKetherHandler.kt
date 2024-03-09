@@ -15,5 +15,5 @@ interface AiyatsbusKetherHandler {
     /**
      * 执行 Kether 脚本
      */
-    fun invoke(source: String, player: Player?): CompletableFuture<Any?>
+    fun invoke(source: String, player: Player?, variables: Map<String, Any?> = emptyMap()): CompletableFuture<Any?>
 }

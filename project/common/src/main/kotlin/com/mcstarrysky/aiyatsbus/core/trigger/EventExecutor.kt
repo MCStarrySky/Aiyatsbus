@@ -49,9 +49,13 @@ data class EventExecutor(
     @Transient
     private lateinit var proxyListener: ProxyListener
 
+    init {
+        registerListener()
+    }
+
     fun registerListener() {
         val listen = mappings[listen] ?: listen
-        registerBukkitListener(Class.forName(listen), eventPriority, ignoreCancelled ?: false) {
+        proxyListener = registerBukkitListener(Class.forName(listen), eventPriority, ignoreCancelled ?: false) {
             val event = it as? Event ?: return@registerBukkitListener
             /* 特殊事件处理 */
             when (event) {
@@ -86,7 +90,13 @@ data class EventExecutor(
                 }
             }
 
-            Aiyatsbus.api().getKetherHandler().invoke(handle, player as? Player)
+            Aiyatsbus.api().getKetherHandler().invoke(handle, player as? Player, variables = mapOf(
+                "@Event" to event,
+                "event" to event,
+                "@Player" to player,
+                "player" to player,
+                "playerName" to player?.name
+            ))
         }
     }
 

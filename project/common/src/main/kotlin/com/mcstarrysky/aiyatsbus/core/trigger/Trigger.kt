@@ -26,4 +26,9 @@ data class Trigger(private val section: ConfigurationSection?) {
                 .associateWith { EventExecutor.load(listenersSection.getConfigurationSection(it)!!) }
         }
     }
+
+    fun onDisable() {
+        listeners.values.forEach { it.unregisterListener() }
+        listeners.clear()
+    }
 }
