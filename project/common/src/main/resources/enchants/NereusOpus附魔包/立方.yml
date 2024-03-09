@@ -21,63 +21,26 @@ display:
     specific: "§7每次可以挖掘§a{X轴上范围}*{Y轴上范围}*{Z轴上范围}§7范围的方块"
 
 variables:
-  flexible:
-    临时X: "int::0"
-    临时Y: "int::0"
-    临时Z: "int::0"
-    破坏位置: "list::位置:[]"
-    临时位置: "location::位置=world,0,0,0"
-    是否在黑名单: "boolean::false"
-    没通过硬度检测: "boolean::false"
   leveled:
-    X轴上范围: "格:{level}+1"
-    Y轴上范围: "格:{level}+1"
-    Z轴上范围: "格:{level}+1"
+    rangeX: "格:{level}+1"
+    rangeY: "格:{level}+1"
+    rangeZ: "格:{level}+1"
   ordinary:
-    速度: 12
-    下蹲时不触发: true
-    硬度检测: BEDROCK,OBSIDIAN
-    黑名单: SKELETON_SKULL,WITHER_SKELETON_SKULL,CREEPER_HEAD,CREEPER_WALL_HEAD,PIGLIN_HEAD,PIGLIN_WALL_HEAD,PLAYER_HEAD,PLAYER_WALL_HEAD,ZOMBIE_HEAD,ZOMBIE_WALL_HEAD
+    per-tick: 12
+    disable-on-sneaking: true
+    hardness-check: BEDROCK,OBSIDIAN
+    blacklist: SKELETON_SKULL,WITHER_SKELETON_SKULL,CREEPER_HEAD,CREEPER_WALL_HEAD,PIGLIN_HEAD,PIGLIN_WALL_HEAD,PLAYER_HEAD,PLAYER_WALL_HEAD,ZOMBIE_HEAD,ZOMBIE_WALL_HEAD
 
 mechanisms:
   listeners:
-    break:
-      type: BREAK
-      chains:
-        - "赋值::临时X:-{X轴上范围}+1"
-        - "赋值::临时Y:-{Y轴上范围}+1"
-        - "赋值::临时Z:-{Z轴上范围}+1"
-        - "条件::{破坏者.在下蹲}:开始循环"
-        - "条件::{下蹲时不触发}:开始循环"
-        - "终止"
-        - "锚点::开始循环"
-        - "条件::{临时X}<{X轴上范围}:处理挖掘"
-        - "赋值::临时Y:-{Y轴上范围}+1"
-        - "锚点::循环Y轴"
-        - "条件::{临时Y}<{Y轴上范围}:临时X自增"
-        - "赋值::临时Z:-{Z轴上范围}+1"
-        - "锚点::循环Z轴"
-        - "条件::{临时Z}<{Z轴上范围}:临时Y自增"
-        - "赋值::临时位置:{方块.位置}"
-        - "对象::临时位置:加:{临时X}:{临时Y}:{临时Z}"
-        - "赋值::是否在黑名单:{黑名单.包含元素({临时位置.方块.类型})}"
-        - "条件::{是否在黑名单}:硬度检测"
-        - "赋值::临时Z:{临时Z}+1"
-        - "跳转::循环Z轴"
-        - "锚点::硬度检测"
-        - "赋值::没通过硬度检测:{硬度检测}~>{临时位置.方块.类型}"
-        - "条件::{临时位置.方块.类型}==AIR||{没通过硬度检测}:添加位置"
-        - "赋值::临时Z:{临时Z}+1"
-        - "跳转::循环Z轴"
-        - "锚点::添加位置"
-        - "对象::破坏位置:添加元素:{破坏者.所处世界},{临时位置.x取整},{临时位置.y取整},{临时位置.z取整}"
-        - "赋值::临时Z:{临时Z}+1"
-        - "跳转::循环Z轴"
-        - "锚点::临时Y自增"
-        - "赋值::临时Y:{临时Y}+1"
-        - "跳转::循环Y轴"
-        - "锚点::临时X自增"
-        - "赋值::临时X:{临时X}+1"
-        - "跳转::开始循环"
-        - "锚点::处理挖掘"
-        - "操作::fastMultiBreak:{破坏位置}:{速度}"
+    on-break:
+      listen: "block-break"
+      handle: |-
+        set world to &event[block.world]
+        set x to type int &event[block.x]
+        set y to type int &event[block.y]
+        set z to type int &event[block.z]
+        
+        print x
+        print y
+        print z

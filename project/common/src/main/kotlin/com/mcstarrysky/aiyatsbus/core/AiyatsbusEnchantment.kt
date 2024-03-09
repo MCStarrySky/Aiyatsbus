@@ -2,6 +2,7 @@ package com.mcstarrysky.aiyatsbus.core
 
 import com.mcstarrysky.aiyatsbus.core.data.*
 import com.mcstarrysky.aiyatsbus.core.data.Target
+import com.mcstarrysky.aiyatsbus.core.trigger.Trigger
 import com.mcstarrysky.aiyatsbus.core.util.roman
 import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
@@ -69,6 +70,11 @@ interface AiyatsbusEnchantment {
      * 附魔限制
      */
     val limitations: Limitations
+
+    /**
+     * 附魔的触发器
+     */
+    val trigger: Trigger
 
     fun conflictsWith(other: Enchantment): Boolean {
         return false

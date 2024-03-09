@@ -2,6 +2,7 @@ package com.mcstarrysky.aiyatsbus.core
 
 import com.mcstarrysky.aiyatsbus.core.data.*
 import com.mcstarrysky.aiyatsbus.core.data.Target
+import com.mcstarrysky.aiyatsbus.core.trigger.Trigger
 import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import taboolib.module.configuration.Configuration
@@ -35,4 +36,6 @@ class AiyatsbusEnchantmentBase(
     override val targets: List<Target> = config.getStringList("targets").mapNotNull { t -> Target.targets.values.firstOrNull { it.name == t } ?: Target.targets[t] }
 
     override val limitations: Limitations = Limitations(this, config.getStringList("limitations"))
+
+    override val trigger: Trigger = Trigger(config.getConfigurationSection("mechanisms")!!)
 }
