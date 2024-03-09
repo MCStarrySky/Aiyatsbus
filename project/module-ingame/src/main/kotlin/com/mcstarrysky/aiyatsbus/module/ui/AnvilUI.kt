@@ -2,7 +2,6 @@ package com.mcstarrysky.aiyatsbus.module.ui
 
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.fixedEnchants
-import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.module.ui.internal.MenuComponent
 import com.mcstarrysky.aiyatsbus.module.ui.internal.config.MenuConfiguration

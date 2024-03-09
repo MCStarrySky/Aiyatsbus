@@ -27,11 +27,6 @@ interface AiyatsbusAPI {
     fun getEnchantmentRegisterer(): AiyatsbusEnchantmentRegisterer
 
     /**
-     * 获取拓展接口
-     */
-    fun getExpansionManager(): AiyatsbusExpansionManager
-
-    /**
      * 获取附魔展示接口
      */
     fun getDisplayManager(): AiyatsbusDisplayManager

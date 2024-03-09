@@ -23,8 +23,6 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
     private val enchantmentManager = PlatformFactory.getAPI<AiyatsbusEnchantmentManager>()
 
-    private val expansionManager = PlatformFactory.getAPI<AiyatsbusExpansionManager>()
-
     private val displayManager = PlatformFactory.getAPI<AiyatsbusDisplayManager>()
 
     private val playerDataHandler = PlatformFactory.getAPI<AiyatsbusPlayerDataHandler>()
@@ -45,10 +43,6 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
     override fun getEnchantmentRegisterer(): AiyatsbusEnchantmentRegisterer {
         return enchantmentRegisterer
-    }
-
-    override fun getExpansionManager(): AiyatsbusExpansionManager {
-        return expansionManager
     }
 
     override fun getDisplayManager(): AiyatsbusDisplayManager {

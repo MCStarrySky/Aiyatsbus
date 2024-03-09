@@ -1,7 +1,7 @@
 package com.mcstarrysky.aiyatsbus.core.data
 
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
-import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import org.bukkit.Material
 import org.bukkit.inventory.EquipmentSlot
 import taboolib.common.LifeCycle

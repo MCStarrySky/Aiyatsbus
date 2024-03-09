@@ -1,7 +1,7 @@
 package com.mcstarrysky.aiyatsbus.core.data
 
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
-import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.registerLifeCycleTask
