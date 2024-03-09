@@ -1,8 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.ui
 
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
-import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
-import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadables
+import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.module.ui.internal.*
 import com.mcstarrysky.aiyatsbus.module.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ui.internal.feature.util.MenuFunctionBuilder

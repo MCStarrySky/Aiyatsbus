@@ -6,7 +6,6 @@ import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.etsAvailable
 import com.mcstarrysky.aiyatsbus.core.fixedEnchants
-import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
 import com.mcstarrysky.aiyatsbus.module.ui.internal.*
 import com.mcstarrysky.aiyatsbus.module.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ui.internal.feature.util.MenuFunctionBuilder

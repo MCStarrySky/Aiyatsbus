@@ -1,7 +1,7 @@
 package com.mcstarrysky.aiyatsbus.impl
 
 import com.mcstarrysky.aiyatsbus.core.*
-import com.mcstarrysky.aiyatsbus.core.mechanism.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.unwatch
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.watch
 import org.bukkit.entity.Player

@@ -1,4 +1,3 @@
-
 basic:
   enable: true
   disable_worlds: [ ]

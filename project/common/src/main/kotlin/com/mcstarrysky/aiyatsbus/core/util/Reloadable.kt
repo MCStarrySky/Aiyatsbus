@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.core.mechanism
+package com.mcstarrysky.aiyatsbus.core.util
 
 import com.google.common.collect.HashMultimap
 import com.google.common.collect.Multimap

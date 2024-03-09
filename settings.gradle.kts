@@ -11,9 +11,7 @@ include("project:common-impl-v12004-vanilla")
 include("project:common-impl-nms")
 // 运行平台
 include("project:module-bukkit")
-// 自定义附魔触发器
-include("project:module-custom-expansion")
-include("project:module-custom-kotlin-script")
-include("project:module-custom-splendid")
 // 玩家交互代码
 include("project:module-ingame")
+// 脚本
+include("project:module-kether")
