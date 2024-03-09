@@ -104,6 +104,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
 
     override fun clearEnchantments() {
         for (enchant in BY_ID.values) {
+            enchant.trigger.onDisable()
             Aiyatsbus.api().getEnchantmentRegisterer().unregister(enchant)
         }
         BY_ID.clear()
