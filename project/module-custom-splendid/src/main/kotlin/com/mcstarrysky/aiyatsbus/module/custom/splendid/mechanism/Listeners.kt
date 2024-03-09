@@ -6,6 +6,7 @@ import com.mcstarrysky.aiyatsbus.core.data.VariableType
 import com.mcstarrysky.aiyatsbus.core.etLevel
 import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
 import com.mcstarrysky.aiyatsbus.core.util.calcToInt
+import com.mcstarrysky.aiyatsbus.core.util.calculate
 import com.mcstarrysky.aiyatsbus.core.util.replace
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.SplendidTrigger
 import org.bukkit.entity.LivingEntity
@@ -18,9 +19,9 @@ import taboolib.library.configuration.ConfigurationSection
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.chain.Chain
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.chain.ChainType
 import com.mcstarrysky.aiyatsbus.module.custom.splendid.mechanism.entry.internal.ObjectEntry
-import taboolib.common.platform.function.info
 import taboolib.common5.cbool
 import taboolib.common5.cint
+import taboolib.module.kether.isInt
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
@@ -72,16 +73,29 @@ class Listeners(val enchant: AiyatsbusEnchantment, val trigger: SplendidTrigger,
 
                 when (chain.type) {
                     ChainType.DELAY -> submit(delay = (chain.content.calcToDouble(sHolders) * 20).roundToLong()) { next(tot + 1) }
-                    ChainType.GOTO -> next(chain.content.calcToInt(sHolders) - 1)
+                    ChainType.GOTO -> {
+                        val calc = chain.content.calculate(sHolders)
+                        if (calc.isInt()) {
+                            next(chain.content.calcToInt(sHolders) - 1)
+                        } else {
+                            next(chains.indexOf(chains.find { it.type == ChainType.ANCHOR && it.content == calc }))
+                        }
+                    }
                     ChainType.END -> return
                     else -> {
                         val result = chain.trigger(event, eventType, entity, item, sHolders, fHolders, ench, level)
-                        println(result)
                         if (chain.type == ChainType.CONDITION) {
                             val parts = result.split(":")
                             if (parts[0].cbool) next(tot + 1)
                             else {
-                                if (parts.size == 2) next(parts[1].cint - 1)
+                                if (parts.size == 2) {
+                                    val goto = parts[1].calculate(sHolders)
+                                    if (goto.isInt()) {
+                                        next(goto.cint - 1)
+                                    } else {
+                                        next(chains.indexOf(chains.find { it.type == ChainType.ANCHOR && it.content == goto }))
+                                    }
+                                }
                             }
                         } else {
                             if (!result.cbool && chain.type == ChainType.COOLDOWN && chain.content.split(":").size > 1)

@@ -29,11 +29,12 @@ object ObjectList : ObjectEntry<Pair<ObjectEntry<*>, MutableList<String>>>() {
     }
 
     override fun holderize(obj: Pair<ObjectEntry<*>, MutableList<String>>) =
-        this to registeredRegistries.inverse()[obj.first] + ":[" + obj.second.joinToString(",") + "]"
+        this to registeredRegistries.inverse()[obj.first] + ":[" + obj.second.joinToString(";") + "]"
 
     override fun disholderize(holder: String): Pair<ObjectEntry<*>, MutableList<String>> {
         val parts = holder.split(":")
         val objEntry = registeredRegistries[parts[0]] ?: objString
-        return objEntry to parts[1].replace("[", "").replace("]", "").split(",").toMutableList()
+        val content = parts[1].replace("[", "").replace("]", "")
+        return objEntry to if (content.isBlank()) mutableListOf() else content.split(";").toMutableList()
     }
 }

@@ -26,7 +26,6 @@ object FastMultiBreak {
 
     fun breakExtraBlock(player: Player, block: Block, ench: AiyatsbusEnchantment? = null, level: Int? = null) {
         if (AiyatsbusBlockBreakEvent(player, block, ench, level).call()) {
-            println(1)
             try {
                 BlockBreak.breakExtra(block)
                 player.breakBlock(block)
@@ -53,10 +52,10 @@ object FastMultiBreak {
     }
 
     fun fastMultiBreak(player: Player, breaks: MutableList<Location>, speed: Int, ench: AiyatsbusEnchantment? = null, level: Int? = null) {
-        submit(delay = 0L, period = 0L) {
+        submit(delay = 0, period = 1) {
             for (i in 0 until speed) {
+
                 val loc = breaks.firstOrNull()
-                println(loc)
                 if (loc == null) {
                     cancel()
                     continue
@@ -72,8 +71,6 @@ object FastMultiBreak {
                 }
 
                 if (!PermissionChecker.hasBlockPermission(player, block)) continue
-
-                println("break")
 
                 breakExtraBlock(player, block, ench, level)
             }

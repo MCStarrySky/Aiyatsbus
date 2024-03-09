@@ -30,6 +30,14 @@ object ObjectLocation : ObjectEntry<Location>() {
         return when (objName) {
             "方块" -> objBlock.h(from.block)
             "克隆" -> objLocation.h(from.clone())
+            "x" -> objString.h(from.x)
+            "y" -> objString.h(from.y)
+            "z" -> objString.h(from.z)
+            "x取整" -> objString.h(from.blockX)
+            "y取整" -> objString.h(from.blockY)
+            "z取整" -> objString.h(from.blockZ)
+            "pitch" -> objString.h(from.pitch)
+            "yaw" -> objString.h(from.yaw)
             else -> objString.h("?")
         }
     }
