@@ -1,8 +1,8 @@
 package com.mcstarrysky.aiyatsbus.module.kether.property.bukkit.event.block
 
 import com.mcstarrysky.aiyatsbus.core.util.coerceInt
-import com.mcstarrysky.aiyatsbus.module.kether.property.AiyatsbusGenericProperty
-import com.mcstarrysky.aiyatsbus.module.kether.property.AiyatsbusProperty
+import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusGenericProperty
+import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusProperty
 import org.bukkit.event.block.BlockExpEvent
 import taboolib.common.OpenResult
 

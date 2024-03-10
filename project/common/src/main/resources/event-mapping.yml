@@ -1,0 +1,39 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+# 事件映射文件
+# 别名 -> 事件全类名
+# 别名 -> 触发位置
+
+# 槽位映射
+# ARMORS(装甲):
+# -> HEAD
+# -> CHEST
+# -> LEGS
+# -> FEET
+# HANDS(主副手):
+# -> HAND
+# -> OFF_HAND
+# MAIN_HAND(主手):
+# -> HAND
+# OFF_HAND(副手):
+# -> OFF_HAND
+# HELMET(头盔):
+# -> HEAD
+# CHESTPLATE(胸甲):
+# -> CHEST
+# LEGGINGS(护腿):
+# -> LEGS
+# BOOTS(靴子):
+# -> FEET
+# ALL(所有):
+# -> HAND, OFFHAND, HEAD, CHEST, LEGS, FEET
+
+mappings:
+  # 破坏方块事件
+  block-break:
+    class: 'org.bukkit.event.block.BlockBreakEvent'
+    slot: HANDS
+    priorities: [HIGHEST]

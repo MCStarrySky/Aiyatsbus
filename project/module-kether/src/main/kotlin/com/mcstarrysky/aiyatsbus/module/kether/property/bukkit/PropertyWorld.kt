@@ -1,7 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.kether.property.bukkit
 
-import com.mcstarrysky.aiyatsbus.module.kether.property.AiyatsbusGenericProperty
-import com.mcstarrysky.aiyatsbus.module.kether.property.AiyatsbusProperty
+import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusGenericProperty
+import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusProperty
 import org.bukkit.World
 import taboolib.common.OpenResult
 

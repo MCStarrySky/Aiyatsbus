@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.module.kether.property
+package com.mcstarrysky.aiyatsbus.module.kether
 
 import taboolib.common.OpenResult
 import taboolib.module.kether.ScriptProperty
@@ -6,7 +6,7 @@ import taboolib.module.kether.action.ActionProperty
 
 /**
  * Aiyatsbus
- * com.mcstarrysky.aiyatsbus.module.kether.property.AiyatsbusGenericProperty
+ * com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusGenericProperty
  *
  * @author Lanscarlos
  * @since 2023-03-19 22:17
