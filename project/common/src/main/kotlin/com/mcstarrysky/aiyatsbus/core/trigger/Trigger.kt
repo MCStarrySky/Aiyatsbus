@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.core.trigger
 
 import taboolib.library.configuration.ConfigurationSection
+import taboolib.module.configuration.Configuration
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -28,7 +29,6 @@ data class Trigger(private val section: ConfigurationSection?) {
     }
 
     fun onDisable() {
-        listeners.values.forEach { it.unregisterListener() }
         listeners.clear()
     }
 }

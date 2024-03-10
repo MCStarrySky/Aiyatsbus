@@ -2,8 +2,8 @@ package com.mcstarrysky.aiyatsbus.module.kether.property.bukkit
 
 import com.mcstarrysky.aiyatsbus.core.util.coerceDouble
 import com.mcstarrysky.aiyatsbus.core.util.coerceFloat
-import com.mcstarrysky.aiyatsbus.module.kether.property.AiyatsbusGenericProperty
-import com.mcstarrysky.aiyatsbus.module.kether.property.AiyatsbusProperty
+import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusGenericProperty
+import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusProperty
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World

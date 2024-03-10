@@ -1,12 +1,12 @@
 package com.mcstarrysky.aiyatsbus.module.kether
 
-import com.mcstarrysky.aiyatsbus.module.kether.property.AiyatsbusGenericProperty
-import com.mcstarrysky.aiyatsbus.module.kether.property.AiyatsbusProperty
 import taboolib.common.LifeCycle
 import taboolib.common.inject.ClassVisitor
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.warning
+import taboolib.library.reflex.ClassMethod
 import taboolib.module.kether.Kether
+import taboolib.module.kether.ScriptActionParser
 import java.util.function.Supplier
 
 /**
@@ -16,11 +16,45 @@ import java.util.function.Supplier
  * @author Lanscarlos
  * @since 2023-03-19 22:08
  */
-@Awake
-object AiyatsbusRegistry : ClassVisitor(0) {
+object AiyatsbusRegistry : ClassInjector() {
 
-    override fun visitStart(clazz: Class<*>, instance: Supplier<*>?) {
-        registerProperty(clazz, instance)
+    /**
+     * 访问函数
+     * */
+    override fun visit(method: ClassMethod, clazz: Class<*>, supplier: Supplier<*>?) {
+        registerAction(method, supplier)
+    }
+
+    /**
+     * 访问类
+     * */
+    override fun visitStart(clazz: Class<*>, supplier: Supplier<*>?) {
+        registerProperty(clazz, supplier)
+    }
+
+    /**
+     * 函数式语句注册
+     * */
+    private fun registerAction(method: ClassMethod, instance: Supplier<*>?) {
+        if (!method.isAnnotationPresent(AiyatsbusParser::class.java) || method.returnType != ScriptActionParser::class.java) {
+            return
+        }
+
+        // 加载注解
+        val annotation = method.getAnnotation(AiyatsbusParser::class.java)
+        val value = annotation.property<Array<String>>("value") ?: return
+
+        // 获取语句对象
+        val parser = if (instance != null) {
+            method.invoke(instance.get()) as ScriptActionParser<*>
+        } else {
+            method.invokeStatic() as ScriptActionParser<*>
+        }
+
+        // 注册语句 私有
+        for (name in value) {
+            Kether.scriptRegistry.registerAction("aiyatsbus", name, parser)
+        }
     }
 
     /**
@@ -51,9 +85,5 @@ object AiyatsbusRegistry : ClassVisitor(0) {
 
         // 注册属性 私有
         Kether.registeredScriptProperty.computeIfAbsent(annotation.bind.java) { HashMap() }[property.id] = property
-    }
-
-    override fun getLifeCycle(): LifeCycle {
-        return LifeCycle.LOAD
     }
 }

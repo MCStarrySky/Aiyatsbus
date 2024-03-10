@@ -1,7 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.kether.property.bukkit.block
 
-import com.mcstarrysky.aiyatsbus.module.kether.property.AiyatsbusGenericProperty
-import com.mcstarrysky.aiyatsbus.module.kether.property.AiyatsbusProperty
+import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusGenericProperty
+import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusProperty
 import org.bukkit.Material
 import org.bukkit.block.Biome
 import org.bukkit.block.Block
