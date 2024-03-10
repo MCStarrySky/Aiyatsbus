@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.impl
+package com.mcstarrysky.aiyatsbus.module.kether
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusKetherHandler
 import org.bukkit.entity.Player
@@ -9,6 +9,7 @@ import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.platform.function.console
 import taboolib.module.kether.KetherShell
 import taboolib.module.kether.ScriptOptions
+import taboolib.module.kether.runKether
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -21,12 +22,13 @@ import java.util.concurrent.CompletableFuture
 class DefaultAiyatsbusKetherHandler : AiyatsbusKetherHandler {
 
     override fun invoke(source: String, player: Player?, variables: Map<String, Any?>): CompletableFuture<Any?> {
-        return KetherShell.eval(source,
-            ScriptOptions.builder().namespace(namespace = listOf("aiyatsbus"))
-                .sender(sender = if (player != null) adaptPlayer(player) else console())
-                .vars(variables)
-                .build()
-        )
+        return runKether(detailError = true) {
+            KetherShell.eval(source,
+                ScriptOptions.builder().namespace(namespace = listOf("aiyatsbus"))
+                    .sender(sender = if (player != null) adaptPlayer(player) else console())
+                    .vars(variables)
+                    .build())
+        }!!
     }
 
     companion object {

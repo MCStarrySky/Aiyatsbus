@@ -77,6 +77,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
 
                 file.watch {
                     val enchantName = BY_ID[id]?.basicData?.name
+                    BY_ID[id]!!.trigger.onDisable()
                     Aiyatsbus.api().getEnchantmentRegisterer().unregister(BY_ID[id]!!)
                     BY_ID.remove(id)
                     BY_NAME.remove(enchantName)
