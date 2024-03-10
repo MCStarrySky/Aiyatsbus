@@ -48,19 +48,13 @@ mechanisms:
 
         set breaks to array [ ]
 
-        print 1
-
         set tX to level-var &enchant X范围 &level false
         set tY to level-var &enchant Y范围 &level false
         set tZ to level-var &enchant Z范围 &level false
-
-        print 2
         
         set rangeX to calc "(tX - level) / 2 + level"
         set rangeY to calc "(tY - level) / 2 + level"
         set rangeZ to calc "(tZ - level) / 2 + level"
-
-        print 3
 
         set world to &event[block.world]
         set x to type int &event[block.x]
