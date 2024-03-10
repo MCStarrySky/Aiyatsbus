@@ -87,7 +87,6 @@ class Variables(
                 VariableType.PLAYER_RELATED -> playerRelated(variable, entity as? Player)
                 VariableType.MODIFIABLE -> modifiable(variable, item)
                 VariableType.ORDINARY -> ordinary(variable)
-                else -> return@mapNotNull null
             }
         }.toMap()
     }

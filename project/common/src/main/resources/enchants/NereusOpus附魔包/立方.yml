@@ -18,18 +18,13 @@ alternative:
 display:
   description:
     general: "每次可以挖掘立方范围的方块"
-    specific: "§7每次可以挖掘§a{rangeX-display}*{rangeY-display}*{rangeZ-display}§7范围的方块"
+    specific: "§7每次可以挖掘§a{X范围}*{Y范围}*{Z范围}§7范围的方块"
 
 variables:
   leveled:
-    # 以挖掘坐标为原点, level + 1 就是在原点左右两个方块这三个方块范围
-    # 可能不太好理解
-    rangeX: "格:{level}+1"
-    rangeY: "格:{level}+1"
-    rangeZ: "格:{level}+1"
-    rangeX-display: "格:{level}+1*2" # 改数据的时候也要改这里的显示
-    rangeY-display: "格:{level}+1*2"
-    rangeZ-display: "格:{level}+1*2"
+    X范围: "格:{level}+1*2"
+    Y范围: "格:{level}+1*2"
+    Z范围: "格:{level}+1*2"
   ordinary:
     per-tick: 12
     disable-on-sneaking: true
@@ -53,9 +48,19 @@ mechanisms:
 
         set breaks to array [ ]
 
-        set rangeX to level-var &enchant rangeX &level false
-        set rangeY to level-var &enchant rangeY &level false
-        set rangeZ to level-var &enchant rangeZ &level false
+        print 1
+
+        set tX to level-var &enchant X范围 &level false
+        set tY to level-var &enchant Y范围 &level false
+        set tZ to level-var &enchant Z范围 &level false
+
+        print 2
+        
+        set rangeX to calc "(tX - level) / 2 + level"
+        set rangeY to calc "(tY - level) / 2 + level"
+        set rangeZ to calc "(tZ - level) / 2 + level"
+
+        print 3
 
         set world to &event[block.world]
         set x to type int &event[block.x]
