@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     `maven-publish`
     java
-    id("io.izzel.taboolib") version "2.0.8"
+    id("io.izzel.taboolib") version "2.0.9"
     id("org.jetbrains.kotlin.jvm") version "1.8.22"
 }
 
@@ -24,7 +24,7 @@ subprojects {
             // enableIsolatedClassloader = true
         }
         version {
-            taboolib = "6.1.1-beta6"
+            taboolib = "6.1.1-beta8"
             // skipKotlinRelocate = true
         }
     }
