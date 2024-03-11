@@ -1,8 +1,5 @@
 package com.mcstarrysky.aiyatsbus.module.kether
 
-import taboolib.common.LifeCycle
-import taboolib.common.inject.ClassVisitor
-import taboolib.common.platform.Awake
 import taboolib.common.platform.function.warning
 import taboolib.library.reflex.ClassMethod
 import taboolib.module.kether.Kether

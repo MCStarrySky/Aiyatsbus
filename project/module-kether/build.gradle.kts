@@ -1,5 +1,3 @@
-import io.izzel.taboolib.gradle.*
-
 repositories {
     maven("https://jitpack.io")
 }

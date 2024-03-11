@@ -1,5 +1,3 @@
-import io.izzel.taboolib.gradle.*
-
 dependencies {
     // 引入 API
     compileOnly(project(":project:common"))

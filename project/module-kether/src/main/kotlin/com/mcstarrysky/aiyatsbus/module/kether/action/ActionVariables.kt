@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.module.kether.action.variables
+package com.mcstarrysky.aiyatsbus.module.kether.action
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusParser
@@ -6,7 +6,7 @@ import com.mcstarrysky.aiyatsbus.module.kether.aiyatsbus
 
 /**
  * Aiyatsbus
- * com.mcstarrysky.aiyatsbus.module.kether.action.variables.ActionVariables
+ * com.mcstarrysky.aiyatsbus.module.kether.action.ActionVariables
  *
  * @author mical
  * @since 2024/3/10 16:03

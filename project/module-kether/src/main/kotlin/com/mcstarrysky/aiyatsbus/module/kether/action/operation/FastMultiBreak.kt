@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.module.kether.action.operation.operation
+package com.mcstarrysky.aiyatsbus.module.kether.action.operation
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
 import com.mcstarrysky.aiyatsbus.core.util.PermissionChecker
@@ -16,7 +16,7 @@ import taboolib.common.platform.function.warning
 
 /**
  * Aiyatsbus
- * com.mcstarrysky.aiyatsbus.module.kether.action.operation.operation.FastMultiBreak
+ * com.mcstarrysky.aiyatsbus.module.kether.action.operation.FastMultiBreak
  *
  * @author mical
  * @since 2024/3/10 15:34
