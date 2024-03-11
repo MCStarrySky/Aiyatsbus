@@ -1,5 +1,5 @@
 basic:
-  id: planter_potato
+  id: planter_wheat
   name: "小麦播种机"
   max_level: 3
 
