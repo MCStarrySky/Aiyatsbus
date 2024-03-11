@@ -37,3 +37,10 @@ mappings:
     class: 'org.bukkit.event.block.BlockBreakEvent'
     slot: HANDS
     priorities: [HIGHEST]
+
+  # 玩家交互事件
+  player-interact:
+    class: 'org.bukkit.event.player.PlayerInteractEvent'
+    slots: ALL # 例如 Physical 需要所有槽位
+    priorities: [HIGHEST]
+

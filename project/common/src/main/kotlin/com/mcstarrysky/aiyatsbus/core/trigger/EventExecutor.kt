@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.core.trigger
 
+import com.mcstarrysky.aiyatsbus.core.util.calcToInt
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.function.warning
 import taboolib.common.util.unsafeLazy

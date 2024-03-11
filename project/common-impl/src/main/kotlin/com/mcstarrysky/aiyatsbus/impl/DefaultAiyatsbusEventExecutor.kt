@@ -100,24 +100,22 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                 enchant.trigger.listeners
                     .filterValues { it.getEventPriority() == eventPriority && it.listen == listen }
                     .forEach { (_, executor) ->
+                        val vars = mutableMapOf(
+                            "event" to event,
+                            "player" to player,
+                            "item" to item,
+                            "enchant" to enchant,
+                            "level" to enchantPair.value
+                        )
+
+                        vars += enchant.variables.variables(enchantPair.value, entity, item, false)
+
                         executor.baffle?.let { baffle ->
                             val key = (entity as? LivingEntity)?.uniqueId?.toString() ?: event.eventName
                             if (!baffle.hasNext(key)) return
                         }
 
-                        Aiyatsbus.api().getKetherHandler().invoke(executor.handle, player as? Player, variables = mapOf(
-                            "@Event" to event,
-                            "event" to event,
-                            "@Player" to player,
-                            "player" to player,
-                            "playerName" to player.name,
-                            "@Item" to item,
-                            "item" to item,
-                            "@Enchant" to enchant,
-                            "enchant" to enchant,
-                            "@Level" to enchantPair.value,
-                            "level" to enchantPair.value
-                        ))
+                        Aiyatsbus.api().getKetherHandler().invoke(executor.handle, player as? Player, variables = vars)
                     }
             }
         }

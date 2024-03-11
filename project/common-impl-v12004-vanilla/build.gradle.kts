@@ -1,5 +1,3 @@
-import io.izzel.taboolib.gradle.UNIVERSAL
-
 dependencies {
     compileOnly(project(":project:common"))
     compileOnly(project(":project:common-impl-v12004-paper"))
