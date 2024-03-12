@@ -19,7 +19,7 @@ subprojects {
     // TabooLib 配置
     taboolib {
         env {
-            install(CHAT, CONFIGURATION, LANG, BUKKIT_ALL, NMS, NMS_UTIL, KETHER, UI)
+            install(CHAT, CONFIGURATION, LANG, BUKKIT_ALL, NMS, NMS_UTIL, KETHER, UI, EFFECT)
             // 开启隔离类加载器
             // enableIsolatedClassloader = true
         }

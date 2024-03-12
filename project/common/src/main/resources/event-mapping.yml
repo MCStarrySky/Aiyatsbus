@@ -44,3 +44,9 @@ mappings:
     slots: ALL # 例如 Physical 需要所有槽位
     priorities: [HIGHEST]
 
+  # 实体受伤事件
+  entity-damage:
+    class: 'org.bukkit.event.entity.EntityDamageEvent'
+    slots: ALL
+    priorities: [HIGHEST]
+
