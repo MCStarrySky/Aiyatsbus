@@ -1,3 +1,7 @@
-# Aiyatsbus
+[![pFcKi4S.png](https://s21.ax1x.com/2024/03/13/pFcKi4S.png)](https://imgse.com/i/pFcKi4S)
 
-Enchantment Framework for Paper @ Powered by TabooLib 6.1
+# Aiyatsbus
+适用于 PaperSpigot 的附魔框架，使用 Kether 脚本控制自定义附魔触发器。
+
+# Snapshot
+[![pFcKPN8.png](https://s21.ax1x.com/2024/03/13/pFcKPN8.png)](https://imgse.com/i/pFcKPN8)

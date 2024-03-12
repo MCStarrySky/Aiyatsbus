@@ -1,0 +1,48 @@
+basic:
+  id: jelly_legs
+  name: "弹跳鞋"
+  max_level: 3
+
+rarity: 精良
+targets:
+  - 靴子
+
+limitations:
+  - "CONFLICT_ENCHANT:轻功"
+
+display:
+  description:
+    general: "摔伤时可减少伤害并弹起"
+    specific: "§7不超过§a{最大高度}§7的摔伤时减少§a{减少伤害}§7伤害并弹起"
+
+variables:
+  leveled:
+    最大高度:
+      1: 16
+      2: 48
+      3: 256
+      unit: "格"
+    减少伤害: "点:3*{level}"
+
+mechanisms:
+  listeners:
+    on-entity-damage:
+      listen: "entity-damage"
+      # 下面有个公式建议不要修改, 已调整至最平衡 (set y to calc "0.1804 * height - 0.0044 * height * height + 0.00004 * height * height * height")
+      handle: |-
+        set fallDistance to &event[entity.fallDistance]
+        set height to calc "fallDistance / 2"
+        set eventDamage to &event[damage]
+        set damage to type double &减少伤害
+
+        if check &event[cause] is FALL then {
+          if check &fallDistance <= type double &最大高度 then {
+
+            set y to calc "0.1804 * height - 0.0044 * height * height + 0.00004 * height * height * height"
+            set velocity to vec build 0.0 &y 0.0
+
+            set &event[entity.velocity] to &velocity
+            set &event[damage] to calc "eventDamage - damage"
+
+          }
+        }
