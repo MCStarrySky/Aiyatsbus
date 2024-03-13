@@ -2,12 +2,10 @@ package com.mcstarrysky.aiyatsbus.impl
 
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
-import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
-import com.mcstarrysky.aiyatsbus.core.AiyatsbusEventExecutor
-import com.mcstarrysky.aiyatsbus.core.StandardPriorities
-import com.mcstarrysky.aiyatsbus.core.fixedEnchants
+import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.isNull
+import com.mcstarrysky.aiyatsbus.core.util.mirrorNow
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
@@ -115,7 +113,9 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                             if (!baffle.hasNext(key)) return
                         }
 
-                        Aiyatsbus.api().getKetherHandler().invoke(executor.handle, player as? Player, variables = vars)
+                        mirrorNow("Enchantment:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${enchant.basicData.id}" else "") {
+                            Aiyatsbus.api().getKetherHandler().invoke(executor.handle, player as? Player, variables = vars)
+                        }
                     }
             }
         }

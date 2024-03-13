@@ -93,7 +93,7 @@ command-subCommands-mode-fail: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7控制台无法设
 command-subCommands-reload-description: '重载插件'
 command-subCommands-reload-usage: ''
 
-command-subCommands-calculate-description: '查看帮助'
+command-subCommands-calculate-description: '计算公式'
 command-subCommands-calculate-usage: ''
 
 command-subCommands-random-description: '为玩家随机抽取一本指定品质的附魔书'
@@ -103,3 +103,6 @@ command-subCommands-random-number: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7请输入正�
 command-subCommands-random-sender: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7给 &e{name} &7发送了随机的附魔书 {enchantment}'
 command-subCommands-random-receiver: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你收到了随机附魔书 {enchantment}'
 command-subCommands-random-fail: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7控制台无法接受随机附魔书'
+
+command-subCommands-report-description: '查看性能报告'
+command-subCommands-report-usage: ''

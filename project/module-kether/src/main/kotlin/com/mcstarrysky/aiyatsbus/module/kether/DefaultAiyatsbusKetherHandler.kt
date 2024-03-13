@@ -9,6 +9,7 @@ import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.platform.function.console
 import taboolib.module.kether.KetherShell
 import taboolib.module.kether.ScriptOptions
+import taboolib.module.kether.parseKetherScript
 import taboolib.module.kether.runKether
 import java.util.concurrent.CompletableFuture
 
@@ -21,14 +22,19 @@ import java.util.concurrent.CompletableFuture
  */
 class DefaultAiyatsbusKetherHandler : AiyatsbusKetherHandler {
 
-    override fun invoke(source: String, player: Player?, variables: Map<String, Any?>): CompletableFuture<Any?> {
+    override fun invoke(source: String, player: Player?, variables: Map<String, Any?>): CompletableFuture<Any?>? {
         return runKether(detailError = true) {
             KetherShell.eval(source,
                 ScriptOptions.builder().namespace(namespace = listOf("aiyatsbus"))
                     .sender(sender = if (player != null) adaptPlayer(player) else console())
                     .vars(variables)
                     .build())
-        }!!
+        }
+    }
+
+    override fun preheat(source: String) {
+        val s = if (source.startsWith("def ")) source else "def main = { $source }"
+        KetherShell.mainCache.scriptMap[s] = s.parseKetherScript(listOf("aiyatsbus"))
     }
 
     companion object {

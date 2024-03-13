@@ -36,21 +36,21 @@ object AttainListener {
     lateinit var conf: Configuration
         private set
 
-    @ConfigNode("vanilla_table", bind = "mechanisms/enchanting_table.yml")
+    @ConfigNode("vanilla_table")
     var vanillaTable = false
-    @ConfigNode("more_enchant_chance", bind = "mechanisms/enchanting_table.yml")
+    @ConfigNode("more_enchant_chance")
     var moreEnchantChance = listOf("0.2*{cost}", "0.15*{cost}", "0.1*{cost}")
-    @ConfigNode("level_formula", bind = "mechanisms/enchanting_table.yml")
+    @ConfigNode("level_formula")
     var levelFormula = "{cost}/3*{max_level}+{cost}*({random}-{random})"
-    @ConfigNode("privilege.full_level", bind = "mechanisms/enchanting_table.yml")
+    @ConfigNode("privilege.full_level")
     var fullLevelPrivilege = "aiyatsbus.privilege.table.full"
 
-    @delegate:ConfigNode("celebrate_notice", bind = "mechanisms/enchanting_table.yml")
+    @delegate:ConfigNode("celebrate_notice")
     val celebrateNotice by conversion<ConfigurationSection, Map<Rarity?, List<String>>> {
         mapOf(*getKeys(false).map { Rarity.getRarity(it) to getStringList(it) }.toTypedArray())
     }
 
-    @delegate:ConfigNode("privilege.chance", bind = "mechanisms/enchanting_table.yml")
+    @delegate:ConfigNode("privilege.chance")
     val moreEnchantPrivilege by conversion<List<String>, Map<String, String>> {
         mapOf(*map { it.split(":")[0] to it.split(":")[1] }.toTypedArray())
     }

@@ -68,6 +68,18 @@ object AiyatsbusSettings {
      */
     @ConfigNode("Settings.support-items-adder")
     val supportItemsAdder = false
+
+    /**
+     * 是否开启脚本预热
+     */
+    @ConfigNode("Settings.enable-kether-preheat")
+    val enableKetherPreheat = true
+
+    /**
+     * 是否显示性能监控的详情信息
+     */
+    @ConfigNode("Settings.show-performance-details")
+    val showPerformanceDetails = false
 }
 
-const val AIYATSBUS_PREFIX = "&8[&{#D8D8FA}Aiyatsbus&8] &7"
+const val AIYATSBUS_PREFIX = "&8[&{#D8D8FA}Aiyatsbus&8]&7"

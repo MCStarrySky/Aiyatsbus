@@ -25,13 +25,13 @@ object VillagerListener {
     lateinit var conf: Configuration
         private set
 
-    @ConfigNode("enable", bind = "mechanisms/villager.yml")
+    @ConfigNode("enable")
     var enableEnchantTrade = true
 
-    @ConfigNode("group", bind = "mechanisms/villager.yml")
+    @ConfigNode("group")
     var tradeGroup = "可交易附魔"
 
-    @ConfigNode("amount", bind = "mechanisms/villager.yml")
+    @ConfigNode("amount")
     var amount = 2
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
