@@ -19,15 +19,15 @@ object ExpListener {
     lateinit var conf: Configuration
         private set
 
-    @ConfigNode("enable", bind = "mechanisms/exp.yml")
+    @ConfigNode("enable")
     var enable: Boolean = false
 
-    @delegate:ConfigNode("exp_per_level", bind = "mechanisms/exp.yml")
+    @delegate:ConfigNode("exp_per_level")
     val expFormulas by conversion<ConfigurationSection, List<Pair<Int, String>>> {
         mutableListOf(*getKeys(false).map { path -> path.toInt() to getString(path)!! }.toTypedArray())
     }
 
-    @delegate:ConfigNode("privilege", bind = "mechanisms/exp.yml")
+    @delegate:ConfigNode("privilege")
     val privilege by conversion<List<String>, Map<String, String>> {
         mapOf(*map { it.split(":")[0] to it.split(":")[1] }.toTypedArray())
     }

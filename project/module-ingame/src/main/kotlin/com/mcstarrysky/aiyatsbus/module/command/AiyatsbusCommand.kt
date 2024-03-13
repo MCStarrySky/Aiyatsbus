@@ -58,6 +58,9 @@ object AiyatsbusCommand {
     @CommandBody(permission = "aiyatsbus.command.reload")
     val reload = reloadSubCommand
 
+    @CommandBody(permission = "aiyatsbus.command.report")
+    val report = reportSubCommand
+
     @Reloadable
     @Awake(LifeCycle.INIT)
     fun init() {

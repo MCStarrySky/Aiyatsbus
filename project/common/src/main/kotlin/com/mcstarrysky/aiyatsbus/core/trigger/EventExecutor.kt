@@ -1,9 +1,8 @@
 package com.mcstarrysky.aiyatsbus.core.trigger
 
-import com.mcstarrysky.aiyatsbus.core.util.calcToInt
+import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
+import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
 import taboolib.common.platform.event.EventPriority
-import taboolib.common.platform.function.warning
-import taboolib.common.util.unsafeLazy
 import taboolib.common5.Baffle
 import taboolib.common5.cint
 import taboolib.library.configuration.ConfigurationSection
@@ -31,12 +30,18 @@ data class EventExecutor(
     @Transient
     var baffle: Baffle? = null
 
+    private fun preheat() {
+        if (AiyatsbusSettings.enableKetherPreheat) {
+            Aiyatsbus.api().getKetherHandler().preheat(handle)
+        }
+    }
+
     companion object {
 
         fun load(executorSection: ConfigurationSection): EventExecutor {
-            return Configuration.deserialize<EventExecutor>(executorSection, true).apply {
+            val executor = Configuration.deserialize<EventExecutor>(executorSection, true).apply {
                 executorSection.getConfigurationSection("baffle")?.asMap()?.let { section ->
-                    baffle =         when {
+                    baffle = when {
                         "time" in section -> {
                             // 按时间阻断
                             val time = section["time"]?.cint ?: -1
@@ -55,6 +60,8 @@ data class EventExecutor(
                     }
                 }
             }
+            executor.preheat()
+            return executor
         }
     }
 }
