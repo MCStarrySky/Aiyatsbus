@@ -99,6 +99,8 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                     .filterValues { it.getEventPriority() == eventPriority && it.listen == listen }
                     .forEach { (_, executor) ->
                         val vars = mutableMapOf(
+                            "triggerSlot" to it.name,
+                            "trigger-slot" to it.name,
                             "event" to event,
                             "player" to player,
                             "item" to item,

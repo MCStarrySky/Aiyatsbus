@@ -21,7 +21,6 @@ data class PlayerData(private val serializedData: String?) {
     var cooldown: MutableMap<String, Long> = mutableMapOf()
 
     init {
-        println(serializedData)
         serializedData?.let {
             serializedData.split("||")
                 .map { pair -> pair.split("==")[0] to pair.split("==")[1] }

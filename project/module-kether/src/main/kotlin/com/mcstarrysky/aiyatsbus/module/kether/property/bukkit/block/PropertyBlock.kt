@@ -5,6 +5,7 @@ import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusProperty
 import org.bukkit.Material
 import org.bukkit.block.Biome
 import org.bukkit.block.Block
+import org.bukkit.block.data.BlockData
 import taboolib.common.OpenResult
 
 /**
@@ -59,6 +60,7 @@ class PropertyBlock : AiyatsbusGenericProperty<Block>("block") {
             "slot" -> instance.type.equipmentSlot.name
             "blast-resistance", "resistance" -> instance.type.blastResistance
             "creative-category", "category" -> instance.type.creativeCategory
+            "blockData", "block-data" -> instance.blockData
             else -> return OpenResult.failed()
         }
         return OpenResult.successful(property)
@@ -78,6 +80,7 @@ class PropertyBlock : AiyatsbusGenericProperty<Block>("block") {
                     it.name.equals(name, true)
                 } ?: return OpenResult.successful()
             }
+            "blockData", "block-data" -> { instance.blockData = value as? BlockData ?: return OpenResult.successful() }
             else -> return OpenResult.failed()
         }
         return OpenResult.successful()
