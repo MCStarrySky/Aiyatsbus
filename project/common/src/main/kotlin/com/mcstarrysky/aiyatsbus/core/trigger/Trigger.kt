@@ -19,7 +19,7 @@ data class Trigger(private val section: ConfigurationSection?) {
         loadListeners()
     }
 
-    fun loadListeners() {
+    private fun loadListeners() {
         listeners.clear()
 
         section?.getConfigurationSection("listeners")?.let { listenersSection ->

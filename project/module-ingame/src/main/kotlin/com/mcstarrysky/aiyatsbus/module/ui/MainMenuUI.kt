@@ -15,6 +15,7 @@ import com.mcstarrysky.aiyatsbus.module.ui.internal.registry.MenuFunctions
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.registerLifeCycleTask
+import taboolib.module.ui.virtual.InventoryHandler
 
 @MenuComponent("Menu")
 object MainMenuUI {
@@ -53,6 +54,9 @@ object MainMenuUI {
     @Awake(LifeCycle.CONST)
     fun init() {
         registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.MENU) {
+            // 预热虚拟 UI
+            InventoryHandler.instance
+
             MenuFunctions.unregister("Back")
             MenuFunctions.register("Back", false) { back }
             AnvilUI.reload()
