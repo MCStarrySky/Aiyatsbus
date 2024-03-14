@@ -1,0 +1,41 @@
+basic:
+  id: replanter
+  name: "再植"
+  max_level: 2
+
+rarity: 稀有
+targets:
+  - 靴子
+
+limitations: [ ]
+
+display:
+  description:
+    general: "把庄稼踩坏时，只会让其退化而不是掉落"
+    specific: "§7把庄稼踩坏时，只会让其退化§a{退化阶段}"
+
+variables:
+  leveled:
+    退化阶段: "阶段:3-{level}"
+
+mechanisms:
+  listeners:
+    on-physical:
+      listen: "player-interact"
+      handle: |-
+        if all [ check &event[action] is PHYSICAL check &trigger-slot is FEET ] then {
+          if check &event[block.type] is FARMLAND then {
+            set loc to &event[block.location.clone]
+            set y to &loc[y]
+            set &loc[y] to calc "y + 1"
+            set age to &loc[block.blockData.age]
+
+            if check &age >= 2 then {
+              set &event[isCancelled] to true
+              set back to type int &退化阶段
+              set data to &loc[block.blockData]
+              set &data[age] to calc "age - back"
+              set &loc[block.blockData] to &data
+            }
+          }
+        }
