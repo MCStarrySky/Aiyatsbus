@@ -34,7 +34,13 @@ mechanisms:
               set &event[isCancelled] to true
               set back to type int &退化阶段
               set data to &loc[block.blockData]
-              set &data[age] to calc "age - back"
+
+              set result to calc "age - back"
+              if check &result < 0 then {
+                set &result to 0
+              }
+
+              set &data[age] to &result
               set &loc[block.blockData] to &data
             }
           }
