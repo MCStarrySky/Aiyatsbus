@@ -116,6 +116,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                         }
 
                         mirrorNow("Enchantment:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${enchant.basicData.id}" else "") {
+                            vars += "mirror" to it
                             Aiyatsbus.api().getKetherHandler().invoke(executor.handle, player as? Player, variables = vars)
                         }
                     }

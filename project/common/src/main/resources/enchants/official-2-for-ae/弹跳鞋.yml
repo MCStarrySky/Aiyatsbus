@@ -45,4 +45,6 @@ mechanisms:
             set &event[damage] to calc "eventDamage - damage"
 
           }
+        } else {
+          set &mirror[isCancelled] to true
         }
