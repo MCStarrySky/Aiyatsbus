@@ -37,6 +37,7 @@ mechanisms:
       listen: "block-break"
       handle: |-
         if check &event[block.location] in extra-blocks then {
+          set &mirror[isCancelled] to true
           exit
         }
 

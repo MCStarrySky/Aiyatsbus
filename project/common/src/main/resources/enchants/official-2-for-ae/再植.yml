@@ -23,25 +23,30 @@ mechanisms:
     on-physical:
       listen: "player-interact"
       handle: |-
-        if all [ check &event[action] is PHYSICAL check &trigger-slot is FEET ] then {
-          if check &event[block.type] is FARMLAND then {
-            set loc to &event[block.location.clone]
-            set y to &loc[y]
-            set &loc[y] to calc "y + 1"
-            set age to &loc[block.blockData.age]
+        if all [ not check &event[action] is PHYSICAL not check &trigger-slot is FEET ] then {
+          set &mirror[isCancelled] to true
+          exit
+        }
 
-            if check &age >= 2 then {
-              set &event[isCancelled] to true
-              set back to type int &退化阶段
-              set data to &loc[block.blockData]
+        if check &event[block.type] is FARMLAND then {
+          set loc to &event[block.location.clone]
+          set y to &loc[y]
+          set &loc[y] to calc "y + 1"
+          set age to &loc[block.blockData.age]
 
-              set result to calc "age - back"
-              if check &result < 0 then {
-                set &result to 0
-              }
+          if check &age >= 2 then {
+            set &event[isCancelled] to true
+            set back to type int &退化阶段
+            set data to &loc[block.blockData]
 
-              set &data[age] to &result
-              set &loc[block.blockData] to &data
+            set result to calc "age - back"
+            if check &result < 0 then {
+              set &result to 0
             }
+
+            set &data[age] to &result
+            set &loc[block.blockData] to &data
           }
+        } else {
+          set &mirror[isCancelled] to true
         }

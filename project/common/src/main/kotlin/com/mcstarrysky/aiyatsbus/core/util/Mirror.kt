@@ -10,9 +10,11 @@ import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap
 
-fun <T> mirrorNow(id: String, func: () -> T): T {
+fun <T> mirrorNow(id: String, func: (Mirror.MirrorStatus) -> T): T {
     val time = System.nanoTime()
-    return func().also {
+    val status = Mirror.MirrorStatus()
+    return func(status).also {
+        if (status.isCancelled) return it
         Mirror.mirrorData.computeIfAbsent(id) { Mirror.MirrorData() }.finish(time)
     }
 }
@@ -92,6 +94,11 @@ object Mirror {
         fun percent(all: BigDecimal, total: BigDecimal): Double {
             return if (all.toDouble() == 0.0) 0.0 else total.divide(all, 2, RoundingMode.HALF_UP).multiply(BigDecimal("100")).toDouble()
         }
+    }
+
+    class MirrorStatus {
+
+        var isCancelled = false
     }
 
     class MirrorData {
