@@ -119,3 +119,5 @@ fun String.deserializeItemStackFromBase64(): ItemStack {
 }
 
 val itemsAdderEnabled = runCatching { Class.forName("dev.lone.itemsadder.api.ItemsAdder") }.isSuccess
+val trchatEnabled = runCatching { Class.forName("me.arasple.mc.trchat.api.TrChatAPI") }.isSuccess
+val interactiveChatEnabled = runCatching { Class.forName("com.loohp.interactivechat.InteractiveChat") }.isSuccess
