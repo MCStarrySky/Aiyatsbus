@@ -7,6 +7,7 @@ dependencies {
     compileOnly("public:InteractiveChat:4.2.7.2")
 
     compileOnly("paper:v12004:12004:core")
+    compileOnly("ink.ptms.core:v12001:12001:mapped")
 }
 
 // 子模块

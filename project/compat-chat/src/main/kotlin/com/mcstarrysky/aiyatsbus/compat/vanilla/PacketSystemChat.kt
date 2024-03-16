@@ -7,10 +7,13 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import taboolib.common.env.RuntimeDependency
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.info
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.library.reflex.Reflex.Companion.setProperty
+import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.PacketSendEvent
 
 /**
@@ -20,18 +23,30 @@ import taboolib.module.nms.PacketSendEvent
  * @author mical
  * @since 2024/2/18 00:40
  */
+@RuntimeDependency(value = "!com.google.code.gson:gson:2.10.1", test = "!com.google.gson.JsonElement")
 object PacketSystemChat {
     private val gson = GsonComponentSerializer.gson()
 
     @SubscribeEvent(priority = EventPriority.MONITOR)
     fun e(e: PacketSendEvent) {
         if (e.packet.name == "ClientboundSystemChatPacket") {
+            e.packet.source::class.java.declaredFields.forEach { info(it.type.name) }
             runCatching {
                 val player = e.player
-                val adventure = e.packet.source.getProperty<Any>("adventure\$content", remap = false) as? Component ?: return
-                e.packet.source.setProperty("adventure\$content", modify(adventure, player), remap = false)
+                if (MinecraftVersion.majorLegacy > 12002) {
+                  //  val adventure = Aiyatsbus.api().getMinecraftAPI().iChatBaseComponentToComponent(e.packet.source.getProperty<Any>("content") as? Component ?: return)
+                  //  e.packet.source.setProperty("content", Aiyatsbus.api().getMinecraftAPI().componentToIChatBaseComponent(modify(adventure, player)))
+                } else {
+                    val adventure = e.packet.source.getProperty<Any>("adventure\$content", remap = false) as? Component ?: return
+                    e.packet.source.setProperty("adventure\$content", modify(adventure, player), remap = false)
+                }
             }.onFailure { it.printStackTrace() }
         }
+        //if (e.packet.name == "PacketPlayInChat") {
+        //    if (MinecraftVersion.isUniversal) {
+        //        info(e.packet.read("message"))
+        //    } else info(e.packet.read("a"))
+        //}
     }
 
     private fun modify(component: Component, player: Player): Component {

@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.core
 
+import net.kyori.adventure.text.Component
 import net.md_5.bungee.api.chat.hover.content.Item
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -16,12 +17,9 @@ interface AiyatsbusMinecraftAPI {
     /** 为原版的 MerchantRecipeList 的物品显示更多附魔 */
     fun adaptMerchantRecipe(merchantRecipeList: Any, player: Player): Any
 
-    /** 获取 BungeeCord 物品 Json */
-    fun itemToJson(item: Item): String
+    /** 将 Adventure Component 转成 IChatBaseComponent */
+    fun componentToIChatBaseComponent(component: Component): Any?
 
-    /** 获取 Bukkit 物品 Json */
-    fun bkItemToJson(item: ItemStack): String
-
-    /** 从 Json 获取 Bukkit 物品 */
-    fun jsonToItem(json: String): ItemStack
+    /** 将 IChatBaseComponent 转成 Adventure Component */
+    fun iChatBaseComponentToComponent(iChatBaseComponent: Any): Component
 }

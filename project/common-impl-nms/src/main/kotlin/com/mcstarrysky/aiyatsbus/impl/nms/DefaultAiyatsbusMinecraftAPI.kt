@@ -3,17 +3,12 @@ package com.mcstarrysky.aiyatsbus.impl.nms
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusMinecraftAPI
 import com.mcstarrysky.aiyatsbus.core.util.isNull
-import com.mojang.brigadier.StringReader
-import net.md_5.bungee.api.chat.hover.content.Item
-import org.bukkit.Material
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
+import net.minecraft.network.chat.IChatBaseComponent
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
-import taboolib.common.platform.function.severe
-import taboolib.library.reflex.Reflex.Companion.invokeConstructor
-import taboolib.library.reflex.Reflex.Companion.invokeMethod
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.NMSItem
-import taboolib.module.nms.nmsClass
 
 /**
  * Aiyatsbus
@@ -23,6 +18,8 @@ import taboolib.module.nms.nmsClass
  * @since 2024/2/18 00:21
  */
 class DefaultAiyatsbusMinecraftAPI : AiyatsbusMinecraftAPI {
+
+    private val gsonComponentSerializer = GsonComponentSerializer.gson()
 
     override fun adaptMerchantRecipe(merchantRecipeList: Any, player: Player): Any {
 
@@ -76,32 +73,19 @@ class DefaultAiyatsbusMinecraftAPI : AiyatsbusMinecraftAPI {
         }
     }
 
-    override fun itemToJson(item: Item): String {
-        return runCatching {
-            nmsClass("MojangsonParser").invokeConstructor(StringReader(item.tag.nbt))
-                .invokeMethod<Any>(if (MinecraftVersion.majorLegacy >= 11800) "readSingleStruct" else "a")?.toString() ?: "{}"
-        }.getOrElse {
-            severe("Failed to parse item to json: $it")
-            "{}"
+    override fun componentToIChatBaseComponent(component: Component): Any? {
+        return if (MinecraftVersion.isUniversal) {
+            IChatBaseComponent.ChatSerializer.fromJson(gsonComponentSerializer.serialize(component))
+        } else {
+            net.minecraft.server.v1_16_R3.IChatBaseComponent.ChatSerializer.b(gsonComponentSerializer.serialize(component))
         }
     }
 
-    override fun bkItemToJson(item: ItemStack): String {
-        return runCatching {
-            NMSItem.asNMSCopy(item).invokeMethod<Any>("save", nmsClass("NBTTagCompound").newInstance()).toString()
-        }.getOrElse {
-            severe("Failed to parse bukkit item to json: $it")
-            "{}"
-        }
-    }
-
-    override fun jsonToItem(json: String): ItemStack {
-        return runCatching {
-            val nbt = nmsClass("MojangsonParser").invokeMethod<Any>(if (MinecraftVersion.majorLegacy >= 11800) "parseTag" else "parse", json, isStatic = true)
-            NMSItem.asBukkitCopy(nmsClass("ItemStack").invokeConstructor(nbt))
-        }.getOrElse {
-            severe("Failed to parse json to item: $it")
-            ItemStack(Material.AIR)
+    override fun iChatBaseComponentToComponent(iChatBaseComponent: Any): Component {
+        return if (MinecraftVersion.isUniversal) {
+            gsonComponentSerializer.deserialize(IChatBaseComponent.ChatSerializer.toJson(iChatBaseComponent as IChatBaseComponent))
+        } else {
+            gsonComponentSerializer.deserialize(net.minecraft.server.v1_16_R3.IChatBaseComponent.ChatSerializer.a(iChatBaseComponent as net.minecraft.server.v1_16_R3.IChatBaseComponent))
         }
     }
 }
