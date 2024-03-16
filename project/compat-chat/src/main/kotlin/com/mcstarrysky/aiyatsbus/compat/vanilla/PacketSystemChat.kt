@@ -1,5 +1,7 @@
 package com.mcstarrysky.aiyatsbus.compat.vanilla
 
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import io.papermc.paper.adventure.PaperAdventure
 import net.kyori.adventure.nbt.api.BinaryTagHolder
@@ -7,11 +9,14 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TranslatableComponent
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.event.HoverEvent.ShowItem
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.info
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.library.reflex.Reflex.Companion.invokeMethod
 import taboolib.library.reflex.Reflex.Companion.setProperty
@@ -26,6 +31,7 @@ import taboolib.module.nms.PacketSendEvent
  * @since 2024/2/18 00:40
  */
 object PacketSystemChat {
+    private val gson = GsonComponentSerializer.gson()
 
     @SubscribeEvent(priority = EventPriority.MONITOR)
     fun e(e: PacketSendEvent) {
@@ -38,35 +44,42 @@ object PacketSystemChat {
         }
     }
 
-    private fun modify(c: Component, player: Player): Component {
-        val component = Component.empty()
-        if (c is TranslatableComponent) {
-            c.args().forEach { component.append(modifyOne(it, player)) }
-            return component
-        }
-        // TODO: component.children().?
+    private fun modify(component: Component, player: Player): Component {
+        var json = gson.serialize(component)
+        val stacks = extractHoverEvent(json)
 
-        return component
+        stacks.forEach { stack ->
+            val itemId = stack.get("id").asString
+            val item = Bukkit.getItemFactory().createItemStack(itemId)
+            val display = Aiyatsbus.api().getDisplayManager().display(item, player)
+
+            val target = display.displayName().hoverEvent(display.asHoverEvent())
+            json = json.replace(
+                stack.get("tag").asString.flat(),
+                extractHoverEvent(gson.serialize(target)).first().get("tag").asString.flat()
+            )
+        }
+
+        return gson.deserialize(json)
     }
 
-    private fun modifyOne(component: Component, player: Player): Component {
-        val hover = component.hoverEvent()
-        if (hover != null && hover.value() is ShowItem) {
-            val value = hover.value() as ShowItem
-            val nbt = value.nbt()
-            if (nbt != null) {
-                val originNbt = PaperAdventure::class.java.getProperty<Any>("NBT_CODEC", isStatic = true)!!.invokeMethod<Any>("decode", nbt.string())
-                val itemStack = ItemStack(Material.valueOf(value.item().value().uppercase()), 1)
-                val nmsItem = NMSItem.asNMSCopy(itemStack)
-                nmsItem.invokeMethod<Any>("setTag", originNbt)
-                val bkItem = NMSItem.asBukkitCopy(nmsItem)
+    private fun extractHoverEvent(json: String): List<JsonObject> {
+        val pairs = mutableListOf<JsonObject>()
 
-                val modified = Aiyatsbus.api().getDisplayManager().display(bkItem, player)
-                val editedTag = PaperAdventure::class.java.invokeMethod<BinaryTagHolder>("asBinaryTagHolder", NMSItem.asNMSCopy(modified).invokeMethod("getTag"), isStatic = true)
-                // value.invokeMethod<Any>("nbt", editedTag) // 懒得判断版本了
-                return component.hoverEvent(HoverEvent.showItem(value.item(), value.count(), editedTag))
+        val jsonObject = JsonParser.parseString(json).asJsonObject
+        val hoverEvent = jsonObject.getAsJsonObject("hoverEvent") ?: return pairs
+        val action = hoverEvent.get("action")?.asString
+        if (action == "show_item") {
+            val contents = hoverEvent.getAsJsonObject("contents")
+            if (contents.has("id")) {
+                pairs.add(contents)
             }
         }
-        return component
+
+        return pairs
+    }
+
+    private fun String.flat(): String {
+        return this.replace("\"", "\\\"")
     }
 }
