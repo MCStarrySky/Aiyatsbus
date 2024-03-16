@@ -2,7 +2,6 @@ package com.mcstarrysky.aiyatsbus.core.util
 
 import taboolib.common5.cbool
 import taboolib.common5.cdouble
-import taboolib.module.kether.compileToJexl
 import kotlin.math.roundToInt
 
 /**
@@ -22,37 +21,12 @@ fun String.replace(holders: Map<String, Any>, tagged: Boolean = true): String = 
 
 fun String.replace(vararg holders: Pair<String, Any>, tagged: Boolean = true): String = replace(holders.toList(), tagged)
 
-val stringCalcSymbols = listOf("==", "~>", "~<", "~~", "``")
-
 fun String.calculate(holders: List<Pair<String, Any>>): String {
     return replace(holders).run {
         try {
-            compileToJexl().eval().toString()
-        } catch (ignored: Exception) {
-            var secondHand = this
-            var flag = false
-            split("&&").map { it.split("||") }.flatten().forEach { origin ->
-                stringCalcSymbols.forEach { symbol ->
-                    if (origin.contains(symbol)) {
-                        flag = true
-                        val a = this.split(symbol)[0]
-                        val b = this.split(symbol)[1]
-                        val result = when (symbol) {
-                            "==" -> a == b
-                            "~>" -> a.contains(b)
-                            "~<" -> b.contains(a)
-                            "+>" -> a.startsWith(b)
-                            "->" -> a.endsWith(b)
-                            "+<" -> b.startsWith(a)
-                            "-<" -> b.endsWith(a)
-                            else -> false
-                        }
-                        secondHand = secondHand.replace(origin, result.toString())
-                    }
-                }
-            }
-            if (flag) secondHand.calculate()
-            else this
+            MathUtils.calculate(this).toString()
+        } catch (ex: Throwable) {
+            throw RuntimeException("Failed to calculate $this", ex)
         }
     }
 }
