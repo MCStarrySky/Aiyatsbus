@@ -30,7 +30,7 @@ data class Limitations(
 
     val limitations = lines.mapNotNull {
         val type = LimitType.valueOf(it.split(":")[0])
-        val value = it.split(":")[1]
+        val value = it.split(":").drop(1).joinToString(":")
         if (type == CONFLICT_ENCHANT) {
             conflicts[belonging.basicData.name] = value
             null
