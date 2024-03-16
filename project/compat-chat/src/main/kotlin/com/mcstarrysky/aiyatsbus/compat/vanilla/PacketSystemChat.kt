@@ -46,7 +46,7 @@ object PacketSystemChat {
 
     private fun modify(component: Component, player: Player): Component {
         var json = gson.serialize(component)
-        val stacks = extractHoverEvent(json)
+        val stacks = extractHoverEvents(json)
 
         stacks.forEach { stack ->
             val itemId = stack.get("id").asString
@@ -56,27 +56,39 @@ object PacketSystemChat {
             val target = display.displayName().hoverEvent(display.asHoverEvent())
             json = json.replace(
                 stack.get("tag").asString.flat(),
-                extractHoverEvent(gson.serialize(target)).first().get("tag").asString.flat()
+                extractHoverEvents(gson.serialize(target)).first().get("tag").asString.flat()
             )
         }
 
         return gson.deserialize(json)
     }
 
-    private fun extractHoverEvent(json: String): List<JsonObject> {
-        val pairs = mutableListOf<JsonObject>()
+    private fun extractHoverEvents(jsonString: String): List<JsonObject> {
+        val jsonObject = JsonParser.parseString(jsonString).asJsonObject
+        val hoverEvents = mutableListOf<JsonObject>()
 
-        val jsonObject = JsonParser.parseString(json).asJsonObject
-        val hoverEvent = jsonObject.getAsJsonObject("hoverEvent") ?: return pairs
-        val action = hoverEvent.get("action")?.asString
-        if (action == "show_item") {
-            val contents = hoverEvent.getAsJsonObject("contents")
-            if (contents.has("id")) {
-                pairs.add(contents)
+        findHoverEvents(jsonObject, hoverEvents)
+
+        return hoverEvents
+    }
+
+    private fun findHoverEvents(jsonObject: JsonObject, hoverEvents: MutableList<JsonObject>) {
+        for (entry in jsonObject.entrySet()) {
+            val value = entry.value
+            if (value.isJsonObject) {
+                if (entry.key == "hoverEvent" && value.asJsonObject.has("action") && value.asJsonObject.get("action").asString == "show_item") {
+                    hoverEvents.add(value.asJsonObject.get("contents").asJsonObject)
+                } else {
+                    findHoverEvents(value.asJsonObject, hoverEvents)
+                }
+            } else if (value.isJsonArray) {
+                for (element in value.asJsonArray) {
+                    if (element.isJsonObject) {
+                        findHoverEvents(element.asJsonObject, hoverEvents)
+                    }
+                }
             }
         }
-
-        return pairs
     }
 
     private fun String.flat(): String {
