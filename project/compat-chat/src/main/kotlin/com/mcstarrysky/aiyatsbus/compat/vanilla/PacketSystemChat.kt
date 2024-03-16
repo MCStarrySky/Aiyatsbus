@@ -3,24 +3,14 @@ package com.mcstarrysky.aiyatsbus.compat.vanilla
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
-import io.papermc.paper.adventure.PaperAdventure
-import net.kyori.adventure.nbt.api.BinaryTagHolder
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.TranslatableComponent
-import net.kyori.adventure.text.event.HoverEvent
-import net.kyori.adventure.text.event.HoverEvent.ShowItem
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import org.bukkit.Bukkit
-import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.common.platform.function.info
 import taboolib.library.reflex.Reflex.Companion.getProperty
-import taboolib.library.reflex.Reflex.Companion.invokeMethod
 import taboolib.library.reflex.Reflex.Companion.setProperty
-import taboolib.module.nms.NMSItem
 import taboolib.module.nms.PacketSendEvent
 
 /**
@@ -49,7 +39,7 @@ object PacketSystemChat {
         val stacks = extractHoverEvents(json)
 
         stacks.forEach { stack ->
-            val itemId = stack.get("id").asString
+            val itemId = stack.get("id").asString + stack.get("tag").asString
             val item = Bukkit.getItemFactory().createItemStack(itemId)
             val display = Aiyatsbus.api().getDisplayManager().display(item, player)
 
