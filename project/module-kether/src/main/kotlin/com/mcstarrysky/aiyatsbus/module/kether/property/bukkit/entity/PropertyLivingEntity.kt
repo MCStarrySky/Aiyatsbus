@@ -43,8 +43,8 @@ class PropertyLivingEntity : AiyatsbusGenericProperty<LivingEntity>("living-enti
             "last-damage-cause", "last-dmg-cause" -> instance.lastDamageCause
             "no-damage-ticks", "no-dmg-ticks", "no-damage-cooldown", "no-dmg-cd" -> instance.noDamageTicks
 
-            "eye-location", "eye-loc" -> instance.eyeLocation
-            "eye-height" -> instance.eyeHeight
+            "eyeLocation", "eye-location", "eye-loc" -> instance.eyeLocation
+            "eyeHeight", "eye-height" -> instance.eyeHeight
 
             "has-potion" -> instance.activePotionEffects.isNotEmpty()
             "has-ai" -> instance.hasAI()

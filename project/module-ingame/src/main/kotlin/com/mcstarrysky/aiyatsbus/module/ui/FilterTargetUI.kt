@@ -26,7 +26,7 @@ import kotlin.collections.set
 @MenuComponent("FilterTarget")
 object FilterTargetUI {
 
-    @Config("ui/filter_target.yml")
+    @Config("core/ui/filter_target.yml")
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 

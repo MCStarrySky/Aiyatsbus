@@ -12,10 +12,10 @@ import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.conversion
 
-@ConfigNode(bind = "mechanisms/exp.yml")
+@ConfigNode(bind = "core/mechanisms/exp.yml")
 object ExpListener {
 
-    @Config("mechanisms/exp.yml", autoReload = true)
+    @Config("core/mechanisms/exp.yml", autoReload = true)
     lateinit var conf: Configuration
         private set
 

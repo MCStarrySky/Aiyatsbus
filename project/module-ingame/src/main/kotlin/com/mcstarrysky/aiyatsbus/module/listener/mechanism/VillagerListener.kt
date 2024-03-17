@@ -18,10 +18,10 @@ import taboolib.module.configuration.Configuration
  * @author mical
  * @since 2024/2/22 23:35
  */
-@ConfigNode(bind = "mechanisms/villager.yml")
+@ConfigNode(bind = "core/mechanisms/villager.yml")
 object VillagerListener {
 
-    @Config("mechanisms/villager.yml", autoReload = true)
+    @Config("core/mechanisms/villager.yml", autoReload = true)
     lateinit var conf: Configuration
         private set
 

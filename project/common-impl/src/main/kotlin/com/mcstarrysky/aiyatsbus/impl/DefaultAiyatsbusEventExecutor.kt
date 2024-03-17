@@ -3,13 +3,16 @@ package com.mcstarrysky.aiyatsbus.impl
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import com.mcstarrysky.aiyatsbus.core.*
+import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.core.util.mirrorNow
+import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
 import org.bukkit.event.Event
+import org.bukkit.event.HandlerList
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
@@ -23,10 +26,12 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.ProxyListener
+import taboolib.common.platform.function.info
 import taboolib.common.platform.function.registerBukkitListener
 import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.common.platform.function.unregisterListener
 import taboolib.library.reflex.Reflex.Companion.getProperty
+import java.util.function.Consumer
 
 /**
  * Aiyatsbus
@@ -73,6 +78,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                     else -> null
                 }
             }
+
             is EntityEvent -> (event.entity as? LivingEntity)
             is InventoryClickEvent -> event.whoClicked
             is InventoryEvent -> event.view.player
@@ -93,8 +99,11 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
             val item = inventory.getItem(it)
             if (item.isNull) return@forEach
 
-            item.fixedEnchants.forEach { enchantPair ->
+            for (enchantPair in item.fixedEnchants) {
                 val enchant = enchantPair.key
+
+                if (!enchant.limitations.checkAvailable(CheckType.USE, item, entity, it).first) continue
+
                 enchant.trigger.listeners
                     .filterValues { it.getEventPriority() == eventPriority && it.listen == listen }
                     .forEach { (_, executor) ->
@@ -117,7 +126,8 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
                         mirrorNow("Enchantment:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${enchant.basicData.id}" else "") {
                             vars += "mirror" to it
-                            Aiyatsbus.api().getKetherHandler().invoke(executor.handle, player as? Player, variables = vars)
+                            Aiyatsbus.api().getKetherHandler()
+                                .invoke(executor.handle, player as? Player, variables = vars)
                         }
                     }
             }

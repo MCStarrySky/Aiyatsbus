@@ -27,12 +27,12 @@ import taboolib.module.configuration.conversion
 import taboolib.platform.util.onlinePlayers
 import kotlin.math.roundToInt
 
-@ConfigNode(bind = "mechanisms/enchanting_table.yml")
+@ConfigNode(bind = "core/mechanisms/enchanting_table.yml")
 object AttainListener {
 
     private val shelfAmount = mutableMapOf<String, Int>()
 
-    @Config("mechanisms/enchanting_table.yml", autoReload = true)
+    @Config("core/mechanisms/enchanting_table.yml", autoReload = true)
     lateinit var conf: Configuration
         private set
 

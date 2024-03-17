@@ -20,7 +20,7 @@ import taboolib.module.ui.virtual.InventoryHandler
 @MenuComponent("Menu")
 object MainMenuUI {
 
-    @Config("ui/menu.yml")
+    @Config("core/ui/menu.yml")
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 

@@ -50,3 +50,9 @@ mappings:
     slots: ALL
     priorities: [HIGHEST]
 
+  # 玩家切换主副手事件
+  player-toggle-sneak:
+    class: 'org.bukkit.event.player.PlayerToggleSneakEvent'
+    slots: ALL
+    priorities: [HIGHEST]
+

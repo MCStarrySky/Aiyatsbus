@@ -1,0 +1,31 @@
+basic:
+  id: propulsion
+  name: "推进器"
+  max_level: 1
+
+rarity: 史诗
+targets:
+  - 靴子
+
+limitations:
+  - "CONFLICT_ENCHANT:弹跳鞋"
+
+display:
+  description:
+    general: "在空中下蹲可触发二段跳 (冷却:§a6秒§7)"
+
+mechanisms:
+  listeners:
+    on-sneak:
+      listen: "player-toggle-sneak"
+      handle: |-
+        if all [ check &event[player.isOnGround] is false not &event[isSneaking] ] then {
+          set cd to a-cd check &enchant &player 6 true
+          if &cd then {
+            set eye-loc to &event[player.eye-loc]
+            set velocity to &eye-loc[direction.normalize]
+            set &velocity[y] to 0.5
+            set &event[player.velocity] to &velocity
+            a-cd add &enchant &player
+          }
+        }

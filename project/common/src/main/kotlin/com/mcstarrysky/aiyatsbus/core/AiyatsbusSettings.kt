@@ -13,9 +13,10 @@ import taboolib.module.configuration.conversion
  * @author mical
  * @since 2024/2/17 14:31
  */
+@ConfigNode(bind = "core/config.yml")
 object AiyatsbusSettings {
 
-    @Config("config.yml", autoReload = true)
+    @Config("core/config.yml", autoReload = true)
     lateinit var conf: Configuration
         private set
 

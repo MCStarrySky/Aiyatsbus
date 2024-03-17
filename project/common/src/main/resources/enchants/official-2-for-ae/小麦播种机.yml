@@ -25,9 +25,9 @@ mechanisms:
     on-right-click:
       listen: "player-interact"
       handle: |-
-        set cd to a-cd check &enchant &player &冷却 true
+        if all [ check &event[action] is RIGHT_CLICK_BLOCK check &event[hand] is &trigger-slot ] then {
+          set cd to a-cd check &enchant &player &冷却 true
         
-        if check &event[action] is RIGHT_CLICK_BLOCK then {
           if &cd then {
             operation plant &边长 WHEAT_SEEDS
             a-cd add &enchant &player

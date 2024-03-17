@@ -29,7 +29,7 @@ class PropertyPlayerInteractEvent : AiyatsbusGenericProperty<PlayerInteractEvent
             "is-physical" -> instance.action == Action.PHYSICAL
             "hand" -> instance.hand?.name ?: "NULL"
             "item" -> instance.item
-            "block" -> instance.clickedBlock
+            "block", "clickedBlock" -> instance.clickedBlock
             "has-block" -> instance.hasBlock()
             "has-item" -> instance.hasItem()
             "is-block-place", "is-place" -> instance.isBlockInHand

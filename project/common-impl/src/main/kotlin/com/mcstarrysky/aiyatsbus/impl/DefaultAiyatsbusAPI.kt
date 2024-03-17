@@ -7,6 +7,7 @@ import com.mcstarrysky.aiyatsbus.impl.registration.legacy.DefaultLegacyEnchantme
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
+import taboolib.module.lang.Language
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.nmsProxy
 
@@ -73,6 +74,8 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
         @Awake(LifeCycle.CONST)
         fun init() {
+            Language.path = "core/lang"
+            Language.enableSimpleComponent = true
             if (MinecraftVersion.majorLegacy >= 12003) {
                 val reg = nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
                 reg.replaceRegistry()

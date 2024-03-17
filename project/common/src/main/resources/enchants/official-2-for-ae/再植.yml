@@ -23,7 +23,7 @@ mechanisms:
     on-physical:
       listen: "player-interact"
       handle: |-
-        if all [ not check &event[action] is PHYSICAL not check &trigger-slot is FEET ] then {
+        if not check &event[action] is PHYSICAL then {
           set &mirror[isCancelled] to true
           exit
         }
