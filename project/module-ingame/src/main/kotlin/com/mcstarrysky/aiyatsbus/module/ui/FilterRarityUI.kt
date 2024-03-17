@@ -24,7 +24,7 @@ import kotlin.collections.set
 @MenuComponent("FilterRarity")
 object FilterRarityUI {
 
-    @Config("ui/filter_rarity.yml")
+    @Config("core/ui/filter_rarity.yml")
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 

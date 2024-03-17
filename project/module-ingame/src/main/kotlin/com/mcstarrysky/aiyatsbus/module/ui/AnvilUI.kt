@@ -24,7 +24,7 @@ import com.mcstarrysky.aiyatsbus.module.ui.internal.record
 @MenuComponent("Anvil")
 object AnvilUI {
 
-    @Config("ui/anvil.yml")
+    @Config("core/ui/anvil.yml")
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 

@@ -27,7 +27,7 @@ import com.mcstarrysky.aiyatsbus.module.ui.internal.record
 @MenuComponent("ItemCheck")
 object ItemCheckUI {
 
-    @Config("ui/item_check.yml")
+    @Config("core/ui/item_check.yml")
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 

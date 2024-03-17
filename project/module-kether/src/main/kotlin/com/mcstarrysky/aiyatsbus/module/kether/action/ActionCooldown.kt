@@ -27,7 +27,7 @@ object ActionCooldown {
                 combine(any(), player(), double(), bool(true)) { ench, player, sec, send ->
                     return@combine player.checkCd((ench as AiyatsbusEnchantment).basicData.id, sec).let {
                         if (!it.first && send) {
-                            player.sendLang("messages-misc-cool_down", "second" to it.second)
+                            player.sendLang("messages-misc-cool_down", it.second to "second")
                         }
                         it.first
                     }

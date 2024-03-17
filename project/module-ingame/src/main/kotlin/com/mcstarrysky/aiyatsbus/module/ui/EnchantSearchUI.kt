@@ -25,7 +25,7 @@ import kotlin.collections.set
 @MenuComponent("EnchantSearch")
 object EnchantSearchUI {
 
-    @Config("ui/enchant_search.yml")
+    @Config("core/ui/enchant_search.yml")
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 

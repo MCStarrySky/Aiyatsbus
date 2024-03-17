@@ -20,10 +20,10 @@ import taboolib.module.configuration.conversion
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
-@ConfigNode(bind = "mechanisms/anvil.yml")
+@ConfigNode(bind = "core/mechanisms/anvil.yml")
 object AnvilListener {
 
-    @Config("mechanisms/anvil.yml", autoReload = true)
+    @Config("core/mechanisms/anvil.yml", autoReload = true)
     lateinit var conf: Configuration
         private set
 

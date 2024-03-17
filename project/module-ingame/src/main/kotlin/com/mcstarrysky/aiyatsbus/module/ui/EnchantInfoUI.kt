@@ -36,7 +36,7 @@ import kotlin.collections.set
 @MenuComponent("EnchantInfo")
 object EnchantInfoUI {
 
-    @Config("ui/enchant_info.yml")
+    @Config("core/ui/enchant_info.yml")
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 

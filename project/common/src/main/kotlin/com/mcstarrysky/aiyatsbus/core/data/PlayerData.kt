@@ -4,6 +4,7 @@ import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantmentFilter
 import com.mcstarrysky.aiyatsbus.core.FilterStatement
 import com.mcstarrysky.aiyatsbus.core.FilterType
 import com.mcstarrysky.aiyatsbus.core.aiyatsbusEt
+import taboolib.common.platform.function.info
 import taboolib.common5.clong
 
 /**
@@ -61,7 +62,7 @@ data class PlayerData(private val serializedData: String?) {
                     filters[it]!!.map { (value, state) -> "$value=$state" }.joinToString(";")
                 }.joinToString("$")
             }||" +
-            "cooldown==${cooldown.map { (id, stamp) -> "$id=$stamp" }.joinToString { ";" }}"
+            "cooldown==${cooldown.map { (id, stamp) -> "$id=$stamp" }.joinToString(";")}"
 }
 
 enum class MenuMode {

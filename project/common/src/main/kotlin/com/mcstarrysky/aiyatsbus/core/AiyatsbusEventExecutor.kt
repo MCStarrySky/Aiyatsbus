@@ -22,10 +22,10 @@ interface AiyatsbusEventExecutor {
     fun unregisterListeners()
 
     @Suppress("UNCHECKED_CAST")
-    @ConfigNode(bind = "event-mapping.yml")
+    @ConfigNode(bind = "core/event-mapping.yml")
     companion object {
 
-        @Config("event-mapping.yml", autoReload = true)
+        @Config("core/event-mapping.yml", autoReload = true)
         lateinit var conf: Configuration
             private set
 

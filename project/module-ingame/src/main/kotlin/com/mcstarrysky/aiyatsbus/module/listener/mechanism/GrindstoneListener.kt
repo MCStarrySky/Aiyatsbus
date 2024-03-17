@@ -21,10 +21,10 @@ import taboolib.module.configuration.conversion
 import java.util.*
 import kotlin.math.roundToInt
 
-@ConfigNode(bind = "mechanisms/grindstone.yml")
+@ConfigNode(bind = "core/mechanisms/grindstone.yml")
 object GrindstoneListener {
 
-    @Config("mechanisms/grindstone.yml", autoReload = true)
+    @Config("core/mechanisms/grindstone.yml", autoReload = true)
     lateinit var conf: Configuration
         private set
 
