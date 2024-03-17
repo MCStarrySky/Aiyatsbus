@@ -34,8 +34,8 @@ object PacketSystemChat {
             runCatching {
                 val player = e.player
                 if (MinecraftVersion.majorLegacy > 12002) {
-                  //  val adventure = Aiyatsbus.api().getMinecraftAPI().iChatBaseComponentToComponent(e.packet.source.getProperty<Any>("content") as? Component ?: return)
-                  //  e.packet.source.setProperty("content", Aiyatsbus.api().getMinecraftAPI().componentToIChatBaseComponent(modify(adventure, player)))
+                    val adventure = e.packet.source.getProperty<Any>("a/adventure", remap = false) as? Component ?: return
+                    e.packet.source.setProperty("a/adventure", modify(adventure, player), remap = false)
                 } else {
                     val adventure = e.packet.source.getProperty<Any>("adventure\$content", remap = false) as? Component ?: return
                     e.packet.source.setProperty("adventure\$content", modify(adventure, player), remap = false)
