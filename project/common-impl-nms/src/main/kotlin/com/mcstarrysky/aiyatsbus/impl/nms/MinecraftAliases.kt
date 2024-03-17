@@ -14,13 +14,9 @@ typealias NMS16MerchantRecipe = net.minecraft.server.v1_16_R3.MerchantRecipe
 
 typealias NMS16MerchantRecipeList = net.minecraft.server.v1_16_R3.MerchantRecipeList
 
-typealias NMS16IChatBaseComponent = net.minecraft.server.v1_16_R3.IChatBaseComponent
-
 // Universal
 typealias NMSItemStack = net.minecraft.world.item.ItemStack
 
 typealias NMSMerchantRecipe = net.minecraft.world.item.trading.MerchantRecipe
 
 typealias NMSMerchantRecipeList = net.minecraft.world.item.trading.MerchantRecipeList
-
-typealias NMSIChatBaseComponent = net.minecraft.network.chat.IChatBaseComponent
