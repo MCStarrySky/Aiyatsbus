@@ -25,6 +25,10 @@ fun Int.roman(simplified: Boolean = false, blank: Boolean = false): String {
     return if (blank) " $roman" else "$roman"
 }
 
+fun Double.isInteger(): Boolean {
+    return this == toInt().toDouble()
+}
+
 object MathUtils {
 
     private fun calculateToDouble(a1: Double, a2: Double, operator: Char): Double {
