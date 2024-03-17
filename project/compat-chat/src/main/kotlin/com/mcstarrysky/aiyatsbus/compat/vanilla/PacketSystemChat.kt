@@ -25,17 +25,18 @@ import taboolib.module.nms.PacketSendEvent
  */
 @RuntimeDependency(value = "!com.google.code.gson:gson:2.10.1", test = "!com.google.gson.JsonElement")
 object PacketSystemChat {
+
     private val gson = GsonComponentSerializer.gson()
 
     @SubscribeEvent(priority = EventPriority.MONITOR)
     fun e(e: PacketSendEvent) {
         if (e.packet.name == "ClientboundSystemChatPacket") {
-            e.packet.source::class.java.declaredFields.forEach { info(it.type.name) }
             runCatching {
                 val player = e.player
                 if (MinecraftVersion.majorLegacy > 12002) {
-                    val adventure = e.packet.source.getProperty<Any>("a/adventure", remap = false) as? Component ?: return
-                    e.packet.source.setProperty("a/adventure", modify(adventure, player), remap = false)
+                    info(e.packet.source.toString())
+                    val adventure = Aiyatsbus.api().getMinecraftAPI().iChatBaseComponentToComponent(e.packet.source.getProperty<Any>("content") ?: return)
+                    e.packet.source.setProperty("content", Aiyatsbus.api().getMinecraftAPI().componentToIChatBaseComponent(modify(adventure, player)))
                 } else {
                     val adventure = e.packet.source.getProperty<Any>("adventure\$content", remap = false) as? Component ?: return
                     e.packet.source.setProperty("adventure\$content", modify(adventure, player), remap = false)
