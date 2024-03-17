@@ -34,30 +34,25 @@ object PacketSystemChat {
         val player = e.player
         // 1.19 +
         if (e.packet.name == "ClientboundSystemChatPacket") {
-            runCatching {
-                // 1.20.2 + 取消了 adventure$content, 所以要直接修改 IChatBaseComponent
-                // FIXME: 小张看这里有一个 a/adventure 指向 Adventure Component, 但我怎么都测试不出来这个字段
-                if (MinecraftVersion.majorLegacy > 12002) {
-                    val adventure = Aiyatsbus.api().getMinecraftAPI().iChatBaseComponentToComponent(e.packet.source.getProperty<Any>("content") ?: return)
-                    e.packet.source.setProperty("content", Aiyatsbus.api().getMinecraftAPI().componentToIChatBaseComponent(
-                        modify(adventure, player)
-                    ))
-                } else {
-                    // 1.19 - 1.20.2 是有一个 adventure$content 存储 Adventure Component, 直接修改这个字段即可
-                    val adventure = e.packet.source.getProperty<Any>("adventure\$content", remap = false) as? Component ?: return
-                    e.packet.source.setProperty("adventure\$content", modify(adventure, player), remap = false)
-                }
-            }.onFailure { it.printStackTrace() }
-        }
-        // 1.16 - 1.18 的数据包与高版本不同, 要修改 PacketPlayOutChat 的 message, message 是 IChatBaseComponent
-        else
-        if (e.packet.name == "PacketPlayOutChat") {
-            runCatching {
-                val adventure = Aiyatsbus.api().getMinecraftAPI().iChatBaseComponentToComponent(e.packet.source.getProperty<Any>("message") ?: return)
-                e.packet.source.setProperty("message", Aiyatsbus.api().getMinecraftAPI().componentToIChatBaseComponent(
+            // 1.20.2 + 取消了 adventure$content, 所以要直接修改 IChatBaseComponent
+            // FIXME: 小张看这里有一个 a/adventure 指向 Adventure Component, 但我怎么都测试不出来这个字段
+            if (MinecraftVersion.majorLegacy > 12002) {
+                val adventure = Aiyatsbus.api().getMinecraftAPI().iChatBaseComponentToComponent(e.packet.source.getProperty<Any>("content") ?: return)
+                e.packet.source.setProperty("content", Aiyatsbus.api().getMinecraftAPI().componentToIChatBaseComponent(
                     modify(adventure, player)
                 ))
-            }.onFailure { it.printStackTrace() }
+            } else {
+                // 1.19 - 1.20.2 是有一个 adventure$content 存储 Adventure Component, 直接修改这个字段即可
+                val adventure = e.packet.source.getProperty<Any>("adventure\$content", remap = false) as? Component ?: return
+                e.packet.source.setProperty("adventure\$content", modify(adventure, player), remap = false)
+            }
+        }
+        // 1.16 - 1.18 的数据包与高版本不同, 要修改 PacketPlayOutChat 的 message, message 是 IChatBaseComponent
+        if (e.packet.name == "PacketPlayOutChat") {
+            val adventure = Aiyatsbus.api().getMinecraftAPI().iChatBaseComponentToComponent(e.packet.source.getProperty<Any>("message") ?: return)
+            e.packet.source.setProperty("message", Aiyatsbus.api().getMinecraftAPI().componentToIChatBaseComponent(
+                modify(adventure, player)
+            ))
         }
     }
 
