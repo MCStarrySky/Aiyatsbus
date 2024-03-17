@@ -24,7 +24,8 @@ fun String.replace(vararg holders: Pair<String, Any>, tagged: Boolean = true): S
 fun String.calculate(holders: List<Pair<String, Any>>): String {
     return replace(holders).run {
         try {
-            MathUtils.calculate(this).toString()
+            val result = MathUtils.calculate(this)
+            if (result.isInteger()) result.toInt().toString() else result.toString()
         } catch (ex: Throwable) {
             throw RuntimeException("Failed to calculate $this", ex)
         }

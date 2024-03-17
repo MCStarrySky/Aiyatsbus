@@ -32,7 +32,7 @@ object AiyatsbusCommand {
 
     val enchantNamesAndIds = mutableListOf<String>()
 
-    @CommandBody
+    @CommandBody(permission = "aiyatsbus.command")
     val main = mainCommand {
         createTabooLegacyHelper()
     }
