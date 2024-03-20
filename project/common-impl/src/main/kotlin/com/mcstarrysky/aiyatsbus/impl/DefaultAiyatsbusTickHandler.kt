@@ -61,26 +61,32 @@ class DefaultAiyatsbusTickHandler : AiyatsbusTickHandler {
             onlinePlayers.forEach { player ->
                 var flag = false
                 val record = recorder.computeIfAbsent(player.uniqueId) { mutableSetOf() }
+
+                // 一般能存在 routine 里的, tickers 必不为 null
+                val ticker = ench.trigger.tickers[id] ?: error("Unknown ticker $id for enchantment ${ench.basicData.id}")
+
+                val variables = mutableMapOf(
+                    "player" to player,
+                    "enchant" to ench
+                )
+
                 slots.forEach slot@{ slot ->
                     val item = player.inventory.getItem(slot)
                     if (item.isNull) return@slot
 
                     val level = item.etLevel(ench)
 
-                    val vars = mutableMapOf(
-                        "triggerSlot" to slot.name,
-                        "trigger-slot" to slot.name,
-                        "player" to player,
-                        "item" to item,
-                        "enchant" to ench,
-                        "level" to level
-                    )
-
-                    val ticker = ench.trigger.tickers[id] ?: error("Unknown ticker $id for enchantment ${ench.basicData.id}")
-
                     if (level > 0) {
                         if (!ench.limitations.checkAvailable(CheckType.USE, item, player, slot).first) return@slot
                         flag = true
+
+                        val vars = variables.toMutableMap()
+                        vars += mapOf(
+                            "triggerSlot" to slot.name,
+                            "trigger-slot" to slot.name,
+                            "item" to item,
+                            "level" to level
+                        )
 
                         if (!record.contains(id)) {
                             record += id
@@ -93,11 +99,11 @@ class DefaultAiyatsbusTickHandler : AiyatsbusTickHandler {
                             Aiyatsbus.api().getKetherHandler().invoke(ticker.handle, player, vars)
                         }
                     }
-                    if (!flag && record.contains(id)) {
-                        record -= id
-                        mirrorNow("Enchantment:Tick:PostHandle:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${ench.basicData.id}" else "") {
-                            Aiyatsbus.api().getKetherHandler().invoke(ticker.postHandle, player, vars)
-                        }
+                }
+                if (!flag && record.contains(id)) {
+                    record -= id
+                    mirrorNow("Enchantment:Tick:PostHandle:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${ench.basicData.id}" else "") {
+                        Aiyatsbus.api().getKetherHandler().invoke(ticker.postHandle, player, variables)
                     }
                 }
             }

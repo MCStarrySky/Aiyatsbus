@@ -40,5 +40,8 @@ data class Trigger(private val section: ConfigurationSection?, private val encha
 
     fun onDisable() {
         listeners.clear()
+
+        tickers.keys.forEach { Aiyatsbus.api().getTickHandler().getRoutine().remove(enchant, it) }
+        tickers.clear()
     }
 }

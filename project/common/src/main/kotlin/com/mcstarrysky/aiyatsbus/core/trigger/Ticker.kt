@@ -26,7 +26,9 @@ data class Ticker(
 
     private fun preheat() {
         if (AiyatsbusSettings.enableKetherPreheat) {
+            Aiyatsbus.api().getKetherHandler().preheat(preHandle)
             Aiyatsbus.api().getKetherHandler().preheat(handle)
+            Aiyatsbus.api().getKetherHandler().preheat(postHandle)
         }
     }
 
