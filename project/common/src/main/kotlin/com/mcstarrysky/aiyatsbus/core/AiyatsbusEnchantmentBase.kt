@@ -37,5 +37,5 @@ class AiyatsbusEnchantmentBase(
 
     override val limitations: Limitations = Limitations(this, config.getStringList("limitations"))
 
-    override val trigger: Trigger = Trigger(config.getConfigurationSection("mechanisms"))
+    override val trigger: Trigger = Trigger(config.getConfigurationSection("mechanisms"), this)
 }

@@ -50,4 +50,9 @@ interface AiyatsbusAPI {
      * 获取玩家数据接口
      */
     fun getPlayerDataHandler(): AiyatsbusPlayerDataHandler
+
+    /**
+     * 获取附魔调度器
+     */
+    fun getTickHandler(): AiyatsbusTickHandler
 }

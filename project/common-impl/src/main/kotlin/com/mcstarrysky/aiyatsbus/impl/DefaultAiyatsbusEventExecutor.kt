@@ -124,7 +124,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                             if (!baffle.hasNext(key)) return
                         }
 
-                        mirrorNow("Enchantment:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${enchant.basicData.id}" else "") {
+                        mirrorNow("Enchantment:Listener:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${enchant.basicData.id}" else "") {
                             vars += "mirror" to it
                             Aiyatsbus.api().getKetherHandler()
                                 .invoke(executor.handle, player as? Player, variables = vars)
