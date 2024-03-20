@@ -38,6 +38,8 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
     private val ketherHandler = PlatformFactory.getAPI<AiyatsbusKetherHandler>()
 
+    private val tickHandler = PlatformFactory.getAPI<AiyatsbusTickHandler>()
+
     override fun getEnchantmentFilter(): AiyatsbusEnchantmentFilter {
         return enchantmentFilter
     }
@@ -68,6 +70,10 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
     override fun getPlayerDataHandler(): AiyatsbusPlayerDataHandler {
         return playerDataHandler
+    }
+
+    override fun getTickHandler(): AiyatsbusTickHandler {
+        return tickHandler
     }
 
     companion object {

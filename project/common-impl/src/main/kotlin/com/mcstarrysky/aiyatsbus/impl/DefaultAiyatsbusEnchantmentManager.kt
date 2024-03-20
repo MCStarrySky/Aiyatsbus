@@ -59,11 +59,13 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
         clearEnchantments()
 
         if (newFolder(getDataFolder(), "enchants").listFiles()?.none { it.isDirectory } == true) {
-            runningResourcesInJar.keys.filter {
-                it.endsWith(".yml")
-                        && it.startsWith("enchants/")
-                        && it.count { c -> c == '/' } >= 2
-            }.forEach { releaseResourceFile(it) }
+            if (AiyatsbusSettings.autoReleaseEnchants) {
+                runningResourcesInJar.keys.filter {
+                    it.endsWith(".yml")
+                            && it.startsWith("enchants/")
+                            && it.count { c -> c == '/' } >= 2
+                }.forEach { releaseResourceFile(it) }
+            }
         }
 
         (newFolder(getDataFolder(), "enchants")
