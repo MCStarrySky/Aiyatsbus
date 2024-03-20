@@ -1,0 +1,35 @@
+basic:
+  id: wings
+  name: "反重力"
+  max_level: 1
+
+rarity: 传奇
+targets:
+  - 靴子
+
+limitations:
+  - "CONFLICT_ENCHANT:经验修补"
+
+display:
+  description:
+    general: "可进入飞行状态，飞行时持续消耗靴子耐久"
+
+mechanisms:
+  tickers:
+    durability:
+      interval: 20
+      pre-handle: |-
+        if check player gamemode is SURVIVAL then {
+          player allow flight to true
+        }
+      handle: |-
+        if check player gamemode is SURVIVAL then {
+          if player flying then {
+            item damage &item 2 by &player
+          }
+        }
+      post-handle: |-
+        if check player gamemode is SURVIVAL then {
+          player allow flight to false
+          player flying to false
+        }
