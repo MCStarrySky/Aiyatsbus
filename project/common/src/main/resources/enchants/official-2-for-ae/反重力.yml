@@ -19,17 +19,17 @@ mechanisms:
     durability:
       interval: 20
       pre-handle: |-
-        if check player gamemode is SURVIVAL then {
+        if any [ check player gamemode is SURVIVAL check player gamemode is ADVENTURE ] then {
           player allow flight to true
         }
       handle: |-
-        if check player gamemode is SURVIVAL then {
+        if any [ check player gamemode is SURVIVAL check player gamemode is ADVENTURE ] then {
           if player flying then {
             item damage &item 2 by &player
           }
         }
       post-handle: |-
-        if check player gamemode is SURVIVAL then {
+        if any [ check player gamemode is SURVIVAL check player gamemode is ADVENTURE ] then {
           player allow flight to false
           player flying to false
         }
