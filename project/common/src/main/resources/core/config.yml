@@ -30,3 +30,5 @@ Settings:
   # 在附魔很多的情况下, 开启这个会导致刷屏, 且有可能无法显示完整
   # 所以这个选项仅适合于在测试服自定义附魔时用于查看附魔性能使用
   show-performance-details: false
+  # 对于附魔的挖掘放置攻击生物等操作, OP 是否无视领地等保护
+  anti-grief-ignore-op: true

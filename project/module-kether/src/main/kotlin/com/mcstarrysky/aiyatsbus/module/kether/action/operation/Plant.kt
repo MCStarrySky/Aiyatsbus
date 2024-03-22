@@ -1,8 +1,8 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.operation
 
-import com.mcstarrysky.aiyatsbus.core.util.PermissionChecker
-import com.mcstarrysky.aiyatsbus.core.util.blockLookingAt
+import com.mcstarrysky.aiyatsbus.core.AntiGriefChecker
 import com.mcstarrysky.aiyatsbus.core.util.placeBlock
+import org.bukkit.FluidCollisionMode
 import org.bukkit.Material
 import org.bukkit.block.data.Ageable
 import org.bukkit.entity.Player
@@ -41,7 +41,7 @@ object Plant {
     fun plant(player: Player, sideLength: Int, seeds: String?) {
         if (sideLength <= 1) return
 
-        val block = player.blockLookingAt(6.0) ?: return
+        val block = player.rayTraceBlocks(6.0, FluidCollisionMode.NEVER)?.hitBlock ?: return
         val loc = block.location
         val type = getSeed(player, seeds) ?: return
 
@@ -53,7 +53,7 @@ object Plant {
                 val current = loc.clone().add(x.toDouble(), 0.0, z.toDouble())
                 if (current.block.type != Material.FARMLAND) continue
                 val planted = current.clone().add(0.0, 1.0, 0.0).block
-                if (!PermissionChecker.hasBlockPermission(player, planted))
+                if (!AntiGriefChecker.canBreak(player, planted))
                     continue
                 if (planted.type != Material.AIR) continue // 防止左右手打架
                 if (player.placeBlock(planted, ItemStack(type, 1))) {

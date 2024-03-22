@@ -36,7 +36,7 @@ mechanisms:
     on-break:
       listen: "block-break"
       handle: |-
-        if check &event[block.location] in extra-blocks then {
+        if further-operation has &player BlockBreakEvent with &event[block.location.serialized] then {
           set &mirror[isCancelled] to true
           exit
         }

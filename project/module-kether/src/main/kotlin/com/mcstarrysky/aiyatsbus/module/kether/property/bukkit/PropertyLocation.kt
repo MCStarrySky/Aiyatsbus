@@ -2,6 +2,7 @@ package com.mcstarrysky.aiyatsbus.module.kether.property.bukkit
 
 import com.mcstarrysky.aiyatsbus.core.util.coerceDouble
 import com.mcstarrysky.aiyatsbus.core.util.coerceFloat
+import com.mcstarrysky.aiyatsbus.core.util.serialized
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusGenericProperty
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusProperty
 import org.bukkit.Bukkit
@@ -44,6 +45,7 @@ class PropertyLocation : AiyatsbusGenericProperty<Location>("location-bukkit") {
             "length" -> instance.length()
             "lengthSquared", "length-squared", "squared", "sq" -> instance.lengthSquared()
             "serialize" -> instance.serialize()
+            "serialized" -> instance.serialized
             "toVector", "vector" -> instance.toVector()
             "toString", "string" -> instance.toString()
             "zero" -> instance.zero()

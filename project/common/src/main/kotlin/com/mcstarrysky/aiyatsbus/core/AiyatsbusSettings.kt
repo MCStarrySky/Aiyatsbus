@@ -68,19 +68,25 @@ object AiyatsbusSettings {
      * 是否开启 ItemsAdder 支持
      */
     @ConfigNode("Settings.support-items-adder")
-    val supportItemsAdder = false
+    var supportItemsAdder = false
 
     /**
      * 是否开启脚本预热
      */
     @ConfigNode("Settings.enable-kether-preheat")
-    val enableKetherPreheat = true
+    var enableKetherPreheat = true
 
     /**
      * 是否显示性能监控的详情信息
      */
     @ConfigNode("Settings.show-performance-details")
-    val showPerformanceDetails = false
+    var showPerformanceDetails = false
+
+    /**
+     * 对于附魔的挖掘放置攻击生物等操作, OP 是否无视领地等保护
+     */
+    @ConfigNode("Settings.anti-grief-ignore-op")
+    var antiGriefIgnoreOp = true
 }
 
 const val AIYATSBUS_PREFIX = "&8[&{#D8D8FA}Aiyatsbus&8]&7"

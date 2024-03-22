@@ -1,27 +1,26 @@
 package com.mcstarrysky.aiyatsbus.core.util
 
-import com.google.gson.Gson
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
-import org.bukkit.FluidCollisionMode
-import org.bukkit.Material
+import org.bukkit.Location
+import org.bukkit.NamespacedKey
 import org.bukkit.block.Block
-import org.bukkit.entity.Entity
-import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.EnchantmentStorageMeta
 import org.bukkit.inventory.meta.ItemMeta
-import org.bukkit.potion.PotionEffectType
+import org.bukkit.persistence.PersistentDataHolder
+import org.bukkit.persistence.PersistentDataType
 import sun.misc.Unsafe
-import taboolib.common.platform.ProxyCommandSender
-import taboolib.common.platform.function.console
-import taboolib.module.lang.asLangText
-import taboolib.module.nms.getI18nName
+import taboolib.common5.Baffle
+import taboolib.common5.cint
+import taboolib.library.configuration.ConfigurationSection
+import taboolib.module.configuration.util.asMap
 import taboolib.platform.util.*
 import java.lang.reflect.Field
-import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Aiyatsbus
@@ -30,94 +29,145 @@ import java.util.*
  * @author mical
  * @since 2024/2/17 17:07
  */
+
+/**
+ * 旧版文本序列化器
+ */
 val LEGACY_COMPONENT_SERIALIZER = LegacyComponentSerializer.builder()
     .character('\u00a7')
     .useUnusualXRepeatedCharacterHexFormat()
     .hexColors()
     .build()
 
-val GSON = Gson()
-
-fun String.toAdventureComponent(): Component {
+/**
+ * 将带有 &a 之类的旧版文本转换为 Adventure Component
+ */
+fun String.legacyToAdventure(): Component {
     return LEGACY_COMPONENT_SERIALIZER.deserialize(this)
 }
 
+/**
+ * 获取 Unsafe
+ */
 private val unsafe = Unsafe::class.java.getDeclaredField("theUnsafe")
     .apply { isAccessible = true }
     .get(null) as Unsafe
 
+/**
+ * 设置 static final 字段
+ */
 fun Field.setStaticFinal(value: Any) {
     val offset = unsafe.staticFieldOffset(this)
     unsafe.putObject(unsafe.staticFieldBase(this), offset, value)
 }
 
+/**
+ * 判断物品是否为 null 或是空气方块
+ */
 val ItemStack?.isNull get() = this?.isAir ?: true
 
+/**
+ * 判断物品是否为附魔书
+ */
 val ItemStack.isEnchantedBook get() = itemMeta is EnchantmentStorageMeta
 
+/**
+ * 获取/修改物品显示名称
+ */
 var ItemStack.name
     get() = itemMeta?.displayName
     set(value) {
         modifyMeta<ItemMeta> { setDisplayName(value) }
     }
 
+/**
+ * 获取/修改物品耐久
+ */
 var ItemStack.damage
     get() = (itemMeta as? Damageable)?.damage ?: 0
     set(value) {
         modifyMeta<Damageable> { damage = value }
     }
 
-fun String.translate(who: ProxyCommandSender = console()) = who.asLangText(this)
+/**
+ * 物品最大耐久度
+ * */
+val ItemStack.maxDurability: Int
+    get() = this.type.maxDurability.toInt()
 
-fun Player.blockLookingAt(
-    range: Double = 50.0,
-    fluidCollisionMode: FluidCollisionMode = FluidCollisionMode.NEVER
-) = rayTraceBlocks(range, fluidCollisionMode)?.hitBlock
-
-fun Player.takeItem(amount: Int = 1, matcher: (itemStack: ItemStack) -> Boolean): Boolean {
-    if (inventory.countItem(matcher) >= amount) {
-        inventory.takeItem(amount, matcher)
-        return true
+/**
+ * 物品耐久度
+ * */
+var ItemStack.dura: Int
+    get() = this.maxDurability - damage
+    set(value) {
+        this.damage = this.maxDurability - value
     }
-    return false
+
+/**
+ * 将 Location 的 世界 和 XYZ 信息序列化成文本字符串
+ */
+val Location.serialized get() = "${world.name},$blockX,$blockY,$blockZ"
+
+/**
+ * 令玩家放置方块
+ */
+fun Player.placeBlock(placedBlock: Block, itemInHand: ItemStack = this.itemInHand): Boolean {
+    val blockAgainst = placedBlock.getRelative(0, 1, 0)
+    val event = BlockPlaceEvent(placedBlock, placedBlock.state, blockAgainst, itemInHand, this, true)
+    return event.callEvent()
 }
 
-fun LivingEntity.mainHand() = equipment?.itemInMainHand
-
-fun LivingEntity.offHand() = equipment?.itemInOffHand
-
-fun LivingEntity.effect(type: PotionEffectType, duration: Int, level: Int = 1) {
-    addPotionEffect(type.createEffect(duration * 20, level - 1))
+/**
+ * 从 PDC 获取内容
+ */
+operator fun <T, Z> PersistentDataHolder.get(key: String, type: PersistentDataType<T, Z>): Z? {
+    return persistentDataContainer.get(NamespacedKey.minecraft(key), type)
 }
 
-fun LivingEntity.realDamage(amount: Double, who: Entity? = null) {
-    health = maxOf(0.1, health - amount + 0.5)
-    damage(0.5, who)
+/**
+ * 向 PDC 设置内容
+ */
+operator fun <T, Z : Any> PersistentDataHolder.set(key: String, type: PersistentDataType<T, Z>, value: Z) {
+    persistentDataContainer.set(NamespacedKey.minecraft(key), type, value)
 }
 
-val Entity.displayName get() = (this as? Player)?.name ?: customName ?: getI18nName()
+/**
+ * 判断 PDC 是否包含某个键
+ */
+fun <T, Z : Any> PersistentDataHolder.has(key: String, type: PersistentDataType<T, Z>): Boolean {
+    return persistentDataContainer.has(NamespacedKey.minecraft(key), type)
+}
 
-val LivingEntity.blockBelow
-    get():Block? {
-        val loc = location
-        repeat(loc.blockY + 63) {
-            val current = loc.clone()
-            current.y -= it.toDouble() + 1
-            if (current.block.type != Material.AIR) {
-                return current.block
+/**
+ * 从 PDC 移除内容
+ */
+fun PersistentDataHolder.remove(key: String) {
+    return persistentDataContainer.remove(NamespacedKey.minecraft(key))
+}
+
+/**
+ * 从 ConfigurationSection 读取 Baffle
+ */
+fun ConfigurationSection?.baffle(): Baffle? {
+    return this?.let {
+        val section = it.asMap()
+        when {
+            "time" in section -> {
+                // 按时间阻断
+                val time = section["time"]?.cint ?: -1
+                if (time > 0) {
+                    Baffle.of(time * 50L, TimeUnit.MILLISECONDS)
+                } else null
             }
+            "count" in section -> {
+                // 按次数阻断
+                val count = section["count"]?.cint ?: -1
+                if (count > 0) {
+                    Baffle.of(count)
+                } else null
+            }
+            else -> null
         }
-        return null
     }
-
-fun ItemStack.serializeToBase64(): String {
-    return Base64.getEncoder().encodeToString(serializeToByteArray())
 }
-
-fun String.deserializeItemStackFromBase64(): ItemStack {
-    return Base64.getDecoder().decode(this).deserializeToItemStack()
-}
-
-val itemsAdderEnabled = runCatching { Class.forName("dev.lone.itemsadder.api.ItemsAdder") }.isSuccess
-val trchatEnabled = runCatching { Class.forName("me.arasple.mc.trchat.api.TrChatAPI") }.isSuccess
-val interactiveChatEnabled = runCatching { Class.forName("com.loohp.interactivechat.InteractiveChat") }.isSuccess

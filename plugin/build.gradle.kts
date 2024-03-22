@@ -1,5 +1,13 @@
 @file:Suppress("PropertyName", "SpellCheckingInspection")
 
+repositories {
+    maven("https://jitpack.io")
+}
+
+dependencies {
+    taboo("com.github.Xiao-MoMi:AntiGriefLib:0.9")
+}
+
 taboolib {
     description {
         name(rootProject.name)
@@ -11,6 +19,8 @@ taboolib {
         desc("Aiyatsbus is an powerful enchantment framework for Paper servers.")
         load("STARTUP")
     }
+
+    relocate("net.momirealms.antigrieflib", "com.mcstarrysky.aiyatsbus.library.momirealms.antigrieflib")
 }
 
 tasks {

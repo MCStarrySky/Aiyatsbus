@@ -50,6 +50,6 @@ object ActionVariables {
      */
     @AiyatsbusParser(["modifiable-var-set"])
     fun modifiableVarSet() = aiyatsbus {
-        combine(any(), item(), text(), optional("to", "=", then = any())) { ench, item, name, value -> (ench as AiyatsbusEnchantment).variables.modifyVariable(item, name, value.toString()) }
+        combine(any(), item(), text(), trim("to", "=", then = any())) { ench, item, name, value -> (ench as AiyatsbusEnchantment).variables.modifyVariable(item, name, value.toString()) }
     }
 }
