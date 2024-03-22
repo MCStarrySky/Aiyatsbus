@@ -2,7 +2,7 @@ package com.mcstarrysky.aiyatsbus.impl.registration.legacy
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantmentBase
-import com.mcstarrysky.aiyatsbus.core.util.toAdventureComponent
+import com.mcstarrysky.aiyatsbus.core.util.legacyToAdventure
 import io.papermc.paper.enchantments.EnchantmentRarity
 import net.kyori.adventure.text.Component
 import org.bukkit.enchantments.Enchantment
@@ -43,7 +43,7 @@ class LegacyCraftEnchantment(
     override fun canEnchantItem(p0: ItemStack): Boolean = true
 
     override fun displayName(level: Int): Component {
-        return enchant.displayName(level).toAdventureComponent()
+        return enchant.displayName(level).legacyToAdventure()
     }
 
     override fun isTradeable(): Boolean = enchant.alternativeData.isTradeable

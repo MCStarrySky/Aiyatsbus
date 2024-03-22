@@ -10,9 +10,12 @@ import java.util.*
  * @author HamsterYDS
  * @since 2024/2/17 23:15
  */
-val romanUnits = intArrayOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
-val romanSymbols = arrayOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+private val romanUnits = intArrayOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+private val romanSymbols = arrayOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
 
+/**
+ * 将数字转化为罗马数字
+ */
 fun Int.roman(simplified: Boolean = false, blank: Boolean = false): String {
     if ((this == 1 && simplified) || this !in 1..3999) return ""
     var number = this
@@ -25,12 +28,19 @@ fun Int.roman(simplified: Boolean = false, blank: Boolean = false): String {
     return if (blank) " $roman" else "$roman"
 }
 
+/**
+ * 判断一个浮点型是否为整数
+ * 比如 6.0 就是整数
+ */
 fun Double.isInteger(): Boolean {
     return this == toInt().toDouble()
 }
 
 object MathUtils {
 
+    /**
+     * 计算数字
+     */
     private fun calculateToDouble(a1: Double, a2: Double, operator: Char): Double {
         return when (operator) {
             '+' -> a1 + a2
@@ -41,6 +51,10 @@ object MathUtils {
         }
     }
 
+    /**
+     * 获取优先级
+     * 小学问题, 先乘除后加减, 我弟都会
+     */
     private fun getPriority(symbol: String?): Int {
         return when (symbol) {
             null -> 0
@@ -51,6 +65,9 @@ object MathUtils {
         }
     }
 
+    /**
+     * 将中缀表达式转化为后缀表达式(逆波兰表达式)
+     */
     private fun toRpnExpr(expr: String): String {
         val buffer = StringBuffer()
         val operator = Stack<String>()
@@ -86,6 +103,9 @@ object MathUtils {
         return buffer.toString()
     }
 
+    /**
+     * 计算表达式
+     */
     fun calculate(expr: String): Double {
         val rpnExpr = toRpnExpr(expr)
         val pattern = "-?\\d+(\\.\\d+)?|[+\\-*/]".toPattern()
