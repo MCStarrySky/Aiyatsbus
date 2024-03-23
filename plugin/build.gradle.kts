@@ -1,11 +1,11 @@
 @file:Suppress("PropertyName", "SpellCheckingInspection")
 
-repositories {
-    maven("https://jitpack.io")
-}
+// repositories {
+//     maven("https://jitpack.io")
+// }
 
 dependencies {
-    taboo("com.github.Xiao-MoMi:AntiGriefLib:0.9")
+    taboo("net.momirealms:AntiGriefLib:dev-1")
 }
 
 taboolib {
@@ -18,6 +18,10 @@ taboolib {
         }
         desc("Aiyatsbus is an powerful enchantment framework for Paper servers.")
         load("STARTUP")
+
+        dependencies {
+            name("ItemsAdder").optional(true)
+        }
     }
 
     relocate("net.momirealms.antigrieflib", "com.mcstarrysky.aiyatsbus.library.momirealms.antigrieflib")
