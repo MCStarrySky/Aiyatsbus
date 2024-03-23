@@ -1,28 +1,33 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
 limit:
-  #第二个物品含有超出最高级的附魔，如锋利100的附魔书
-  #是否允许拼合
+  # 第二个物品含有超出最高级的附魔，如锋利100的附魔书
+  # 是否允许拼合
   unsafe_level: true
-  #是否允许通过两个同等级附魔的拼合达到超出最高级的附魔
-  #比如 锋利V+锋利V=锋利VI
+  # 是否允许通过两个同等级附魔的拼合达到超出最高级的附魔
+  # 比如 锋利V+锋利V=锋利VI
   unsafe_combine: false
 
-#最高需要的等级，超出此等级的消费自动算100级
+# 最高需要的等级，超出此等级的消费自动算100级
 max_cost: 100
-#每次重命名的消费等级
+# 每次重命名的消费等级
 rename_cost: 3
-#每次修复的消费等级
+# 每次修复的消费等级
 repair_cost: 5
-#附魔的消费等级
+# 附魔的消费等级
 enchant_cost:
-  #每新增一个附魔的额外消费
+  # 每新增一个附魔的额外消费
   new_extra: 2
-  #每级的花费
-  #浮点数运算，最后一步修约到整数
+  # 每级的花费
+  # 浮点数运算，最后一步修约到整数
   per_level: "6.0/{max_level}"
 
 allow_different_material: false
 
-#vip权限的玩家，可以节省经验等级
+# vip权限的玩家，可以节省经验等级
 privilege:
   - "aiyatsbus.privilege.anvil.vip:{cost}-1"
   - "aiyatsbus.privilege.anvil.svip:{cost}-2"

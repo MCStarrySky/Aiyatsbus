@@ -88,6 +88,8 @@ class DefaultAiyatsbusTickHandler : AiyatsbusTickHandler {
                             "level" to level
                         )
 
+                        vars += ench.variables.variables(level, player, item, false)
+
                         if (!record.contains(id)) {
                             record += id
                             mirrorNow("Enchantment:Tick:PreHandle:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${ench.basicData.id}" else "") {

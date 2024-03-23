@@ -1,0 +1,69 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  enable: true
+  disable_worlds: [ ]
+  id: accumulating
+  name: "蓄能"
+  max_level: 2
+
+rarity: 史诗
+targets:
+  - 剑
+  - 斧
+
+limitations: [ ]
+
+display:
+  format:
+    previous: "{default_previous}  §7{是否充能完毕}(§e{当前累计}§7/§a{击杀累计}§7)"
+  description:
+    general: "每击杀若干只怪物后，下一次攻击伤害增加"
+    specific: "§7每击杀§a{击杀累计}§7生物后，下一次攻击伤害增加§a{伤害增加百分比}"
+
+variables:
+  leveled:
+    击杀累计: "只:4-{level}"
+    伤害增加百分比: "%:15.0*{level}"
+  modifiable:
+    当前累计: test_current_total=0
+    是否充能完毕: can_discharge=充能中
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if not check &trigger-slot is HAND then {
+          exit
+        }
+
+        set total to type int modifiable-var &enchant &item 当前累计
+        set multiplier to type double &伤害增加百分比
+        set damage to &event[damage]
+
+        if check &total >= type int &击杀累计 then {
+          modifiable-var-set &enchant &item 当前累计 to 0
+          modifiable-var-set &enchant &item 是否充能完毕 to 充能中
+          set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"
+        }
+
+        set total to type int modifiable-var &enchant &item 当前累计
+
+    on-kill:
+      listen: "entity-death"
+      handle: |-
+        if not check &trigger-slot is HAND then {
+          exit
+        }
+
+        set total to type int modifiable-var &enchant &item 当前累计
+        modifiable-var-set &enchant &item 当前累计 to math add [ &total 1 ]
+
+        set total to type int modifiable-var &enchant &item 当前累计
+        if check &total >= type int &击杀累计 then {
+          modifiable-var-set &enchant &item 是否充能完毕 to 充能完毕
+        }

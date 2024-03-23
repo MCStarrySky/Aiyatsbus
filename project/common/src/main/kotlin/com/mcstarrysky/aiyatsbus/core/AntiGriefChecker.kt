@@ -1,7 +1,9 @@
 package com.mcstarrysky.aiyatsbus.core
 
+import net.momirealms.antigrieflib.AbstractComp
 import net.momirealms.antigrieflib.AntiGriefLib
-import org.bukkit.block.Block
+import org.bukkit.Location
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
@@ -29,7 +31,18 @@ object AntiGriefChecker {
         handle.init()
     }
 
-    fun canBreak(player: Player, block: Block): Boolean {
-        return handle.canBreak(player, block.location)
+    fun canBreak(player: Player, location: Location): Boolean {
+        return handle.canBreak(player, location)
+    }
+
+    fun canDamage(player: Player, entity: Entity): Boolean {
+        return handle.canDamage(player, entity)
+    }
+
+    fun registerNewCompatibility(comp: AbstractComp, init: Boolean = true) {
+        if (init) {
+            comp.init()
+        }
+        handle.registerNewCompatibility(comp)
     }
 }

@@ -2,7 +2,9 @@ package com.mcstarrysky.aiyatsbus.core.trigger
 
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
+import com.mcstarrysky.aiyatsbus.core.util.Submit
 import com.mcstarrysky.aiyatsbus.core.util.baffle
+import com.mcstarrysky.aiyatsbus.core.util.submit
 import taboolib.common.platform.event.EventPriority
 import taboolib.common5.Baffle
 import taboolib.library.configuration.ConfigurationSection
@@ -28,6 +30,9 @@ data class EventExecutor(
     @Transient
     var baffle: Baffle? = null
 
+    @Transient
+    lateinit var submit: Submit
+
     private fun preheat() {
         if (AiyatsbusSettings.enableKetherPreheat) {
             Aiyatsbus.api().getKetherHandler().preheat(handle)
@@ -39,6 +44,7 @@ data class EventExecutor(
         fun load(executorSection: ConfigurationSection): EventExecutor {
             val executor = Configuration.deserialize<EventExecutor>(executorSection, true).apply {
                 baffle = executorSection.getConfigurationSection("baffle").baffle()
+                submit = executorSection.getConfigurationSection("submit").submit()
             }
             executor.preheat()
             return executor

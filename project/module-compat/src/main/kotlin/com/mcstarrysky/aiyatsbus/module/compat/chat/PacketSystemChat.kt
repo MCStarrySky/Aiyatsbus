@@ -10,6 +10,7 @@ import org.bukkit.entity.Player
 import taboolib.common.env.RuntimeDependency
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.severe
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.library.reflex.Reflex.Companion.setProperty
 import taboolib.module.configuration.Configuration
@@ -59,8 +60,16 @@ object PacketSystemChat {
     fun modify(component: Component, player: Player): Component {
         var json = gson.serialize(component)
 
-        // 弱者做法: 二次解析, 防止 GsonComponentSerializer 把单引号解析成 \u0027
-        json = Configuration.loadFromString(json, Type.FAST_JSON).saveToString()
+        try {
+            // 弱者做法: 二次解析, 防止 GsonComponentSerializer 把单引号解析成 \u0027
+            json = Configuration.loadFromString(json, Type.FAST_JSON).saveToString()
+        } catch (ex: Throwable) {
+            severe("Failed to format json!")
+            severe("Json content:")
+            severe(json)
+            ex.printStackTrace()
+            throw ex
+        }
 
         val stacks = extractHoverEvents(json)
 

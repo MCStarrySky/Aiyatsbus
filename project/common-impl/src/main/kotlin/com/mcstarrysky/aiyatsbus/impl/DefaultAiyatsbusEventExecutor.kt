@@ -4,18 +4,18 @@ import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
+import com.mcstarrysky.aiyatsbus.core.trigger.EventExecutor
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.core.util.mirrorNow
-import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
 import org.bukkit.event.Event
-import org.bukkit.event.HandlerList
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityEvent
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryEvent
@@ -26,11 +26,9 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.ProxyListener
-import taboolib.common.platform.function.info
-import taboolib.common.platform.function.registerBukkitListener
-import taboolib.common.platform.function.registerLifeCycleTask
-import taboolib.common.platform.function.unregisterListener
+import taboolib.common.platform.function.*
 import taboolib.library.reflex.Reflex.Companion.getProperty
+import taboolib.platform.util.killer
 import java.util.function.Consumer
 
 /**
@@ -79,6 +77,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                 }
             }
 
+            is EntityDeathEvent -> event.killer
             is EntityEvent -> (event.entity as? LivingEntity)
             is InventoryClickEvent -> event.whoClicked
             is InventoryEvent -> event.view.player
@@ -124,13 +123,28 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                             if (!baffle.hasNext(key)) return
                         }
 
-                        mirrorNow("Enchantment:Listener:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${enchant.basicData.id}" else "") {
-                            vars += "mirror" to it
-                            Aiyatsbus.api().getKetherHandler()
-                                .invoke(executor.handle, player as? Player, variables = vars)
+                        if (executor.submit.enable) {
+                            submit(
+                                now = executor.submit.now,
+                                async = executor.submit.async,
+                                delay = executor.submit.delay,
+                                period = executor.submit.period
+                            ) {
+                                runKether(enchant, executor, player, vars)
+                            }
+                        } else {
+                            runKether(enchant, executor, player, vars)
                         }
                     }
             }
+        }
+    }
+
+    private fun runKether(enchant: AiyatsbusEnchantment, executor: EventExecutor, player: LivingEntity?, vars: MutableMap<String, Any>) {
+        mirrorNow("Enchantment:Listener:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${enchant.basicData.id}" else "") {
+            vars += "mirror" to it
+            Aiyatsbus.api().getKetherHandler()
+                .invoke(executor.handle, player as? Player, variables = vars)
         }
     }
 

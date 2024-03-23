@@ -36,7 +36,7 @@ object FastMultiBreak {
                     continue
                 }
 
-                if (!AntiGriefChecker.canBreak(player, block)) continue
+                if (!AntiGriefChecker.canBreak(player, block.location)) continue
                 FurtherOperation.furtherBreak(player, block)
             }
         }
