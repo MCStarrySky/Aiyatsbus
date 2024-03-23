@@ -5,7 +5,7 @@
 // }
 
 dependencies {
-    taboo("net.momirealms:AntiGriefLib:dev-1")
+    taboo("net.momirealms:AntiGriefLib:dev-2")
 }
 
 taboolib {

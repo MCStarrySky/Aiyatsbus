@@ -53,7 +53,7 @@ object Plant {
                 val current = loc.clone().add(x.toDouble(), 0.0, z.toDouble())
                 if (current.block.type != Material.FARMLAND) continue
                 val planted = current.clone().add(0.0, 1.0, 0.0).block
-                if (!AntiGriefChecker.canBreak(player, planted))
+                if (!AntiGriefChecker.canBreak(player, planted.location))
                     continue
                 if (planted.type != Material.AIR) continue // 防止左右手打架
                 if (player.placeBlock(planted, ItemStack(type, 1))) {

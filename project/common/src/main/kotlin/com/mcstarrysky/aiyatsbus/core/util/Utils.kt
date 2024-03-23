@@ -171,3 +171,20 @@ fun ConfigurationSection?.baffle(): Baffle? {
         }
     }
 }
+
+/**
+ * 从 ConfigurationSection 读取 submit 信息
+ */
+fun ConfigurationSection?.submit(): Submit {
+    return this?.let {
+        val section = it.asMap()
+        val enable = section["enable"].coerceBoolean(true)
+        val now = section["now"].coerceBoolean(false)
+        val async = section["async"].coerceBoolean(false)
+        val delay = section["delay"].coerceLong(0L)
+        val period = section["period"].coerceLong(0L)
+        Submit(enable, now, async, delay, period)
+    } ?: Submit(false, false, false, 0L, 0L)
+}
+
+data class Submit(val enable: Boolean, val now: Boolean, val async: Boolean, val delay: Long, val period: Long)

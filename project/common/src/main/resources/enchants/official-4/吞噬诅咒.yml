@@ -1,0 +1,35 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+# Swalling Curse By Xcib
+basic:
+  enable: true
+  disable_worlds: [ ]
+  id: swallowing_curse
+  name: "吞噬诅咒"
+  max_level: 1
+
+rarity: 诅咒
+targets:
+  - 剑
+  - 斧
+
+limitations:
+  - "CONFLICT_ENCHANT:抢夺"
+
+display:
+  description:
+    general: "使用被诅咒的武器击杀生物不会掉落任何物品与经验"
+
+mechanisms:
+  listeners:
+    on-kill:
+      listen: "entity-death"
+      handle: |-
+        if not check &trigger-slot is HAND then {
+          exit
+        }
+        set &event[exp] to 0
+        arr-clear &event[items]
