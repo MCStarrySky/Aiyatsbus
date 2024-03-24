@@ -6,6 +6,7 @@ import org.bukkit.Material
 import org.bukkit.inventory.EquipmentSlot
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
+import taboolib.common.platform.function.info
 import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.common.platform.function.releaseResourceFile
 import taboolib.module.configuration.Configuration
@@ -35,6 +36,7 @@ data class Target(
         @Awake(LifeCycle.CONST)
         fun init() {
             registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.TARGET) {
+                val time = System.currentTimeMillis()
                 Configuration.loadFromFile(releaseResourceFile("enchants/target.yml", false))
                     .let { config ->
                         config.getKeys(false)
@@ -48,6 +50,7 @@ data class Target(
                         targets.clear()
                         targets.putAll(it)
                     }
+                info("Loaded ${targets.size} targets in ${System.currentTimeMillis() - time}ms")
             }
         }
     }

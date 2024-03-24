@@ -7,6 +7,7 @@ import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.core.util.mirrorNow
+import org.bukkit.inventory.ItemStack
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
@@ -71,7 +72,14 @@ class DefaultAiyatsbusTickHandler : AiyatsbusTickHandler {
                 )
 
                 slots.forEach slot@{ slot ->
-                    val item = player.inventory.getItem(slot)
+                    val item: ItemStack
+                    try {
+                        item = player.inventory.getItem(slot)
+                    } catch (_: Throwable) {
+                        // 离谱的低版本报错:
+                        // java.lang.NullPointerException: player.inventory.getItem(slot) must not be null
+                        return@slot
+                    }
                     if (item.isNull) return@slot
 
                     val level = item.etLevel(ench)

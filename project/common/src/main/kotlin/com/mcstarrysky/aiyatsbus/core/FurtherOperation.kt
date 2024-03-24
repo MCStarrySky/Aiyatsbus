@@ -38,7 +38,7 @@ object FurtherOperation {
     fun furtherBreak(player: Player, block: Block) {
         try {
             addOperation(player, "BlockBreakEvent", block.location.serialized)
-            player.breakBlock(block)
+            Aiyatsbus.api().getMinecraftAPI().breakBlock(player, block)
         } catch (ex: Throwable) {
             ex.printStackTrace()
         } finally {

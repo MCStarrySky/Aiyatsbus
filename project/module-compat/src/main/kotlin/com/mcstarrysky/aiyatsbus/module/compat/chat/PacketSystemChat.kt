@@ -1,13 +1,13 @@
+@file:Suppress("deprecation")
+
 package com.mcstarrysky.aiyatsbus.module.compat.chat
 
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
+import com.mcstarrysky.aiyatsbus.core.util.JSON_PARSER
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import taboolib.common.env.RuntimeDependency
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.severe
@@ -25,7 +25,6 @@ import taboolib.module.nms.PacketSendEvent
  * @author mical
  * @since 2024/2/18 00:40
  */
-@RuntimeDependency(value = "!com.google.code.gson:gson:2.10.1", test = "!com.google.gson.JsonElement")
 object PacketSystemChat {
 
     private val gson = GsonComponentSerializer.gson()
@@ -50,8 +49,9 @@ object PacketSystemChat {
         }
         // 1.16 - 1.18 的数据包与高版本不同, 要修改 PacketPlayOutChat 的 message, message 是 IChatBaseComponent
         if (e.packet.name == "PacketPlayOutChat") {
-            val adventure = Aiyatsbus.api().getMinecraftAPI().iChatBaseComponentToComponent(e.packet.source.getProperty<Any>("message") ?: return)
-            e.packet.source.setProperty("message", Aiyatsbus.api().getMinecraftAPI().componentToIChatBaseComponent(
+            val field = if (MinecraftVersion.isUniversal) "message" else "a"
+            val adventure = Aiyatsbus.api().getMinecraftAPI().iChatBaseComponentToComponent(e.packet.source.getProperty<Any>(field) ?: return)
+            e.packet.source.setProperty(field, Aiyatsbus.api().getMinecraftAPI().componentToIChatBaseComponent(
                 modify(adventure, player)
             ))
         }
@@ -73,9 +73,11 @@ object PacketSystemChat {
 
         val stacks = extractHoverEvents(json)
 
-        stacks.forEach { stack ->
-            val itemId = stack.get("id").asString + stack.get("tag").asString
-            val item = Bukkit.getItemFactory().createItemStack(itemId)
+        for (stack in stacks) {
+            val id = stack.get("id").asString
+            val tag = stack.get("tag")?.asString ?: continue
+
+            val item = Aiyatsbus.api().getMinecraftAPI().createItemStack(id, tag)
             val display = Aiyatsbus.api().getDisplayManager().display(item, player)
 
             val target = display.displayName().hoverEvent(display.asHoverEvent())
@@ -89,7 +91,7 @@ object PacketSystemChat {
     }
 
     private fun extractHoverEvents(jsonString: String): List<JsonObject> {
-        val jsonObject = JsonParser.parseString(jsonString).asJsonObject
+        val jsonObject = JSON_PARSER.parse(jsonString).asJsonObject
         val hoverEvents = mutableListOf<JsonObject>()
 
         findHoverEvents(jsonObject, hoverEvents)

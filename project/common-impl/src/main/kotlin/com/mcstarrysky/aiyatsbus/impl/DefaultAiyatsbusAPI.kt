@@ -7,9 +7,11 @@ import com.mcstarrysky.aiyatsbus.impl.registration.legacy.DefaultLegacyEnchantme
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
+import taboolib.common.platform.function.info
 import taboolib.module.lang.Language
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.nmsProxy
+import java.util.concurrent.CompletableFuture
 
 /**
  * Aiyatsbus
@@ -31,12 +33,16 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
     private val enchantmentRegisterer: AiyatsbusEnchantmentRegisterer = if (MinecraftVersion.majorLegacy <= 12002) {
         DefaultLegacyEnchantmentRegisterer
     } else run {
-        nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
+        proxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
     }
 
     private val eventExecutor = PlatformFactory.getAPI<AiyatsbusEventExecutor>()
 
     private val ketherHandler = PlatformFactory.getAPI<AiyatsbusKetherHandler>()
+
+    private val mcAPI by lazy {
+        proxy<AiyatsbusMinecraftAPI>("com.mcstarrysky.aiyatsbus.impl.nms.DefaultAiyatsbusMinecraftAPI")
+    }
 
     private val tickHandler = PlatformFactory.getAPI<AiyatsbusTickHandler>()
 
@@ -65,7 +71,7 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
     }
 
     override fun getMinecraftAPI(): AiyatsbusMinecraftAPI {
-        return nmsProxy<AiyatsbusMinecraftAPI>("com.mcstarrysky.aiyatsbus.impl.nms.DefaultAiyatsbusMinecraftAPI")
+        return mcAPI
     }
 
     override fun getPlayerDataHandler(): AiyatsbusPlayerDataHandler {
@@ -74,6 +80,20 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
     override fun getTickHandler(): AiyatsbusTickHandler {
         return tickHandler
+    }
+
+    private inline fun <reified T> proxy(bind: String, vararg parameter: Any): T {
+        val time = System.currentTimeMillis()
+        val proxy = nmsProxy(T::class.java, bind, *parameter)
+        info("Generated ${T::class.java.simpleName} in ${System.currentTimeMillis() - time}ms")
+        return proxy
+    }
+
+    init {
+        CompletableFuture.runAsync {
+            enchantmentRegisterer
+            mcAPI
+        }
     }
 
     companion object {

@@ -9,6 +9,7 @@ import org.bukkit.entity.Entity
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.util.Vector
 import taboolib.common.OpenResult
+import taboolib.module.nms.getI18nName
 
 /**
  * Aiyatsbus

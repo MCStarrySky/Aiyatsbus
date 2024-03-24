@@ -5,7 +5,7 @@
 // }
 
 dependencies {
-    taboo("net.momirealms:AntiGriefLib:dev-2")
+    taboo("net.momirealms:AntiGriefLib:dev-5")
 }
 
 taboolib {
@@ -30,13 +30,13 @@ taboolib {
 tasks {
     jar {
         // 构件名
-        archiveFileName.set("${rootProject.name}-${archiveFileName.get().substringAfter('-')}")
+        archiveBaseName.set(rootProject.name)
         // 打包子项目源代码
         rootProject.subprojects.forEach { from(it.sourceSets["main"].output) }
     }
     sourcesJar {
         // 构件名
-        archiveFileName.set("${rootProject.name}-${archiveFileName.get().substringAfter('-')}")
+        archiveBaseName.set(rootProject.name)
         // 打包子项目源代码
         rootProject.subprojects.forEach { from(it.sourceSets["main"].allSource) }
     }

@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.core.util
 
+import com.google.gson.JsonParser
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Location
@@ -29,6 +30,11 @@ import java.util.concurrent.TimeUnit
  * @author mical
  * @since 2024/2/17 17:07
  */
+/**
+ * 旧版 JsonParser
+ * 旧版没有 parseString 静态方法
+ */
+val JSON_PARSER = JsonParser()
 
 /**
  * 旧版文本序列化器
