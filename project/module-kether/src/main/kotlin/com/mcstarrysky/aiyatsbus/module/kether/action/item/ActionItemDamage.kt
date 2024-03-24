@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.item
 
+import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import org.bukkit.entity.LivingEntity
 
 /**
@@ -24,7 +25,7 @@ object ActionItemDamage : ActionItem.Resolver {
                 trim("to", then = int(0)),
                 trim("by", then = entity())
             ) { item, damage, entity ->
-                item.damage(damage, entity as LivingEntity)
+                Aiyatsbus.api().getMinecraftAPI().damageItemStack(item, damage, entity as LivingEntity)
             }
         }
     }

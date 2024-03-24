@@ -7,6 +7,7 @@ import com.mcstarrysky.aiyatsbus.core.aiyatsbusEts
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
+import taboolib.common.platform.function.info
 import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.common.platform.function.releaseResourceFile
 import taboolib.module.configuration.Configuration
@@ -34,6 +35,7 @@ data class Group(
         @Awake(LifeCycle.CONST)
         fun load() {
             registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.GROUP) {
+                val time = System.currentTimeMillis()
                 Configuration.loadFromFile(releaseResourceFile("enchants/group.yml", false))
                     .let { config ->
                         config.getKeys(false).map { name ->
@@ -47,6 +49,7 @@ data class Group(
                         groups.clear()
                         groups.putAll(it)
                     }
+                info("Loaded ${groups.size} groups in ${System.currentTimeMillis() - time}ms")
             }
         }
     }

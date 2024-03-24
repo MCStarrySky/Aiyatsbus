@@ -1,0 +1,44 @@
+basic:
+  id: impact
+  name: "会心"
+  max_level: 4
+
+rarity: 史诗
+targets:
+  - 三叉戟
+  - 弓
+  - 弩
+
+limitations:
+  - "CONFLICT_GROUP:概率类附魔"
+
+display:
+  description:
+    general: "远程攻击时有概率造成双倍伤害"
+    specific: "§7远程攻击时有§a{概率}§7造成双倍伤害"
+
+variables:
+  leveled:
+    概率: "%:3*{level}"
+    冷却: "秒:20-2.5*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if not check &trigger-slot is HAND then {
+          exit
+        }
+        if check &event[cause] is PROJECTILE then {
+          if check random2 0 to 100 <= type double &概率 then {
+            set cd to a-cd check &enchant &player type double &冷却 false
+            if &cd then {
+              set od to &event[damage]
+              set &event[damage] to calc "od * 2"
+              a-cd add &enchant &player
+              send-lang enchant-impact-damaged to &event[entity] with array [ entity-name &event[attacker.shooter] ]
+              send-lang enchant-impact-attacker to &event[attacker.shooter] with array [ entity-name &event[entity] ]
+            }
+          }
+        }

@@ -68,6 +68,8 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
             }
         }
 
+        val time = System.currentTimeMillis()
+
         (newFolder(getDataFolder(), "enchants")
             .listFiles { dir, _ -> dir.isDirectory }?.toList() ?: emptyList())
             .map { it.listFiles { _, name -> name.endsWith(".yml") } }
@@ -78,6 +80,8 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
                 val id = config["basic.id"].toString()
 
                 file.watch {
+                    val time = System.currentTimeMillis()
+
                     val enchantName = BY_ID[id]?.basicData?.name
                     BY_ID[id]!!.trigger.onDisable()
                     Aiyatsbus.api().getEnchantmentRegisterer().unregister(BY_ID[id]!!)
@@ -91,7 +95,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
 
                     onlinePlayers.forEach(Player::updateInventory)
 
-                    info("Auto-reloaded changes for enchantment $id.")
+                    info("Auto-reloaded changes for enchantment $id in ${System.currentTimeMillis() - time}ms")
                 }
 
                 val enchant = AiyatsbusEnchantmentBase(id, config)
@@ -102,7 +106,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
                 FILES[id] = file
             }
 
-        info("${BY_ID.size} enchantments loaded.")
+        info("Loaded ${BY_ID.size} enchantments in ${System.currentTimeMillis() - time}ms")
     }
 
     override fun clearEnchantments() {

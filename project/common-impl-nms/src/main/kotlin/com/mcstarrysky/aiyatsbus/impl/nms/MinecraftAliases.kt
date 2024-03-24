@@ -14,9 +14,39 @@ typealias NMS16MerchantRecipe = net.minecraft.server.v1_16_R3.MerchantRecipe
 
 typealias NMS16MerchantRecipeList = net.minecraft.server.v1_16_R3.MerchantRecipeList
 
+typealias NMS16NBTTagCompound = net.minecraft.server.v1_16_R3.NBTTagCompound
+
+typealias NMS16BlockPosition = net.minecraft.server.v1_16_R3.BlockPosition
+
+typealias NMS16EnumItemSlot = net.minecraft.server.v1_16_R3.EnumItemSlot
+
+typealias NMS16EntityLiving = net.minecraft.server.v1_16_R3.EntityLiving
+
+typealias CraftPlayer16 = org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer
+
+typealias CraftLivingEntity16 = org.bukkit.craftbukkit.v1_16_R3.entity.CraftLivingEntity
+
+typealias CraftEquipmentSlot16 = org.bukkit.craftbukkit.v1_16_R3.CraftEquipmentSlot
+
+typealias CraftItemStack16 = org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack
+
 // Universal
 typealias NMSItemStack = net.minecraft.world.item.ItemStack
 
 typealias NMSMerchantRecipe = net.minecraft.world.item.trading.MerchantRecipe
 
 typealias NMSMerchantRecipeList = net.minecraft.world.item.trading.MerchantRecipeList
+
+typealias NMSNBTTagCompound = net.minecraft.nbt.NBTTagCompound
+
+typealias NMSBlockPosition = net.minecraft.core.BlockPosition
+
+typealias NMSEnumItemSlot = net.minecraft.world.entity.EnumItemSlot
+
+typealias CraftPlayer20 = org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer
+
+typealias CraftLivingEntity20 = org.bukkit.craftbukkit.v1_20_R3.entity.CraftLivingEntity
+
+typealias CraftEquipmentSlot20 = org.bukkit.craftbukkit.v1_20_R3.CraftEquipmentSlot
+
+typealias CraftItemStack20 = org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack

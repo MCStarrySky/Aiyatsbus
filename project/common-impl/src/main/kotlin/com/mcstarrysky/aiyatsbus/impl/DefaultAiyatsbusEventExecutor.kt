@@ -21,6 +21,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryEvent
 import org.bukkit.event.player.PlayerEvent
 import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.inventory.ItemStack
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
@@ -95,7 +96,14 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
         val entity = player as? LivingEntity ?: return
         val inventory = entity.equipment ?: return
         slot.slots.forEach {
-            val item = inventory.getItem(it)
+            val item: ItemStack
+            try {
+                item = inventory.getItem(it)
+            } catch (_: Throwable) {
+                // 离谱的低版本报错:
+                // java.lang.NullPointerException: player.inventory.getItem(slot) must not be null
+                return@forEach
+            }
             if (item.isNull) return@forEach
 
             for (enchantPair in item.fixedEnchants) {

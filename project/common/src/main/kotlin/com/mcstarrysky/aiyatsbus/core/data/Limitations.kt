@@ -105,9 +105,13 @@ data class Limitations(
          */
         val conflicts = mutableMapOf<String, String>()
 
+        /**
+         * 记录单项 conflicts，然后自动挂双向
+         * 防止服主只写了单项
+         */
         @Reloadable
         @Awake(LifeCycle.CONST)
-        fun initConflicts() {
+        fun init() {
             registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.LIMITATIONS) {
                 conflicts.forEach { (a, b) ->
                     val etA = aiyatsbusEt(a) ?: return@forEach

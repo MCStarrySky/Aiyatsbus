@@ -19,17 +19,17 @@ import taboolib.platform.util.takeItem
 object Plant {
 
     val seedsMap = linkedMapOf(
-        Material.BEETROOT_SEEDS to Material.BEETROOTS,
-        Material.MELON_SEEDS to Material.MELON_STEM,
-        Material.PUMPKIN_SEEDS to Material.PUMPKIN_STEM,
-        Material.TORCHFLOWER_SEEDS to Material.TORCHFLOWER_CROP,
-        Material.WHEAT_SEEDS to Material.WHEAT,
-        Material.CARROT to Material.CARROTS,
-        Material.POTATO to Material.POTATOES
+        "BEETROOT_SEEDS" to "BEETROOTS",
+        "MELON_SEEDS" to "MELON_STEM",
+        "PUMPKIN_SEEDS" to "PUMPKIN_STEM",
+        "TORCHFLOWER_SEEDS" to "TORCHFLOWER_CROP",
+        "WHEAT_SEEDS" to "WHEAT",
+        "CARROT" to "CARROTS",
+        "POTATO" to "POTATOES"
     )
 
     fun getSeed(player: Player, seeds: String?): Material? {
-        if (seeds == "ALL") return player.inventory.contents.find { seedsMap.containsKey(it?.type) }?.type
+        if (seeds == "ALL") return player.inventory.contents.find { seedsMap.containsKey(it?.type?.name) }?.type
         try {
             val type = seeds?.let { Material.valueOf(it) } ?: return null
             if (player.inventory.containsAtLeast(ItemStack(type), 1)) return type
@@ -57,7 +57,7 @@ object Plant {
                     continue
                 if (planted.type != Material.AIR) continue // 防止左右手打架
                 if (player.placeBlock(planted, ItemStack(type, 1))) {
-                    planted.type = seedsMap[type]!!
+                    planted.type = Material.valueOf(seedsMap[type.name]!!)
                     val data = planted.blockData as Ageable
                     data.age = 0
                     planted.blockData = data

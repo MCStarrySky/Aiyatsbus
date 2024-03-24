@@ -46,8 +46,8 @@ enchant-strike-attacker: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你的武器召唤了雷
 enchant-strike-damaged: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你被 &e{who} &7召唤的雷电击中'
 enchant-twinge-attacker: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你的武器使得 &e{who} &7流血'
 enchant-twinge-damaged: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你被 &e{who} &7施加了流血效果'
-enchant-impact-attacker: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7本次远程攻击命中 &e{who} &7触发了&b会心一击'
-enchant-impact-damaged: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你被 &e{who} &7的弹射物会心一击'
+enchant-impact-attacker: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7本次远程攻击命中 &e{0} &7触发了&b会心一击'
+enchant-impact-damaged: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你被 &e{0} &7的弹射物会心一击'
 enchant-vitalize-recovered: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你的盾牌为你恢复了 &e{amount} &7点血量'
 enchant-prohibition_curse-damaged: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你的装备对你造成了 &c{amount} &7点真实伤害'
 

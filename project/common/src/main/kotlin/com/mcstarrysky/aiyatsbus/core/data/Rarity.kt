@@ -4,6 +4,7 @@ import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
+import taboolib.common.platform.function.info
 import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.common.platform.function.releaseResourceFile
 import taboolib.module.configuration.Configuration
@@ -37,6 +38,7 @@ data class Rarity(
         @Awake(LifeCycle.CONST)
         fun init() {
             registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.RARITY) {
+                val time = System.currentTimeMillis()
                 Configuration.loadFromFile(releaseResourceFile("enchants/rarity.yml", false))
                     .let { config ->
                         config.getKeys(false)
@@ -46,6 +48,7 @@ data class Rarity(
                         rarities.clear()
                         rarities.putAll(it)
                     }
+                info("Loaded ${rarities.size} in ${System.currentTimeMillis() - time}ms")
             }
         }
 

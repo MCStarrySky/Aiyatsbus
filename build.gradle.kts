@@ -20,12 +20,9 @@ subprojects {
     taboolib {
         env {
             install(CHAT, CONFIGURATION, LANG, BUKKIT_ALL, NMS, NMS_UTIL, KETHER, UI, EFFECT, METRICS)
-            // 开启隔离类加载器
-            // enableIsolatedClassloader = true
         }
         version {
-            taboolib = "6.1.1-beta12"
-            // skipKotlinRelocate = true
+            taboolib = "6.1.1-beta18"
         }
     }
 
@@ -38,6 +35,7 @@ subprojects {
     // 全局依赖
     dependencies {
         compileOnly(kotlin("stdlib"))
+        compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
     }
 
     // 编译配置
@@ -59,35 +57,4 @@ subprojects {
 
 gradle.buildFinished {
     buildDir.deleteRecursively()
-}
-
-subprojects
-    .filter { it.name != "project" && it.name != "plugin" }
-    .forEach { proj ->
-        proj.publishing { applyToSub(proj) }
-    }
-
-fun PublishingExtension.applyToSub(subProject: Project) {
-    repositories {
-        maven("https://repo.mcstarrysky.com/releases") {
-            credentials {
-                username = project.findProperty("starryskyUsername").toString()
-                password = project.findProperty("starryskyPassword").toString()
-            }
-            authentication {
-                create<BasicAuthentication>("basic")
-            }
-        }
-        mavenLocal()
-    }
-    publications {
-        create<MavenPublication>("maven") {
-            artifactId = subProject.name
-            groupId = "com.mcstarrysky.aiyatsbus"
-            version = project.version.toString()
-            artifact(subProject.tasks["kotlinSourcesJar"])
-            artifact(subProject.tasks["jar"])
-            println("> Apply \"$groupId:$artifactId:$version\"")
-        }
-    }
 }
