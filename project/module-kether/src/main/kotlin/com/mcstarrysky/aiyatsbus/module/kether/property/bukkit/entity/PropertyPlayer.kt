@@ -51,7 +51,6 @@ class PropertyPlayer : AiyatsbusGenericProperty<Player>("player") {
 
             "weather" -> instance.playerWeather
 
-            "game-mode", "gamemode" -> instance.gameMode
             "previous-game-mode", "previous-gamemode", "gamemode-previous" -> instance.previousGameMode
             else -> return OpenResult.failed()
         }
@@ -90,10 +89,6 @@ class PropertyPlayer : AiyatsbusGenericProperty<Player>("player") {
             "weather" -> {
                 instance.setPlayerWeather(value?.toString()?.let { WeatherType.valueOf(it) }
                     ?: return OpenResult.successful())
-            }
-            "game-mode", "gamemode" -> {
-                instance.gameMode = value?.toString()?.let { GameMode.valueOf(it) }
-                    ?: return OpenResult.successful()
             }
             else -> return OpenResult.failed()
         }

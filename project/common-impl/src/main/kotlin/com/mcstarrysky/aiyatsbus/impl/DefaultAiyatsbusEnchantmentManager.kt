@@ -80,7 +80,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
                 val id = config["basic.id"].toString()
 
                 file.watch {
-                    val time = System.currentTimeMillis()
+                    val time0 = System.currentTimeMillis()
 
                     val enchantName = BY_ID[id]?.basicData?.name
                     BY_ID[id]!!.trigger.onDisable()
@@ -95,7 +95,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
 
                     onlinePlayers.forEach(Player::updateInventory)
 
-                    info("Auto-reloaded changes for enchantment $id in ${System.currentTimeMillis() - time}ms")
+                    info("Auto-reloaded changes for enchantment $id in ${System.currentTimeMillis() - time0}ms")
                 }
 
                 val enchant = AiyatsbusEnchantmentBase(id, config)

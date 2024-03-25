@@ -1,6 +1,5 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action
 
-import taboolib.common.Inject
 import taboolib.module.kether.KetherParser
 import taboolib.module.kether.combinationParser
 
@@ -11,7 +10,6 @@ import taboolib.module.kether.combinationParser
  * @author mical
  * @since 2024/3/23 21:36
  */
-@Inject
 object ActionArray {
 
     /**

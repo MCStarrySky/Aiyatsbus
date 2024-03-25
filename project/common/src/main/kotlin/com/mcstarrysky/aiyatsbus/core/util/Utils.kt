@@ -6,6 +6,8 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
 import org.bukkit.block.Block
+import org.bukkit.entity.Entity
+import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.inventory.ItemStack
@@ -123,6 +125,15 @@ fun Player.placeBlock(placedBlock: Block, itemInHand: ItemStack = this.itemInHan
     val event = BlockPlaceEvent(placedBlock, placedBlock.state, blockAgainst, itemInHand, this, true)
     return event.callEvent()
 }
+
+/**
+ * 对 LivingEntity 造成真实伤害, 插件和原版无法减伤
+ */
+fun LivingEntity.realDamage(amount: Double, who: Entity? = null) {
+    health = maxOf(0.1, health - amount)
+    damage(0.1, who)
+}
+
 
 /**
  * 从 PDC 获取内容
