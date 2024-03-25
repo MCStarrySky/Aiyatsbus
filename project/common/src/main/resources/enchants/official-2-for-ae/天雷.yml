@@ -1,0 +1,47 @@
+basic:
+  id: strike
+  name: "天雷"
+  max_level: 4
+
+rarity: 史诗
+targets:
+  - 剑
+  - 弓
+  - 斧
+  - 弩
+
+limitations:
+  - "CONFLICT_GROUP:概率类附魔"
+
+display:
+  description:
+    general: "攻击时有概率召唤雷电"
+    specific: "§7攻击时§a{概率}§7召唤雷电 (冷却:§a{冷却}§7)"
+
+variables:
+  leveled:
+    概率: "%:8*{level}"
+    冷却: "秒:6-0.5*{level}"
+    真实伤害: "点:2+{level}*0.5"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if not check &trigger-slot is HAND then {
+          exit
+        }
+        if check &event[attacker.attackCooldown] >= 0.8 then {
+          if check random2 0 to 100 <= type double &概率 then {
+            set cd to a-cd check &enchant &player type double &冷却 false
+            if &cd then {
+              set cd to a-cd check &enchant &player type double &冷却 false
+              strike-lightning &event[entity.location]
+              real-damage &event[entity] with type double &真实伤害
+              a-cd add &enchant &player
+              send-lang enchant-strike-damaged to &event[entity] with array [ entity-name &event[attacker] ]
+              send-lang enchant-strike-attacker to &event[attacker] with array [ entity-name &event[entity] ]
+            }
+          }
+        }

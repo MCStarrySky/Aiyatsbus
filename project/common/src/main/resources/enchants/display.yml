@@ -8,7 +8,7 @@ format:
   default_previous: "{enchant_display_roman}"
   default_subsequent: "\n§8| §7{description}"
 # 剩余词条数显示
-capability_line: "§8| §7附魔词条数空余: §e{capability}"
+capability_line: "§c| §7附魔词条数空余: §e{capability}"
 # lore的顺序
 lore_formation:
   has_lore:
@@ -37,7 +37,7 @@ sort:
 # 合并显示
 combine:
   # 是否开启
-  enable: false
+  enable: true
   # 当物品附魔超过这个值将会开启合并显示
   min: 8
   # 每次合并几个附魔
