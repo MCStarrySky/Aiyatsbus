@@ -6,7 +6,9 @@ import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.info
 import taboolib.common.platform.function.registerLifeCycleTask
-import taboolib.common.platform.function.releaseResourceFile
+import taboolib.library.configuration.ConfigurationSection
+import taboolib.module.chat.component
+import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
 import java.util.concurrent.ConcurrentHashMap
 
@@ -17,43 +19,43 @@ import java.util.concurrent.ConcurrentHashMap
  * @since 2024/2/17 14:19
  */
 data class Rarity(
-    val name: String,
-    val color: String,
-    val weight: Int,
-    val skull: String
+    private val root: ConfigurationSection,
+    val id: String = root.name,
+    val name: String = root.getString("name")!!,
+    val color: String = root.getString("color")!!.component().buildColored().toLegacyText(),
+    val weight: Int = root.getInt("weight", 100),
+    val skull: String = root.getString("skull", "")!!
 ) {
-
-    @Transient
-    lateinit var id: String
-
-    fun display(): String {
+    fun displayName(): String {
         return "$color$name"
     }
+}
 
-    companion object {
+object RarityLoader {
 
-        val rarities = ConcurrentHashMap<String, Rarity>()
+    @Config("enchants/rarity.yml", autoReload = true)
+    lateinit var config: Configuration
+        private set
 
-        @Reloadable
-        @Awake(LifeCycle.CONST)
-        fun init() {
-            registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.RARITY) {
-                val time = System.currentTimeMillis()
-                Configuration.loadFromFile(releaseResourceFile("enchants/rarity.yml", false))
-                    .let { config ->
-                        config.getKeys(false)
-                            .map { it to Configuration.deserialize<Rarity>(config.getConfigurationSection(it)!!, ignoreConstructor = true).apply { id = it } }
-                    }
-                    .let {
-                        rarities.clear()
-                        rarities.putAll(it)
-                    }
-                info("Loaded ${rarities.size} in ${System.currentTimeMillis() - time}ms")
+    val rarities = ConcurrentHashMap<String, Rarity>()
+
+    @Reloadable
+    @Awake(LifeCycle.CONST)
+    fun init() {
+        registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.RARITY) {
+            load()
+        }
+        registerLifeCycleTask(LifeCycle.ENABLE) {
+            config.onReload {
+                load()
             }
         }
+    }
 
-        fun getRarity(identifier: String): Rarity? {
-            return rarities[identifier] ?: rarities.values.firstOrNull { it.name == identifier }
-        }
+    private fun load() {
+        val time = System.currentTimeMillis()
+        rarities.clear()
+        rarities += config.getKeys(false).map { config.getConfigurationSection(it)!! }.map { it.name to Rarity(it) }
+        info("Loaded ${rarities.size} in ${System.currentTimeMillis() - time}ms")
     }
 }

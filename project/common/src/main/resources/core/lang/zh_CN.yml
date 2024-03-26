@@ -98,9 +98,6 @@ command-subCommands-mode-fail: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7控制台无法设
 command-subCommands-reload-description: '重载插件'
 command-subCommands-reload-usage: ''
 
-command-subCommands-calculate-description: '计算公式'
-command-subCommands-calculate-usage: ''
-
 command-subCommands-random-description: '为玩家随机抽取一本指定品质的附魔书'
 command-subCommands-random-usage: '<品质> \[等级\] \[玩家\]'
 command-subCommands-random-rarity: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7品质中附魔为空'

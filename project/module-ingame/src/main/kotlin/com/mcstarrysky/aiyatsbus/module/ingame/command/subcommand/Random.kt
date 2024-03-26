@@ -1,5 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.command.subcommand
 
+import com.mcstarrysky.aiyatsbus.core.aiyatsbusRarities
+import com.mcstarrysky.aiyatsbus.core.aiyatsbusRarity
 import com.mcstarrysky.aiyatsbus.core.book
 import com.mcstarrysky.aiyatsbus.core.data.Rarity
 import com.mcstarrysky.aiyatsbus.core.drawEt
@@ -21,14 +23,14 @@ import taboolib.platform.util.sendLang
  */
 val randomSubCommand = subCommand {
     dynamic("rarity") {
-        suggestion<CommandSender> { _, _ -> Rarity.rarities.map { it.key } + Rarity.rarities.map { it.value.name } }
-        execute<CommandSender> { sender, args, _ -> handleRandom(sender, null, Rarity.getRarity(args["rarity"])!!) }
+        suggestion<CommandSender> { _, _ -> aiyatsbusRarities.map { it.key } + aiyatsbusRarities.map { it.value.name } }
+        execute<CommandSender> { sender, args, _ -> handleRandom(sender, null, aiyatsbusRarity(args["rarity"])!!) }
         dynamic("level", true) {
             suggestionUncheck<CommandSender> { _, _ -> listOf("等级") }
-            execute<CommandSender> { sender, args, _ -> handleRandom(sender, null, Rarity.getRarity(args["rarity"])!!, args["level"]) }
+            execute<CommandSender> { sender, args, _ -> handleRandom(sender, null, aiyatsbusRarity(args["rarity"])!!, args["level"]) }
             dynamic("player", true) {
                 suggestPlayers()
-                execute<CommandSender> { sender, args, _ -> handleRandom(sender, args["player"], Rarity.getRarity(args["rarity"])!!, args["level"]) }
+                execute<CommandSender> { sender, args, _ -> handleRandom(sender, args["player"], aiyatsbusRarity(args["rarity"])!!, args["level"]) }
             }
         }
     }

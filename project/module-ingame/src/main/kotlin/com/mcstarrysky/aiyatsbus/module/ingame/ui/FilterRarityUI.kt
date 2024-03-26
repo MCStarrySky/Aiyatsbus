@@ -41,7 +41,7 @@ object FilterRarityUI {
             rows(shape.rows)
             val slots = shape["FilterRarity:filter"].toList()
             slots(slots)
-            elements { Rarity.rarities.values.toList() }
+            elements { aiyatsbusRarities.values.toList() }
 
             load(shape, templates, player, "FilterRarity:filter", "Previous", "Next")
             pages(shape, templates)
@@ -71,7 +71,7 @@ object FilterRarityUI {
 
             icon.variables {
                 when (it) {
-                    "name", "rarity_display" -> listOf(rarity.display())
+                    "name", "rarity_display" -> listOf(rarity.displayName())
                     "amount" -> listOf(aiyatsbusEts(rarity).size.toString())
                     else -> emptyList()
                 }

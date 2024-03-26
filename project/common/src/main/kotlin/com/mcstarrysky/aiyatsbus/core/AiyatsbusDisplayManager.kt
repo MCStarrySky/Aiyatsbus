@@ -52,7 +52,7 @@ interface AiyatsbusDisplayManager {
 
         @delegate:ConfigNode("sort.rarity.order")
         val rarityOrder by conversion<List<String>, List<String>> {
-            toMutableList().also { it += Rarity.rarities.keys.filterNot(this::contains) }
+            toMutableList().also { it += aiyatsbusRarities.keys.filterNot(this::contains) }
         }
 
         @ConfigNode("combine.enable")

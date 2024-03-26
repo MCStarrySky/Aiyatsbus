@@ -81,7 +81,7 @@ data class Displayer(
         tmp["roman_level_with_a_blank"] = lv.roman(enchant.basicData.maxLevel == 1, true)
         tmp["max_level"] = "${enchant.basicData.maxLevel}"
         tmp["rarity"] = enchant.rarity.name
-        tmp["rarity_display"] = enchant.rarity.display()
+        tmp["rarity_display"] = enchant.rarity.displayName()
         tmp["enchant_display"] = enchant.displayName()
         tmp["enchant_display_roman"] = enchant.displayName(lv)
         tmp["enchant_display_lore"] = display(tmp)

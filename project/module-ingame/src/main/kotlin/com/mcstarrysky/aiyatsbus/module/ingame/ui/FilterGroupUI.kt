@@ -3,6 +3,7 @@ package com.mcstarrysky.aiyatsbus.module.ingame.ui
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.FilterStatement
 import com.mcstarrysky.aiyatsbus.core.FilterType
+import com.mcstarrysky.aiyatsbus.core.aiyatsbusGroups
 import com.mcstarrysky.aiyatsbus.core.data.Group
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.MenuComponent
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
@@ -43,7 +44,7 @@ object FilterGroupUI {
             rows(shape.rows)
             val slots = shape["FilterGroup:filter"].toList()
             slots(slots)
-            elements { Group.groups.values.toList() }
+            elements { aiyatsbusGroups.values.toList() }
 
             load(shape, templates, player, "FilterGroup:filter", "Previous", "Next")
             pages(shape, templates)
@@ -77,7 +78,7 @@ object FilterGroupUI {
                     "amount" -> listOf(group.enchantments.size.toString())
                     else -> emptyList()
                 }
-            }.skull(group.skullBase64)
+            }.skull(group.skull)
         }
 
         onClick { (_, _, _, event, args) ->

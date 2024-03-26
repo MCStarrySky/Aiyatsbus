@@ -25,6 +25,7 @@ import org.bukkit.enchantments.Enchantment
 import taboolib.common.util.unsafeLazy
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.library.reflex.Reflex.Companion.invokeMethod
+import taboolib.library.reflex.UnsafeAccess
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -53,6 +54,7 @@ class DefaultModernEnchantmentRegisterer : ModernEnchantmentRegisterer {
 
     private val vanillaEnchantments = Enchantments::class.java
         .declaredFields
+        .asSequence()
         .filter { it.type == net.minecraft.world.item.enchantment.Enchantment::class.java }
         .map { it.get(null) as net.minecraft.world.item.enchantment.Enchantment }
         .mapNotNull { BuiltInRegistries.ENCHANTMENT.getKey(it) }

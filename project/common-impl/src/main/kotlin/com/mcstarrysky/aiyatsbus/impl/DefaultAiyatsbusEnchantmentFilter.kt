@@ -28,9 +28,9 @@ class DefaultAiyatsbusEnchantmentFilter : AiyatsbusEnchantmentFilter {
 
                 rules.forEach { (value, state) ->
                     if (when (type) {
-                            RARITY -> Rarity.getRarity(value) == enchant.rarity
-                            TARGET -> (enchant.targets.contains(Target.targets[value]) || enchant.targets.any { Target.targets[value]?.types?.containsAll(it.types) == true })
-                            GROUP -> enchant.enchantment.isInGroup(Group.groups[value])
+                            RARITY -> aiyatsbusRarity(value) == enchant.rarity
+                            TARGET -> (enchant.targets.contains(aiyatsbusTarget(value)) || enchant.targets.any { aiyatsbusTarget(value)?.types?.containsAll(it.types) == true })
+                            GROUP -> enchant.enchantment.isInGroup(aiyatsbusGroup(value))
                             STRING -> {
                                 enchant.basicData.name.contains(value) ||
                                         enchant.basicData.id.contains(value) ||
@@ -58,9 +58,9 @@ class DefaultAiyatsbusEnchantmentFilter : AiyatsbusEnchantmentFilter {
     override fun generateLore(type: FilterType, rules: Map<String, FilterStatement>, player: Player?): List<String> {
         return rules.map { (value, state) ->
             state.symbol(player) + " " + when (type) {
-                RARITY -> Rarity.getRarity(value)?.display() ?: value
-                TARGET -> Target.targets[value]?.name ?: value
-                GROUP -> Group.groups[value]?.name ?: value
+                RARITY -> aiyatsbusRarity(value)?.displayName() ?: value
+                TARGET -> aiyatsbusTarget(value)?.name ?: value
+                GROUP -> aiyatsbusGroup(value)?.name ?: value
                 STRING -> value
             }
         }

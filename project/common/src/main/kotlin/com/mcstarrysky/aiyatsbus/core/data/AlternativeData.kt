@@ -1,5 +1,7 @@
 package com.mcstarrysky.aiyatsbus.core.data
 
+import com.mcstarrysky.aiyatsbus.core.util.coerceBoolean
+import com.mcstarrysky.aiyatsbus.core.util.coerceInt
 import taboolib.library.configuration.ConfigurationSection
 
 /**
@@ -8,29 +10,14 @@ import taboolib.library.configuration.ConfigurationSection
  * @author mical
  * @since 2024/2/17 15:11
  */
-class AlternativeData(
-    section: ConfigurationSection?
-) {
-
-    var grindstoneable: Boolean = true
-    var weight: Int = 100
-    var isTreasure: Boolean = false
-    var isCursed: Boolean = false
-    var isTradeable: Boolean = true
-    var isDiscoverable: Boolean = true
-
+data class AlternativeData(
+    private val root: ConfigurationSection?,
+    val grindstoneable: Boolean = root?.getBoolean("grindstoneable", true).coerceBoolean(true),
+    val weight: Int = root?.getInt("weight", 100).coerceInt(100),
+    val isTreasure: Boolean = root?.getBoolean("is_treasure", false).coerceBoolean(false),
+    val isCursed: Boolean = root?.getBoolean("is_cursed", false).coerceBoolean(false),
+    val isTradeable: Boolean = root?.getBoolean("is_tradeable", true).coerceBoolean(true),
+    val isDiscoverable: Boolean = root?.getBoolean("is_discoverable", true).coerceBoolean(true),
     /** 3.0 的检测原版附魔的方法有点弱智, 把检测原版放到这里其实是更好的选择 */
-    var isVanilla: Boolean = false
-
-    init {
-        section?.run {
-            grindstoneable = getBoolean("grindstoneable", true)
-            weight = getInt("weight", 100)
-            isTreasure = getBoolean("is_treasure", false)
-            isCursed = getBoolean("is_cursed", false)
-            isTradeable = getBoolean("is_tradeable", true)
-            isDiscoverable = getBoolean("is_discoverable", true)
-            isVanilla = getBoolean("is_vanilla", false)
-        }
-    }
-}
+    val isVanilla: Boolean = root?.getBoolean("is_vanilla", false).coerceBoolean(false)
+)

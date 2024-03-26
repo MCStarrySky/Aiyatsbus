@@ -48,7 +48,7 @@ object VillagerListener {
 
         result.clearEts()
         repeat(amount) {
-            result.addEt((Group.groups[tradeGroup]?.enchantments ?: listOf<AiyatsbusEnchantment>()).filter {
+            result.addEt((aiyatsbusGroups[tradeGroup]?.enchantments ?: listOf<AiyatsbusEnchantment>()).filter {
                 it.limitations.checkAvailable(CheckType.ATTAIN, result).first && it.alternativeData.isTradeable
             }.drawEt() ?: return@repeat)
         }

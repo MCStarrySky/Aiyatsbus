@@ -23,7 +23,7 @@ import taboolib.platform.util.sendLang
  */
 val enchantSubCommand = subCommand {
     dynamic("enchant") {
-        suggestion<CommandSender> { _, _ -> com.mcstarrysky.aiyatsbus.module.ingame.command.AiyatsbusCommand.enchantNamesAndIds }
+        suggestion<CommandSender> { _, _ -> AiyatsbusCommand.enchantNamesAndIds }
         execute<CommandSender> { sender, args, _ -> handleEnchant(sender, null, aiyatsbusEt(args["enchant"])!!) }
         dynamic("level", true) {
             suggestion<Player> level@{ _, cmd ->
