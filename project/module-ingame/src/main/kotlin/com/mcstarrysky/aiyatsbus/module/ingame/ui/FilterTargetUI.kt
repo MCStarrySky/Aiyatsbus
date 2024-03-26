@@ -3,6 +3,7 @@ package com.mcstarrysky.aiyatsbus.module.ingame.ui
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.FilterStatement
 import com.mcstarrysky.aiyatsbus.core.FilterType
+import com.mcstarrysky.aiyatsbus.core.aiyatsbusTargets
 import com.mcstarrysky.aiyatsbus.core.data.Target
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.MenuComponent
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
@@ -44,7 +45,7 @@ object FilterTargetUI {
             rows(shape.rows)
             val slots = shape["FilterTarget:filter"].toList()
             slots(slots)
-            elements { Target.targets.values.toList() }
+            elements { aiyatsbusTargets.values.toList() }
 
             load(shape, templates, player, "FilterTarget:filter", "Previous", "Next")
             pages(shape, templates)

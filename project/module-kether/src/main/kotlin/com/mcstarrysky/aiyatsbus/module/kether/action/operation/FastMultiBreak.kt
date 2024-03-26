@@ -1,7 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.operation
 
 import com.mcstarrysky.aiyatsbus.core.AntiGriefChecker
-import com.mcstarrysky.aiyatsbus.core.FurtherOperation
+import com.mcstarrysky.aiyatsbus.core.util.doBreakBlock
 import com.mcstarrysky.aiyatsbus.core.util.serialized
 import org.bukkit.Location
 import org.bukkit.entity.Player
@@ -37,7 +37,7 @@ object FastMultiBreak {
                 }
 
                 if (!AntiGriefChecker.canBreak(player, block.location)) continue
-                FurtherOperation.furtherBreak(player, block)
+                player.doBreakBlock(block)
             }
         }
     }

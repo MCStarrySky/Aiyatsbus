@@ -4,7 +4,6 @@ import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantmentFilter
 import com.mcstarrysky.aiyatsbus.core.FilterStatement
 import com.mcstarrysky.aiyatsbus.core.FilterType
 import com.mcstarrysky.aiyatsbus.core.aiyatsbusEt
-import taboolib.common.platform.function.info
 import taboolib.common5.clong
 
 /**

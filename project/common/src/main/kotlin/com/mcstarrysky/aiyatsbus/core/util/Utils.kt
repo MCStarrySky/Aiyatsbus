@@ -5,21 +5,19 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
-import org.bukkit.block.Block
 import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Player
-import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.EnchantmentStorageMeta
 import org.bukkit.inventory.meta.ItemMeta
+import org.bukkit.metadata.Metadatable
 import org.bukkit.persistence.PersistentDataHolder
 import org.bukkit.persistence.PersistentDataType
-import sun.misc.Unsafe
 import taboolib.common5.Baffle
 import taboolib.common5.cint
 import taboolib.library.configuration.ConfigurationSection
+import taboolib.library.reflex.UnsafeAccess
 import taboolib.module.configuration.util.asMap
 import taboolib.platform.util.*
 import java.lang.reflect.Field
@@ -32,6 +30,18 @@ import java.util.concurrent.TimeUnit
  * @author mical
  * @since 2024/2/17 17:07
  */
+
+/**
+ * 标记
+ */
+fun Metadatable.mark(key: String) {
+    setMeta(key, bukkitPlugin)
+}
+
+fun Metadatable.unmark(key: String) {
+    removeMeta(key)
+}
+
 /**
  * 旧版 JsonParser
  * 旧版没有 parseString 静态方法
@@ -55,18 +65,11 @@ fun String.legacyToAdventure(): Component {
 }
 
 /**
- * 获取 Unsafe
- */
-private val unsafe = Unsafe::class.java.getDeclaredField("theUnsafe")
-    .apply { isAccessible = true }
-    .get(null) as Unsafe
-
-/**
  * 设置 static final 字段
  */
 fun Field.setStaticFinal(value: Any) {
-    val offset = unsafe.staticFieldOffset(this)
-    unsafe.putObject(unsafe.staticFieldBase(this), offset, value)
+    val offset = UnsafeAccess.unsafe.staticFieldOffset(this)
+    UnsafeAccess.unsafe.putObject(UnsafeAccess.unsafe.staticFieldBase(this), offset, value)
 }
 
 /**
@@ -116,15 +119,6 @@ var ItemStack.dura: Int
  * 将 Location 的 世界 和 XYZ 信息序列化成文本字符串
  */
 val Location.serialized get() = "${world.name},$blockX,$blockY,$blockZ"
-
-/**
- * 令玩家放置方块
- */
-fun Player.placeBlock(placedBlock: Block, itemInHand: ItemStack = this.itemInHand): Boolean {
-    val blockAgainst = placedBlock.getRelative(0, 1, 0)
-    val event = BlockPlaceEvent(placedBlock, placedBlock.state, blockAgainst, itemInHand, this, true)
-    return event.callEvent()
-}
 
 /**
  * 对 LivingEntity 造成真实伤害, 插件和原版无法减伤
@@ -205,3 +199,8 @@ fun ConfigurationSection?.submit(): Submit {
 }
 
 data class Submit(val enable: Boolean, val now: Boolean, val async: Boolean, val delay: Long, val period: Long)
+
+/**
+ * ItemsAdder 是否存在
+ */
+internal val itemsAdderEnabled = runCatching { Class.forName("dev.lone.itemsadder.api.ItemsAdder") }.isSuccess

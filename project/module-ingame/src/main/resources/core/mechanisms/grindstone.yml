@@ -19,7 +19,7 @@ exp_per_enchant: "30*{level}/{max_level}*{bonus}"
 accumulation: true
 # 不同品质的额外倍率，默认公式下，越稀有返还的经验越多
 rarity_bonus:
-  稀有: 1.25
+  罕见: 1.25
   精良: 1.5
   史诗: 2
   传奇: 4

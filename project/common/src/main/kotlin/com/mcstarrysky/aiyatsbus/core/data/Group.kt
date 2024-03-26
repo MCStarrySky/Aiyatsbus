@@ -1,15 +1,13 @@
 package com.mcstarrysky.aiyatsbus.core.data
 
-import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
-import com.mcstarrysky.aiyatsbus.core.StandardPriorities
-import com.mcstarrysky.aiyatsbus.core.aiyatsbusEt
-import com.mcstarrysky.aiyatsbus.core.aiyatsbusEts
+import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.info
 import taboolib.common.platform.function.registerLifeCycleTask
-import taboolib.common.platform.function.releaseResourceFile
+import taboolib.library.configuration.ConfigurationSection
+import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
 import java.util.concurrent.ConcurrentHashMap
 
@@ -21,36 +19,45 @@ import java.util.concurrent.ConcurrentHashMap
  * @since 2024/2/18 11:09
  */
 data class Group(
-    val name: String,
-    val enchantments: List<AiyatsbusEnchantment>,
-    val skullBase64: String,
-    val maxCoexist: Int
-) {
+    private val root: ConfigurationSection,
+    val name: String = root.name,
+    val enchantments: List<AiyatsbusEnchantment> = root.getStringList("enchants").mapNotNull(::aiyatsbusEt)
+        .toMutableList().also {
+            it += root.getStringList("rarities")
+                .map { aiyatsbusRarity(it)?.let { r -> aiyatsbusEts(r) } ?: listOf() }.flatten()
+        },
+    val skull: String = root.getString(
+        "skull",
+        "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzRiODlhZDA2ZDMxOGYwYWUxZWVhZjY2MGZlYTc4YzM0ZWI1NWQwNWYwMWUxY2Y5OTlmMzMxZmIzMmQzODk0MiJ9fX0="
+    )!!,
+    val maxCoexist: Int = root.getInt("max_coexist", 1)
+)
 
-    companion object {
+object GroupLoader {
 
-        val groups = ConcurrentHashMap<String, Group>()
+    @Config("enchants/group.yml", autoReload = true)
+    lateinit var config: Configuration
+        private set
 
-        @Reloadable
-        @Awake(LifeCycle.CONST)
-        fun load() {
-            registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.GROUP) {
-                val time = System.currentTimeMillis()
-                Configuration.loadFromFile(releaseResourceFile("enchants/group.yml", false))
-                    .let { config ->
-                        config.getKeys(false).map { name ->
-                            val enchants = config.getStringList("$name.enchants").mapNotNull(::aiyatsbusEt).toMutableList()
-                            enchants += config.getStringList("$name.rarities").map { Rarity.getRarity(it)?.let { r -> aiyatsbusEts(r) } ?: listOf() }.flatten()
-                            val skull = config.getString("$name.skull", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzRiODlhZDA2ZDMxOGYwYWUxZWVhZjY2MGZlYTc4YzM0ZWI1NWQwNWYwMWUxY2Y5OTlmMzMxZmIzMmQzODk0MiJ9fX0=")!!
-                            name to Group(name, enchants, skull, config.getInt("$name.max_coexist", 1))
-                        }
-                    }
-                    .let {
-                        groups.clear()
-                        groups.putAll(it)
-                    }
-                info("Loaded ${groups.size} groups in ${System.currentTimeMillis() - time}ms")
+    val groups = ConcurrentHashMap<String, Group>()
+
+    @Reloadable
+    @Awake(LifeCycle.CONST)
+    fun init() {
+        registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.GROUP) {
+            load()
+        }
+        registerLifeCycleTask(LifeCycle.ENABLE) {
+            config.onReload {
+                load()
             }
         }
+    }
+
+    private fun load() {
+        val time = System.currentTimeMillis()
+        groups.clear()
+        groups += config.getKeys(false).map { config.getConfigurationSection(it)!! }.map { it.name to Group(it) }
+        info("Loaded ${groups.size} groups in ${System.currentTimeMillis() - time}ms")
     }
 }

@@ -8,7 +8,8 @@ import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.info
 import taboolib.common.platform.function.registerLifeCycleTask
-import taboolib.common.platform.function.releaseResourceFile
+import taboolib.library.configuration.ConfigurationSection
+import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
 import java.util.concurrent.ConcurrentHashMap
 
@@ -20,38 +21,40 @@ import java.util.concurrent.ConcurrentHashMap
  * @since 2024/2/17 23:32
  */
 data class Target(
-    val id: String,
-    val name: String,
-    val capability: Int,
-    val activeSlots: List<EquipmentSlot>,
-    val types: List<Material>,
-    val skull: String
-) {
+    private val root: ConfigurationSection,
+    val id: String = root.name,
+    val name: String = root.getString("name")!!,
+    val capability: Int = root.getInt("max"),
+    val activeSlots: List<EquipmentSlot> = root.getStringList("active_slots").map { EquipmentSlot.valueOf(it) },
+    val types: List<Material> = root.getStringList("types").map { Material.valueOf(it) },
+    val skull: String = root.getString("skull", "")!!
+)
 
-    companion object {
+object TargetLoader {
 
-        val targets = ConcurrentHashMap<String, Target>()
+    @Config("enchants/target.yml")
+    lateinit var config: Configuration
+        private set
 
-        @Reloadable
-        @Awake(LifeCycle.CONST)
-        fun init() {
-            registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.TARGET) {
-                val time = System.currentTimeMillis()
-                Configuration.loadFromFile(releaseResourceFile("enchants/target.yml", false))
-                    .let { config ->
-                        config.getKeys(false)
-                            .map { it to Target(it, config.getString("$it.name")!!, config.getInt("$it.max"),
-                                config.getStringList("$it.active_slots").map { EquipmentSlot.valueOf(it) },
-                                config.getStringList("$it.types").map { Material.valueOf(it) },
-                                config.getString("$it.skull") ?: ""
-                            ) }
-                    }
-                    .let {
-                        targets.clear()
-                        targets.putAll(it)
-                    }
-                info("Loaded ${targets.size} targets in ${System.currentTimeMillis() - time}ms")
+    val targets = ConcurrentHashMap<String, Target>()
+
+    @Reloadable
+    @Awake(LifeCycle.CONST)
+    fun init() {
+        registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.TARGET) {
+            load()
+        }
+        registerLifeCycleTask(LifeCycle.ENABLE) {
+            config.onReload {
+                load()
             }
         }
+    }
+
+    private fun load() {
+        val time = System.currentTimeMillis()
+        targets.clear()
+        targets += config.getKeys(false).map { config.getConfigurationSection(it)!! }.map { it.name to Target(it) }
+        info("Loaded ${targets.size} targets in ${System.currentTimeMillis() - time}ms")
     }
 }

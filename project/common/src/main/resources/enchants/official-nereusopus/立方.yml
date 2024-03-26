@@ -8,7 +8,7 @@ basic:
   name: 立方
   max_level: 1
 
-rarity: 稀有
+rarity: 罕见
 
 targets:
   - 镐
@@ -41,7 +41,7 @@ mechanisms:
     on-break:
       listen: "block-break"
       handle: |-
-        if further-operation has &player BlockBreakEvent with &event[block.location.serialized] then {
+        if hasMark block-ignored on &event[block] then {
           set &mirror[isCancelled] to true
           exit
         }

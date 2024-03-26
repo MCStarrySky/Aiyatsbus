@@ -21,11 +21,11 @@ import taboolib.platform.util.modifyMeta
  * player_related - 依赖玩家的变量, 例如 PlaceholderAPI
  * modifiable - 与物品强相关的数据, 需要写在物品的 PDC 里, 武器击杀次数累积多少触发什么东西
  * ordinary - 普通的变量, 你也可以理解为配置项, 不提供任何计算
- * flexible - 读取代码有关的数据, 与 BukkitAPI 强相关, 这个麻烦, 先不写
  *
  * @author mical
  * @since 2024/2/17 22:29
  */
+@Deprecated("等待重写")
 class Variables(
     /** 存储变量的类型, 要根据这个判断变量类型 */
     val variables: MutableMap<String, VariableType>,

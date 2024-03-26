@@ -4,7 +4,6 @@ package com.mcstarrysky.aiyatsbus.module.ingame.ui
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
-import com.mcstarrysky.aiyatsbus.core.data.Group
 import com.mcstarrysky.aiyatsbus.core.data.LimitType
 import com.mcstarrysky.aiyatsbus.core.data.MenuMode
 import com.mcstarrysky.aiyatsbus.core.util.isNull
@@ -96,7 +95,7 @@ object EnchantInfoUI {
                         }
                     }
 
-                    "related" -> Group.groups.values.filter { enchant.enchantment.isInGroup(it) }.map { "group:${it.name}" }
+                    "related" -> aiyatsbusGroups.values.filter { enchant.enchantment.isInGroup(it) }.map { "group:${it.name}" }
                     else -> listOf()
                 }
             }
@@ -313,9 +312,9 @@ object EnchantInfoUI {
             val parts = element.split(":")
             when (parts[0]) {
                 "group" -> {
-                    val group = Group.groups[parts[1]]!!
+                    val group = aiyatsbusGroup(parts[1])!!
                     icon.name = icon.name!!.split("||")[0]
-                    icon.skull(group.skullBase64)
+                    icon.skull(group.skull)
                         .modifyMeta<ItemMeta> {
                             val lore = lore!!
                             val index = lore.indexOf("分隔符号")

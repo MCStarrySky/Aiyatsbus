@@ -47,7 +47,7 @@ object AttainListener {
 
     @delegate:ConfigNode("celebrate_notice")
     val celebrateNotice by conversion<ConfigurationSection, Map<Rarity?, List<String>>> {
-        mapOf(*getKeys(false).map { Rarity.getRarity(it) to getStringList(it) }.toTypedArray())
+        mapOf(*getKeys(false).map { aiyatsbusRarity(it) to getStringList(it) }.toTypedArray())
     }
 
     @delegate:ConfigNode("privilege.chance")

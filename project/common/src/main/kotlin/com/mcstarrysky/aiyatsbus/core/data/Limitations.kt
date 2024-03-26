@@ -23,6 +23,7 @@ import taboolib.platform.util.asLangText
  * @author mical
  * @since 2024/2/18 10:15
  */
+@Deprecated("等待重写")
 data class Limitations(
     private val belonging: AiyatsbusEnchantment,
     private val lines: List<String>
@@ -92,7 +93,7 @@ data class Limitations(
             CONFLICT_ENCHANT -> return !enchants.containsKey(aiyatsbusEt(value))
 
             DEPENDENCE_GROUP -> enchants.any { (enchant, _) -> enchant.enchantment.isInGroup(value) && enchant.enchantmentKey != belonging.enchantmentKey }
-            CONFLICT_GROUP -> enchants.count { (enchant, _) -> enchant.enchantment.isInGroup(value) && enchant.enchantmentKey != belonging.enchantmentKey } < (Group.groups[value]?.maxCoexist ?: 10000)
+            CONFLICT_GROUP -> enchants.count { (enchant, _) -> enchant.enchantment.isInGroup(value) && enchant.enchantmentKey != belonging.enchantmentKey } < (aiyatsbusGroup(value)?.maxCoexist ?: 10000)
             else -> true
         }
     }
@@ -103,7 +104,7 @@ data class Limitations(
          * 记录单项 conflicts，然后自动挂双向
          * 防止服主只写了单项
          */
-        val conflicts = mutableMapOf<String, String>()
+        private val conflicts = mutableMapOf<String, String>()
 
         /**
          * 记录单项 conflicts，然后自动挂双向

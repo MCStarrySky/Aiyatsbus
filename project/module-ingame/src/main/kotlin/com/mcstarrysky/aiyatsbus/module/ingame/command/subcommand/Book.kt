@@ -3,6 +3,7 @@ package com.mcstarrysky.aiyatsbus.module.ingame.command.subcommand
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.aiyatsbusEt
 import com.mcstarrysky.aiyatsbus.core.book
+import com.mcstarrysky.aiyatsbus.module.ingame.command.AiyatsbusCommand
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -20,7 +21,7 @@ import taboolib.platform.util.sendLang
  */
 val bookSubCommand = subCommand cmd@{
     dynamic("enchant") {
-        suggestion<CommandSender> { _, _ -> com.mcstarrysky.aiyatsbus.module.ingame.command.AiyatsbusCommand.enchantNamesAndIds }
+        suggestion<CommandSender> { _, _ -> AiyatsbusCommand.enchantNamesAndIds }
         execute<CommandSender> { sender, args, _ -> handleBook(sender, null, aiyatsbusEt(args["enchant"])!!) }
         dynamic("level", true) {
             suggestion<Player> level@{ _, cmd ->
