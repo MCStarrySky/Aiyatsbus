@@ -88,7 +88,7 @@ object FilterGroupUI {
 
             when (clickType) {
                 ClickType.LEFT, ClickType.RIGHT -> {
-                    Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.GROUP, group)
+                    Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.GROUP, group.name)
                     Aiyatsbus.api().getEnchantmentFilter().addFilter(
                         player, FilterType.GROUP, group.name,
                         when (clickType) {
@@ -100,7 +100,7 @@ object FilterGroupUI {
                 }
 
                 ClickType.MIDDLE -> {
-                    Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.GROUP, group)
+                    Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.GROUP, group.name)
                     open(player)
                 }
 

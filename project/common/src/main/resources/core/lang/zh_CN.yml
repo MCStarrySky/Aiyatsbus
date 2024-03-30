@@ -42,8 +42,8 @@ messages-misc-cool_down: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7冷却未结束，还有
 
 info-illegal_item: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你背包中的物品 &a{item} &7包含非法附魔 &d{enchant}&7，已经分离(&c{reason}&7)'
 
-enchant-strike-attacker: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你的武器召唤了雷电击中 &e{who}'
-enchant-strike-damaged: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你被 &e{who} &7召唤的雷电击中'
+enchant-strike-attacker: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你的武器召唤了雷电击中 &e{0}'
+enchant-strike-damaged: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你被 &e{0} &7召唤的雷电击中'
 enchant-twinge-attacker: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你的武器使得 &e{who} &7流血'
 enchant-twinge-damaged: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你被 &e{who} &7施加了流血效果'
 enchant-impact-attacker: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7本次远程攻击命中 &e{0} &7触发了&b会心一击'

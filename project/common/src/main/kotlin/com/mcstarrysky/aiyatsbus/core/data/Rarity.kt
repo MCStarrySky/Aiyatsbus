@@ -56,6 +56,6 @@ object RarityLoader {
         val time = System.currentTimeMillis()
         rarities.clear()
         rarities += config.getKeys(false).map { config.getConfigurationSection(it)!! }.map { it.name to Rarity(it) }
-        info("Loaded ${rarities.size} in ${System.currentTimeMillis() - time}ms")
+        info("Loaded ${rarities.size} rarities in ${System.currentTimeMillis() - time}ms")
     }
 }

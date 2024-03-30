@@ -114,7 +114,6 @@ object AnvilListener {
                 if (checked.first) tmp.addEt(it, b.etLevel(it))
                 checked.first
             }.forEach { (enchant, lv) ->
-                println(enchant)
                 val old = a.etLevel(enchant)
                 val new = if (old < lv) {
                     if (old <= 0) cost += newEnchantExtraCost

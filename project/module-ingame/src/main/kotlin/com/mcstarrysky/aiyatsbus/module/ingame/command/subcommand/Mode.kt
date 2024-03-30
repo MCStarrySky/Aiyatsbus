@@ -17,7 +17,7 @@ import taboolib.platform.util.sendLang
  * @since 2024/3/3 18:59
  */
 val modeSubCommand = subCommand {
-    dynamic("mode", true) {
+    dynamic("mode") {
         suggestion<CommandSender> { _, _ -> listOf("作弊", "普通", "cheat", "normal") }
         execute<CommandSender> { sender, args, _ -> handleMode(sender, args["mode"], sender.name) }
         dynamic("player", true) {

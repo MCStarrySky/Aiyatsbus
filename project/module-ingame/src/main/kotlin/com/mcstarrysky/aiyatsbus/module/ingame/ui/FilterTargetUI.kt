@@ -89,7 +89,7 @@ object FilterTargetUI {
 
             when (clickType) {
                 ClickType.LEFT, ClickType.RIGHT -> {
-                    Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.TARGET, target)
+                    Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.TARGET, target.id)
                     Aiyatsbus.api().getEnchantmentFilter().addFilter(
                         player, FilterType.TARGET, target.id,
                         when (clickType) {
@@ -101,7 +101,7 @@ object FilterTargetUI {
                 }
 
                 ClickType.MIDDLE -> {
-                    Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.TARGET, target)
+                    Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.TARGET, target.id)
                     open(player)
                 }
 
