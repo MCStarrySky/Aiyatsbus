@@ -7,7 +7,8 @@ import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
-import taboolib.common.util.unsafeLazy
+import taboolib.common.util.ResettableLazy
+import taboolib.common.util.resettableLazy
 import taboolib.platform.util.bukkitPlugin
 
 /**
@@ -19,7 +20,7 @@ import taboolib.platform.util.bukkitPlugin
  */
 object AntiGriefChecker {
 
-    private val handle: AntiGriefLib by unsafeLazy {
+    private val handle: AntiGriefLib by resettableLazy {
         AntiGriefLib.builder(bukkitPlugin)
             .silentLogs(true)
             .ignoreOP(AiyatsbusSettings.antiGriefIgnoreOp)
@@ -29,6 +30,9 @@ object AntiGriefChecker {
     @Awake(LifeCycle.ACTIVE)
     fun init() {
         handle.init()
+        AiyatsbusSettings.conf.onReload {
+            ResettableLazy.reset()
+        }
     }
 
     fun canBreak(player: Player, location: Location): Boolean {

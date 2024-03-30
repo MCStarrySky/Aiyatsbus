@@ -85,7 +85,7 @@ object FilterRarityUI {
 
             when (clickType) {
                 ClickType.LEFT, ClickType.RIGHT -> {
-                    Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.RARITY, rarity)
+                    Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.RARITY, rarity.id)
                     Aiyatsbus.api().getEnchantmentFilter().addFilter(
                         player, FilterType.RARITY, rarity.id,
                         when (clickType) {
@@ -97,7 +97,7 @@ object FilterRarityUI {
                 }
 
                 ClickType.MIDDLE -> {
-                    Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.RARITY, rarity)
+                    Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.RARITY, rarity.id)
                     open(player)
                 }
 
