@@ -17,6 +17,7 @@ import taboolib.common.util.Strings
 import taboolib.module.chat.component
 import taboolib.module.lang.asLangText
 import taboolib.module.lang.asLangTextList
+import taboolib.module.lang.asLangTextOrNull
 import taboolib.module.lang.sendLang
 import taboolib.module.nms.MinecraftVersion
 
@@ -63,8 +64,8 @@ object AiyatsbusCommand {
     fun init() {
         registerLifeCycleTask(LifeCycle.ENABLE, 999) {
             // 生成 TabList
-            com.mcstarrysky.aiyatsbus.module.ingame.command.AiyatsbusCommand.enchantNamesAndIds.clear()
-            com.mcstarrysky.aiyatsbus.module.ingame.command.AiyatsbusCommand.enchantNamesAndIds.addAll(Aiyatsbus.api().getEnchantmentManager().getByIDs().keys + Aiyatsbus.api().getEnchantmentManager().getByNames().keys)
+            enchantNamesAndIds.clear()
+            enchantNamesAndIds.addAll(Aiyatsbus.api().getEnchantmentManager().getByIDs().keys + Aiyatsbus.api().getEnchantmentManager().getByNames().keys)
         }
     }
 }
@@ -79,9 +80,9 @@ fun CommandComponent.createTabooLegacyHelper() {
                 else if (command.hidden) continue
             }
             val name = command.aliases[0]
-            var usage = sender.asLangText("command-subCommands-$name-usage")
+            var usage = sender.asLangTextOrNull("command-subCommands-$name-usage") ?: ""
             if (usage.isNotEmpty()) usage += " "
-            val description = sender.asLangText("command-subCommands-$name-description")
+            val description = sender.asLangTextOrNull("command-subCommands-$name-description") ?: sender.asLangText("command-no-desc")
             text += sender.asLangTextList("command-sub", name to "name", description to "description", usage to "usage")
         }
 
@@ -97,9 +98,9 @@ fun CommandComponent.createTabooLegacyHelper() {
             val input = ctx.args().first()
             val name = children.filterIsInstance<CommandComponentLiteral>()
                 .firstOrNull { it.aliases.contains(input) }?.aliases?.get(0) ?: input
-            var usage = sender.asLangText("command-subCommands-$name-usage")
+            var usage = sender.asLangTextOrNull("command-subCommands-$name-usage") ?: ""
             if (usage.isNotEmpty()) usage += " "
-            val description = sender.asLangText("command-subCommands-$name-description")
+            val description = sender.asLangTextOrNull("command-subCommands-$name-description") ?: sender.asLangText("command-no-desc")
 
             when (state) {
                 // 缺参数

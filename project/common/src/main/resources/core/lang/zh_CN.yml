@@ -53,7 +53,7 @@ enchant-prohibition_curse-damaged: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你的装备�
 
 command-helper:
   - ' '
-  - '  [&6Aiyatsbus](h=&7Aiyatsbus 附魔扩展插件) &f[{pluginVersion}](h=&7插件版本: &2{pluginVersion}<br>&7游戏版本: &b{minecraftVersion})'
+  - '  [&6Aiyatsbus](c=#D8D8FA;h=&7Aiyatsbus 附魔扩展插件) &f[{pluginVersion}](h=&7插件版本: &2{pluginVersion}<br>&7游戏版本: &b{minecraftVersion})'
   - ' '
   - '  &7命令: [&f/aiyatsbus &8\[...\]](h=&f/aiyatsbus &8\[...\];suggest=/aiyatsbus )'
   - '  &7参数:'
@@ -63,34 +63,37 @@ command-sub:
   - '    &8- [&f{name}](h=/aiyatsbus {name} {usage}&8- &7{description};suggest=/aiyatsbus {name})'
   - '      &7{description}'
 command-argument-missing:
-  - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7指令 &f{name} &7参数不足 正确用法:'
+  - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7指令 &f{name} &7参数不足'
+  - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7正确用法:'
   - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7/aiyatsbus {name} {usage}&8- &7{description}'
 command-argument-wrong:
-  - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7指令 &f{name} &7参数有误 正确用法:'
+  - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7指令 &f{name} &7参数有误'
+  - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7正确用法:'
   - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7/aiyatsbus {name} {usage}&8- &7{description}'
 command-argument-unknown:
-  - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7指令 &f{name} &7不存在 你可能想要:'
+  - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7指令 &f{name} &7不存在'
+  - '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你可能想要:'
   - '&8\[&{#D8D8FA}Aiyatsbus&8\] &f{similar}'
 command-incorrect-sender: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7指令 &f{name} &7只能由 &f玩家 &7执行'
 command-subCommands-book-description: '给玩家一本指定的附魔书'
-command-subCommands-book-usage: '<附魔> \[等级\] \[玩家\]'
+command-subCommands-book-usage: '&7\[&8附魔&7\] &7<&8等级&7> &7<&8玩家&7>'
 command-subCommands-book-sender: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7附魔书已经发送给 &e{name}'
 command-subCommands-book-receiver: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7你收到了附魔书 {enchantment}'
 command-subCommands-book-fail: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7控制台无法给予自己附魔书'
 
 command-subCommands-enchant-description: '为玩家手持物品增加/清除附魔'
-command-subCommands-enchant-usage: '<附魔> \[等级\(0为清除\)\] \[玩家\]'
+command-subCommands-enchant-usage: '&7\[&8<附魔&7\] &7<&8等级\(0为清除\)&7> &7<&8玩家&7>'
 command-subCommands-enchant-empty: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7手持物品为空'
 command-subCommands-enchant-sender: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7为 &e{name} &7手上的物品 {state}了附魔 {enchantment}'
 command-subCommands-enchant-receiver: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7手上的物品被 {state}了附魔 {enchantment}'
 command-subCommands-enchant-fail: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7控制台无法给予自己附魔书'
 
 command-subCommands-menu-description: '打开附魔菜单'
-command-subCommands-menu-usage: '\[玩家\]'
+command-subCommands-menu-usage: '&7<&8玩家&7> &7<&8菜单类型&7>'
 command-subCommands-menu-fail: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7控制台无法打开菜单'
 
 command-subCommands-mode-description: '设置玩家的菜单模式'
-command-subCommands-mode-usage: '<模式> \[玩家\]'
+command-subCommands-mode-usage: '&7\[&8模式&7\] &7<&8玩家&7>'
 command-subCommands-mode-sender: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7成功将 &e{name} &7的菜单模式修改为 &a{mode}'
 command-subCommands-mode-receiver: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7菜单模式修改为 &a{mode}'
 command-subCommands-mode-fail: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7控制台无法设置自己的菜单模式'
@@ -99,7 +102,7 @@ command-subCommands-reload-description: '重载插件'
 command-subCommands-reload-usage: ''
 
 command-subCommands-random-description: '为玩家随机抽取一本指定品质的附魔书'
-command-subCommands-random-usage: '<品质> \[等级\] \[玩家\]'
+command-subCommands-random-usage: '&7\[&8品质&7\] &7<&8等级&7> &7<&8玩家&7>'
 command-subCommands-random-rarity: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7品质中附魔为空'
 command-subCommands-random-number: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7请输入正整数'
 command-subCommands-random-sender: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7给 &e{name} &7发送了随机的附魔书 {enchantment}'
@@ -108,3 +111,5 @@ command-subCommands-random-fail: '&8\[&{#D8D8FA}Aiyatsbus&8\] &7控制台无法�
 
 command-subCommands-report-description: '查看性能报告'
 command-subCommands-report-usage: ''
+
+command-no-desc: '没有描述'
