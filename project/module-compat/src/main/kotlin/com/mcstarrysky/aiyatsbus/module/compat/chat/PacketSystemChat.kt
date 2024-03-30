@@ -60,6 +60,9 @@ object PacketSystemChat {
     fun modify(component: Component, player: Player): Component {
         var json = gson.serialize(component)
 
+        // 我也不知道啥情况
+        if (json == "\" \"") return component
+
         try {
             // 弱者做法: 二次解析, 防止 GsonComponentSerializer 把单引号解析成 \u0027
             json = Configuration.loadFromString(json, Type.FAST_JSON).saveToString()
