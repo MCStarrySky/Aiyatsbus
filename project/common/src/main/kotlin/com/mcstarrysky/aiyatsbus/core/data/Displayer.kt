@@ -81,7 +81,7 @@ data class Displayer(
         tmp["roman_level_with_a_blank"] = lv.roman(enchant.basicData.maxLevel == 1, true)
         tmp["max_level"] = "${enchant.basicData.maxLevel}"
         tmp["rarity"] = enchant.rarity.name
-        tmp["rarity_display"] = enchant.rarity.displayName()
+        tmp["rarity_display"] = enchant.rarity.displayName(enchant.rarity.name)
         tmp["enchant_display"] = enchant.displayName()
         tmp["enchant_display_roman"] = enchant.displayName(lv)
         tmp["enchant_display_lore"] = display(tmp)
@@ -94,7 +94,7 @@ data class Displayer(
         fun load(displayerConfig: ConfigurationSection, enchant: AiyatsbusEnchantment): Displayer {
             val previous = displayerConfig.getString("format.previous", "{default_previous}")!!
             val subsequent = displayerConfig.getString("format.subsequent", "{default_subsequent}")!!
-            val generalDescription = displayerConfig.getString("description.general", "§7附魔介绍未设置")!!
+            val generalDescription = displayerConfig.getString("description.general", "&7附魔介绍未设置")!!
             val specificDescription = displayerConfig.getString("description.specific", generalDescription)!!
             return Displayer(previous, subsequent, generalDescription, specificDescription, enchant)
         }

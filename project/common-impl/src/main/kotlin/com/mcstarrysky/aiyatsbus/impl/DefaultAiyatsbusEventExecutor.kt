@@ -175,6 +175,10 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                 Aiyatsbus.api().getEventExecutor().unregisterListeners()
                 Aiyatsbus.api().getEventExecutor().registerListeners()
             }
+        }
+
+        @Awake(LifeCycle.ENABLE)
+        fun reload() {
             registerLifeCycleTask(LifeCycle.ENABLE) {
                 AiyatsbusEventExecutor.conf.onReload {
                     Aiyatsbus.api().getEventExecutor().unregisterListeners()

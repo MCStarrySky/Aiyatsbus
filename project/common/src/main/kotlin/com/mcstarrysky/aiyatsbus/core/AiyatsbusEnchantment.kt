@@ -87,7 +87,10 @@ interface AiyatsbusEnchantment {
         return limitations.checkAvailable(CheckType.ANVIL, item).first
     }
 
+    /**
+     * 显示名称
+     */
     fun displayName(level: Int? = null): String {
-        return (rarity.color + basicData.name + (level?.roman(basicData.maxLevel == 1, true) ?: "")).colored()
+        return rarity.displayName(basicData.name + (level?.roman(basicData.maxLevel == 1, true) ?: ""))
     }
 }

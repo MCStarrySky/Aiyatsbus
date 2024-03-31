@@ -16,7 +16,7 @@ import taboolib.module.configuration.Configuration
  */
 class AiyatsbusEnchantmentBase(
     override val id: String,
-    config: Configuration
+    private val config: Configuration
 ) : AiyatsbusEnchantment {
 
     override val enchantmentKey: NamespacedKey = NamespacedKey.minecraft(id)
@@ -27,13 +27,15 @@ class AiyatsbusEnchantmentBase(
 
     override lateinit var enchantment: Enchantment
 
-    override val rarity: Rarity = aiyatsbusRarity(config["rarity"].toString()) ?: aiyatsbusRarity(AiyatsbusSettings.defaultRarity) ?: error("Enchantment $id has an unknown rarity")
+    override val rarity: Rarity
+        get() = aiyatsbusRarity(config["rarity"].toString()) ?: aiyatsbusRarity(AiyatsbusSettings.defaultRarity) ?: error("Enchantment $id has an unknown rarity")
 
     override val variables: Variables = Variables.load(config.getConfigurationSection("variables"))
 
     override val displayer: Displayer = Displayer.load(config.getConfigurationSection("display")!!, this)
 
-    override val targets: List<Target> = config.getStringList("targets").mapNotNull(::aiyatsbusTarget)
+    override val targets: List<Target>
+        get() = config.getStringList("targets").mapNotNull(::aiyatsbusTarget)
 
     override val limitations: Limitations = Limitations(this, config.getStringList("limitations"))
 

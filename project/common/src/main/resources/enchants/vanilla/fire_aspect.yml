@@ -18,7 +18,7 @@ targets:
 display:
   description:
     general: "点燃击中的生物"
-    specific: "§7使击中的生物燃烧§a{燃烧时长}"
+    specific: "&7使击中的生物燃烧&a{燃烧时长}"
 
 #原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:

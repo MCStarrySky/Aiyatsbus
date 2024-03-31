@@ -18,6 +18,9 @@ import taboolib.common5.Baffle
 import taboolib.common5.cint
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.library.reflex.UnsafeAccess
+import taboolib.module.chat.ComponentText
+import taboolib.module.chat.Source
+import taboolib.module.chat.component
 import taboolib.module.configuration.util.asMap
 import taboolib.platform.util.*
 import java.lang.reflect.Field
@@ -199,6 +202,13 @@ fun ConfigurationSection?.submit(): Submit {
 }
 
 data class Submit(val enable: Boolean, val now: Boolean, val async: Boolean, val delay: Long, val period: Long)
+
+/**
+ * 将 List<String> 构建为复合文本并上色
+ */
+fun List<String>?.toBuiltComponent(): List<ComponentText> {
+    return this?.map { it.component().buildColored() } ?: emptyList()
+}
 
 /**
  * ItemsAdder 是否存在

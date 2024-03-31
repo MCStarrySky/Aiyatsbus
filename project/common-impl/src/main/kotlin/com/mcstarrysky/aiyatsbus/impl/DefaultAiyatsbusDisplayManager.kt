@@ -23,6 +23,8 @@ import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
 import taboolib.common5.cbool
+import taboolib.module.chat.Source
+import taboolib.module.chat.component
 import taboolib.platform.util.modifyMeta
 import kotlin.math.min
 
@@ -102,15 +104,15 @@ class DefaultAiyatsbusDisplayManager : AiyatsbusDisplayManager {
             var last = 0
             loreFormation[originLore.isNotEmpty()]!!.forEach {
                 when (it) {
-                    "{enchant_lore}" -> resultLore += enchantLore
-                    "{capability_line}" -> resultLore += capabilityLine.replace("capability" to item.type.capability - item.fixedEnchants.size)
+                    "{enchant_lore}" -> resultLore += enchantLore.toBuiltComponent().map(Source::toLegacyText)
+                    "{capability_line}" -> resultLore += capabilityLine.replace("capability" to item.type.capability - item.fixedEnchants.size).component().buildColored().toLegacyText()
                     "{item_lore}" -> {
                         first = resultLore.size
                         resultLore += originLore
                         last = resultLore.size
                     }
 
-                    else -> resultLore += it
+                    else -> resultLore += it.component().buildColored().toLegacyText()
                 }
             }
             lore = resultLore

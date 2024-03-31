@@ -17,7 +17,7 @@ limitations:
 
 display:
   description:
-    general: "在空中下蹲可触发二段跳 (冷却:§a6秒§7)"
+    general: "在空中下蹲可触发二段跳 (冷却:&a6秒&7)"
 
 mechanisms:
   listeners:

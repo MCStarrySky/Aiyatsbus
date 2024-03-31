@@ -16,7 +16,7 @@ limitations:
 display:
   description:
     general: "攻击时有概率召唤雷电"
-    specific: "§7攻击时§a{概率}§7召唤雷电 (冷却:§a{冷却}§7)"
+    specific: "&7攻击时&a{概率}&7召唤雷电 (冷却:&a{冷却}&7)"
 
 variables:
   leveled:

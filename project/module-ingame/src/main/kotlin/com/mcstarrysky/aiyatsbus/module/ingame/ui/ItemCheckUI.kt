@@ -6,6 +6,7 @@ import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.etsAvailable
 import com.mcstarrysky.aiyatsbus.core.fixedEnchants
+import com.mcstarrysky.aiyatsbus.core.util.toBuiltComponent
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.*
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
@@ -23,6 +24,9 @@ import com.mcstarrysky.aiyatsbus.module.ingame.ui.ItemCheckUI.CheckMode.FIND
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.ItemCheckUI.CheckMode.LOAD
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.UIType
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.record
+import org.bukkit.inventory.meta.ItemMeta
+import taboolib.module.chat.Source
+import taboolib.platform.util.modifyMeta
 
 @MenuComponent("ItemCheck")
 object ItemCheckUI {
@@ -89,6 +93,7 @@ object ItemCheckUI {
             val level = enchantPair.second
             val holders = enchant.displayer.holders(level, args["player"] as Player, args["item"] as ItemStack)
             icon.variables { variable -> listOf(holders[variable] ?: "") }
+                .modifyMeta<ItemMeta> { lore = lore.toBuiltComponent().map(Source::toLegacyText) }
                 .skull(enchant.rarity.skull)
         }
         onClick { (_, _, _, event, args) ->

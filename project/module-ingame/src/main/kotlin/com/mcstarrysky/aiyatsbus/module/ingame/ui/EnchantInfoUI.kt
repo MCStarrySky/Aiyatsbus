@@ -6,10 +6,7 @@ import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.data.LimitType
 import com.mcstarrysky.aiyatsbus.core.data.MenuMode
-import com.mcstarrysky.aiyatsbus.core.util.isNull
-import com.mcstarrysky.aiyatsbus.core.util.name
-import com.mcstarrysky.aiyatsbus.core.util.roman
-import com.mcstarrysky.aiyatsbus.core.util.subList
+import com.mcstarrysky.aiyatsbus.core.util.*
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.*
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
@@ -30,6 +27,7 @@ import taboolib.platform.util.modifyLore
 import taboolib.platform.util.modifyMeta
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.UIType
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.record
+import taboolib.module.chat.Source
 import kotlin.collections.set
 
 @MenuComponent("EnchantInfo")
@@ -198,6 +196,9 @@ object EnchantInfoUI {
             val enchant = args["enchant"] as AiyatsbusEnchantment
             val holders = enchant.displayer.holders(enchant.basicData.maxLevel)
             icon.variables { variable -> listOf(holders[variable] ?: "") }
+                .modifyMeta<ItemMeta> {
+                    lore = lore.toBuiltComponent().map(Source::toLegacyText)
+                }
                 .skull(enchant.rarity.skull)
         }
     }
@@ -340,7 +341,9 @@ object EnchantInfoUI {
                             val lore = lore!!
                             val index = lore.indexOf("分隔符号")
                             this.lore = lore.subList(index + 1)
-                        }.variables { variable -> listOf(holders[variable] ?: "") }
+                        }
+                        .modifyMeta<ItemMeta> { lore = lore.toBuiltComponent().map(Source::toLegacyText) }
+                        .variables { variable -> listOf(holders[variable] ?: "") }
                 }
 
                 else -> icon
