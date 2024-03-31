@@ -33,34 +33,34 @@ class PropertyLivingEntity : AiyatsbusGenericProperty<LivingEntity>("living-enti
         val property: Any? = when (key) {
 
             "health" -> instance.health
-            "max-health" -> instance.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue ?: 0.0
+            "maxHealth", "max-health" -> instance.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue ?: 0.0
 
-            "remaining-air", "oxygen", "air" -> instance.remainingAir
-            "max-oxygen", "max-air" -> instance.maximumAir
+            "remainingAir", "remaining-air", "oxygen", "air" -> instance.remainingAir
+            "maximuxAir", "max-oxygen", "max-air" -> instance.maximumAir
 
             "killer" -> instance.killer
-            "last-damage", "last-dmg" -> instance.lastDamage
-            "last-damage-cause", "last-dmg-cause" -> instance.lastDamageCause
-            "no-damage-ticks", "no-dmg-ticks", "no-damage-cooldown", "no-dmg-cd" -> instance.noDamageTicks
+            "lastDamage", "last-damage", "last-dmg" -> instance.lastDamage
+            "lastDamageCause","last-damage-cause", "last-dmg-cause" -> instance.lastDamageCause
+            "noDamageTicks", "no-damage-ticks", "no-dmg-ticks", "no-damage-cooldown", "no-dmg-cd" -> instance.noDamageTicks
 
             "eyeLocation", "eye-location", "eye-loc" -> instance.eyeLocation
             "eyeHeight", "eye-height" -> instance.eyeHeight
 
-            "has-potion" -> instance.activePotionEffects.isNotEmpty()
-            "has-ai" -> instance.hasAI()
-            "climbing" -> instance.isClimbing
-            "collidable" -> instance.isCollidable
-            "gliding" -> instance.isGliding
-            "invisible" -> instance.isInvisible
-            "leashed" -> instance.isLeashed
-            "riptiding" -> instance.isRiptiding
-            "sleeping" -> instance.isSleeping
-            "swimming" -> instance.isSwimming
+            "hasPotion", "has-potion" -> instance.activePotionEffects.isNotEmpty()
+            "hasAI", "has-ai" -> instance.hasAI()
+            "isClimbing", "climbing" -> instance.isClimbing
+            "isCollidable", "collidable" -> instance.isCollidable
+            "isGliding", "gliding" -> instance.isGliding
+            "isInvisible", "invisible" -> instance.isInvisible
+            "isLeashed", "leashed" -> instance.isLeashed
+            "isRiptiding", "riptiding" -> instance.isRiptiding
+            "isSleeping", "sleeping" -> instance.isSleeping
+            "isSwimming", "swimming" -> instance.isSwimming
 
             /* 其他属性 */
-            "arrow-cooldown", "arrow-cd"-> instance.arrowCooldown
-            "arrows-in-body", "arrows" -> instance.arrowsInBody
-            "can-pickup-items" -> instance.canPickupItems
+            "arrowCooldown", "arrow-cooldown", "arrow-cd"-> instance.arrowCooldown
+            "arrowsInBody", "arrows-in-body", "arrows" -> instance.arrowsInBody
+            "canPickupItems", "can-pickup-items" -> instance.canPickupItems
             "category" -> instance.category.name
 
             /* 装备栏相关属性 */
@@ -70,34 +70,40 @@ class PropertyLivingEntity : AiyatsbusGenericProperty<LivingEntity>("living-enti
             }
 
             // 主手
-            "main", "main-hand", "hand" -> instance.equipment?.itemInMainHand ?: ItemStack(Material.AIR)
+            "mainHand", "main", "main-hand", "mainhand" -> instance.equipment?.itemInMainHand ?: ItemStack(Material.AIR)
+            "itemInMainHandDropChance",
             "drop-chance-main", "chance-main",
             "drop-chance-main-hand", "chance-main-hand",
             "drop-chance-hand", "chance-hand" -> instance.equipment?.itemInMainHandDropChance ?: 0f
 
             // 副手
             "off", "off-hand" -> instance.equipment?.itemInOffHand ?: ItemStack(Material.AIR)
+            "itemInOffHandDropChance",
             "drop-chance-off", "chance-off",
             "drop-chance-off-hand", "chance-off-hand" -> instance.equipment?.itemInOffHandDropChance ?: 0f
 
             // 头盔
             "helmet", "head" -> instance.equipment?.helmet ?: ItemStack(Material.AIR)
+            "helmetDropChance",
             "drop-chance-helmet", "chance-helmet",
             "drop-chance-head", "chance-head" -> instance.equipment?.helmetDropChance ?: 0f
 
             // 胸甲
             "chestplate", "chest" -> instance.equipment?.chestplate ?: ItemStack(Material.AIR)
+            "chestplateDropChance",
             "drop-chance-chestplate", "chance-chestplate",
             "drop-chance-chest", "chance-chest" -> instance.equipment?.chestplateDropChance ?: 0f
 
             // 护腿
             "leggings", "legs", "leg" -> instance.equipment?.leggings ?: ItemStack(Material.AIR)
+            "leggingsDropChance",
             "drop-chance-leggings", "chance-leggings",
             "drop-chance-legs", "chance-legs",
             "drop-chance-leg", "chance-leg" -> instance.equipment?.leggingsDropChance ?: 0f
 
             // 护靴
             "boots", "feet", "foot" -> instance.equipment?.boots ?: ItemStack(Material.AIR)
+            "bootsDropChance",
             "drop-chance-boots", "chance-boots",
             "drop-chance-feet", "chance-feet",
             "drop-chance-foot", "chance-foot" -> instance.equipment?.bootsDropChance ?: 0f
@@ -109,39 +115,38 @@ class PropertyLivingEntity : AiyatsbusGenericProperty<LivingEntity>("living-enti
 
     override fun writeProperty(instance: LivingEntity, key: String, value: Any?): OpenResult {
         when (key) {
-
             "health" -> {
                 instance.health = value?.coerceDouble() ?: return OpenResult.successful()
             }
-            "max-health" -> {
+            "maxHealth", "max-health" -> {
                 instance.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue =
                     value?.coerceDouble() ?: return OpenResult.successful()
             }
 
-            "remaining-air", "oxygen", "air" -> {
+            "remainingAir", "remaining-air", "oxygen", "air" -> {
                 instance.remainingAir = value?.coerceInt() ?: return OpenResult.successful()
             }
-            "max-oxygen", "max-air" -> {
+            "maximumAir", "max-oxygen", "max-air" -> {
                 instance.maximumAir = value?.coerceInt() ?: return OpenResult.successful()
             }
 
-            "last-damage", "last-dmg" -> {
+            "lastDamage", "last-damage", "last-dmg" -> {
                 instance.lastDamage = value?.coerceDouble() ?: return OpenResult.successful()
             }
-            "last-damage-cause", "last-dmg-cause" -> {
+            "lastDamageCause", "last-damage-cause", "last-dmg-cause" -> {
                 instance.lastDamageCause = value as? EntityDamageEvent ?: return OpenResult.successful()
             }
-            "no-damage-ticks", "no-dmg-ticks", "no-damage-cooldown", "no-dmg-cd" -> {
+            "noDamageTicks","no-damage-ticks", "no-dmg-ticks", "no-damage-cooldown", "no-dmg-cd" -> {
                 instance.noDamageTicks = value?.coerceInt() ?: return OpenResult.successful()
             }
 
-            "arrow-cooldown", "arrow-cd"-> {
+            "arrowCooldown", "arrow-cooldown", "arrow-cd"-> {
                 instance.arrowCooldown = value?.coerceInt() ?: return OpenResult.successful()
             }
-            "arrows-in-body", "arrows" -> {
+            "arrowsInBody", "arrows-in-body", "arrows" -> {
                 instance.arrowsInBody = value?.coerceInt() ?: return OpenResult.successful()
             }
-            "can-pickup-items" -> {
+            "canPickupItems", "can-pickup-items" -> {
                 instance.canPickupItems = value?.coerceBoolean() ?: return OpenResult.successful()
             }
 
@@ -149,25 +154,27 @@ class PropertyLivingEntity : AiyatsbusGenericProperty<LivingEntity>("living-enti
                 instance.equipment?.armorContents = value as? Array<out ItemStack> ?: return OpenResult.successful()
             }
 
-            "hand*" -> {
+            "itemInHand", "hand*" -> {
                 instance.equipment?.setItemInHand(value?.liveItemStack)
             }
-            "drop-chance-hand*", "chance-hand*" -> {
+            "itemInHandDropChance", "drop-chance-hand*", "chance-hand*" -> {
                 instance.equipment?.itemInHandDropChance = value?.coerceFloat() ?: return OpenResult.successful()
             }
 
-            "main", "main-hand", "hand" -> {
+            "mainHand", "main", "main-hand", "hand" -> {
                 instance.equipment?.setItemInMainHand(value?.liveItemStack)
             }
+            "itemInMainHandDropChance",
             "drop-chance-main", "chance-main",
             "drop-chance-main-hand", "chance-main-hand",
             "drop-chance-hand", "chance-hand" -> {
                 instance.equipment?.itemInMainHandDropChance = value?.coerceFloat() ?: return OpenResult.successful()
             }
 
-            "off", "off-hand" -> {
+            "offHand", "off", "off-hand" -> {
                 instance.equipment?.setItemInOffHand(value?.liveItemStack)
             }
+            "itemInOffHandDropChance",
             "drop-chance-off", "chance-off",
             "drop-chance-off-hand", "chance-off-hand" -> {
                 instance.equipment?.itemInOffHandDropChance = value?.coerceFloat() ?: return OpenResult.successful()
@@ -176,6 +183,7 @@ class PropertyLivingEntity : AiyatsbusGenericProperty<LivingEntity>("living-enti
             "helmet", "head" -> {
                 instance.equipment?.helmet = value?.liveItemStack
             }
+            "helmetDropChance",
             "drop-chance-helmet", "chance-helmet",
             "drop-chance-head", "chance-head" -> {
                 instance.equipment?.helmetDropChance = value?.coerceFloat() ?: return OpenResult.successful()
@@ -184,14 +192,16 @@ class PropertyLivingEntity : AiyatsbusGenericProperty<LivingEntity>("living-enti
             "chestplate", "chest" -> {
                 instance.equipment?.chestplate = value?.liveItemStack
             }
+            "chestplateDropChance",
             "drop-chance-chestplate", "chance-chestplate",
             "drop-chance-chest", "chance-chest" -> {
                 instance.equipment?.chestplateDropChance = value?.coerceFloat() ?: return OpenResult.successful()
             }
 
             "leggings", "legs", "leg" -> {
-                instance.equipment?.chestplate = value?.liveItemStack
+                instance.equipment?.leggings = value?.liveItemStack
             }
+            "leggingsDropChance",
             "drop-chance-leggings", "chance-leggings",
             "drop-chance-legs", "chance-legs",
             "drop-chance-leg", "chance-leg" -> {
@@ -201,6 +211,7 @@ class PropertyLivingEntity : AiyatsbusGenericProperty<LivingEntity>("living-enti
             "boots", "feet", "foot" -> {
                 instance.equipment?.boots = value?.liveItemStack
             }
+            "bootsDropChance",
             "drop-chance-boots", "chance-boots",
             "drop-chance-feet", "chance-feet",
             "drop-chance-foot", "chance-foot" -> {

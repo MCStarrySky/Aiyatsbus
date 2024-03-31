@@ -35,15 +35,18 @@ class PropertyLocation : AiyatsbusGenericProperty<Location>("location-bukkit") {
             "blockZ", "block-z" -> instance.blockZ
             "chunk" -> instance.chunk
             "direction" -> instance.direction
-            "pitch" -> instance.pitch
             "world" -> instance.world
+
             "x" -> instance.x
             "y" -> instance.y
-            "yaw" -> instance.yaw
             "z" -> instance.z
+
+            "yaw" -> instance.yaw
+            "pitch" -> instance.pitch
+
             "isWorldLoaded", "world-loaded", "loaded" -> instance.isWorldLoaded
             "length" -> instance.length()
-            "lengthSquared", "length-squared", "squared", "sq" -> instance.lengthSquared()
+            "lengthSquared", "length-squared", "squared" -> instance.lengthSquared()
             "serialize" -> instance.serialize()
             "serialized" -> instance.serialized
             "toVector", "vector" -> instance.toVector()
