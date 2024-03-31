@@ -25,41 +25,41 @@ class PropertyBlock : AiyatsbusGenericProperty<Block>("block") {
         val property: Any? = when (key) {
             "type", "material", "mat" -> instance.type.name
             "location", "loc" -> instance.location
-            "location-x", "loc-x", "x" -> instance.x
-            "location-y", "loc-y", "y" -> instance.y
-            "location-z", "loc-z", "z" -> instance.z
+            "locationX", "location-x", "loc-x", "x" -> instance.x
+            "locationY", "location-y", "loc-y", "y" -> instance.y
+            "locationZ", "location-z", "loc-z", "z" -> instance.z
 
             "world*" -> instance.world
-            "world" -> instance.world.name
-            "is-empty" -> instance.isEmpty
-            "is-liquid" -> instance.isLiquid
-            "passable" -> instance.isPassable
+            "worldName", "world" -> instance.world.name
+            "isEmpty", "is-empty" -> instance.isEmpty
+            "isLiquid","is-liquid" -> instance.isLiquid
+            "isPassable", "is-passable" -> instance.isPassable
 
             "biome" -> instance.biome.name
             "drops" -> instance.drops
 
-            "light" -> instance.lightLevel
-            "light-sky" -> instance.lightFromSky
-            "light-blocks" -> instance.lightFromBlocks
+            "lightLevel", "light-level", "light" -> instance.lightLevel
+            "lightFromSky", "light-from-sky", "light-sky" -> instance.lightFromSky
+            "lightFromBlocks", "light-from-blocks", "light-blocks" -> instance.lightFromBlocks
 
             /* 材质相关属性 */
-            "is-solid" -> instance.type.isSolid
-            "is-item" -> instance.type.isItem
-            "is-record" -> instance.type.isRecord
-            "is-occluding" -> instance.type.isOccluding
-            "is-interactable" -> instance.type.isInteractable
-            "is-fuel" -> instance.type.isFuel
-            "is-flammable" -> instance.type.isFlammable
-            "is-edible" -> instance.type.isEdible
-            "is-burnable" -> instance.type.isBurnable
-            "is-block" -> instance.type.isBlock
-            "is-air" -> instance.type.isAir
-            "has-gravity" -> instance.type.hasGravity()
+            "isSolid", "is-solid" -> instance.type.isSolid
+            "isItem", "is-item" -> instance.type.isItem
+            "isRecord", "is-record" -> instance.type.isRecord
+            "isOccluding", "is-occluding" -> instance.type.isOccluding
+            "isInteractable", "is-interactable" -> instance.type.isInteractable
+            "isFuel", "is-fuel" -> instance.type.isFuel
+            "isFlammable", "is-flammable" -> instance.type.isFlammable
+            "isEdible", "is-edible" -> instance.type.isEdible
+            "isBurnable", "is-burnable" -> instance.type.isBurnable
+            "isBlock", "is-block" -> instance.type.isBlock
+            "isAir", "is-air" -> instance.type.isAir
+            "hasGravity", "has-gravity", "gravity" -> instance.type.hasGravity()
             "slipperiness" -> instance.type.slipperiness
             "hardness" -> instance.type.hardness
             "slot" -> instance.type.equipmentSlot.name
-            "blast-resistance", "resistance" -> instance.type.blastResistance
-            "creative-category", "category" -> instance.type.creativeCategory
+            "blastResistance", "blast-resistance", "resistance" -> instance.type.blastResistance
+            "creativeCategory", "creative-category", "category" -> instance.type.creativeCategory
             "blockData", "block-data" -> instance.blockData
             else -> return OpenResult.failed()
         }

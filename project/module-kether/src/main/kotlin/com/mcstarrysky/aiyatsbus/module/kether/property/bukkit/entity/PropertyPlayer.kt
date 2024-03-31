@@ -1,10 +1,7 @@
-@file:Suppress("deprecation")
-
 package com.mcstarrysky.aiyatsbus.module.kether.property.bukkit.entity
 
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusGenericProperty
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusProperty
-import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.WeatherType
 import org.bukkit.entity.Player
@@ -30,28 +27,27 @@ class PropertyPlayer : AiyatsbusGenericProperty<Player>("player") {
     override fun readProperty(instance: Player, key: String): OpenResult {
         val property: Any? = when (key) {
             "name" -> instance.name
-            "bed-location", "bed-loc", "bed" -> instance.bedSpawnLocation
-            "uuid" -> instance.uniqueId.toString()
-            "view-distance" -> instance.clientViewDistance
-            "compass-target", "compass" -> instance.compassTarget
-            "display-name", "display" -> instance.displayName
-            "exp" -> instance.exp
+            "bedLocation", "bed-location", "bed-loc", "bed" -> instance.bedSpawnLocation
+            "viewDistance", "view-distance" -> instance.clientViewDistance
+            "compassTarget", "compass-target", "compass" -> instance.compassTarget
+            "displayName", "display-name", "display" -> instance.displayName()
+            "experience", "exp" -> instance.exp
             "level" -> instance.level
-            "fly-speed" -> instance.flySpeed
-            "health-scale" -> instance.healthScale
-            "locale" -> instance.locale
+            "flySpeed", "fly-speed" -> instance.flySpeed
+            "healthScale", "health-scale" -> instance.healthScale
+            "locale" -> instance.locale()
             "ping" -> instance.ping
-            "player-list-footer" -> instance.playerListFooter
-            "player-list-header" -> instance.playerListHeader
-            "player-list-name", "player-list" -> instance.playerListName
+            "playerListFooter", "player-list-footer" -> instance.playerListFooter()
+            "playerListHeader", "player-list-header" -> instance.playerListHeader()
+            "playerListName", "player-list-name", "player-list" -> instance.playerListName()
 
-            "time" -> instance.playerTime
-            "time-offset" -> instance.playerTimeOffset
-            "time-relative" -> instance.isPlayerTimeRelative
+            "playerTime", "time" -> instance.playerTime
+            "playerTimeOffset", "time-offset" -> instance.playerTimeOffset
+            "isPlayerTimeRelative", "time-relative" -> instance.isPlayerTimeRelative
 
-            "weather" -> instance.playerWeather
+            "playerWeather", "weather" -> instance.playerWeather
 
-            "previous-game-mode", "previous-gamemode", "gamemode-previous" -> instance.previousGameMode
+            "previousGameMode", "previous-game-mode", "previous-gamemode", "gamemode-previous" -> instance.previousGameMode
             else -> return OpenResult.failed()
         }
         return OpenResult.successful(property)
@@ -59,34 +55,37 @@ class PropertyPlayer : AiyatsbusGenericProperty<Player>("player") {
 
     override fun writeProperty(instance: Player, key: String, value: Any?): OpenResult {
         when (key) {
-            "bed-location", "bed-loc", "bed" -> {
+            "bedSpawnLocation", "bed-location", "bed-loc", "bed" -> {
                 instance.bedSpawnLocation = value as? Location ?: return OpenResult.successful()
             }
-            "compass-target", "compass" -> {
+            "compassTarget", "compass-target", "compass" -> {
                 instance.compassTarget = value as? Location ?: return OpenResult.successful()
             }
-            "exp" -> {
+            "experience", "exp" -> {
                 instance.exp = value?.cfloat ?: return OpenResult.successful()
             }
             "level" -> {
                 instance.level = value?.cint ?: return OpenResult.successful()
             }
-            "fly-speed" -> {
+            "flySpeed", "fly-speed" -> {
                 instance.flySpeed = value?.cfloat ?: return OpenResult.successful()
             }
-            "health-scale" -> {
+            "healthScale", "health-scale" -> {
                 instance.healthScale = value?.cdouble ?: return OpenResult.successful()
             }
-            "player-list-footer" -> {
+
+            // TODO net.kyori.adventure.audience
+            "playerListFooter", "player-list-footer" -> {
                 instance.playerListFooter = value?.toString() ?: return OpenResult.successful()
             }
-            "player-list-header" -> {
+            "playerListHeader", "player-list-header" -> {
                 instance.playerListHeader = value?.toString() ?: return OpenResult.successful()
             }
-            "time" -> {
+
+            "playerTime", "time" -> {
                 instance.setPlayerTime(value?.clong ?: return OpenResult.successful(), false)
             }
-            "weather" -> {
+            "playerWeather", "weather" -> {
                 instance.setPlayerWeather(value?.toString()?.let { WeatherType.valueOf(it) }
                     ?: return OpenResult.successful())
             }
@@ -94,5 +93,4 @@ class PropertyPlayer : AiyatsbusGenericProperty<Player>("player") {
         }
         return OpenResult.successful()
     }
-
 }
