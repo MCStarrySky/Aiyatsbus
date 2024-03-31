@@ -3,6 +3,7 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.ui
 
 import com.mcstarrysky.aiyatsbus.core.*
+import com.mcstarrysky.aiyatsbus.core.util.toBuiltComponent
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.*
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
@@ -20,6 +21,9 @@ import taboolib.module.ui.type.PageableChest
 import taboolib.platform.util.sendLang
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.UIType
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.record
+import org.bukkit.inventory.meta.ItemMeta
+import taboolib.module.chat.Source
+import taboolib.platform.util.modifyMeta
 import kotlin.collections.set
 
 @MenuComponent("EnchantSearch")
@@ -71,6 +75,7 @@ object EnchantSearchUI {
             val enchant = args["enchant"] as AiyatsbusEnchantment
             val holders = enchant.displayer.holders(enchant.basicData.maxLevel)
             icon.variables { variable -> listOf(holders[variable] ?: "") }
+                .modifyMeta<ItemMeta> { lore = lore.toBuiltComponent().map(Source::toLegacyText) }
                 .skull(enchant.rarity.skull)
         }
         onClick { (_, _, _, event, args) ->

@@ -24,7 +24,7 @@ limitations:
 display:
   description:
     general: "减少受到的弹射物伤害"
-    specific: "§7减少§a{减伤百分比}§7弹射物伤害 (总上限§a10级§7)"
+    specific: "&7减少&a{减伤百分比}&7弹射物伤害 (总上限&a10级&7)"
 
 #原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:

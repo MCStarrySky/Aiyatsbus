@@ -6,15 +6,15 @@
 # 默认的格式，分为前部和后部
 format:
   default_previous: "{enchant_display_roman}"
-  default_subsequent: "\n§8| §7{description}"
+  default_subsequent: "\n&8| &7{description}"
 # 剩余词条数显示
-capability_line: "§c| §7附魔词条数空余: §e{capability}"
+capability_line: "&c| &7附魔词条数空余: &e{capability}"
 # lore的顺序
 lore_formation:
   has_lore:
     - "{enchant_lore}" # 附魔描述
     - "{capability_line}" # 剩余词条显示
-    - "§r " # 空一行美观
+    - "&r " # 空一行美观
     - "{item_lore}" # 物品原来的lore
   without_lore:
     - "{enchant_lore}" # 附魔描述
@@ -47,4 +47,4 @@ combine:
   # 合并的布局
   layout:
     - "{previous_1}{subsequent_1}" #只有一个的情况
-    - "{previous_1}§7, {previous_2}{subsequent_1}{subsequent_2}" #有两个的情况
+    - "{previous_1}&7, {previous_2}{subsequent_1}{subsequent_2}" #有两个的情况

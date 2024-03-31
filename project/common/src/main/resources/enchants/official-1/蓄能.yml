@@ -19,10 +19,10 @@ limitations: [ ]
 
 display:
   format:
-    previous: "{default_previous}  §7{是否充能完毕}(§e{当前累计}§7/§a{击杀累计}§7)"
+    previous: "{default_previous}  &7{是否充能完毕}(&e{当前累计}&7/&a{击杀累计}&7)"
   description:
     general: "每击杀若干只怪物后，下一次攻击伤害增加"
-    specific: "§7每击杀§a{击杀累计}§7生物后，下一次攻击伤害增加§a{伤害增加百分比}"
+    specific: "&7每击杀&a{击杀累计}&7生物后，下一次攻击伤害增加&a{伤害增加百分比}"
 
 variables:
   leveled:

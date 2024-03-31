@@ -25,7 +25,6 @@ import taboolib.platform.util.modifyMeta
  * @author mical
  * @since 2024/2/17 22:29
  */
-@Deprecated("等待重写")
 class Variables(
     /** 存储变量的类型, 要根据这个判断变量类型 */
     val variables: MutableMap<String, VariableType>,

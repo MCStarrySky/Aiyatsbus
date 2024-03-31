@@ -42,10 +42,10 @@ interface AiyatsbusDisplayManager {
         var defaultPrevious = "{enchant_display_roman}"
 
         @ConfigNode("format.default_subsequent")
-        var defaultSubsequent = "\n§8| §7{description}"
+        var defaultSubsequent = "\n&8| &7{description}"
 
         @ConfigNode("capability_line")
-        var capabilityLine = "§8| §7附魔词条数空余: §e{capability}"
+        var capabilityLine = "&8| &7附魔词条数空余: &e{capability}"
 
         @ConfigNode("sort.level")
         var sortByLevel = true

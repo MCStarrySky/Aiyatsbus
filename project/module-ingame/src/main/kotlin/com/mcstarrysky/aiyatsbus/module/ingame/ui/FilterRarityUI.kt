@@ -71,7 +71,7 @@ object FilterRarityUI {
 
             icon.variables {
                 when (it) {
-                    "name", "rarity_display" -> listOf(rarity.displayName())
+                    "name", "rarity_display" -> listOf(rarity.displayName(rarity.name))
                     "amount" -> listOf(aiyatsbusEts(rarity).size.toString())
                     else -> emptyList()
                 }

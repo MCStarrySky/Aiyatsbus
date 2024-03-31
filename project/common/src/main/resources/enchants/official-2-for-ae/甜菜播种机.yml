@@ -18,7 +18,7 @@ limitations:
 display:
   description:
     general: "右击可范围播种甜菜(需要种子)"
-    specific: "§7右击可范围播种甜菜(需要种子) (§a{边长}×§a{边长} §7冷却:§a{冷却}§7)"
+    specific: "&7右击可范围播种甜菜(需要种子) (&a{边长}×&a{边长} &7冷却:&a{冷却}&7)"
 
 variables:
   leveled:

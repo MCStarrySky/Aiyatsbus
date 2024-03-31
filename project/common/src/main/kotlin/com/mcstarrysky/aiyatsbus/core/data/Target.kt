@@ -44,6 +44,10 @@ object TargetLoader {
         registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.TARGET) {
             load()
         }
+    }
+
+    @Awake(LifeCycle.ENABLE)
+    fun reload() {
         registerLifeCycleTask(LifeCycle.ENABLE) {
             config.onReload {
                 load()

@@ -47,8 +47,8 @@ enum class FilterType {
 }
 
 enum class FilterStatement {
-    ON,//("§a✔"),
-    OFF;//("§c✘")
+    ON,//("&a✔"),
+    OFF;//("&c✘")
 
     fun symbol(player: Player?): String {
         return (player ?: Bukkit.getConsoleSender()).asLangText("filter-statement-symbol-${name.lowercase()}")

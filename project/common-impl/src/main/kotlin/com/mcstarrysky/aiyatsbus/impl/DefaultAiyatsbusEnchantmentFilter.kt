@@ -58,7 +58,10 @@ class DefaultAiyatsbusEnchantmentFilter : AiyatsbusEnchantmentFilter {
     override fun generateLore(type: FilterType, rules: Map<String, FilterStatement>, player: Player?): List<String> {
         return rules.map { (value, state) ->
             state.symbol(player) + " " + when (type) {
-                RARITY -> aiyatsbusRarity(value)?.displayName() ?: value
+                RARITY -> {
+                    val rarity = aiyatsbusRarity(value)
+                    rarity?.displayName(rarity.name) ?: value
+                }
                 TARGET -> aiyatsbusTarget(value)?.name ?: value
                 GROUP -> aiyatsbusGroup(value)?.name ?: value
                 STRING -> value

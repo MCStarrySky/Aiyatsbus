@@ -23,7 +23,6 @@ import taboolib.platform.util.asLangText
  * @author mical
  * @since 2024/2/18 10:15
  */
-@Deprecated("等待重写")
 data class Limitations(
     private val belonging: AiyatsbusEnchantment,
     private val lines: List<String>

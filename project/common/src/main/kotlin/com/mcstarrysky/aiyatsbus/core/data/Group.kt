@@ -47,6 +47,10 @@ object GroupLoader {
         registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.GROUP) {
             load()
         }
+    }
+
+    @Awake(LifeCycle.ENABLE)
+    fun reload() {
         registerLifeCycleTask(LifeCycle.ENABLE) {
             config.onReload {
                 load()

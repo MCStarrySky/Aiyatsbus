@@ -2,6 +2,7 @@ package com.mcstarrysky.aiyatsbus.core.data
 
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.replace
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.info
@@ -22,12 +23,16 @@ data class Rarity(
     private val root: ConfigurationSection,
     val id: String = root.name,
     val name: String = root.getString("name")!!,
-    val color: String = root.getString("color")!!.component().buildColored().toLegacyText(),
+    val color: String = root.getString("color")!!,
     val weight: Int = root.getInt("weight", 100),
     val skull: String = root.getString("skull", "")!!
 ) {
-    fun displayName(): String {
-        return "$color$name"
+
+    /**
+     * 显示名称
+     */
+    fun displayName(text: String = ""): String {
+        return color.replace("text" to text).component().buildColored().toLegacyText()
     }
 }
 
@@ -45,6 +50,10 @@ object RarityLoader {
         registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.RARITY) {
             load()
         }
+    }
+
+    @Awake(LifeCycle.ENABLE)
+    fun reload() {
         registerLifeCycleTask(LifeCycle.ENABLE) {
             config.onReload {
                 load()
