@@ -23,13 +23,18 @@ class PropertyBlockData : AiyatsbusGenericProperty<BlockData>("block-data") {
             "isOccluding", "is-occluding", "occluding" -> instance.isOccluding
             "isRandomlyTicked", "is-randomly-ticked", "randomly-ticked" -> instance.isRandomlyTicked
             "asString", "as-string" -> instance.asString
-            // TODO
+            "soundGroup", "sound-group" -> instance.soundGroup
+            "lightEmission", "light-emission" -> instance.lightEmission
+            "requiresCorrectToolForDrops", "check-tool", "drops-by-tool" -> instance.requiresCorrectToolForDrops()
+            "pistonMoveReaction", "piston-move-reaction", "piston-reaction" -> instance.pistonMoveReaction
+            "placementMaterial", "placement-material" -> instance.placementMaterial
             else -> OpenResult.failed()
         }
         return OpenResult.successful(property)
     }
 
     override fun writeProperty(instance: BlockData, key: String, value: Any?): OpenResult {
+        // TODO
         return OpenResult.failed()
     }
 }

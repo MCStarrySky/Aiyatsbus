@@ -30,9 +30,7 @@ class PropertyBlockBreakEvent : AiyatsbusGenericProperty<BlockBreakEvent>("block
 
     override fun writeProperty(instance: BlockBreakEvent, key: String, value: Any?): OpenResult {
         when (key) {
-            "isDropItems", "is-drop-items", "drop-items" -> {
-                instance.isDropItems = value?.coerceBoolean() ?: return OpenResult.successful()
-            }
+            "isDropItems", "is-drop-items", "drop-items" -> instance.isDropItems = value?.coerceBoolean() ?: return OpenResult.successful()
             else -> return OpenResult.failed()
         }
         return OpenResult.successful()

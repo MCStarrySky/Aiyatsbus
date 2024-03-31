@@ -2,7 +2,9 @@ package com.mcstarrysky.aiyatsbus.module.kether.property.bukkit.entity
 
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusGenericProperty
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusProperty
+import com.mcstarrysky.aiyatsbus.module.kether.LiveData.Companion.liveEntity
 import org.bukkit.entity.Projectile
+import org.bukkit.projectiles.ProjectileSource
 import taboolib.common.OpenResult
 
 /**
@@ -21,14 +23,19 @@ class PropertyProjectile : AiyatsbusGenericProperty<Projectile>("projectile") {
     override fun readProperty(instance: Projectile, key: String): OpenResult {
         val property: Any? = when (key) {
             "shooter" -> instance.shooter
-            // TODO
             else -> return OpenResult.failed()
         }
         return OpenResult.successful(property)
     }
 
     override fun writeProperty(instance: Projectile, key: String, value: Any?): OpenResult {
-        // TODO
-        return OpenResult.failed()
+        when (key) {
+            "shooter" -> {
+                instance.shooter = (value?.liveEntity as ProjectileSource?)
+                    ?: return OpenResult.successful()
+            }
+            else -> return OpenResult.failed()
+        }
+        return OpenResult.successful()
     }
 }

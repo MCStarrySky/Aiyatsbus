@@ -29,9 +29,7 @@ class PropertyBlockExpEvent : AiyatsbusGenericProperty<BlockExpEvent>("block-exp
 
     override fun writeProperty(instance: BlockExpEvent, key: String, value: Any?): OpenResult {
         when (key) {
-            "expToDrop", "exp-to-drop", "exp" -> {
-                instance.expToDrop = value?.coerceInt() ?: return OpenResult.successful()
-            }
+            "expToDrop", "exp-to-drop", "exp" -> instance.expToDrop = value?.coerceInt() ?: return OpenResult.successful()
             else -> return OpenResult.failed()
         }
         return OpenResult.successful()

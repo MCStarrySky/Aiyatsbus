@@ -9,7 +9,6 @@ import org.bukkit.entity.Entity
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.util.Vector
 import taboolib.common.OpenResult
-import taboolib.module.nms.getI18nName
 
 /**
  * Aiyatsbus
@@ -26,7 +25,7 @@ class PropertyEntity : AiyatsbusGenericProperty<Entity>("entity") {
 
     override fun readProperty(instance: Entity, key: String): OpenResult {
         val property: Any? = when (key) {
-            "boundingBox", "bounding-box" -> instance.boundingBox
+            "boundingBox", "bounding-box", "box" -> instance.boundingBox
             "entityId", "entity-id", "id" -> instance.entityId
             "facing*" -> instance.facing.name
             "facing" -> instance.facing
@@ -38,15 +37,14 @@ class PropertyEntity : AiyatsbusGenericProperty<Entity>("entity") {
             "location", "loc" -> instance.location
             "maxFireTicks", "max-fire-ticks" -> instance.maxFireTicks
             "maxFreezeTicks", "max-freeze-ticks" -> instance.maxFreezeTicks
-            "passenger" -> instance.passenger
             "passengers" -> instance.passengers
             "pistonMoveReaction", "piston-move-reaction", "piston-reaction" -> instance.pistonMoveReaction
             "portalCooldown", "portal-cooldown" -> instance.portalCooldown
             "pose" -> instance.pose
             "scoreboardTags", "scoreboard-tags" -> instance.scoreboardTags
             "server" -> instance.server
-            "spawn-category" -> instance.spawnCategory
-            "ticks-lived" -> instance.ticksLived
+            "spawnCategory", "spawn-category" -> instance.spawnCategory
+            "ticksLived", "ticks-lived" -> instance.ticksLived
             "type*" -> instance.type.name
             "type" -> instance.type.name
             "uniqueId", "unique-id", "uuid" -> instance.uniqueId
@@ -70,13 +68,10 @@ class PropertyEntity : AiyatsbusGenericProperty<Entity>("entity") {
             "isValid", "valid" -> instance.isValid
             "isVisualFire", "visual-fire" -> instance.isVisualFire
 
-            // Nameable
-            "custom-name" -> instance.customName
-
-            // CommandSender
+            // TODO CommandSender
             "name" -> instance.name
 
-            // ServerOperator
+            // TODO ServerOperator
             "isOp", "op" -> instance.isOp
             else -> return OpenResult.failed()
         }
@@ -85,39 +80,16 @@ class PropertyEntity : AiyatsbusGenericProperty<Entity>("entity") {
 
     override fun writeProperty(instance: Entity, key: String, value: Any?): OpenResult {
         when (key) {
-            "isCustomNameVisible", "custom-name-visible" -> {
-                instance.isCustomNameVisible = value?.coerceBoolean() ?: return OpenResult.successful()
-            }
-            "fallDistance", "fall-distance" -> {
-                instance.fallDistance = value?.coerceFloat() ?: return OpenResult.successful()
-            }
-            "fireTicks", "fire-ticks" -> {
-                instance.fireTicks = value?.coerceInt() ?: return OpenResult.successful()
-            }
-            "freezeTicks", "freeze-ticks" -> {
-                instance.freezeTicks = value?.coerceInt() ?: return OpenResult.successful()
-            }
-            "isGlowing", "glowing" -> {
-                instance.isGlowing = value?.coerceBoolean() ?: return OpenResult.successful()
-            }
-            "gravity" -> {
-                instance.setGravity(value?.coerceBoolean() ?: return OpenResult.successful())
-            }
-            "isInvulnerable", "invulnerable" -> {
-                instance.isInvulnerable = value?.coerceBoolean() ?: return OpenResult.successful()
-            }
-            "lastDamageCause", "last-damage-cause" -> {
-                instance.lastDamageCause = value as? EntityDamageEvent
-            }
-            "passenger" -> {
-                instance.setPassenger(value as? Entity ?: return OpenResult.successful())
-            }
-            "isPersistent", "persistent" -> {
-                instance.isPersistent = value?.coerceBoolean() ?: return OpenResult.successful()
-            }
-            "portalCooldown", "portal-cooldown" -> {
-                instance.portalCooldown = value?.coerceInt() ?: return OpenResult.successful()
-            }
+            "isCustomNameVisible", "custom-name-visible" -> instance.isCustomNameVisible = value?.coerceBoolean() ?: return OpenResult.successful()
+            "fallDistance", "fall-distance" -> instance.fallDistance = value?.coerceFloat() ?: return OpenResult.successful()
+            "fireTicks", "fire-ticks" -> instance.fireTicks = value?.coerceInt() ?: return OpenResult.successful()
+            "freezeTicks", "freeze-ticks" -> instance.freezeTicks = value?.coerceInt() ?: return OpenResult.successful()
+            "isGlowing", "glowing" -> instance.isGlowing = value?.coerceBoolean() ?: return OpenResult.successful()
+            "gravity" -> instance.setGravity(value?.coerceBoolean() ?: return OpenResult.successful())
+            "isInvulnerable", "invulnerable" -> instance.isInvulnerable = value?.coerceBoolean() ?: return OpenResult.successful()
+            "lastDamageCause", "last-damage-cause" -> instance.lastDamageCause = value as? EntityDamageEvent
+            "isPersistent", "persistent" -> instance.isPersistent = value?.coerceBoolean() ?: return OpenResult.successful()
+            "portalCooldown", "portal-cooldown" -> instance.portalCooldown = value?.coerceInt() ?: return OpenResult.successful()
             "rotation" -> {
                 val pair = value as? Pair<*, *> ?: return OpenResult.successful()
                 instance.setRotation(
@@ -138,12 +110,12 @@ class PropertyEntity : AiyatsbusGenericProperty<Entity>("entity") {
                 instance.isVisualFire = value?.coerceBoolean() ?: return OpenResult.successful()
             }
 
-            // Nameable
+            // TODO Nameable
             "customName", "custom-name" -> {
                 instance.customName = value?.toString() ?: return OpenResult.successful()
             }
 
-            // ServerOperator
+            // TODO ServerOperator
             "isOp", "op" -> {
                 instance.isOp = value?.coerceBoolean() ?: return OpenResult.successful()
             }
