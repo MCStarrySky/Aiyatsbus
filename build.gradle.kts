@@ -22,7 +22,7 @@ subprojects {
             install(CHAT, CONFIGURATION, LANG, BUKKIT_ALL, NMS, NMS_UTIL, KETHER, UI, EFFECT, METRICS)
         }
         version {
-            taboolib = "6.1.1-beta20"
+            taboolib = "6.1.1-beta21"
         }
     }
 
