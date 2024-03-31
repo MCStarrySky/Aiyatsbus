@@ -19,14 +19,14 @@ import taboolib.common.OpenResult
 class PropertyNameable : AiyatsbusGenericProperty<Nameable>("nameable") {
     override fun readProperty(instance: Nameable, key: String): OpenResult {
         val property: Any? = when (key) {
-            "customName", "custom-name" -> instance.customName()
+            "customName", "custom-name" -> instance.customName
             else -> return OpenResult.failed()
         }
         return OpenResult.successful(property)
     }
     override fun writeProperty(instance: Nameable, key: String, value: Any?): OpenResult {
         when (key) {
-            "customName", "custom-name" -> instance.customName()
+            "customName", "custom-name" -> instance.customName = value.toString()
             else -> return OpenResult.failed()
         }
         return OpenResult.successful()
