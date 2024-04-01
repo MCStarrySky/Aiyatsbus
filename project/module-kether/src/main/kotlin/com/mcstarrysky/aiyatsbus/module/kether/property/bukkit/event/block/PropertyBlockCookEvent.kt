@@ -17,7 +17,8 @@ import taboolib.common.OpenResult
     id = "block-cook-event",
     bind = BlockCookEvent::class
 )
-class PropertyBlockCookEvent : AiyatsbusGenericProperty<BlockCookEvent>("block-cook-event"){
+class PropertyBlockCookEvent : AiyatsbusGenericProperty<BlockCookEvent>("block-cook-event") {
+
     override fun readProperty(instance: BlockCookEvent, key: String): OpenResult {
         val property: Any? = when (key) {
             "source" -> instance.source
