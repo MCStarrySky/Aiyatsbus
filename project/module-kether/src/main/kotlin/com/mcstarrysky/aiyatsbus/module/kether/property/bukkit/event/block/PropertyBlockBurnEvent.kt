@@ -22,10 +22,10 @@ class PropertyBlockBurnEvent : AiyatsbusGenericProperty<BlockBurnEvent>("block-b
             "ignitingBlock", "igniting-block" -> instance.ignitingBlock
             else -> return OpenResult.failed()
         }
-        return OpenResult.successful()
+        return OpenResult.successful(property)
     }
 
     override fun writeProperty(instance: BlockBurnEvent, key: String, value: Any?): OpenResult {
-        TODO("Not yet implemented")
+        return OpenResult.failed()
     }
 }

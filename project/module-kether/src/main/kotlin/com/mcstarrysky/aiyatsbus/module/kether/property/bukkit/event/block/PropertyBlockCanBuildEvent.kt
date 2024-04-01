@@ -31,7 +31,7 @@ class PropertyBlockCanBuildEvent : AiyatsbusGenericProperty<BlockCanBuildEvent>(
 
     override fun writeProperty(instance: BlockCanBuildEvent, key: String, value: Any?): OpenResult {
         when (key) {
-            "isBuildable", "buildable", "can-build" -> instance.isBuildable = value.coerceBoolean()
+            "isBuildable", "buildable", "can-build" -> instance.isBuildable = value?.coerceBoolean() ?: return OpenResult.failed()
             else -> return OpenResult.failed()
         }
         return OpenResult.successful()
