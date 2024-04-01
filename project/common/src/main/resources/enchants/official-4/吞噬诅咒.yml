@@ -28,8 +28,5 @@ mechanisms:
     on-kill:
       listen: "entity-death"
       handle: |-
-        if not check &trigger-slot is HAND then {
-          exit
-        }
         set &event[exp] to 0
         arr-clear &event[items]

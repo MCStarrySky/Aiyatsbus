@@ -127,8 +127,9 @@ val Location.serialized get() = "${world.name},$blockX,$blockY,$blockZ"
  * 对 LivingEntity 造成真实伤害, 插件和原版无法减伤
  */
 fun LivingEntity.realDamage(amount: Double, who: Entity? = null) {
-    health = maxOf(0.1, health - amount)
-    damage(0.1, who)
+    health = maxOf(0.1, health - amount + 0.5)
+    damage(0.5, who)
+    if (isDead) health = 0.0
 }
 
 

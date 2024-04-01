@@ -29,9 +29,6 @@ mechanisms:
     on-damage:
       listen: "entity-damage-by-entity"
       handle: |-
-        if not check &trigger-slot is HAND then {
-          exit
-        }
         if &event[critical] then {
           set health to &event[attacker.health]
           set max to &event[attacker.max-health]

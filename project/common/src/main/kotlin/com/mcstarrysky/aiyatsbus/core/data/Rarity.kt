@@ -3,6 +3,7 @@ package com.mcstarrysky.aiyatsbus.core.data
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.replace
+import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.info
@@ -11,6 +12,7 @@ import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.chat.component
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
+import taboolib.platform.util.onlinePlayers
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -31,7 +33,7 @@ data class Rarity(
     /**
      * 显示名称
      */
-    fun displayName(text: String = ""): String {
+    fun displayName(text: String = name): String {
         return color.replace("text" to text).component().buildColored().toLegacyText()
     }
 }
@@ -57,6 +59,7 @@ object RarityLoader {
         registerLifeCycleTask(LifeCycle.ENABLE) {
             config.onReload {
                 load()
+                onlinePlayers.forEach(Player::updateInventory) // 要刷新显示
             }
         }
     }
