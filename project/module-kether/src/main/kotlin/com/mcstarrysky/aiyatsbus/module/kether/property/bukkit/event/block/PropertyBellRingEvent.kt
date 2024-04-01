@@ -17,6 +17,7 @@ import taboolib.common.OpenResult
     bind = BellRingEvent::class
 )
 class PropertyBellRingEvent : AiyatsbusGenericProperty<BellRingEvent>("bell-ring-event") {
+
     override fun readProperty(instance: BellRingEvent, key: String): OpenResult {
         val property: Any? = when (key) {
             "direction" -> instance.direction

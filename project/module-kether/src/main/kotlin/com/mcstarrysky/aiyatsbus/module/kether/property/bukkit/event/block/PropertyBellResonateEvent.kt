@@ -17,6 +17,7 @@ import taboolib.common.OpenResult
     bind = BellResonateEvent::class
 )
 class PropertyBellResonateEvent : AiyatsbusGenericProperty<BellResonateEvent>("bell-resonate-event") {
+
     override fun readProperty(instance: BellResonateEvent, key: String): OpenResult {
         val property: Any? = when (key) {
             "resonatedEntities", "resonated-entities" -> instance.resonatedEntities
