@@ -110,11 +110,6 @@ class PropertyEntity : AiyatsbusGenericProperty<Entity>("entity") {
                 instance.isVisualFire = value?.coerceBoolean() ?: return OpenResult.successful()
             }
 
-            // TODO Nameable
-            "customName", "custom-name" -> {
-                instance.customName = value?.toString() ?: return OpenResult.successful()
-            }
-
             // TODO ServerOperator
             "isOp", "op" -> {
                 instance.isOp = value?.coerceBoolean() ?: return OpenResult.successful()
