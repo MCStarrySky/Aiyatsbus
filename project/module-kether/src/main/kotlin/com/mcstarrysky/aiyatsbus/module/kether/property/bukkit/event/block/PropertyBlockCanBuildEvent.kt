@@ -18,6 +18,7 @@ import taboolib.common.OpenResult
     bind = BlockCanBuildEvent::class
 )
 class PropertyBlockCanBuildEvent : AiyatsbusGenericProperty<BlockCanBuildEvent>("block-can-build-event") {
+
     override fun readProperty(instance: BlockCanBuildEvent, key: String): OpenResult {
         val property: Any? = when (key) {
             "isBuildable", "buildable", "can-build" -> instance.isBuildable

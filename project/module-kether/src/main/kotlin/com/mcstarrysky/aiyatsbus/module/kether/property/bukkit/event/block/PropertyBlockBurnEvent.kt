@@ -16,7 +16,8 @@ import taboolib.common.OpenResult
     id = "block-burn-event",
     bind = BlockBurnEvent::class
 )
-class PropertyBlockBurnEvent : AiyatsbusGenericProperty<BlockBurnEvent>("block-burn-event"){
+class PropertyBlockBurnEvent : AiyatsbusGenericProperty<BlockBurnEvent>("block-burn-event") {
+
     override fun readProperty(instance: BlockBurnEvent, key: String): OpenResult {
         val property: Any? = when (key) {
             "ignitingBlock", "igniting-block" -> instance.ignitingBlock
