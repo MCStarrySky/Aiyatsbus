@@ -29,6 +29,13 @@ object MainMenuUI {
         config = MenuConfiguration(source)
     }
 
+    @Awake(LifeCycle.ENABLE)
+    fun init() {
+        source.onReload {
+            config = MenuConfiguration(source)
+        }
+    }
+
     fun open(player: Player) {
         player.record(UIType.MAIN_MENU)
         player.openMenu<Chest>(config.title().component().buildColored().toRawMessage()) {
@@ -52,7 +59,7 @@ object MainMenuUI {
 
     @Reloadable
     @Awake(LifeCycle.CONST)
-    fun init() {
+    fun initialize() {
         registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.MENU) {
             // 预热虚拟 UI
             InventoryHandler.instance

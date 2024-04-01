@@ -1,8 +1,3 @@
-
-
-#         Powered by TabooLib 6.1         #
-
-
 原版增伤类附魔:
   enchants:
     - 锋利
@@ -71,16 +66,19 @@
 可交易附魔:
   rarities:
     - 普通
-    - 罕见
+    - 稀有
     - 精良
-
 播种类附魔:
   enchants:
     - 播种机
     - 土豆播种机
     - 胡萝卜播种机
+持续类附魔:
+  enchants:
+    - 扎刺
 概率类附魔:
   enchants:
     - 天雷
+    - 扎刺
     - 会心
   max_coexist: 2
