@@ -2,7 +2,6 @@ package com.mcstarrysky.aiyatsbus.core
 
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import taboolib.platform.util.asLangText
 
 /**
  * Aiyatsbus
@@ -42,7 +41,7 @@ enum class FilterType {
     STRING;//("名字/描述")
 
     fun display(player: Player?): String {
-        return (player ?: Bukkit.getConsoleSender()).asLangText("filter-type-${name.lowercase()}")
+        return (player ?: Bukkit.getConsoleSender()).asLang("filter-type-${name.lowercase()}")
     }
 }
 
@@ -51,6 +50,6 @@ enum class FilterStatement {
     OFF;//("&c✘")
 
     fun symbol(player: Player?): String {
-        return (player ?: Bukkit.getConsoleSender()).asLangText("filter-statement-symbol-${name.lowercase()}")
+        return (player ?: Bukkit.getConsoleSender()).asLang("filter-statement-symbol-${name.lowercase()}")
     }
 }

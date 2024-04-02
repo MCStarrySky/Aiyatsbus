@@ -1,24 +1,21 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.command
 
-import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
+import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.module.ingame.command.subcommand.*
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variable
+import org.bukkit.command.CommandSender
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
-import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.*
 import taboolib.common.platform.command.component.CommandBase
 import taboolib.common.platform.command.component.CommandComponent
 import taboolib.common.platform.command.component.CommandComponentLiteral
+import taboolib.common.platform.function.adaptCommandSender
 import taboolib.common.platform.function.pluginVersion
 import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.common.util.Strings
 import taboolib.module.chat.component
-import taboolib.module.lang.asLangText
-import taboolib.module.lang.asLangTextList
-import taboolib.module.lang.asLangTextOrNull
-import taboolib.module.lang.sendLang
 import taboolib.module.nms.MinecraftVersion
 
 /**
@@ -71,7 +68,7 @@ object AiyatsbusCommand {
 }
 
 fun CommandComponent.createTabooLegacyHelper() {
-    execute<ProxyCommandSender> { sender, _, _ ->
+    execute<CommandSender> { sender, _, _ ->
         val text = mutableListOf<String>()
 
         for (command in children.filterIsInstance<CommandComponentLiteral>()) {
@@ -80,27 +77,28 @@ fun CommandComponent.createTabooLegacyHelper() {
                 else if (command.hidden) continue
             }
             val name = command.aliases[0]
-            var usage = sender.asLangTextOrNull("command-subCommands-$name-usage") ?: ""
+            var usage = sender.asLangOrNull("command-subCommands-$name-usage") ?: ""
             if (usage.isNotEmpty()) usage += " "
-            val description = sender.asLangTextOrNull("command-subCommands-$name-description") ?: sender.asLangText("command-no-desc")
-            text += sender.asLangTextList("command-sub", name to "name", description to "description", usage to "usage")
+            val description = sender.asLangOrNull("command-subCommands-$name-description") ?: sender.asLang("command-no-desc")
+            text += sender.asLangList("command-sub", name to "name", description to "description", usage to "usage")
         }
 
-        sender.asLangTextList(
+        sender.asLangList(
             "command-helper",
             pluginVersion to "pluginVersion",
             MinecraftVersion.minecraftVersion to "minecraftVersion"
-        ).variable("subCommands", text).forEach { it.component().buildColored().sendTo(sender) }
+        ).variable("subCommands", text).forEach { it.component().buildColored().sendTo(adaptCommandSender(sender)) }
     }
 
     if (this is CommandBase) {
         incorrectCommand { sender, ctx, _, state ->
+            sender as CommandSender
             val input = ctx.args().first()
             val name = children.filterIsInstance<CommandComponentLiteral>()
                 .firstOrNull { it.aliases.contains(input) }?.aliases?.get(0) ?: input
-            var usage = sender.asLangTextOrNull("command-subCommands-$name-usage") ?: ""
+            var usage = sender.asLangOrNull("command-subCommands-$name-usage") ?: ""
             if (usage.isNotEmpty()) usage += " "
-            val description = sender.asLangTextOrNull("command-subCommands-$name-description") ?: sender.asLangText("command-no-desc")
+            val description = sender.asLangOrNull("command-subCommands-$name-description") ?: sender.asLang("command-no-desc")
 
             when (state) {
                 // 缺参数
@@ -125,7 +123,7 @@ fun CommandComponent.createTabooLegacyHelper() {
         }
 
         incorrectSender { sender, ctx ->
-            sender.sendLang("command-incorrect-sender", ctx.args().first() to "name")
+            (sender as CommandSender).sendLang("command-incorrect-sender", ctx.args().first() to "name")
         }
     }
 }

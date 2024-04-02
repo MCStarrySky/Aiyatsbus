@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.command.subcommand
 
+import com.mcstarrysky.aiyatsbus.core.sendLang
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.AnvilUI
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.EnchantSearchUI
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.ItemCheckUI
@@ -10,7 +11,6 @@ import org.bukkit.entity.Player
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.command.suggest
 import taboolib.common.platform.command.suggestPlayers
-import taboolib.platform.util.sendLang
 
 /**
  * Aiyatsbus

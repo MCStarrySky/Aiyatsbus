@@ -10,7 +10,6 @@ import taboolib.common.platform.service.PlatformExecutor
 import taboolib.module.nms.getI18nName
 import taboolib.platform.util.giveItem
 import taboolib.platform.util.onlinePlayers
-import taboolib.platform.util.sendLang
 
 object AntiIllegalItem {
 

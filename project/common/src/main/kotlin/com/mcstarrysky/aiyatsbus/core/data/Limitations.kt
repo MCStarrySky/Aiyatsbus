@@ -14,7 +14,6 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.module.kether.compileToJexl
 import taboolib.platform.compat.replacePlaceholder
-import taboolib.platform.util.asLangText
 
 /**
  * Aiyatsbus
@@ -62,7 +61,7 @@ data class Limitations(
         val sender = creature as? Player ?: Bukkit.getConsoleSender()
 
         if (!belonging.basicData.enable)
-            return false to sender.asLangText("limitations-not-enable")
+            return false to sender.asLang("limitations-not-enable")
 
         limitations.filter { limits.contains(it.first) }.forEach { (type, value) ->
             when (type) {
@@ -75,7 +74,7 @@ data class Limitations(
                 TARGET, MAX_CAPABILITY, SLOT,
                 CONFLICT_ENCHANT, CONFLICT_GROUP,
                 DEPENDENCE_ENCHANT, DEPENDENCE_GROUP -> checkItem(type, item, value, slot, use)
-            }.run { if (!this) return false to sender.asLangText("limitations-check-failed", sender.asLangText("limitations-typename-${type.name.lowercase()}") to "typename") }
+            }.run { if (!this) return false to sender.asLang("limitations-check-failed", sender.asLang("limitations-typename-${type.name.lowercase()}") to "typename") }
         }
 
         return true to ""

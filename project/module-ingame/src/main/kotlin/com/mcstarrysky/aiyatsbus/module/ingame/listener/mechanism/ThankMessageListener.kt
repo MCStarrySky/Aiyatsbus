@@ -1,10 +1,10 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
+import com.mcstarrysky.aiyatsbus.core.sendLang
 import org.bukkit.event.player.PlayerJoinEvent
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.pluginVersion
-import taboolib.platform.util.sendLang
 
 /**
  * Aiyatsbus

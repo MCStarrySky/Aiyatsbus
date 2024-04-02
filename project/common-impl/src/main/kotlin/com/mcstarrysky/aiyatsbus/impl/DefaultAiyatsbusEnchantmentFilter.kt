@@ -59,8 +59,7 @@ class DefaultAiyatsbusEnchantmentFilter : AiyatsbusEnchantmentFilter {
         return rules.map { (value, state) ->
             state.symbol(player) + " " + when (type) {
                 RARITY -> {
-                    val rarity = aiyatsbusRarity(value)
-                    rarity?.displayName(rarity.name) ?: value
+                    aiyatsbusRarity(value)?.displayName() ?: value
                 }
                 TARGET -> aiyatsbusTarget(value)?.name ?: value
                 GROUP -> aiyatsbusGroup(value)?.name ?: value

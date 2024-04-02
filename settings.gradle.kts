@@ -17,3 +17,5 @@ include("project:module-compat")
 include("project:module-ingame")
 // 脚本
 include("project:module-kether")
+// 语言系统
+include("project:module-language")

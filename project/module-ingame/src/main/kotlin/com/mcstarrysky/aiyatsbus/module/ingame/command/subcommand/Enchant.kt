@@ -1,9 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.command.subcommand
 
-import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
-import com.mcstarrysky.aiyatsbus.core.addEt
-import com.mcstarrysky.aiyatsbus.core.aiyatsbusEt
-import com.mcstarrysky.aiyatsbus.core.removeEt
+import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.module.ingame.command.AiyatsbusCommand
 import org.bukkit.Bukkit
@@ -11,8 +8,6 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.command.suggestPlayers
-import taboolib.platform.util.asLangText
-import taboolib.platform.util.sendLang
 
 /**
  * Aiyatsbus
@@ -46,7 +41,7 @@ private fun handleEnchant(sender: CommandSender, who: String?, enchant: Aiyatsbu
             sender.sendLang("command-subCommands-enchant-empty")
             return
         }
-        val state = if (level == 0) sender.asLangText("remove") else sender.asLangText("add")
+        val state = if (level == 0) sender.asLang("remove") else sender.asLang("add")
         if (level == 0) item.removeEt(enchant)
         else item.addEt(enchant, level)
         sender.sendLang(

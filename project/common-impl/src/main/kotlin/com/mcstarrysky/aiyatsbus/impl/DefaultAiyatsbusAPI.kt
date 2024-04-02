@@ -8,7 +8,6 @@ import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
 import taboolib.common.platform.function.info
-import taboolib.module.lang.Language
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.nmsProxy
 import java.util.concurrent.CompletableFuture
@@ -27,6 +26,8 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
     private val enchantmentManager = PlatformFactory.getAPI<AiyatsbusEnchantmentManager>()
 
     private val displayManager = PlatformFactory.getAPI<AiyatsbusDisplayManager>()
+
+    private val language = PlatformFactory.getAPI<AiyatsbusLanguage>()
 
     private val playerDataHandler = PlatformFactory.getAPI<AiyatsbusPlayerDataHandler>()
 
@@ -70,6 +71,10 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
         return displayManager
     }
 
+    override fun getLanguage(): AiyatsbusLanguage {
+        return language
+    }
+
     override fun getMinecraftAPI(): AiyatsbusMinecraftAPI {
         return mcAPI
     }
@@ -100,8 +105,6 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
         @Awake(LifeCycle.CONST)
         fun init() {
-            Language.path = "core/lang"
-            Language.enableSimpleComponent = true
             if (MinecraftVersion.majorLegacy >= 12003) {
                 val reg = nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
                 reg.replaceRegistry()

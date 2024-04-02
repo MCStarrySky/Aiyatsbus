@@ -4,9 +4,12 @@ import com.mcstarrysky.aiyatsbus.core.util.coerceFloat
 import com.mcstarrysky.aiyatsbus.core.util.coerceInt
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusGenericProperty
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusProperty
+import com.mcstarrysky.aiyatsbus.module.kether.LiveData.Companion.liveEntity
+import com.mcstarrysky.aiyatsbus.module.kether.LiveData.Companion.liveLocation
 import org.bukkit.GameMode
 import org.bukkit.entity.HumanEntity
 import taboolib.common.OpenResult
+import taboolib.platform.util.toBukkitLocation
 
 /**
  * Aiyatsbus
@@ -24,16 +27,39 @@ class PropertyHumanEntity : AiyatsbusGenericProperty<HumanEntity>("human-entity"
     override fun readProperty(instance: HumanEntity, key: String): OpenResult {
         val property: Any? = when (key) {
             "name" -> instance.name
-            "bed-location", "bed-loc", "bed" -> instance.bedLocation
+            "bedLocation", "bed-location", "bed-loc", "bed" -> instance.bedLocation
             "uuid" -> instance.uniqueId.toString()
 
-            "game-mode", "gamemode" -> instance.gameMode
+            "gameMode", "game-mode", "gamemode" -> instance.gameMode
 
             "expToLevel", "exp-to-level" -> instance.expToLevel
             "exhaustion" -> instance.exhaustion
             "foodLevel", "food-level", "food" -> instance.foodLevel
             "attackCooldown", "attack-cooldown" -> instance.attackCooldown
-            // TODO
+
+            "discoveredRecipes", "recipes-unlocked", "discovered-recipes", "recipes" -> instance.discoveredRecipes
+            "enchantmentSeed", "enchantment-seed", "enc-seed", "enchant-seed" -> instance.enchantmentSeed
+            "enderChest", "ender-chest", "end-chest" -> instance.enderChest
+            "inventory" -> instance.inventory
+            "itemOnCursor", "item-on-cursor", "cursor-item" -> instance.itemOnCursor
+            "lastDeathLocation", "last-death-location", "las-death", "death-location", "death-loc" -> instance.lastDeathLocation
+            "openInventory", "open-inventory", "opening-inventory" -> instance.openInventory
+            "sleepTicks", "sleep-ticks" -> instance.sleepTicks
+
+            // Same name as method org.bukkit.inventory.EntityEquipment.getItemInMainHand (bukkit.entity.PropertyLivingEntity.mainHand/main-hand)
+            "mainHand", "main-hand" -> instance.mainHand
+
+            "starvationRate", "starvation-rate", "starvation" -> instance.starvationRate
+            "saturatedRegenRate", "saturated-regen-rate", "saturated-regeneration-rate" -> instance.saturatedRegenRate
+            "unsaturatedRegenRate", "unsaturated-regen-rate", "unsaturated-regeneration-rate" -> instance.unsaturatedRegenRate
+            "saturation" -> instance.saturation
+
+            "shoulderEntityLeft", "shoulder-entity-left", "left-shoulder" -> instance.shoulderEntityLeft
+            "shoulderEntityRight", "shoulder-entity-right", "right-shoulder" -> instance.shoulderEntityRight
+
+            "isBlocking", "blocking" -> instance.isBlocking
+            "isHandRaised", "hand-raised", "pre-blocking" -> instance.isHandRaised
+
             else -> return OpenResult.failed()
         }
         return OpenResult.successful(property)
@@ -41,13 +67,29 @@ class PropertyHumanEntity : AiyatsbusGenericProperty<HumanEntity>("human-entity"
 
     override fun writeProperty(instance: HumanEntity, key: String, value: Any?): OpenResult {
         when (key) {
-            "game-mode", "gamemode" -> {
+            "gameMode", "game-mode", "gamemode" -> {
                 instance.gameMode = value?.toString()?.let { GameMode.valueOf(it) }
                     ?: return OpenResult.successful()
             }
             "exhaustion" -> instance.exhaustion = value?.coerceFloat() ?: return OpenResult.successful()
             "foodLevel", "food-level", "food" -> instance.foodLevel = value?.coerceInt() ?: return OpenResult.successful()
-            // TODO
+            "enchantmentSeed", "enchantment-seed", "enc-seed", "enchant-seed" -> instance.enchantmentSeed = value?.coerceInt() ?: return OpenResult.successful()
+            "lastDeathLocation", "last-death-location", "las-death", "death-location", "death-loc" -> {
+                instance.lastDeathLocation = value?.liveLocation?.toBukkitLocation()
+                    ?: return OpenResult.successful()
+            }
+            "saturatedRegenRate", "saturated-regen-rate", "saturated-regeneration-rate" -> instance.saturatedRegenRate = value?.coerceInt() ?: return OpenResult.successful()
+            "saturation" -> instance.saturation = value?.coerceFloat() ?: return OpenResult.successful()
+            "shoulderEntityLeft", "shoulder-entity-left", "left-shoulder" -> {
+                instance.shoulderEntityLeft = value?.liveEntity
+                    ?: return OpenResult.successful()
+            }
+            "shoulderEntityRight", "shoulder-entity-right", "right-shoulder" -> {
+                instance.shoulderEntityRight = value?.liveEntity
+                    ?: return OpenResult.successful()
+            }
+            "starvationRate", "starvation-rate", "starvation" -> instance.starvationRate = value?.coerceInt() ?: return OpenResult.successful()
+            "unsaturatedRegenRate", "unsaturated-regen-rate", "unsaturated-regeneration-rate" -> instance.unsaturatedRegenRate = value?.coerceInt() ?: return OpenResult.successful()
             else -> return OpenResult.failed()
         }
         return OpenResult.successful()

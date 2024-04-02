@@ -37,6 +37,11 @@ interface AiyatsbusAPI {
     fun getKetherHandler(): AiyatsbusKetherHandler
 
     /**
+     * 获取 Aiyatsbus 中的语言文件接口
+     */
+    fun getLanguage(): AiyatsbusLanguage
+
+    /**
      * 获取附魔展示接口
      */
     fun getDisplayManager(): AiyatsbusDisplayManager

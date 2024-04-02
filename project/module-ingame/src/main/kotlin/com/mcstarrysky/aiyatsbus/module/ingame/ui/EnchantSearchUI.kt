@@ -18,10 +18,11 @@ import taboolib.module.configuration.Configuration
 import taboolib.module.ui.openMenu
 import taboolib.platform.util.nextChat
 import taboolib.module.ui.type.PageableChest
-import taboolib.platform.util.sendLang
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.UIType
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.record
 import org.bukkit.inventory.meta.ItemMeta
+import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
 import taboolib.module.chat.Source
 import taboolib.platform.util.modifyMeta
 import kotlin.collections.set
@@ -36,6 +37,13 @@ object EnchantSearchUI {
     fun reload() {
         source.reload()
         config = MenuConfiguration(source)
+    }
+
+    @Awake(LifeCycle.ENABLE)
+    fun init() {
+        source.onReload {
+            config = MenuConfiguration(source)
+        }
     }
 
     fun open(player: Player) {

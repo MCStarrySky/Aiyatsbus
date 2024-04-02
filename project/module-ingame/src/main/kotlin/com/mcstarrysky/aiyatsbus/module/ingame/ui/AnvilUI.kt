@@ -20,6 +20,8 @@ import taboolib.module.ui.type.Chest
 import com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism.AnvilListener
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.UIType
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.record
+import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
 
 @MenuComponent("Anvil")
 object AnvilUI {
@@ -31,6 +33,13 @@ object AnvilUI {
     fun reload() {
         source.reload()
         config = MenuConfiguration(source)
+    }
+
+    @Awake(LifeCycle.ENABLE)
+    fun init() {
+        source.onReload {
+            config = MenuConfiguration(source)
+        }
     }
 
     fun open(player: Player, a: ItemStack? = null, b: ItemStack? = null) {

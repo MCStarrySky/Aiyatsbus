@@ -14,5 +14,6 @@ data class BasicData(
     val disableWorlds: List<String> = root.getStringList("disable_worlds"),
     val id: String = root.getString("id")!!,
     val name: String = root.getString("name")!!,
+    val nameDisplay: String = root.getString("name_display", name)!!,
     val maxLevel: Int = root.getInt("max_level", 1)
 )

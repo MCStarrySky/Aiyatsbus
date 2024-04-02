@@ -1,11 +1,11 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
+import com.mcstarrysky.aiyatsbus.core.sendLang
 import com.mcstarrysky.aiyatsbus.core.util.addCd
 import com.mcstarrysky.aiyatsbus.core.util.checkCd
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusParser
 import com.mcstarrysky.aiyatsbus.module.kether.aiyatsbus
-import taboolib.platform.util.sendLang
 
 /**
  * Aiyatsbus

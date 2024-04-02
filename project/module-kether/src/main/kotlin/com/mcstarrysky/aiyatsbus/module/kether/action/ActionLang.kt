@@ -1,9 +1,9 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action
 
+import com.mcstarrysky.aiyatsbus.core.sendLang
 import org.bukkit.entity.Entity
 import taboolib.module.kether.KetherParser
 import taboolib.module.kether.combinationParser
-import taboolib.platform.util.sendLang
 
 /**
  * Aiyatsbus

@@ -35,15 +35,18 @@ class PropertyLocation : AiyatsbusGenericProperty<Location>("location-bukkit") {
             "blockZ", "block-z" -> instance.blockZ
             "chunk" -> instance.chunk
             "direction" -> instance.direction
-            "pitch" -> instance.pitch
             "world" -> instance.world
+
             "x" -> instance.x
             "y" -> instance.y
-            "yaw" -> instance.yaw
             "z" -> instance.z
+
+            "yaw" -> instance.yaw
+            "pitch" -> instance.pitch
+
             "isWorldLoaded", "world-loaded", "loaded" -> instance.isWorldLoaded
             "length" -> instance.length()
-            "lengthSquared", "length-squared", "squared", "sq" -> instance.lengthSquared()
+            "lengthSquared", "length-squared", "squared" -> instance.lengthSquared()
             "serialize" -> instance.serialize()
             "serialized" -> instance.serialized
             "toVector", "vector" -> instance.toVector()
@@ -56,12 +59,7 @@ class PropertyLocation : AiyatsbusGenericProperty<Location>("location-bukkit") {
 
     override fun writeProperty(instance: Location, key: String, value: Any?): OpenResult {
         when (key) {
-            "direction" -> {
-                instance.direction = value as? Vector ?: return OpenResult.successful()
-            }
-            "pitch" -> {
-                instance.pitch = value?.coerceFloat(0f) ?: return OpenResult.successful()
-            }
+            "direction" -> instance.direction = value as? Vector ?: return OpenResult.successful()
             "world" -> {
                 val world = when (value) {
                     is World -> value
@@ -71,18 +69,11 @@ class PropertyLocation : AiyatsbusGenericProperty<Location>("location-bukkit") {
                 }
                 instance.world = world ?: return OpenResult.successful()
             }
-            "x" -> {
-                instance.x = value?.coerceDouble() ?: return OpenResult.successful()
-            }
-            "y" -> {
-                instance.y = value?.coerceDouble() ?: return OpenResult.successful()
-            }
-            "yaw" -> {
-                instance.yaw = value?.coerceFloat() ?: return OpenResult.successful()
-            }
-            "z" -> {
-                instance.z = value?.coerceDouble() ?: return OpenResult.successful()
-            }
+            "x" -> instance.x = value?.coerceDouble() ?: return OpenResult.successful()
+            "y" -> instance.y = value?.coerceDouble() ?: return OpenResult.successful()
+            "z" -> instance.z = value?.coerceDouble() ?: return OpenResult.successful()
+            "pitch" -> instance.pitch = value?.coerceFloat(0f) ?: return OpenResult.successful()
+            "yaw" -> instance.yaw = value?.coerceFloat() ?: return OpenResult.successful()
             else -> return OpenResult.failed()
         }
         return OpenResult.successful()

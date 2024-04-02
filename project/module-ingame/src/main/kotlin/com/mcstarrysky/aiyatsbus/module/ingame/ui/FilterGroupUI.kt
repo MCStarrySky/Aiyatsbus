@@ -22,6 +22,8 @@ import taboolib.module.ui.openMenu
 import taboolib.module.ui.type.PageableChest
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.UIType
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.record
+import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
 import kotlin.collections.set
 
 @MenuComponent("FilterGroup")
@@ -34,6 +36,13 @@ object FilterGroupUI {
     fun reload() {
         source.reload()
         config = MenuConfiguration(source)
+    }
+
+    @Awake(LifeCycle.ENABLE)
+    fun init() {
+        source.onReload {
+            config = MenuConfiguration(source)
+        }
     }
 
     fun open(player: Player) {
