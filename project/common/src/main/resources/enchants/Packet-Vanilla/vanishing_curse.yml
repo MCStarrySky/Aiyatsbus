@@ -10,6 +10,8 @@ basic:
 
 alternative:
   is_vanilla: true
+  grindstoneable: false
+  is_cursed: true
 
 rarity: 诅咒
 targets:
@@ -19,6 +21,3 @@ display:
   description:
     general: "被诅咒的物品会在玩家死亡时消失"
 
-alternatives:
-  grindstoneable: false
-  is_cursed: true

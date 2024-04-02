@@ -18,6 +18,7 @@ import taboolib.library.reflex.UnsafeAccess
 import taboolib.module.chat.ComponentText
 import taboolib.module.chat.component
 import taboolib.platform.util.*
+import java.io.File
 import java.lang.reflect.Field
 
 /**
@@ -166,3 +167,18 @@ fun List<String>?.toBuiltComponent(): List<ComponentText> {
  * ItemsAdder 是否存在
  */
 internal val itemsAdderEnabled = runCatching { Class.forName("dev.lone.itemsadder.api.ItemsAdder") }.isSuccess
+
+/**
+ * 嵌套读取文件夹内的所有指定后缀名的文件
+ */
+fun File.deepRead(extension: String): List<File> {
+    val files = mutableListOf<File>()
+    listFiles()?.forEach {
+        if (it.isDirectory) {
+            files.addAll(it.deepRead(extension))
+        } else if (it.extension == extension) {
+            files.add(it)
+        }
+    }
+    return files
+}

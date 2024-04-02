@@ -1,3 +1,8 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
 basic:
   id: twinge
   name: "扎刺"
@@ -14,7 +19,7 @@ limitations:
 display:
   description:
     general: "近战攻击时有概率使对手流血"
-    specific: "§7近战攻击时§a{概率}§7使对手流血 (伤害:§a{每次伤害}§7/§a{间隔} §7持续§a{持续时间}§7)"
+    specific: "&7近战攻击时&a{概率}&7使对手流血 (伤害:&a{每次伤害}&7/&a{间隔} &7持续&a{持续时间}&7)"
 
 variables:
   leveled:

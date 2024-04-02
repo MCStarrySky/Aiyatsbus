@@ -4,6 +4,7 @@ import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.unwatch
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.watch
+import com.mcstarrysky.aiyatsbus.core.util.deepRead
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.io.newFolder
@@ -72,8 +73,8 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
 
         (newFolder(getDataFolder(), "enchants")
             .listFiles { dir, _ -> dir.isDirectory }?.toList() ?: emptyList())
-            .map { it.listFiles { _, name -> name.endsWith(".yml") } }
-            .map{ it?.toList() ?: emptyList() }
+            .map { it.deepRead("yml") }
+            .map{ it.toList() }
             .flatten()
             .forEach { file ->
                 val config = Configuration.loadFromFile(file)

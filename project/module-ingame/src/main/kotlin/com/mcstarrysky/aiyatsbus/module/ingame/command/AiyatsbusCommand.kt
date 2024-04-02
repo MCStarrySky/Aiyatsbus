@@ -1,7 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.command
 
 import com.mcstarrysky.aiyatsbus.core.*
-import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.module.ingame.command.subcommand.*
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variable
 import org.bukkit.command.CommandSender
@@ -56,10 +55,9 @@ object AiyatsbusCommand {
     @CommandBody(permission = "aiyatsbus.command.report")
     val report = reportSubCommand
 
-    @Reloadable
     @Awake(LifeCycle.INIT)
     fun init() {
-        registerLifeCycleTask(LifeCycle.ENABLE, 999) {
+        registerLifeCycleTask(LifeCycle.ACTIVE, 999) {
             // 生成 TabList
             enchantNamesAndIds.clear()
             enchantNamesAndIds.addAll(Aiyatsbus.api().getEnchantmentManager().getByIDs().keys + Aiyatsbus.api().getEnchantmentManager().getByNames().keys)
