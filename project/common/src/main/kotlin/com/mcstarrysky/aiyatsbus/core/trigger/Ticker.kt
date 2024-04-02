@@ -2,9 +2,7 @@ package com.mcstarrysky.aiyatsbus.core.trigger
 
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
-import com.mcstarrysky.aiyatsbus.core.util.baffle
 import com.mcstarrysky.aiyatsbus.core.util.coerceLong
-import taboolib.common5.Baffle
 import taboolib.library.configuration.ConfigurationSection
 
 /**
@@ -20,9 +18,6 @@ data class Ticker(
     val postHandle: String,
     val interval: Long
 ) {
-
-    @Transient
-    var baffle: Baffle? = null
 
     private fun preheat() {
         if (AiyatsbusSettings.enableKetherPreheat) {
@@ -40,9 +35,7 @@ data class Ticker(
                 tickerSection["handle"]?.toString() ?: "",
                 tickerSection["post-handle"]?.toString() ?: "",
                 tickerSection["interval"].coerceLong(20L)
-            ).apply {
-                baffle = tickerSection.getConfigurationSection("baffle").baffle()
-            }
+            )
             ticker.preheat()
             return ticker
         }

@@ -4,7 +4,6 @@ import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
-import com.mcstarrysky.aiyatsbus.core.trigger.EventExecutor
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.core.util.mirrorNow
@@ -30,7 +29,6 @@ import taboolib.common.platform.event.ProxyListener
 import taboolib.common.platform.function.*
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.platform.util.killer
-import java.util.function.Consumer
 
 /**
  * Aiyatsbus
@@ -126,33 +124,13 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
                         vars += enchant.variables.variables(enchantPair.value, entity, item, false)
 
-                        executor.baffle?.let { baffle ->
-                            val key = (entity as? LivingEntity)?.uniqueId?.toString() ?: event.eventName
-                            if (!baffle.hasNext(key)) return
-                        }
-
-                        if (executor.submit.enable) {
-                            submit(
-                                now = executor.submit.now,
-                                async = executor.submit.async,
-                                delay = executor.submit.delay,
-                                period = executor.submit.period
-                            ) {
-                                runKether(enchant, executor, player, vars)
-                            }
-                        } else {
-                            runKether(enchant, executor, player, vars)
+                        mirrorNow("Enchantment:Listener:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${enchant.basicData.id}" else "") {
+                            vars += "mirror" to it
+                            Aiyatsbus.api().getKetherHandler()
+                                .invoke(executor.handle, player as? Player, variables = vars)
                         }
                     }
             }
-        }
-    }
-
-    private fun runKether(enchant: AiyatsbusEnchantment, executor: EventExecutor, player: LivingEntity?, vars: MutableMap<String, Any>) {
-        mirrorNow("Enchantment:Listener:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${enchant.basicData.id}" else "") {
-            vars += "mirror" to it
-            Aiyatsbus.api().getKetherHandler()
-                .invoke(executor.handle, player as? Player, variables = vars)
         }
     }
 
