@@ -50,20 +50,6 @@ fun CommandSender.asLangList(node: String, vararg args: Any): List<String> {
 }
 
 /**
- * 使用 AiyatsbusLanguage 解析特殊语言格式
- */
-fun CommandSender.parseLang(content: String, vararg args: Any): String {
-    return Aiyatsbus.api().getLanguage().parseLang(this, content, *args)
-}
-
-/**
- * 使用 AiyatsbusLanguage 解析特殊语言格式
- */
-fun CommandSender.parseLangList(content: List<String>, vararg args: Any): List<String> {
-    return Aiyatsbus.api().getLanguage().parseLangList(this, content, *args)
-}
-
-/**
  * 将 Enchantment 转换为 AiyatsbusEnchantment
  * 奇妙的 Et 命名来自白熊, 是 enchant 的缩写
  */
