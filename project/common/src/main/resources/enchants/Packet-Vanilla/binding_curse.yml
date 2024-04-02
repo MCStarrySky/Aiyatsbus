@@ -10,6 +10,8 @@ basic:
 
 alternative:
   is_vanilla: true
+  grindstoneable: false
+  is_cursed: true
 
 rarity: 诅咒
 targets:
@@ -23,6 +25,3 @@ display:
   description:
     general: "被诅咒的物品穿在身上后无法卸下"
 
-alternatives:
-  grindstoneable: false
-  is_cursed: true

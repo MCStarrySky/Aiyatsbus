@@ -6,6 +6,7 @@ import com.mcstarrysky.aiyatsbus.core.AiyatsbusDisplayManager
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
 import com.mcstarrysky.aiyatsbus.core.registration.modern.ModernEnchantmentRegisterer
 import com.mcstarrysky.aiyatsbus.core.util.Reloadables
+import com.mcstarrysky.aiyatsbus.module.ingame.command.AiyatsbusCommand
 import com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism.*
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -39,5 +40,6 @@ val reloadSubCommand = subCommand {
         VillagerListener.conf.reload()
         onlinePlayers.forEach(Player::updateInventory)
         sender.sendMessage("$AIYATSBUS_PREFIX Done.".colored())
+        AiyatsbusCommand.init() // 重新生成 TabList
     }
 }

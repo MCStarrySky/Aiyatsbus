@@ -19,6 +19,10 @@ targets:
 limitations:
   - "CONFLICT_ENCHANT:抢夺"
 
+alternative:
+  grindstoneable: false
+  is_cursed: true
+
 display:
   description:
     general: "使用被诅咒的武器击杀生物不会掉落任何物品与经验"
