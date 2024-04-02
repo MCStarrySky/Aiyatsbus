@@ -14,16 +14,11 @@ import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.metadata.Metadatable
 import org.bukkit.persistence.PersistentDataHolder
 import org.bukkit.persistence.PersistentDataType
-import taboolib.common5.Baffle
-import taboolib.common5.cint
-import taboolib.library.configuration.ConfigurationSection
 import taboolib.library.reflex.UnsafeAccess
 import taboolib.module.chat.ComponentText
 import taboolib.module.chat.component
-import taboolib.module.configuration.util.asMap
 import taboolib.platform.util.*
 import java.lang.reflect.Field
-import java.util.concurrent.TimeUnit
 
 /**
  * Aiyatsbus
@@ -159,49 +154,6 @@ fun <T, Z : Any> PersistentDataHolder.has(key: String, type: PersistentDataType<
 fun PersistentDataHolder.remove(key: String) {
     return persistentDataContainer.remove(NamespacedKey.minecraft(key))
 }
-
-/**
- * 从 ConfigurationSection 读取 Baffle
- */
-fun ConfigurationSection?.baffle(): Baffle? {
-    return this?.let {
-        val section = it.asMap()
-        when {
-            "time" in section -> {
-                // 按时间阻断
-                val time = section["time"]?.cint ?: -1
-                if (time > 0) {
-                    Baffle.of(time * 50L, TimeUnit.MILLISECONDS)
-                } else null
-            }
-            "count" in section -> {
-                // 按次数阻断
-                val count = section["count"]?.cint ?: -1
-                if (count > 0) {
-                    Baffle.of(count)
-                } else null
-            }
-            else -> null
-        }
-    }
-}
-
-/**
- * 从 ConfigurationSection 读取 submit 信息
- */
-fun ConfigurationSection?.submit(): Submit {
-    return this?.let {
-        val section = it.asMap()
-        val enable = section["enable"].coerceBoolean(true)
-        val now = section["now"].coerceBoolean(false)
-        val async = section["async"].coerceBoolean(false)
-        val delay = section["delay"].coerceLong(0L)
-        val period = section["period"].coerceLong(0L)
-        Submit(enable, now, async, delay, period)
-    } ?: Submit(false, false, false, 0L, 0L)
-}
-
-data class Submit(val enable: Boolean, val now: Boolean, val async: Boolean, val delay: Long, val period: Long)
 
 /**
  * 将 List<String> 构建为复合文本并上色
