@@ -17,6 +17,7 @@ import taboolib.common.OpenResult
     bind = PlayerItemHeldEvent::class
 )
 class PropertyPlayerItemHeldEvent : AiyatsbusGenericProperty<PlayerItemHeldEvent>("player-item-held-event") {
+
     override fun readProperty(instance: PlayerItemHeldEvent, key: String): OpenResult {
         val property: Any? = when (key) {
             "previousSlot", "previous-slot", "prev-slot" -> instance.previousSlot

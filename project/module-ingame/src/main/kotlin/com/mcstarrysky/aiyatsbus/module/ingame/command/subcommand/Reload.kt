@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.subCommand
 import taboolib.module.chat.colored
+import taboolib.module.lang.Language
 import taboolib.module.nms.MinecraftVersion
 import taboolib.platform.util.onlinePlayers
 
@@ -27,6 +28,7 @@ val reloadSubCommand = subCommand {
             (Aiyatsbus.api().getEnchantmentRegisterer() as ModernEnchantmentRegisterer).replaceRegistry()
         }
         // TODO: Reloadable 成组
+        Language.reload()
         AiyatsbusSettings.conf.reload()
         Reloadables.execute()
         AiyatsbusDisplayManager.conf.reload()

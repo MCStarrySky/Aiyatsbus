@@ -16,7 +16,8 @@ import taboolib.common.OpenResult
     id = "player-item-break-event",
     bind = PlayerItemBreakEvent::class
 )
-class PropertyPlayerItemBreakEvent : AiyatsbusGenericProperty<PlayerItemBreakEvent>("player-item-break-event"){
+class PropertyPlayerItemBreakEvent : AiyatsbusGenericProperty<PlayerItemBreakEvent>("player-item-break-event") {
+
     override fun readProperty(instance: PlayerItemBreakEvent, key: String): OpenResult {
         val property: Any? = when (key) {
             "brokenItem", "item" -> instance.brokenItem

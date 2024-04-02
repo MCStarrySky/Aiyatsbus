@@ -18,7 +18,8 @@ import taboolib.common.OpenResult
     id = "block-damage-event",
     bind = BlockDamageEvent::class
 )
-class PropertyBlockDamageEvent : AiyatsbusGenericProperty<BlockDamageEvent>("block-damage-event"){
+class PropertyBlockDamageEvent : AiyatsbusGenericProperty<BlockDamageEvent>("block-damage-event") {
+
     override fun readProperty(instance: BlockDamageEvent, key: String): OpenResult {
         val property: Any? = when (key) {
             "player" -> instance.player

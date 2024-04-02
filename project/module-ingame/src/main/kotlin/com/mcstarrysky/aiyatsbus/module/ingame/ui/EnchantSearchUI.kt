@@ -18,7 +18,6 @@ import taboolib.module.configuration.Configuration
 import taboolib.module.ui.openMenu
 import taboolib.platform.util.nextChat
 import taboolib.module.ui.type.PageableChest
-import taboolib.platform.util.sendLang
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.UIType
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.record
 import org.bukkit.inventory.meta.ItemMeta

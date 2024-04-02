@@ -19,7 +19,6 @@ import taboolib.common5.cint
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.library.reflex.UnsafeAccess
 import taboolib.module.chat.ComponentText
-import taboolib.module.chat.Source
 import taboolib.module.chat.component
 import taboolib.module.configuration.util.asMap
 import taboolib.platform.util.*

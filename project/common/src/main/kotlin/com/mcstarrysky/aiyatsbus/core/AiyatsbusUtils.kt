@@ -4,6 +4,7 @@ import com.mcstarrysky.aiyatsbus.core.data.*
 import com.mcstarrysky.aiyatsbus.core.data.Target
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.command.CommandSender
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -19,6 +20,48 @@ import taboolib.platform.util.modifyMeta
  * @author mical
  * @since 2024/2/17 22:12
  */
+
+/**
+ * 使用 AiyatsbusLanguage 发送语言文件
+ */
+fun CommandSender.sendLang(node: String, vararg args: Any) {
+    Aiyatsbus.api().getLanguage().sendLang(this, node, *args)
+}
+
+/**
+ * 使用 AiyatsbusLanguage 获取语言文件
+ */
+fun CommandSender.asLangOrNull(node: String, vararg args: Any): String? {
+    return Aiyatsbus.api().getLanguage().getLang(this, node, *args)
+}
+
+/**
+ * 使用 AiyatsbusLanguage 获取语言文件
+ */
+fun CommandSender.asLang(node: String, vararg args: Any): String {
+    return Aiyatsbus.api().getLanguage().getLang(this, node, *args)
+}
+
+/**
+ * 使用 AiyatsbusLanguage 获取语言文件
+ */
+fun CommandSender.asLangList(node: String, vararg args: Any): List<String> {
+    return Aiyatsbus.api().getLanguage().getLangList(this, node, *args)
+}
+
+/**
+ * 使用 AiyatsbusLanguage 解析特殊语言格式
+ */
+fun CommandSender.parseLang(content: String, vararg args: Any): String {
+    return Aiyatsbus.api().getLanguage().parseLang(this, content, *args)
+}
+
+/**
+ * 使用 AiyatsbusLanguage 解析特殊语言格式
+ */
+fun CommandSender.parseLangList(content: List<String>, vararg args: Any): List<String> {
+    return Aiyatsbus.api().getLanguage().parseLangList(this, content, *args)
+}
 
 /**
  * 将 Enchantment 转换为 AiyatsbusEnchantment

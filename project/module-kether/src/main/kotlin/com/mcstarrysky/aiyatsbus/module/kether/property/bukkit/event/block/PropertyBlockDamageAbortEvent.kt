@@ -17,6 +17,7 @@ import taboolib.common.OpenResult
     bind = BlockDamageAbortEvent::class
 )
 class PropertyBlockDamageAbortEvent : AiyatsbusGenericProperty<BlockDamageAbortEvent>("block-damage-abort-event") {
+
     override fun readProperty(instance: BlockDamageAbortEvent, key: String): OpenResult {
         val property: Any? = when (key) {
             "player" -> instance.player

@@ -2,12 +2,12 @@ package com.mcstarrysky.aiyatsbus.module.ingame.command.subcommand
 
 import com.mcstarrysky.aiyatsbus.core.data.MenuMode
 import com.mcstarrysky.aiyatsbus.core.menuMode
+import com.mcstarrysky.aiyatsbus.core.sendLang
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.command.suggestPlayers
-import taboolib.platform.util.sendLang
 
 /**
  * Aiyatsbus

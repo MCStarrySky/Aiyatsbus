@@ -17,6 +17,7 @@ import taboolib.common.OpenResult
     bind = PlayerItemConsumeEvent::class
 )
 class PropertyPlayerItemConsumeEvent : AiyatsbusGenericProperty<PlayerItemConsumeEvent>("player-item-consume-event") {
+
     override fun readProperty(instance: PlayerItemConsumeEvent, key: String): OpenResult {
         val property: Any? = when (key) {
             "item" -> instance.item
