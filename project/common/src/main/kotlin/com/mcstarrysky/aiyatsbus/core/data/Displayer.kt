@@ -2,11 +2,8 @@ package com.mcstarrysky.aiyatsbus.core.data
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusDisplayManager
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
-import com.mcstarrysky.aiyatsbus.core.parseLang
 import com.mcstarrysky.aiyatsbus.core.util.replace
 import com.mcstarrysky.aiyatsbus.core.util.roman
-import org.bukkit.Bukkit
-import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.library.configuration.ConfigurationSection
@@ -39,14 +36,14 @@ data class Displayer(
     /**
      * 生成本附魔在当前状态下的显示, 在非合并模式下
      */
-    fun display(level: Int?, player: Player?, item: ItemStack?) = display(holders(level, player, item), player ?: Bukkit.getConsoleSender())
+    fun display(level: Int?, player: Player?, item: ItemStack?) = display(holders(level, player, item))
 
     /**
      * 生成本附魔在当前状态下的显示, 在非合并模式下
      */
-    fun display(holders: Map<String, String>, sender: CommandSender): String {
-        return (previous.replace("{default_previous}", sender.parseLang(AiyatsbusDisplayManager.defaultPrevious))
-                + subsequent.replace("{default_subsequent}", sender.parseLang(AiyatsbusDisplayManager.defaultSubsequent))
+    fun display(holders: Map<String, String>): String {
+        return (previous.replace("{default_previous}", AiyatsbusDisplayManager.defaultPrevious)
+                + subsequent.replace("{default_subsequent}", AiyatsbusDisplayManager.defaultSubsequent)
                 ).replace(holders).colored()
     }
 
@@ -59,12 +56,11 @@ data class Displayer(
         item: ItemStack? = null,
         index: Int? = null
     ): Map<String, String> {
-        val sender = player ?: Bukkit.getConsoleSender()
         val suffix = index?.let { "_$it" } ?: ""
         val holders = holders(level, player, item)
         return mapOf(
-            "previous$suffix" to previous.replace("{default_previous}", sender.parseLang(AiyatsbusDisplayManager.defaultPrevious)).replace(holders).colored(),
-            "subsequent$suffix" to subsequent.replace("{default_subsequent}", sender.parseLang(AiyatsbusDisplayManager.defaultSubsequent)).replace(holders).colored()
+            "previous$suffix" to previous.replace("{default_previous}", AiyatsbusDisplayManager.defaultPrevious).replace(holders).colored(),
+            "subsequent$suffix" to subsequent.replace("{default_subsequent}", AiyatsbusDisplayManager.defaultSubsequent).replace(holders).colored()
         )
     }
 
@@ -76,22 +72,20 @@ data class Displayer(
         player: Player? = null,
         item: ItemStack? = null
     ): Map<String, String> {
-        val sender = player ?: Bukkit.getConsoleSender()
-
         val tmp = enchant.variables.variables(level, player, item, true).toMutableMap()
         val lv = level ?: enchant.basicData.maxLevel
         tmp["id"] = enchant.basicData.id
-        tmp["name"] = sender.parseLang(enchant.basicData.name)
+        tmp["name"] = enchant.basicData.name
         tmp["level"] = "$lv"
         tmp["roman_level"] = lv.roman(enchant.basicData.maxLevel == 1)
         tmp["roman_level_with_a_blank"] = lv.roman(enchant.basicData.maxLevel == 1, true)
         tmp["max_level"] = "${enchant.basicData.maxLevel}"
-        tmp["rarity"] = sender.parseLang(enchant.rarity.name)
+        tmp["rarity"] = enchant.rarity.name
         tmp["rarity_display"] = enchant.rarity.displayName()
         tmp["enchant_display"] = enchant.displayName()
         tmp["enchant_display_roman"] = enchant.displayName(lv)
-        tmp["enchant_display_lore"] = display(tmp, sender)
-        tmp["description"] = sender.parseLang(specificDescription).replace(tmp).colored()
+        tmp["enchant_display_lore"] = display(tmp)
+        tmp["description"] = specificDescription.replace(tmp).colored()
         return tmp
     }
 

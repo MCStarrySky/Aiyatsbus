@@ -4,11 +4,8 @@ import com.mcstarrysky.aiyatsbus.core.data.*
 import com.mcstarrysky.aiyatsbus.core.data.Target
 import com.mcstarrysky.aiyatsbus.core.trigger.Trigger
 import com.mcstarrysky.aiyatsbus.core.util.roman
-import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
-import org.bukkit.command.CommandSender
 import org.bukkit.enchantments.Enchantment
-import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.module.chat.colored
 
@@ -93,7 +90,7 @@ interface AiyatsbusEnchantment {
     /**
      * 显示名称
      */
-    fun displayName(level: Int? = null, sender: CommandSender = Bukkit.getConsoleSender()): String {
-        return rarity.displayName(sender.parseLang(basicData.name) + (level?.roman(basicData.maxLevel == 1, true) ?: ""))
+    fun displayName(level: Int? = null): String {
+        return rarity.displayName(basicData.name + (level?.roman(basicData.maxLevel == 1, true) ?: ""))
     }
 }

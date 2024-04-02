@@ -91,8 +91,8 @@ fun CommandComponent.createTabooLegacyHelper() {
     }
 
     if (this is CommandBase) {
-        incorrectCommand { sender, ctx, _, state ->
-            sender as CommandSender
+        incorrectCommand { s, ctx, _, state ->
+            val sender = s.cast<CommandSender>()
             val input = ctx.args().first()
             val name = children.filterIsInstance<CommandComponentLiteral>()
                 .firstOrNull { it.aliases.contains(input) }?.aliases?.get(0) ?: input
@@ -123,7 +123,7 @@ fun CommandComponent.createTabooLegacyHelper() {
         }
 
         incorrectSender { sender, ctx ->
-            (sender as CommandSender).sendLang("command-incorrect-sender", ctx.args().first() to "name")
+            (sender.cast<CommandSender>()).sendLang("command-incorrect-sender", ctx.args().first() to "name")
         }
     }
 }
