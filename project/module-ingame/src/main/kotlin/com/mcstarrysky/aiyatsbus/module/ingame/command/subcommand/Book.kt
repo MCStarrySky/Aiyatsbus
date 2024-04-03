@@ -41,6 +41,6 @@ private fun handleBook(sender: CommandSender, who: String?, enchant: AiyatsbusEn
     (who?.let { Bukkit.getPlayer(it) } ?: (sender as? Player))?.let { receiver ->
         receiver.giveItem(enchant.book(level))
         sender.sendLang("command-subCommands-book-sender", receiver.name to "name")
-        receiver.sendLang("command-subCommands-book-receiver", enchant.displayName(level), "enchantment")
+        receiver.sendLang("command-subCommands-book-receiver", enchant.displayName(level) to "enchantment")
     } ?: sender.sendLang("command-subCommands-book-fail")
 }
