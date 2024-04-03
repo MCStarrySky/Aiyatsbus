@@ -1,0 +1,47 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: annihilate
+  name: "威慑"
+  max_level: 2
+
+rarity: 史诗
+targets:
+  - 剑
+  - 斧
+
+limitations:
+  - "CONFLICT_ENCHANT:击飞"
+  - "CONFLICT_ENCHANT:击退"
+  - "CONFLICT_ENCHANT:迫近"
+
+display:
+  description:
+    general: "攻击时产生数倍击退效果"
+    specific: "&7攻击时产生&a{倍数}&7击退效果"
+
+variables:
+  leveled:
+    倍数: "倍:2.5*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if not instance-of &event[attacker] is org.bukkit.entity.LivingEntity then {
+          exit
+        }
+        set eye-loc to &event[attacker.eye-loc]
+        set velocity to &eye-loc[direction]
+
+        set m to type double &倍数
+        
+        set &velocity[x] to math mul [ &velocity[x] &m ]
+        set &velocity[y] to math mul [ &velocity[y] &m ]
+        set &velocity[z] to math mul [ &velocity[z] &m ] 
+
+        a-vec-add &velocity on &event[entity] safety true checkKnockback true

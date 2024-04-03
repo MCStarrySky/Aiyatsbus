@@ -1,0 +1,53 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: grapple
+  name: "迫近"
+  max_level: 4
+
+rarity: 史诗
+targets:
+  - 剑
+  - 斧
+
+limitations:
+  - "CONFLICT_ENCHANT:威慑"
+  - "CONFLICT_ENCHANT:击退"
+  - "CONFLICT_ENCHANT:击飞"
+
+display:
+  description:
+    general: "在攻击时将对手拉近"
+    specific: "&7在攻击时以&a{力度}&7的力度将对手拉近"
+
+variables:
+  leveled:
+    力度: "单位:0.5*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if not instance-of &event[attacker] is org.bukkit.entity.LivingEntity then {
+          exit
+        }
+        set m to type double &力度
+
+        set dl to &event[attacker.location.clone]
+        set el to &event[entity.location]
+
+        set &dl[x] to math sub [ &dl[x] - &el[x] ]
+        set &dl[y] to math sub [ &dl[y] - &el[y] ]
+        set &dl[z] to math sub [ &dl[z] - &el[z] ]
+
+        set velocity to &dl[vector.normalize]
+
+        set &velocity[x] to math mul [ &velocity[x] &m ]
+        set &velocity[y] to math mul [ &velocity[y] &m ]
+        set &velocity[z] to math mul [ &velocity[z] &m ] 
+        
+        a-vec-add &velocity on &event[entity] safety true checkKnockback true

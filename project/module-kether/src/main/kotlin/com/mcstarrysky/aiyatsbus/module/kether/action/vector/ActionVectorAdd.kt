@@ -1,5 +1,8 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.vector
 
+import com.mcstarrysky.aiyatsbus.core.util.VectorUtils
+import taboolib.common.util.Vector
+
 /**
  * Vulpecula
  * com.mcstarrysky.aiyatsbus.module.kether.action.vector

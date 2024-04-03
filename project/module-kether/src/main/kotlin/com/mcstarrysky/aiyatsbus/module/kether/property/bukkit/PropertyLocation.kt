@@ -49,7 +49,7 @@ class PropertyLocation : AiyatsbusGenericProperty<Location>("location-bukkit") {
             "lengthSquared", "length-squared", "squared" -> instance.lengthSquared()
             "serialize" -> instance.serialize()
             "serialized" -> instance.serialized
-            "toVector", "vector" -> instance.toVector()
+            "toVector", "vector" -> instance.toVector() // io.papermc.paper.math.Position#toVector
             "toString", "string" -> instance.toString()
             "zero" -> instance.zero()
             else -> return OpenResult.failed()

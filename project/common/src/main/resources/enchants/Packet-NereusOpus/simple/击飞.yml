@@ -1,0 +1,47 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: tornado
+  name: "击飞"
+  max_level: 4
+
+rarity: 史诗
+targets:
+  - 剑
+  - 斧
+
+limitations:
+  - "CONFLICT_ENCHANT:威慑"
+  - "CONFLICT_ENCHANT:击退"
+  - "CONFLICT_ENCHANT:迫近"
+
+display:
+  description:
+    general: "在攻击时将对手击向空中"
+    specific: "&7在攻击时以&a{力度}&7的力度将对手击向空中"
+
+variables:
+  leveled:
+    力度: "单位:0.25*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if not instance-of &event[attacker] is org.bukkit.entity.LivingEntity then {
+          exit
+        }
+        if not &event[entity.isOnGround] then {
+          exit
+        }
+        set m to type double &力度
+        set velocity to &event[entity.velocity.clone.zero]
+
+        set &velocity[y] to math mul [ 1.0 &m ]
+        
+        delay 0.05s
+        a-vec-add &velocity on &event[entity] safety true checkKnockback true
