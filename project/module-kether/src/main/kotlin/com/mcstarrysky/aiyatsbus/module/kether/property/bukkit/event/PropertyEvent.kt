@@ -21,7 +21,7 @@ class PropertyEvent : AiyatsbusGenericProperty<Event>("event") {
     override fun readProperty(instance: Event, key: String): OpenResult {
         val property: Any? = when (key) {
             "eventName", "event-name", "name" -> instance.eventName
-            "isAsynchronous", "is-asynchronous", "asynchronous", "async" -> instance.isAsynchronous
+            "isAsynchronous", "is-asynchronous", "asynchronous", "is-async", "async" -> instance.isAsynchronous
             else -> return OpenResult.failed()
         }
         return OpenResult.successful(property)

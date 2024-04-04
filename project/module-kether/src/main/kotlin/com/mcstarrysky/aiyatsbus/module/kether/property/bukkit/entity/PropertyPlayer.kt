@@ -55,40 +55,17 @@ class PropertyPlayer : AiyatsbusGenericProperty<Player>("player") {
 
     override fun writeProperty(instance: Player, key: String, value: Any?): OpenResult {
         when (key) {
-            "bedSpawnLocation", "bed-location", "bed-loc", "bed" -> {
-                instance.bedSpawnLocation = value as? Location ?: return OpenResult.successful()
-            }
-            "compassTarget", "compass-target", "compass" -> {
-                instance.compassTarget = value as? Location ?: return OpenResult.successful()
-            }
-            "experience", "exp" -> {
-                instance.exp = value?.cfloat ?: return OpenResult.successful()
-            }
-            "level" -> {
-                instance.level = value?.cint ?: return OpenResult.successful()
-            }
-            "flySpeed", "fly-speed" -> {
-                instance.flySpeed = value?.cfloat ?: return OpenResult.successful()
-            }
-            "healthScale", "health-scale" -> {
-                instance.healthScale = value?.cdouble ?: return OpenResult.successful()
-            }
+            "bedSpawnLocation", "bed-location", "bed-loc", "bed" -> instance.bedSpawnLocation = value as? Location ?: return OpenResult.successful()
+            "compassTarget", "compass-target", "compass" -> instance.compassTarget = value as? Location ?: return OpenResult.successful()
+            "experience", "exp" -> instance.exp = value?.cfloat ?: return OpenResult.successful()
+            "level" -> instance.level = value?.cint ?: return OpenResult.successful()
+            "flySpeed", "fly-speed" -> instance.flySpeed = value?.cfloat ?: return OpenResult.successful()
+            "healthScale", "health-scale" -> instance.healthScale = value?.cdouble ?: return OpenResult.successful()
 
-            // TODO net.kyori.adventure.audience
-            "playerListFooter", "player-list-footer" -> {
-                instance.playerListFooter = value?.toString() ?: return OpenResult.successful()
-            }
-            "playerListHeader", "player-list-header" -> {
-                instance.playerListHeader = value?.toString() ?: return OpenResult.successful()
-            }
-
-            "playerTime", "time" -> {
-                instance.setPlayerTime(value?.clong ?: return OpenResult.successful(), false)
-            }
-            "playerWeather", "weather" -> {
-                instance.setPlayerWeather(value?.toString()?.let { WeatherType.valueOf(it) }
-                    ?: return OpenResult.successful())
-            }
+            "playerListFooter", "player-list-footer" -> instance.playerListFooter = value?.toString() ?: return OpenResult.successful()
+            "playerListHeader", "player-list-header" -> instance.playerListHeader = value?.toString() ?: return OpenResult.successful()
+            "playerTime", "time" -> instance.setPlayerTime(value?.clong ?: return OpenResult.successful(), false)
+            "playerWeather", "weather" -> instance.setPlayerWeather(value?.toString()?.let{WeatherType.valueOf(it)} ?: return OpenResult.successful())
             else -> return OpenResult.failed()
         }
         return OpenResult.successful()

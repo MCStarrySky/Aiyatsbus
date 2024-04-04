@@ -46,7 +46,7 @@ class PropertyHumanEntity : AiyatsbusGenericProperty<HumanEntity>("human-entity"
             "openInventory", "open-inventory", "opening-inventory" -> instance.openInventory
             "sleepTicks", "sleep-ticks" -> instance.sleepTicks
 
-            // Same name as method org.bukkit.inventory.EntityEquipment.getItemInMainHand (bukkit.entity.PropertyLivingEntity.mainHand/main-hand)
+            // TODO: conflict: Same name as method org.bukkit.inventory.EntityEquipment.getItemInMainHand (bukkit.entity.PropertyLivingEntity.mainHand/main-hand)
             "mainHand", "main-hand" -> instance.mainHand
 
             "starvationRate", "starvation-rate", "starvation" -> instance.starvationRate
