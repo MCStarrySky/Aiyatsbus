@@ -76,9 +76,8 @@ object EnchantInfoUI {
         player.openMenu<PageableChest<String>>(
             config.title()
                 .replace("[enchant_display_roman]", enchant.displayName(level))
-                .component().buildColored().toRawMessage()
         ) {
-            virtualize()
+//            virtualize()
 
             val (shape, templates) = config
             rows(shape.rows)

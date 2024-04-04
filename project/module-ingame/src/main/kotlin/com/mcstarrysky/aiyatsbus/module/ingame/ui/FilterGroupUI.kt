@@ -47,8 +47,8 @@ object FilterGroupUI {
 
     fun open(player: Player) {
         player.record(UIType.FILTER_GROUP)
-        player.openMenu<PageableChest<Group>>(config.title().component().buildColored().toRawMessage()) {
-            virtualize()
+        player.openMenu<PageableChest<Group>>(config.title()) {
+//            virtualize()
             val (shape, templates) = config
             rows(shape.rows)
             val slots = shape["FilterGroup:filter"].toList()

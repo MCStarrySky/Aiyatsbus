@@ -47,8 +47,8 @@ object FilterTargetUI {
 
     fun open(player: Player) {
         player.record(UIType.FILTER_TARGET)
-        player.openMenu<PageableChest<Target>>(config.title().component().buildColored().toRawMessage()) {
-            virtualize()
+        player.openMenu<PageableChest<Target>>(config.title()) {
+//            virtualize()
 
             val (shape, templates) = config
             rows(shape.rows)

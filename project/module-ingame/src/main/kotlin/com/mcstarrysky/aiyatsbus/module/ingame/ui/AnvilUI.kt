@@ -44,8 +44,8 @@ object AnvilUI {
 
     fun open(player: Player, a: ItemStack? = null, b: ItemStack? = null) {
         player.record(UIType.ANVIL, "a" to a, "b" to b)
-        player.openMenu<Chest>(config.title().component().buildColored().toRawMessage()) {
-            virtualize()
+        player.openMenu<Chest>(config.title()) {
+//            virtualize()
 
             val (shape, templates) = config
             rows(shape.rows)

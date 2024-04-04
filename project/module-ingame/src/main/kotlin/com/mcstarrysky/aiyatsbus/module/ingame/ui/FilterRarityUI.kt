@@ -44,8 +44,8 @@ object FilterRarityUI {
 
     fun open(player: Player) {
         player.record(UIType.FILTER_RARITY)
-        player.openMenu<PageableChest<Rarity>>(config.title().component().buildColored().toRawMessage()) {
-            virtualize()
+        player.openMenu<PageableChest<Rarity>>(config.title()) {
+//            virtualize()
             val (shape, templates) = config
             rows(shape.rows)
             val slots = shape["FilterRarity:filter"].toList()
