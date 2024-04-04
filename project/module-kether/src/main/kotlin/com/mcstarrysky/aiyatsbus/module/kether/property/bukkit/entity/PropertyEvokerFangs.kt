@@ -18,7 +18,8 @@ import taboolib.common.OpenResult
     id = "evoker-fangs",
     bind = EvokerFangs::class
 )
-class PropertyEvokerFangs : AiyatsbusGenericProperty<EvokerFangs>("evoker-fangs"){
+class PropertyEvokerFangs : AiyatsbusGenericProperty<EvokerFangs>("evoker-fangs") {
+
     override fun readProperty(instance: EvokerFangs, key: String): OpenResult {
         val property: Any? = when (key) {
             "owner" -> instance.owner

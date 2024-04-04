@@ -19,7 +19,8 @@ import taboolib.common.OpenResult
     id = "abstract-arrow",
     bind = AbstractArrow::class
 )
-class PropertyAbstractArrow : AiyatsbusGenericProperty<AbstractArrow>("abstract-arrow"){
+class PropertyAbstractArrow : AiyatsbusGenericProperty<AbstractArrow>("abstract-arrow") {
+
     override fun readProperty(instance: AbstractArrow, key: String): OpenResult {
         val property: Any? = when (key) {
             "knockbackStrength", "knockback-strength", "knockback" -> instance.knockbackStrength

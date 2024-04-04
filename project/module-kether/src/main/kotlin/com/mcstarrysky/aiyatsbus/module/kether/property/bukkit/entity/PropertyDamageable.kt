@@ -18,6 +18,7 @@ import taboolib.common.OpenResult
     bind = Damageable::class
 )
 class PropertyDamageable : AiyatsbusGenericProperty<Damageable>("damageable") {
+
     override fun readProperty(instance: Damageable, key: String): OpenResult {
         val property: Any? = when (key) {
             "health" -> instance.health
