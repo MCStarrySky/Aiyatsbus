@@ -22,7 +22,7 @@ subprojects {
             install(CHAT, CONFIGURATION, LANG, BUKKIT_ALL, NMS, NMS_UTIL, KETHER, UI, EFFECT, METRICS)
         }
         version {
-            taboolib = "6.1.1-beta21"
+            taboolib = "6.1.1-beta24"
         }
     }
 
@@ -57,4 +57,36 @@ subprojects {
 
 gradle.buildFinished {
     buildDir.deleteRecursively()
+}
+
+subprojects
+    .filter { it.name != "project" && it.name != "plugin" }
+    .forEach { proj ->
+        proj.publishing { applyToSub(proj) }
+    }
+
+fun PublishingExtension.applyToSub(subProject: Project) {
+    repositories {
+        maven("http://sacredcraft.cn:8081/repository/releases") {
+            isAllowInsecureProtocol = true
+            credentials {
+                username = project.findProperty("taboolibUsername").toString()
+                password = project.findProperty("taboolibPassword").toString()
+            }
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
+        }
+        mavenLocal()
+    }
+    publications {
+        create<MavenPublication>("maven") {
+            artifactId = subProject.name
+            groupId = "com.mcstarrysky.aiyatsbus"
+            version = project.version.toString()
+            artifact(subProject.tasks["kotlinSourcesJar"])
+            artifact(subProject.tasks["jar"])
+            println("> Apply \"$groupId:$artifactId:$version\"")
+        }
+    }
 }

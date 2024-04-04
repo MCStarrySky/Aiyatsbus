@@ -1,6 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action
 
-import com.mcstarrysky.aiyatsbus.core.AntiGriefChecker
+import com.mcstarrysky.aiyatsbus.core.compat.AntiGriefChecker
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusParser
 import com.mcstarrysky.aiyatsbus.module.kether.aiyatsbus
 import taboolib.platform.util.toBukkitLocation
