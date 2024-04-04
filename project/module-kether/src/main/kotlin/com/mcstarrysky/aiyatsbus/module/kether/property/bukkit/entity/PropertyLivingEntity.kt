@@ -10,7 +10,6 @@ import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusGenericProperty
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusProperty
 import com.mcstarrysky.aiyatsbus.module.kether.LiveData.Companion.liveItemStack
 import org.bukkit.Material
-import org.bukkit.attribute.Attribute
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.inventory.ItemStack
@@ -31,12 +30,8 @@ class PropertyLivingEntity : AiyatsbusGenericProperty<LivingEntity>("living-enti
 
     override fun readProperty(instance: LivingEntity, key: String): OpenResult {
         val property: Any? = when (key) {
-
-            "health" -> instance.health
-            "maxHealth", "max-health" -> instance.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue ?: 0.0
-
             "remainingAir", "remaining-air", "oxygen", "air" -> instance.remainingAir
-            "maximuxAir", "max-oxygen", "max-air" -> instance.maximumAir
+            "maximumAir", "max-oxygen", "max-air" -> instance.maximumAir
 
             "killer" -> instance.killer
             "lastDamage", "last-damage", "last-dmg" -> instance.lastDamage
@@ -65,9 +60,7 @@ class PropertyLivingEntity : AiyatsbusGenericProperty<LivingEntity>("living-enti
 
             /* 装备栏相关属性 */
             "equipment" -> instance.equipment
-            "armorContents", "armors" -> {
-                instance.equipment?.armorContents ?: List(6) { ItemStack(Material.AIR) }.toTypedArray()
-            }
+            "armorContents", "armors" -> instance.equipment?.armorContents ?: List(6) { ItemStack(Material.AIR) }.toTypedArray()
 
             // 主手
             "mainHand", "main", "main-hand", "mainhand" -> instance.equipment?.itemInMainHand ?: ItemStack(Material.AIR)
@@ -115,108 +108,59 @@ class PropertyLivingEntity : AiyatsbusGenericProperty<LivingEntity>("living-enti
 
     override fun writeProperty(instance: LivingEntity, key: String, value: Any?): OpenResult {
         when (key) {
-            "health" -> {
-                instance.health = value?.coerceDouble() ?: return OpenResult.successful()
-            }
-            "maxHealth", "max-health" -> {
-                instance.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue =
-                    value?.coerceDouble() ?: return OpenResult.successful()
-            }
 
-            "remainingAir", "remaining-air", "oxygen", "air" -> {
-                instance.remainingAir = value?.coerceInt() ?: return OpenResult.successful()
-            }
-            "maximumAir", "max-oxygen", "max-air" -> {
-                instance.maximumAir = value?.coerceInt() ?: return OpenResult.successful()
-            }
+            "remainingAir", "remaining-air", "oxygen", "air" -> instance.remainingAir = value?.coerceInt() ?: return OpenResult.successful()
+            "maximumAir", "max-oxygen", "max-air" -> instance.maximumAir = value?.coerceInt() ?: return OpenResult.successful()
 
-            "lastDamage", "last-damage", "last-dmg" -> {
-                instance.lastDamage = value?.coerceDouble() ?: return OpenResult.successful()
-            }
-            "lastDamageCause", "last-damage-cause", "last-dmg-cause" -> {
-                instance.lastDamageCause = value as? EntityDamageEvent ?: return OpenResult.successful()
-            }
-            "noDamageTicks","no-damage-ticks", "no-dmg-ticks", "no-damage-cooldown", "no-dmg-cd" -> {
-                instance.noDamageTicks = value?.coerceInt() ?: return OpenResult.successful()
-            }
+            "lastDamage", "last-damage", "last-dmg" -> instance.lastDamage = value?.coerceDouble() ?: return OpenResult.successful()
+            "lastDamageCause", "last-damage-cause", "last-dmg-cause" -> instance.lastDamageCause = value as? EntityDamageEvent ?: return OpenResult.successful()
+            "noDamageTicks","no-damage-ticks", "no-dmg-ticks", "no-damage-cooldown", "no-dmg-cd" -> instance.noDamageTicks = value?.coerceInt() ?: return OpenResult.successful()
 
-            "arrowCooldown", "arrow-cooldown", "arrow-cd"-> {
-                instance.arrowCooldown = value?.coerceInt() ?: return OpenResult.successful()
-            }
-            "arrowsInBody", "arrows-in-body", "arrows" -> {
-                instance.arrowsInBody = value?.coerceInt() ?: return OpenResult.successful()
-            }
-            "canPickupItems", "can-pickup-items" -> {
-                instance.canPickupItems = value?.coerceBoolean() ?: return OpenResult.successful()
-            }
+            "isCollidable", "collidable" -> instance.isCollidable = value?.coerceBoolean() ?: return OpenResult.successful()
+            "isInvisible", "invisible" -> instance.isInvisible = value?.coerceBoolean() ?: return OpenResult.successful()
+            "isSwimming", "swimming" -> instance.isSwimming = value?.coerceBoolean() ?: return OpenResult.successful()
 
-            "armorContents", "armors" -> {
-                instance.equipment?.armorContents = value as? Array<out ItemStack> ?: return OpenResult.successful()
-            }
+            "arrowCooldown", "arrow-cooldown", "arrow-cd"-> instance.arrowCooldown = value?.coerceInt() ?: return OpenResult.successful()
+            "arrowsInBody", "arrows-in-body", "arrows" -> instance.arrowsInBody = value?.coerceInt() ?: return OpenResult.successful()
+            "canPickupItems", "can-pickup-items" -> instance.canPickupItems = value?.coerceBoolean() ?: return OpenResult.successful()
 
-            "itemInHand", "hand*" -> {
-                instance.equipment?.setItemInHand(value?.liveItemStack)
-            }
-            "itemInHandDropChance", "drop-chance-hand*", "chance-hand*" -> {
-                instance.equipment?.itemInHandDropChance = value?.coerceFloat() ?: return OpenResult.successful()
-            }
+            "armorContents", "armors" -> instance.equipment?.armorContents = value as? Array<out ItemStack> ?: return OpenResult.successful()
 
-            "mainHand", "main", "main-hand", "hand" -> {
-                instance.equipment?.setItemInMainHand(value?.liveItemStack)
-            }
+            "itemInHand", "hand*" -> instance.equipment?.setItemInHand(value?.liveItemStack)
+            "itemInHandDropChance", "drop-chance-hand*", "chance-hand*" -> instance.equipment?.itemInHandDropChance = value?.coerceFloat() ?: return OpenResult.successful()
+
+            "mainHand", "main", "main-hand", "hand", "mainhand" -> instance.equipment?.setItemInMainHand(value?.liveItemStack)
             "itemInMainHandDropChance",
             "drop-chance-main", "chance-main",
             "drop-chance-main-hand", "chance-main-hand",
-            "drop-chance-hand", "chance-hand" -> {
-                instance.equipment?.itemInMainHandDropChance = value?.coerceFloat() ?: return OpenResult.successful()
-            }
+            "drop-chance-hand", "chance-hand" -> instance.equipment?.itemInMainHandDropChance = value?.coerceFloat() ?: return OpenResult.successful()
 
-            "offHand", "off", "off-hand" -> {
-                instance.equipment?.setItemInOffHand(value?.liveItemStack)
-            }
+            "offHand", "off", "off-hand" -> instance.equipment?.setItemInOffHand(value?.liveItemStack)
             "itemInOffHandDropChance",
             "drop-chance-off", "chance-off",
-            "drop-chance-off-hand", "chance-off-hand" -> {
-                instance.equipment?.itemInOffHandDropChance = value?.coerceFloat() ?: return OpenResult.successful()
-            }
+            "drop-chance-off-hand", "chance-off-hand" -> instance.equipment?.itemInOffHandDropChance = value?.coerceFloat() ?: return OpenResult.successful()
 
-            "helmet", "head" -> {
-                instance.equipment?.helmet = value?.liveItemStack
-            }
+            "helmet", "head" -> instance.equipment?.helmet = value?.liveItemStack
             "helmetDropChance",
             "drop-chance-helmet", "chance-helmet",
-            "drop-chance-head", "chance-head" -> {
-                instance.equipment?.helmetDropChance = value?.coerceFloat() ?: return OpenResult.successful()
-            }
+            "drop-chance-head", "chance-head" -> instance.equipment?.helmetDropChance = value?.coerceFloat() ?: return OpenResult.successful()
 
-            "chestplate", "chest" -> {
-                instance.equipment?.chestplate = value?.liveItemStack
-            }
+            "chestplate", "chest" -> instance.equipment?.chestplate = value?.liveItemStack
             "chestplateDropChance",
             "drop-chance-chestplate", "chance-chestplate",
-            "drop-chance-chest", "chance-chest" -> {
-                instance.equipment?.chestplateDropChance = value?.coerceFloat() ?: return OpenResult.successful()
-            }
+            "drop-chance-chest", "chance-chest" -> instance.equipment?.chestplateDropChance = value?.coerceFloat() ?: return OpenResult.successful()
 
-            "leggings", "legs", "leg" -> {
-                instance.equipment?.leggings = value?.liveItemStack
-            }
+            "leggings", "legs", "leg" -> instance.equipment?.leggings = value?.liveItemStack
             "leggingsDropChance",
             "drop-chance-leggings", "chance-leggings",
             "drop-chance-legs", "chance-legs",
-            "drop-chance-leg", "chance-leg" -> {
-                instance.equipment?.leggingsDropChance = value?.coerceFloat() ?: return OpenResult.successful()
-            }
+            "drop-chance-leg", "chance-leg" -> instance.equipment?.leggingsDropChance = value?.coerceFloat() ?: return OpenResult.successful()
 
-            "boots", "feet", "foot" -> {
-                instance.equipment?.boots = value?.liveItemStack
-            }
+            "boots", "feet", "foot" -> instance.equipment?.boots = value?.liveItemStack
             "bootsDropChance",
             "drop-chance-boots", "chance-boots",
             "drop-chance-feet", "chance-feet",
-            "drop-chance-foot", "chance-foot" -> {
-                instance.equipment?.bootsDropChance = value?.coerceFloat() ?: return OpenResult.successful()
-            }
+            "drop-chance-foot", "chance-foot" -> instance.equipment?.bootsDropChance = value?.coerceFloat() ?: return OpenResult.successful()
             else -> return OpenResult.failed()
         }
         return OpenResult.successful()
