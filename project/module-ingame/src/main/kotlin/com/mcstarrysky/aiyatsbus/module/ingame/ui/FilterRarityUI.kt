@@ -88,7 +88,7 @@ object FilterRarityUI {
         }
 
         onClick { (_, _, _, event, args) ->
-            val clickType = event.virtualEvent().clickType
+            val clickType = event.clickEvent().click
             val player = event.clicker
             val rarity = args["rarity"] as Rarity
 
@@ -105,7 +105,7 @@ object FilterRarityUI {
                     open(player)
                 }
 
-                ClickType.MIDDLE -> {
+                ClickType.SHIFT_LEFT, ClickType.SHIFT_RIGHT -> {
                     Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.RARITY, rarity.id)
                     open(player)
                 }

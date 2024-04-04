@@ -91,7 +91,7 @@ object FilterGroupUI {
         }
 
         onClick { (_, _, _, event, args) ->
-            val clickType = event.virtualEvent().clickType
+            val clickType = event.clickEvent().click
             val player = event.clicker
             val group = args["group"] as Group
 
@@ -108,7 +108,7 @@ object FilterGroupUI {
                     open(player)
                 }
 
-                ClickType.MIDDLE -> {
+                ClickType.SHIFT_LEFT, ClickType.SHIFT_RIGHT -> {
                     Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.GROUP, group.name)
                     open(player)
                 }

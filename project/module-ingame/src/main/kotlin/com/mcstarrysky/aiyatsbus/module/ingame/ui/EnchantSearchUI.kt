@@ -95,9 +95,9 @@ object EnchantSearchUI {
     private val filter_rarity = MenuFunctionBuilder {
         onBuild { (_, _, _, _, icon, args) -> icon.variable("rarities", args["filters"] as List<String>) }
         onClick { (_, _, _, event, _) ->
-            val clickType = event.virtualEvent().clickType
+            val clickType = event.clickEvent().click
             val player = event.clicker
-            if (clickType == ClickType.MIDDLE) {
+            if (clickType == ClickType.SHIFT_LEFT || clickType == ClickType.SHIFT_RIGHT) {
                 Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.RARITY)
                 open(player)
             } else FilterRarityUI.open(event.clicker)
@@ -108,9 +108,9 @@ object EnchantSearchUI {
     private val filter_target = MenuFunctionBuilder {
         onBuild { (_, _, _, _, icon, args) -> icon.variable("targets", args["filters"] as List<String>) }
         onClick { (_, _, _, event, _) ->
-            val clickType = event.virtualEvent().clickType
+            val clickType = event.clickEvent().click
             val player = event.clicker
-            if (clickType == ClickType.MIDDLE) {
+            if (clickType == ClickType.SHIFT_LEFT || clickType == ClickType.SHIFT_RIGHT) {
                 Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.TARGET)
                 open(player)
             } else FilterTargetUI.open(event.clicker)
@@ -121,9 +121,9 @@ object EnchantSearchUI {
     private val filter_group = MenuFunctionBuilder {
         onBuild { (_, _, _, _, icon, args) -> icon.variable("groups", args["filters"] as List<String>) }
         onClick { (_, _, _, event, _) ->
-            val clickType = event.virtualEvent().clickType
+            val clickType = event.clickEvent().click
             val player = event.clicker
-            if (clickType == ClickType.MIDDLE) {
+            if (clickType == ClickType.SHIFT_LEFT || clickType == ClickType.SHIFT_RIGHT) {
                 Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.GROUP)
                 open(player)
             } else FilterGroupUI.open(event.clicker)
@@ -134,7 +134,7 @@ object EnchantSearchUI {
     private val filter_string = MenuFunctionBuilder {
         onBuild { (_, _, _, _, icon, args) -> icon.variable("strings", args["filters"] as List<String>) }
         onClick { (_, _, _, event, _) ->
-            val clickType = event.virtualEvent().clickType
+            val clickType = event.clickEvent().click
             val player = event.clicker
             when (clickType) {
                 ClickType.LEFT, ClickType.RIGHT -> {
@@ -153,7 +153,7 @@ object EnchantSearchUI {
                     }
                 }
 
-                ClickType.MIDDLE -> {
+                ClickType.SHIFT_LEFT, ClickType.SHIFT_RIGHT -> {
                     Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.STRING)
                     open(player)
                 }
