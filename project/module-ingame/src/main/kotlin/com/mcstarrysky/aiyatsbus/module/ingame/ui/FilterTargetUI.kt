@@ -92,7 +92,7 @@ object FilterTargetUI {
         }
 
         onClick { (_, _, _, event, args) ->
-            val clickType = event.virtualEvent().clickType
+            val clickType = event.clickEvent().click
             val player = event.clicker
             val target = args["target"] as Target
 
@@ -109,7 +109,7 @@ object FilterTargetUI {
                     open(player)
                 }
 
-                ClickType.MIDDLE -> {
+                ClickType.SHIFT_LEFT, ClickType.SHIFT_RIGHT -> {
                     Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.TARGET, target.id)
                     open(player)
                 }
