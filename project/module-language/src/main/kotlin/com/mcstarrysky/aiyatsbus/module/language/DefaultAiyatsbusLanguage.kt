@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.language
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusLanguage
+import com.mcstarrysky.aiyatsbus.core.asLangOrNull
 import org.bukkit.command.CommandSender
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
@@ -21,19 +22,19 @@ import taboolib.platform.util.sendLang
 class DefaultAiyatsbusLanguage : AiyatsbusLanguage {
 
     override fun sendLang(sender: CommandSender, key: String, vararg args: Any) {
-        sender.sendLang(key, *args)
+        sender.sendLang(key, *args, sender.asLangTextOrNull("prefix") to "prefix")
     }
 
     override fun getLang(sender: CommandSender, key: String, vararg args: Any): String {
-        return sender.asLangText(key, *args)
+        return sender.asLangText(key, *args, sender.asLangTextOrNull("prefix") to "prefix")
     }
 
     override fun getLangOrNull(sender: CommandSender, key: String, vararg args: Any): String? {
-        return sender.asLangTextOrNull(key, *args)
+        return sender.asLangTextOrNull(key, *args, sender.asLangTextOrNull("prefix") to "prefix")
     }
 
     override fun getLangList(sender: CommandSender, key: String, vararg args: Any): List<String> {
-        return sender.asLangTextList(key, *args)
+        return sender.asLangTextList(key, *args, sender.asLangTextOrNull("prefix") to "prefix")
     }
 
     companion object {

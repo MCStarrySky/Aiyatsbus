@@ -32,7 +32,7 @@ fun CommandSender.sendLang(node: String, vararg args: Any) {
  * 使用 AiyatsbusLanguage 获取语言文件
  */
 fun CommandSender.asLangOrNull(node: String, vararg args: Any): String? {
-    return Aiyatsbus.api().getLanguage().getLang(this, node, *args)
+    return Aiyatsbus.api().getLanguage().getLangOrNull(this, node, *args)
 }
 
 /**
