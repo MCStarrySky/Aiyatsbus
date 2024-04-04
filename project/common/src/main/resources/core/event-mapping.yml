@@ -36,26 +36,22 @@ mappings:
   block-break:
     class: 'org.bukkit.event.block.BlockBreakEvent'
     slot: HANDS
-    priorities: [HIGHEST]
 
   # 玩家交互事件
   player-interact:
     class: 'org.bukkit.event.player.PlayerInteractEvent'
     slots: ALL # 例如 Physical 需要所有槽位
-    priorities: [HIGHEST]
 
   # 实体受伤事件
   entity-damage:
     class: 'org.bukkit.event.entity.EntityDamageEvent'
     slots: ALL
     playerReference: "entity" # 如果这里是子类 EntityDamageByEntityEvent, 那么这里应该指定 entity 才是受伤者
-    priorities: [HIGHEST]
 
   # 玩家下蹲事件
   player-toggle-sneak:
     class: 'org.bukkit.event.player.PlayerToggleSneakEvent'
     slots: ALL
-    priorities: [HIGHEST]
 
   # 实体受到其他实体伤害事件
   entity-damage-by-entity:
@@ -65,4 +61,9 @@ mappings:
   # 实体死亡事件
   entity-death:
     class: 'org.bukkit.event.entity.EntityDeathEvent'
+    slots: ALL
+
+  # 玩家消耗物品事件
+  player-item-data:
+    class: 'org.bukkit.event.player.PlayerItemDamageEvent'
     slots: ALL
