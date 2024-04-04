@@ -69,8 +69,8 @@ class DefaultAiyatsbusDisplayManager : AiyatsbusDisplayManager {
                 lore += layout.split("\n")
             }
             enchants.filter { (et, _) -> enchantPairs.none { et == it.first } }.forEach { (enchant, level) ->
-                lore += enchant.displayer.display(level, player, item);
-            }
+                lore += layouts[0].replace(enchant.displayer.displays(level, player, item, 1))
+            } // 这里也应该压缩显示才对
         }
 
         return lore.flatMap { it.split("\n") }
