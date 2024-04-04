@@ -60,18 +60,11 @@ object PacketSystemChat {
     fun modify(component: Component, player: Player): Component {
         var json = gson.serialize(component)
 
-        // 我也不知道啥情况
-        if (json == "\" \"") return component
-
         try {
             // 弱者做法: 二次解析, 防止 GsonComponentSerializer 把单引号解析成 \u0027
             json = Configuration.loadFromString(json, Type.FAST_JSON).saveToString()
-        } catch (ex: Throwable) {
-            severe("Failed to format json!")
-            severe("Json content:")
-            severe(json)
-            ex.printStackTrace()
-            throw ex
+        } catch (_: Throwable) {
+            return component
         }
 
         val stacks = extractHoverEvents(json)

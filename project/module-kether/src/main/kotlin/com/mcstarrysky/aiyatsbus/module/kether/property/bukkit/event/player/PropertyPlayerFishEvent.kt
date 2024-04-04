@@ -25,6 +25,7 @@ class PropertyPlayerFishEvent : AiyatsbusGenericProperty<PlayerFishEvent>("playe
             "hook" -> instance.hook
             "expToDrop", "exp-to-drop", "exp" -> instance.expToDrop
             "hand" -> instance.hand
+            "state" -> instance.state.name
             "isFishing", "is-fishing" -> instance.state == PlayerFishEvent.State.FISHING
             "isCaughtFish", "is-caught-fish" -> instance.state == PlayerFishEvent.State.CAUGHT_FISH
             "isCaughtEntity", "is-caught-entity" -> instance.state == PlayerFishEvent.State.CAUGHT_ENTITY
