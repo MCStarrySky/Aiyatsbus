@@ -19,18 +19,7 @@ subprojects {
     // TabooLib 配置
     taboolib {
         env {
-            install(
-                CHAT,
-                CONFIGURATION,
-                LANG,
-                BUKKIT_ALL,
-                NMS,
-                NMS_UTIL,
-                KETHER,
-                UI,
-                EFFECT,
-                METRICS
-            )
+            install(CHAT, CONFIGURATION, LANG, BUKKIT_ALL, NMS, NMS_UTIL, KETHER, UI, EFFECT, METRICS)
         }
         version {
             taboolib = "6.1.1-beta24"

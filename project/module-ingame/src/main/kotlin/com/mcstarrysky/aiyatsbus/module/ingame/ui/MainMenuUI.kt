@@ -6,7 +6,6 @@ import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.*
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
 import org.bukkit.entity.Player
-import taboolib.module.chat.component
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
 import taboolib.module.ui.openMenu
@@ -15,7 +14,6 @@ import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.registry.MenuFunction
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.registerLifeCycleTask
-import taboolib.module.ui.virtual.InventoryHandler
 
 @MenuComponent("Menu")
 object MainMenuUI {
