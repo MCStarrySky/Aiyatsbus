@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
+import org.bukkit.World
 import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.inventory.ItemStack
@@ -182,3 +183,15 @@ fun File.deepRead(extension: String): List<File> {
     }
     return files
 }
+
+/**
+ * 世界是否为白天
+ */
+val World.isDay: Boolean
+    get() = time < 12300 || time > 23850
+
+/**
+ * 世界是否为黑夜
+ */
+val World.isNight: Boolean
+    get() = time in 12301..23849

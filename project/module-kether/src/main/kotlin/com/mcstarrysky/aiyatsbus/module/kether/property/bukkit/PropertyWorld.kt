@@ -1,5 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.kether.property.bukkit
 
+import com.mcstarrysky.aiyatsbus.core.util.isDay
+import com.mcstarrysky.aiyatsbus.core.util.isNight
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusGenericProperty
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusProperty
 import org.bukkit.World
@@ -65,6 +67,9 @@ class PropertyWorld : AiyatsbusGenericProperty<World>("world") {
             "isRespawnAnchorWorks", "is-respawn-anchor-works" -> instance.isRespawnAnchorWorks
             "isThundering", "is-thundering" -> instance.isThundering
             "isUltraWarm", "is-ultra-warm" -> instance.isUltraWarm
+
+            "isDay", "is-day" -> instance.isDay
+            "isNight", "is-night" -> instance.isNight
             else -> return OpenResult.failed()
         }
         return OpenResult.successful(property)
