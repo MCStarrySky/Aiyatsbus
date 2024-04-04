@@ -56,8 +56,8 @@ object ItemCheckUI {
 
     fun open(player: Player, item: ItemStack? = null, mode: CheckMode) {
         player.record(UIType.ITEM_CHECK, "item" to item, "mode" to mode)
-        player.openMenu<PageableChest<Pair<AiyatsbusEnchantment, Int>>>(config.title().component().buildColored().toRawMessage()) {
-            virtualize()
+        player.openMenu<PageableChest<Pair<AiyatsbusEnchantment, Int>>>(config.title()) {
+//            virtualize()
 
             val (shape, templates) = config
             rows(shape.rows)

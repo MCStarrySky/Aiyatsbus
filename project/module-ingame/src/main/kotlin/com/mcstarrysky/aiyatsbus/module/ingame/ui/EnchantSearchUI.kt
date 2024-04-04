@@ -48,8 +48,8 @@ object EnchantSearchUI {
 
     fun open(player: Player) {
         player.record(UIType.ENCHANT_SEARCH)
-        player.openMenu<PageableChest<AiyatsbusEnchantment>>(config.title().component().buildColored().toRawMessage()) {
-            virtualize()
+        player.openMenu<PageableChest<AiyatsbusEnchantment>>(config.title()) {
+//            virtualize()
 
             val (shape, templates) = config
             rows(shape.rows)

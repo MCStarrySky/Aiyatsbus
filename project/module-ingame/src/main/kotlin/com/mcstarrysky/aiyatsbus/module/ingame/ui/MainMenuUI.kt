@@ -38,8 +38,8 @@ object MainMenuUI {
 
     fun open(player: Player) {
         player.record(UIType.MAIN_MENU)
-        player.openMenu<Chest>(config.title().component().buildColored().toRawMessage()) {
-            virtualize()
+        player.openMenu<Chest>(config.title()) {
+//            virtualize()
             val (shape, templates) = config
             rows(shape.rows)
             map(*shape.array)
