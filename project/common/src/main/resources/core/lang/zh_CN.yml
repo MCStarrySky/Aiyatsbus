@@ -82,7 +82,7 @@ command-subCommands-book-receiver: '{prefix} &7你收到了附魔书 {enchantmen
 command-subCommands-book-fail: '{prefix} &7控制台无法给予自己附魔书'
 
 command-subCommands-enchant-description: '为玩家手持物品增加/清除附魔'
-command-subCommands-enchant-usage: '&7\[&8<附魔&7\] &7<&8等级\(0为清除\)&7> &7<&8玩家&7>'
+command-subCommands-enchant-usage: '&7\[&8附魔&7\] &7<&8等级\(0为清除\)&7> &7<&8玩家&7>'
 command-subCommands-enchant-empty: '{prefix} &7手持物品为空'
 command-subCommands-enchant-sender: '{prefix} &7为 &e{name} &7手上的物品 {state}了附魔 {enchantment}'
 command-subCommands-enchant-receiver: '{prefix} &7手上的物品被 {state}了附魔 {enchantment}'

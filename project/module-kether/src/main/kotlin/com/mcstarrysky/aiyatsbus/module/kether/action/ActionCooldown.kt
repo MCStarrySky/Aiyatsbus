@@ -1,11 +1,15 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
+import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
+import com.mcstarrysky.aiyatsbus.core.asLang
 import com.mcstarrysky.aiyatsbus.core.sendLang
 import com.mcstarrysky.aiyatsbus.core.util.addCd
 import com.mcstarrysky.aiyatsbus.core.util.checkCd
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusParser
 import com.mcstarrysky.aiyatsbus.module.kether.aiyatsbus
+import taboolib.module.chat.component
+import taboolib.module.nms.sendRawActionBar
 
 /**
  * Aiyatsbus
@@ -27,7 +31,14 @@ object ActionCooldown {
                 combine(any(), player(), double(), bool(true)) { ench, player, sec, send ->
                     return@combine player.checkCd((ench as AiyatsbusEnchantment).basicData.id, sec).let {
                         if (!it.first && send) {
-                            player.sendLang("messages-misc-cool_down", it.second to "second")
+                            val message = player.asLang("messages-misc-cool_down", it.second to "second")
+                                .component().buildColored().toRawMessage()
+                            if (AiyatsbusSettings.coolDownInActionBar) {
+                                player.sendRawActionBar(message)
+                            }
+                            else {
+                                player.sendRawMessage(message)
+                            }
                         }
                         it.first
                     }

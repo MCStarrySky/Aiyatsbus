@@ -87,6 +87,12 @@ object AiyatsbusSettings {
      */
     @ConfigNode("Settings.anti-grief-ignore-op")
     var antiGriefIgnoreOp = true
+
+    /**
+     * 对于附魔的挖掘放置攻击生物等操作, OP 是否无视领地等保护
+     */
+    @ConfigNode("Settings.cool-down-in-actionbar")
+    var coolDownInActionBar = false
 }
 
 const val AIYATSBUS_PREFIX = "&8[&{#D8D8FA}Aiyatsbus&8]&7"
