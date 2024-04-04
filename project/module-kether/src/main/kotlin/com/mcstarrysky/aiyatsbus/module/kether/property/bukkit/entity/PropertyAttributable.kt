@@ -19,6 +19,7 @@ import taboolib.common.OpenResult
     bind = Attributable::class
 )
 class PropertyAttributable : AiyatsbusGenericProperty<Attributable>("attributable") {
+
     override fun readProperty(instance: Attributable, key: String): OpenResult {
         val property: Any? = when (key) {
             "baseArmor", "base-armor" -> instance.getAttribute(Attribute.GENERIC_ARMOR)?.baseValue ?: 0.0

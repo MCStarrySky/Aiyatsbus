@@ -20,7 +20,8 @@ import taboolib.common.OpenResult
     id = "item",
     bind = Item::class
 )
-class PropertyItem : AiyatsbusGenericProperty<Item>("item"){
+class PropertyItem : AiyatsbusGenericProperty<Item>("item") {
+
     override fun readProperty(instance: Item, key: String): OpenResult {
         val property: Any? = when (key) {
             "itemStack", "item-stack" -> instance.itemStack

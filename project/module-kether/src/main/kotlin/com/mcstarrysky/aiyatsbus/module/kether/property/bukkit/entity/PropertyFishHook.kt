@@ -20,7 +20,8 @@ import taboolib.common.OpenResult
     id = "fish-hook",
     bind = FishHook::class
 )
-class PropertyFishHook : AiyatsbusGenericProperty<FishHook>("fish-hook"){
+class PropertyFishHook : AiyatsbusGenericProperty<FishHook>("fish-hook") {
+
     override fun readProperty(instance: FishHook, key: String): OpenResult {
         val property: Any? = when (key) {
             "minWaitTime", "min-wait-time" -> instance.minWaitTime

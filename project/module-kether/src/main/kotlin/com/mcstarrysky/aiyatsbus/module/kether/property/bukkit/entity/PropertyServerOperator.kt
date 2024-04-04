@@ -17,7 +17,8 @@ import taboolib.common.OpenResult
     id = "server-operator",
     bind = ServerOperator::class
 )
-class PropertyServerOperator : AiyatsbusGenericProperty<ServerOperator>("server-operator"){
+class PropertyServerOperator : AiyatsbusGenericProperty<ServerOperator>("server-operator") {
+
     override fun readProperty(instance: ServerOperator, key: String): OpenResult {
         val property: Any? = when (key) {
             "isOp", "op" -> instance.isOp

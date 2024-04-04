@@ -17,6 +17,7 @@ import taboolib.common.OpenResult
     bind = Nameable::class
 )
 class PropertyNameable : AiyatsbusGenericProperty<Nameable>("nameable") {
+
     override fun readProperty(instance: Nameable, key: String): OpenResult {
         val property: Any? = when (key) {
             "customName", "custom-name" -> instance.customName
