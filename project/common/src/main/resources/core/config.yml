@@ -32,3 +32,5 @@ Settings:
   show-performance-details: false
   # 对于附魔的挖掘放置攻击生物等操作, OP 是否无视领地等保护
   anti-grief-ignore-op: true
+  # 将冷却消息显示在 Actionbar 而不是聊天框
+  cool-down-in-actionbar: false
