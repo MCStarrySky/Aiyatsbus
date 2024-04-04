@@ -52,13 +52,13 @@ enchant-vitalize-recovered: '{prefix} &7你的盾牌为你恢复了 &e{0} &7点�
 enchant-prohibition_curse-damaged: '{prefix} &7你的装备对你造成了 &c{0} &7点真实伤害'
 
 command-helper:
-  - ' '
+  - '&7'
   - '  [&6Aiyatsbus](c=#D8D8FA;h=&7Aiyatsbus 附魔扩展插件) &f[{pluginVersion}](h=&7插件版本: &2{pluginVersion}<br>&7游戏版本: &b{minecraftVersion})'
-  - ' '
+  - '&7'
   - '  &7命令: [&f/aiyatsbus &8\[...\]](h=&f/aiyatsbus &8\[...\];suggest=/aiyatsbus )'
   - '  &7参数:'
   - '{subCommands}'
-  - ' '
+  - '&7'
 command-sub:
   - '    &8- [&f{name}](h=/aiyatsbus {name} {usage}&8- &7{description};suggest=/aiyatsbus {name})'
   - '      &7{description}'
