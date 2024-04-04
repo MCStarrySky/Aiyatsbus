@@ -29,9 +29,7 @@ class PropertyCancellable : AiyatsbusGenericProperty<Cancellable>("cancellable")
 
     override fun writeProperty(instance: Cancellable, key: String, value: Any?): OpenResult {
         when (key) {
-            "isCancelled", "is-cancelled", "cancelled", "cancel" -> {
-                instance.isCancelled = value?.coerceBoolean() ?: return OpenResult.successful()
-            }
+            "isCancelled", "is-cancelled", "cancelled", "cancel" -> instance.isCancelled = value?.coerceBoolean() ?: return OpenResult.successful()
             else -> return OpenResult.failed()
         }
         return OpenResult.successful()
