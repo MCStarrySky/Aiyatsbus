@@ -18,6 +18,7 @@ import taboolib.common.OpenResult
     bind = PlayerFishEvent::class
 )
 class PropertyPlayerFishEvent : AiyatsbusGenericProperty<PlayerFishEvent>("player-fish-event") {
+
     override fun readProperty(instance: PlayerFishEvent, key: String): OpenResult {
         val property: Any? = when (key) {
             "caught" -> instance.caught
