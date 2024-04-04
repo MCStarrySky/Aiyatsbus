@@ -69,9 +69,13 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
             is BlockBreakEvent -> event.player
             is BlockPlaceEvent -> event.player
             is EntityDamageByEntityEvent -> {
-                when (event.damager) {
-                    is Player -> event.damager
-                    is Projectile -> ((event.damager as Projectile).shooter as? LivingEntity)
+                when (playerReference) {
+                    "damager", null -> when (event.damager) {
+                        is Player -> event.damager
+                        is Projectile -> ((event.damager as Projectile).shooter as? LivingEntity)
+                        else -> null
+                    }
+                    "entity" -> event.entity as? LivingEntity
                     else -> null
                 }
             }

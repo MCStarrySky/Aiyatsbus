@@ -48,6 +48,7 @@ mappings:
   entity-damage:
     class: 'org.bukkit.event.entity.EntityDamageEvent'
     slots: ALL
+    playerReference: "entity" # 如果这里是子类 EntityDamageByEntityEvent, 那么这里应该指定 entity 才是受伤者
     priorities: [HIGHEST]
 
   # 玩家下蹲事件
