@@ -1,6 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.operation
 
-import com.mcstarrysky.aiyatsbus.core.AntiGriefChecker
+import com.mcstarrysky.aiyatsbus.core.compat.AntiGriefChecker
 import com.mcstarrysky.aiyatsbus.core.util.placeBlock
 import org.bukkit.FluidCollisionMode
 import org.bukkit.Material
