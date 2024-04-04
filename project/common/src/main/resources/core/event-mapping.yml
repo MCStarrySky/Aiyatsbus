@@ -64,6 +64,6 @@ mappings:
     slots: ALL
 
   # 玩家消耗物品事件
-  player-item-data:
+  player-item-damage:
     class: 'org.bukkit.event.player.PlayerItemDamageEvent'
     slots: ALL
