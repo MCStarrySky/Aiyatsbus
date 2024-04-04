@@ -61,9 +61,6 @@ object MainMenuUI {
     @Awake(LifeCycle.CONST)
     fun initialize() {
         registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.MENU) {
-            // 预热虚拟 UI
-            InventoryHandler.instance
-
             MenuFunctions.unregister("Back")
             MenuFunctions.register("Back", false) { back }
             AnvilUI.reload()
