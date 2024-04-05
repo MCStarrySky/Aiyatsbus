@@ -16,6 +16,7 @@ import taboolib.common.platform.event.SubscribeEvent
  * @since 2024/3/21 21:56
  */
 object AntiGriefChecker {
+
     private val registeredChecker = hashSetOf<AntiGrief>() // 已注册的检查
     private val checkers = hashSetOf<AntiGrief>() // 缓存可用的检查
 
