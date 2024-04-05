@@ -89,7 +89,7 @@ object AiyatsbusSettings {
     var antiGriefIgnoreOp = true
 
     /**
-     * 对于附魔的挖掘放置攻击生物等操作, OP 是否无视领地等保护
+     * 若没有特殊设置, 将冷却消息显示在动作栏而不是聊天框
      */
     @ConfigNode("Settings.cool-down-in-actionbar")
     var coolDownInActionBar = false

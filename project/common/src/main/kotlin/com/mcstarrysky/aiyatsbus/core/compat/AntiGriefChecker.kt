@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.core.compat
 
+import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
 import org.bukkit.Location
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
@@ -21,22 +22,27 @@ object AntiGriefChecker {
     private val checkers = hashSetOf<AntiGrief>() // 缓存可用的检查
 
     fun canPlace(player: Player, location: Location): Boolean {
+        if (player.isOp && AiyatsbusSettings.antiGriefIgnoreOp) return true
         return checkers.all { it.canPlace(player, location) }
     }
 
     fun canBreak(player: Player, location: Location): Boolean {
+        if (player.isOp && AiyatsbusSettings.antiGriefIgnoreOp) return true
         return checkers.all { it.canBreak(player, location) }
     }
 
     fun canInteract(player: Player, location: Location): Boolean {
+        if (player.isOp && AiyatsbusSettings.antiGriefIgnoreOp) return true
         return checkers.all { it.canInteract(player, location) }
     }
 
     fun canInteractEntity(player: Player, entity: Entity): Boolean {
+        if (player.isOp && AiyatsbusSettings.antiGriefIgnoreOp) return true
         return checkers.all { it.canInteractEntity(player, entity) }
     }
 
     fun canDamage(player: Player, entity: Entity): Boolean {
+        if (player.isOp && AiyatsbusSettings.antiGriefIgnoreOp) return true
         return checkers.all { it.canDamage(player, entity) }
     }
 
