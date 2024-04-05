@@ -1,0 +1,78 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  enable: true
+  disable_worlds: [ ]
+  id: bouncy_arrow
+  name: "跃动"
+  max_level: 1
+
+rarity: 稀世
+targets:
+  - 弓
+  - 弩
+
+display:
+  description:
+    general: "射出的箭撞到方块上最多可以反弹"
+    specific: "&7射出的箭撞到方块上最多可以反弹&a{次数}"
+
+variables:
+  leveled:
+    次数: "次:2+{level}"
+  ordinary:
+    力度: 0.65
+    触发速度: 0.7
+
+mechanisms:
+  listeners:
+    on-kill:
+      listen: "projectile-hit"
+      handle: |-
+        if check &event[hit-block-face] is null then {
+          exit
+        }
+        set speed to type double &力度
+        set bounciness to type double &触发速度
+        set max to type int &次数
+        if check &event[entity.velocity.length] < &bounciness then {
+          exit
+        }
+        set bounces to type int 0
+        if hasMetadata bounces on &event[entity] then {
+          set bounces to getMetadata bounces on &event[entity] by 0
+        }
+        if check &bounces >= &max then {
+          exit
+        }
+
+        set blockVec to &event[hit-block-face.direction]
+        set reflection to &event[entity.velocity.clone.taboo]
+
+        set dot0 to vec dot &event[entity.velocity] by &blockVec
+        set dot to calc "2.0 * dot0"
+
+        set x to &blockVec[x]
+        set y to &blockVec[y]
+        set z to &blockVec[z]
+        set &blockVec[x] to calc "x * dot"
+        set &blockVec[y] to calc "y * dot"
+        set &blockVec[z] to calc "z * dot"
+
+        set r1 to vec sub &reflection by &blockVec
+
+        set x1 to &r1[x]
+        set y1 to &r1[y]
+        set z1 to &r1[z]
+        set &r1[x] to calc "x1 * speed"
+        set &r1[y] to calc "y1 * speed"
+        set &r1[z] to calc "z1 * speed"
+
+        set newArrow to operation spawn-arrow at &event[entity.location] by-vec &r1 by-shooter &event[entity.shooter]
+        setMetadata bounces to math add [ &bounces 1 ] on &newArrow
+
+        remove-entity &event[entity]
+        

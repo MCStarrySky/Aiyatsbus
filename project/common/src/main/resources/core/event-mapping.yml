@@ -67,3 +67,8 @@ mappings:
   player-item-damage:
     class: 'org.bukkit.event.player.PlayerItemDamageEvent'
     slots: ALL
+
+  # 箭射中东西事件
+  projectile-hit:
+    class: 'org.bukkit.event.entity.ProjectileHitEvent'
+    slots: ALL
