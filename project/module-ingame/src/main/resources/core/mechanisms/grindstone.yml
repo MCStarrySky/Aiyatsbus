@@ -4,12 +4,8 @@
 
 
 grindstone:
-  # 是否开启原版砂轮
-  vanilla: false
-  # 使用本插件提供的砂轮界面代替原版的砂轮界面
-  custom: true
-
-# 请注意，只有使用本插件提供的砂轮界面，以下配置才会生效！！！
+  # 是否干预原版砂轮
+  vanilla: true
 
 # 每条附魔返还的经验点数公式
 exp_per_enchant: "30*{level}/{max_level}*{bonus}"

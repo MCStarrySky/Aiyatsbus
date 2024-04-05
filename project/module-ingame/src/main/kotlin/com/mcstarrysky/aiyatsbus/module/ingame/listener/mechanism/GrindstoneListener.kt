@@ -10,8 +10,10 @@ import com.mcstarrysky.aiyatsbus.core.fixedEnchants
 import com.mcstarrysky.aiyatsbus.core.isInGroup
 import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
 import com.mcstarrysky.aiyatsbus.core.util.calcToInt
+import com.mcstarrysky.aiyatsbus.core.util.remove
 import org.bukkit.entity.ExperienceOrb
 import org.bukkit.entity.Player
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
@@ -31,9 +33,7 @@ object GrindstoneListener {
         private set
 
     @ConfigNode("grindstone.vanilla")
-    var enableVanilla = false
-    @ConfigNode("grindstone.custom")
-    var enableCustomGrindstone = true
+    var enableVanilla = true
     @ConfigNode("exp_per_enchant")
     var expPerEnchant = "30*{level}/{max_level}*{rarity_bonus}"
     @ConfigNode("accumulation")
@@ -57,12 +57,14 @@ object GrindstoneListener {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun grindstone(event: PrepareGrindstoneEvent) {
+        if (!enableVanilla) return
+
+        val player = event.viewers.getOrNull(0) as? Player ?: return
+        val result = event.result?.clone() ?: return
         val inv = event.inventory
-        val player = (event.viewers.getOrNull(0) ?: return) as Player
         val upper = inv.upperItem
         val lower = inv.lowerItem
         var exp = 0
-        val result = event.result?.clone() ?: return
 
         result.clearEts()
         grind(player, upper)?.let { (item, refund) ->
@@ -73,15 +75,33 @@ object GrindstoneListener {
             item.fixedEnchants.forEach { (enchant, level) -> result.addEt(enchant, level) }
             exp += refund
         }
+
         grindstoning[player.uniqueId] = exp
+        event.result = result
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     fun exp(event: PlayerPickupExperienceEvent) {
+        if (!enableVanilla) return
+
         val orb = event.experienceOrb
         val uuid = orb.triggerEntityId ?: return
         if (orb.spawnReason != ExperienceOrb.SpawnReason.GRINDSTONE) return
-        orb.experience = grindstoning[uuid] ?: run { orb.remove(); event.isCancelled = true;return }
+
+        grindstoning.remove(uuid)?.let {
+            orb.experience = it
+        } ?: run {
+            orb.remove()
+            event.isCancelled = true
+            return
+        }
+    }
+
+    @SubscribeEvent
+    fun quit(e: PlayerQuitEvent) {
+        if (!enableVanilla) return
+
+        grindstoning.remove(e.player.uniqueId)
     }
 
     private fun grind(player: Player, item: ItemStack?): Pair<ItemStack, Int>? {
