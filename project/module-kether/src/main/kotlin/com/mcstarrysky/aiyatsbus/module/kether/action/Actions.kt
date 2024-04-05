@@ -131,11 +131,24 @@ object Actions {
     fun spawnEntityParser() = combinationParser {
         it.group(text(), command("at", then = type<Location>())).apply(it) { type, location ->
             now {
-                try {
+                return@now try {
                     location.world?.spawnEntity(location, EntityType.valueOf(type.uppercase()))
                 } catch (_: Throwable) {
+                    null
                 }
             }
+        }
+    }
+
+    @KetherParser(["remove-entity"], shared = true)
+    fun removeEntityParser() = combinationParser {
+        it.group(type<Entity>()).apply(it) { entity -> now { entity.remove() } }
+    }
+
+    @KetherParser(["create-explosion"], shared = true)
+    fun createExplosionParser() = combinationParser {
+        it.group(type<Location>(), float(), command("by", then = type<Entity>()).option(), command("fire", then = bool()).option(), command("break", then = bool()).option()).apply(it) { location, float, entity, fire, break0 ->
+            now { location.world.createExplosion(entity, location, float, fire ?: true, break0 ?: true) }
         }
     }
 

@@ -16,6 +16,7 @@ import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityEvent
+import org.bukkit.event.entity.ProjectileHitEvent
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryEvent
 import org.bukkit.event.player.PlayerEvent
@@ -68,6 +69,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
             is PlayerEvent -> event.player
             is BlockBreakEvent -> event.player
             is BlockPlaceEvent -> event.player
+            is ProjectileHitEvent -> event.entity.shooter as? LivingEntity
             is EntityDamageByEntityEvent -> {
                 when (playerReference) {
                     "damager", null -> when (event.damager) {
