@@ -1,0 +1,33 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  enable: true
+  disable_worlds: [ ]
+  id: explosion_arrow
+  name: "炸弹"
+  max_level: 4
+
+rarity: 稀世
+targets:
+  - 弓
+  - 弩
+
+display:
+  description:
+    general: "射出的箭击中物体时释放爆炸"
+    specific: "&7射出的箭击中物体时释放&a{当量}&7威力的爆炸"
+
+variables:
+  leveled:
+    当量: "当量:{level}"
+
+mechanisms:
+  listeners:
+    on-kill:
+      listen: "projectile-hit"
+      handle: |-
+        create-explosion &event[entity.location] type float &当量 by &player fire false
+        
