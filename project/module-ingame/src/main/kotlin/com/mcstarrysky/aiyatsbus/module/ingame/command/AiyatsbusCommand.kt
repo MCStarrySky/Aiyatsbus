@@ -40,7 +40,7 @@ object AiyatsbusCommand {
     @CommandBody(permission = "aiyatsbus.command.enchant")
     val enchant = enchantSubCommand
 
-    @CommandBody(permission = "aiyatsbusm.command.menu")
+    @CommandBody(permission = "aiyatsbus.command.menu")
     val menu = menuSubCommand
 
     @CommandBody(permission = "aiyatsbus.command.mode")
