@@ -6,8 +6,6 @@ import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.event.server.PluginDisableEvent
 import org.bukkit.event.server.PluginEnableEvent
-import taboolib.common.LifeCycle
-import taboolib.common.platform.Awake
 import taboolib.common.platform.event.SubscribeEvent
 
 /**
@@ -21,30 +19,20 @@ object AntiGriefChecker {
     private val registeredChecker = hashSetOf<AntiGrief>() // 已注册的检查
     private val checkers = hashSetOf<AntiGrief>() // 缓存可用的检查
 
-    fun canPlace(player: Player, location: Location): Boolean {
-        if (player.isOp && AiyatsbusSettings.antiGriefIgnoreOp) return true
-        return checkers.all { it.canPlace(player, location) }
-    }
+    fun canPlace(player: Player, location: Location): Boolean =
+        checkPermission(player) { it.canPlace(player, location) }
 
-    fun canBreak(player: Player, location: Location): Boolean {
-        if (player.isOp && AiyatsbusSettings.antiGriefIgnoreOp) return true
-        return checkers.all { it.canBreak(player, location) }
-    }
+    fun canBreak(player: Player, location: Location): Boolean =
+        checkPermission(player) { it.canBreak(player, location) }
 
-    fun canInteract(player: Player, location: Location): Boolean {
-        if (player.isOp && AiyatsbusSettings.antiGriefIgnoreOp) return true
-        return checkers.all { it.canInteract(player, location) }
-    }
+    fun canInteract(player: Player, location: Location): Boolean =
+        checkPermission(player) { it.canInteract(player, location) }
 
-    fun canInteractEntity(player: Player, entity: Entity): Boolean {
-        if (player.isOp && AiyatsbusSettings.antiGriefIgnoreOp) return true
-        return checkers.all { it.canInteractEntity(player, entity) }
-    }
+    fun canInteractEntity(player: Player, entity: Entity): Boolean =
+        checkPermission(player) { it.canInteractEntity(player, entity) }
 
-    fun canDamage(player: Player, entity: Entity): Boolean {
-        if (player.isOp && AiyatsbusSettings.antiGriefIgnoreOp) return true
-        return checkers.all { it.canDamage(player, entity) }
-    }
+    fun canDamage(player: Player, entity: Entity): Boolean =
+        checkPermission(player) { it.canDamage(player, entity) }
 
     fun registerNewCompatibility(comp: AntiGrief) {
         registeredChecker += comp
@@ -66,5 +54,10 @@ object AntiGriefChecker {
         checkers.removeAll {
             it.getAntiGriefPluginName() == e.plugin.name
         }
+    }
+
+    private inline fun checkPermission(player: Player, action: (AntiGrief) -> Boolean): Boolean {
+        if (player.isOp && AiyatsbusSettings.antiGriefIgnoreOp) return true
+        return checkers.all { action(it) }
     }
 }
