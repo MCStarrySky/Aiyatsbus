@@ -6,10 +6,13 @@ import com.mcstarrysky.aiyatsbus.module.kether.action.operation.Plant
 import com.mcstarrysky.aiyatsbus.module.kether.aiyatsbus
 import org.bukkit.Location
 import org.bukkit.entity.AbstractArrow
+import org.bukkit.entity.Arrow
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
+import org.bukkit.entity.SpectralArrow
 import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.util.Vector
+import taboolib.library.reflex.Reflex.Companion.setProperty
 import taboolib.module.kether.player
 
 /**
@@ -40,12 +43,28 @@ object ActionOperation {
                 }
             }
             "spawn-arrow", "spawnArrow" -> {
-                combine(trim("at", then = any()), trim("by-vec", then = any()), trim("by-shooter", then = entity())) { loc, vec, shooter ->
+                combine(trim("at", then = any()), trim("by-vec", then = any()), trim("by-shooter", then = entity()), optional("by-old", then = entity())) { loc, vec, shooter, old ->
+                    if (old !is AbstractArrow) return@combine null // 不是三叉戟啊喂!!!
                     vec as Vector
                     loc as Location
-                    loc.world?.spawnEntity(loc, EntityType.ARROW, CreatureSpawnEvent.SpawnReason.CUSTOM) {
-                        it.velocity = vec
-                        (it as AbstractArrow).shooter = shooter as? LivingEntity
+                    val spectral = old is SpectralArrow
+                    loc.world?.spawnEntity(loc, if (spectral) EntityType.SPECTRAL_ARROW else EntityType.ARROW, CreatureSpawnEvent.SpawnReason.CUSTOM) {
+                        if (spectral) {
+                            it as SpectralArrow
+                            old as SpectralArrow
+
+                            it.velocity = vec
+                            it.isGlowing = old.isGlowing
+                            it.glowingTicks = old.glowingTicks
+                        } else {
+                            it as Arrow
+                            old as Arrow
+
+                            it.velocity = vec
+                            it.shooter = shooter as? LivingEntity
+                            it.basePotionType = old.basePotionType
+                            old.customEffects.forEach { e -> it.addCustomEffect(e, true) }
+                        }
                     }
                 }
             }
