@@ -71,7 +71,7 @@ mechanisms:
         set &r1[y] to calc "y1 * speed"
         set &r1[z] to calc "z1 * speed"
 
-        set newArrow to operation spawn-arrow at &event[entity.location] by-vec &r1 by-shooter &event[entity.shooter]
+        set newArrow to operation spawn-arrow at &event[entity.location] by-vec &r1 by-shooter &event[entity.shooter] by-old &event[entity]
         setMetadata bounces to math add [ &bounces 1 ] on &newArrow
 
         remove-entity &event[entity]
