@@ -1,0 +1,43 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: boss_hunter
+  name: "破魔"
+  max_level: 4
+
+rarity: 罕见
+targets:
+  - 弓
+  - 弩
+
+limitations:
+  - "CONFLICT_ENCHANT:锯齿"
+  - "CONFLICT_ENCHANT:圣水"
+  - "CONFLICT_ENCHANT:穿刺"
+  - "CONFLICT_ENCHANT:力量"
+  - "CONFLICT_ENCHANT:魄力"
+  - "CONFLICT_ENCHANT:屠宰"
+  - "CONFLICT_ENCHANT:剿蛛"
+  - "CONFLICT_ENCHANT:分解"
+
+display:
+  description:
+    general: "对BOSS的伤害提升"
+    specific: "&7对BOSS的伤害提升&a{伤害}"
+
+variables:
+  leveled:
+    伤害: "点:1+0.25*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if not instance-of &event[entity] is org.bukkit.entity.Boss then {
+          exit
+        }
+        set &event[damage] to math mul [ &event[damage] type double &伤害 ]

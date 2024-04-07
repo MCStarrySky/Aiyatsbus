@@ -1,0 +1,38 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: ender_slayer
+  name: "终末"
+  max_level: 4
+
+rarity: 普通
+targets:
+  - 剑
+  - 斧
+
+limitations:
+  - "CONFLICT_ENCHANT:偏激"
+  - "CONFLICT_ENCHANT:利刃"
+  - "CONFLICT_ENCHANT:拆弹"
+  - "CONFLICT_GROUP:原版增伤类附魔"
+
+display:
+  description:
+    general: "对末地生物的伤害提升"
+    specific: "&7对末地生物的伤害提升&a{伤害}"
+
+variables:
+  leveled:
+    伤害: "点:1+0.5*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if check &event[entity.type.name] contains END then {
+          set &event[damage] to math mul [ &event[damage] type double &伤害 ]
+        }

@@ -1,0 +1,37 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: aerial
+  name: "裂空"
+  max_level: 3
+
+rarity: 精良
+targets:
+  - 弓
+  - 弩
+
+limitations: [ ]
+
+display:
+  description:
+    general: "在空中射出的箭矢伤害提升"
+    specific: "&7在空中射出的箭矢伤害提升&a{伤害}"
+
+variables:
+  leveled:
+    伤害: "点:1+0.1*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if not instance-of &event[attacker] is org.bukkit.entity.Projectile then {
+          exit
+        }
+        if not player on ground then {
+          set &event[damage] to math mul [ &event[damage] type double &伤害 ]
+        }

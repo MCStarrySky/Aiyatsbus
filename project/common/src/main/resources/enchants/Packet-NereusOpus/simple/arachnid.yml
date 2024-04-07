@@ -1,0 +1,43 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: arachnid
+  name: "剿蛛"
+  max_level: 4
+
+rarity: 普通
+targets:
+  - 弓
+  - 三叉戟
+
+limitations:
+  - "CONFLICT_ENCHANT:锯齿"
+  - "CONFLICT_ENCHANT:圣水"
+  - "CONFLICT_ENCHANT:穿刺"
+  - "CONFLICT_ENCHANT:力量"
+  - "CONFLICT_ENCHANT:魄力"
+  - "CONFLICT_ENCHANT:屠宰"
+  - "CONFLICT_ENCHANT:破魔"
+  - "CONFLICT_ENCHANT:分解"
+
+display:
+  description:
+    general: "对蜘蛛的伤害提升"
+    specific: "&7对蜘蛛的伤害提升&a{伤害}"
+
+variables:
+  leveled:
+    伤害: "点:1+0.5*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if not instance-of &event[entity] is org.bukkit.entity.Spider then {
+          exit
+        }
+        set &event[damage] to math mul [ &event[damage] type double &伤害 ]

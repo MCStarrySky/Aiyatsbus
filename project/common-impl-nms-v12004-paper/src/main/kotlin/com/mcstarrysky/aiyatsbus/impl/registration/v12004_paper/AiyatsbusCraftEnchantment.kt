@@ -99,4 +99,16 @@ class AiyatsbusCraftEnchantment(
     override fun toString(): String {
         return "AiyatsbusCraftEnchantment(key=$key)"
     }
+
+    /**
+     * 2024-4-7 22:18:
+     * 傻逼 Paper 你今天突然更新一个这个函数让我实现,
+     * 实现了还告诉我这个方法被标记为移除了,
+     * 你妈死了吧, 你他妈了逼的
+     *
+     * 你改你妈个🥚，我爱说实话
+     */
+    override fun getTranslationKey(): String {
+        return "aiyatsbus:enchantments.id"
+    }
 }

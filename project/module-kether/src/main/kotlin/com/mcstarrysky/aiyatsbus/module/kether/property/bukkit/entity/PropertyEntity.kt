@@ -44,8 +44,8 @@ class PropertyEntity : AiyatsbusGenericProperty<Entity>("entity") {
             "server" -> instance.server
             "spawnCategory", "spawn-category" -> instance.spawnCategory
             "ticksLived", "ticks-lived" -> instance.ticksLived
-            "type*" -> instance.type.name
-            "type" -> instance.type.name
+            "type*" -> instance.type
+            "type" -> instance.type
             "uniqueId", "unique-id", "uuid" -> instance.uniqueId
             "vehicle" -> instance.vehicle
             "velocity" -> instance.velocity
