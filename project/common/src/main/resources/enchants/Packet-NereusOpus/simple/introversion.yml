@@ -1,0 +1,38 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: introversion
+  name: "偏激"
+  max_level: 3
+
+rarity: 史诗
+targets:
+  - 剑
+  - 斧
+
+limitations:
+  - "CONFLICT_ENCHANT:拆弹"
+  - "CONFLICT_ENCHANT:利刃"
+  - "CONFLICT_ENCHANT:终末"
+  - "CONFLICT_GROUP:原版增伤类附魔"
+
+display:
+  description:
+    general: "对玩家造成的伤害提升"
+    specific: "&7对玩家造成的伤害提升&a{伤害}"
+
+variables:
+  leveled:
+    伤害: "点:1+0.1*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if instance-of &event[entity] is org.bukkit.entity.Player then {
+          set &event[damage] to math mul [ &event[damage] type double &伤害 ]
+        }
