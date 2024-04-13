@@ -34,5 +34,5 @@ mechanisms:
       listen: "entity-damage-by-entity"
       handle: |-
         if instance-of &event[entity] is org.bukkit.entity.Player then {
-          set &event[damage] to math mul [ &event[damage] type double &伤害 ]
+          set &event[damage] to math add [ &event[damage] type double &伤害 ]
         }

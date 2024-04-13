@@ -39,5 +39,5 @@ mechanisms:
           ] then {
             exit
           }
-          set &event[damage] to math mul [ &event[damage] type double &伤害 ]
+          set &event[damage] to math add [ &event[damage] type double &伤害 ]
         }

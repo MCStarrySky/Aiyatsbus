@@ -1,0 +1,40 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: oxygenate
+  name: 富氧
+  max_level: 4
+
+rarity: 普通
+
+targets:
+  - 镐
+  - 斧
+  - 锄
+  - 铲
+
+limitations: [ ]
+
+display:
+  description:
+    general: "在水中破坏方块时可以获得额外氧气"
+    specific: "&7在水中破坏方块时可以获得额外&a{氧气值}&7氧气"
+
+variables:
+  leveled:
+    氧气值: "点:{level}"
+
+mechanisms:
+  listeners:
+    on-break:
+      listen: "block-break"
+      handle: |-
+        if &event[player.isInWater] then {
+          set oxygen to &event[player.oxygen]
+          set give to type int &氧气值
+          set added to type int calc "oxygen + give * 20"
+          set &event[player.oxygen] to min &added &event[player.max-oxygen]
+        }

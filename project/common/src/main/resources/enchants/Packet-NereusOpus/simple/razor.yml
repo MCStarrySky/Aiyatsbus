@@ -52,4 +52,4 @@ mechanisms:
           exit
         }
         
-        set &event[damage] to math mul [ &event[damage] &multiplier ]
+        set &event[damage] to math add [ &event[damage] &multiplier ]

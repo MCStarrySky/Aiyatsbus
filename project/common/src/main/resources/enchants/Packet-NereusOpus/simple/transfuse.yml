@@ -1,0 +1,50 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: transfuse
+  name: 洗炼
+  max_level: 3
+
+rarity: 史诗
+
+targets:
+  - 镐
+
+limitations:
+  - "CONFLICT_ENCHANT:精准采集"
+  - "CONFLICT_ENCHANT:筛选"
+
+display:
+  description:
+    general: "在挖掘石头时有概率掉落随机矿物"
+    specific: "&7在挖掘石头时有&a{概率}&7的概率掉落随机矿物"
+
+variables:
+  leveled:
+    概率: "%:0.5*{level}"
+  ordinary:
+    掉落: DIAMOND_ORE,GOLD_ORE,LAPIS_ORE,REDSTONE_ORE,IRON_ORE # 钻石,金,青金石,红石,铁矿石
+    挖掘目标: STONE,DEEPSLATE # 石头 深板岩
+
+
+mechanisms:
+  listeners:
+    on-break:
+      listen: "block-break"
+      handle: |-
+        if &event[isCancelled] then {
+          exit
+        }
+        set targets to split &挖掘目标 by ","
+        set drops to split &掉落 by ","
+        if check random2 0 to 100 <= type double &概率 then {
+          if check &event[block.type] in &targets then {
+            set &event[isDropItems] to false
+            set drop to random &drops
+            set itemStack to item create &drop
+            drop-item &itemStack at &event[block.location]
+          }
+        }
