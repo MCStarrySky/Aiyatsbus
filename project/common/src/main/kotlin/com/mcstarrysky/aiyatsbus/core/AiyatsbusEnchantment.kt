@@ -8,6 +8,7 @@ import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 import taboolib.module.chat.colored
+import taboolib.module.configuration.Configuration
 
 /**
  * Aiyatsbus
@@ -27,6 +28,11 @@ interface AiyatsbusEnchantment {
      * 附魔的 Key
      */
     val enchantmentKey: NamespacedKey
+
+    /**
+     * 附魔的配置
+     */
+    val config: Configuration
 
     /**
      * 附魔的基本数据

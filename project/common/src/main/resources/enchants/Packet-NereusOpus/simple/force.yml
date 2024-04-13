@@ -1,0 +1,43 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: force
+  name: "魄力"
+  max_level: 3
+
+rarity: 传奇
+targets:
+  - 弓
+
+limitations:
+  - "CONFLICT_ENCHANT:力量"
+  - "CONFLICT_ENCHANT:屠宰"
+
+display:
+  description:
+    general: "射出的箭矢伤害提升"
+    specific: "&7射出的箭矢伤害提升&a{伤害}"
+
+variables:
+  leveled:
+    伤害: "点:1+0.1*{level}"
+  ordinary:
+    disable-on-players: false
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if all [ instance-of &event[damager] is org.bukkit.entity.Arrow ] then {
+          if all [
+            instance-of &event[entity] is org.bukkit.entity.Player
+            type boolean &disable-on-players
+          ] then {
+            exit
+          }
+          set &event[damage] to math mul [ &event[damage] type double &伤害 ]
+        }

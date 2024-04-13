@@ -28,7 +28,7 @@ object Aiyatsbus {
     private var api: AiyatsbusAPI? = null
 
     fun api(): AiyatsbusAPI {
-        return api ?: error("AiyatsbusAPI has not finished loading, or failed to load.")
+        return api ?: error("AiyatsbusAPI has not finished loading, or failed to load!")
     }
 
     fun register(api: AiyatsbusAPI) {
