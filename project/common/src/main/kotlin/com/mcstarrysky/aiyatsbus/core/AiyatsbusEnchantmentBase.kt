@@ -16,7 +16,7 @@ import taboolib.module.configuration.Configuration
  */
 class AiyatsbusEnchantmentBase(
     override val id: String,
-    private val config: Configuration
+    override val config: Configuration
 ) : AiyatsbusEnchantment {
 
     override val enchantmentKey: NamespacedKey = NamespacedKey.minecraft(id)
