@@ -17,13 +17,10 @@ limitations: [ ]
 #  - "CONFLICT_ENCHANT:穿凿"
 #  - "CONFLICT_ENCHANT:脉络"
 
-alternative:
-  grindstoneable: true
-
 display:
   description:
     general: "每次可以挖掘立方范围的方块"
-    specific: "§7每次可以挖掘§a{X范围}*{Y范围}*{Z范围}§7范围的方块"
+    specific: "&7每次可以挖掘&a{X范围}*{Y范围}*{Z范围}&7范围的方块"
 
 variables:
   leveled:

@@ -8,6 +8,7 @@ import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import org.bukkit.util.Vector
 import taboolib.common.platform.function.isPrimaryThread
 import taboolib.common.platform.function.submit
@@ -15,6 +16,8 @@ import taboolib.library.kether.ArgTypes
 import taboolib.module.kether.*
 import taboolib.module.nms.getI18nName
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.roundToLong
 
 /**
@@ -167,6 +170,19 @@ object Actions {
                     VectorUtils.addVelocity(target, vector, checkKnockback ?: false)
                 } else {
                     target.velocity = vector
+                }
+            }
+        }
+    }
+
+    @KetherParser(["drop-item"])
+    fun actionDropItem() = combinationParser {
+        it.group(type<ItemStack>(), command("at", then = type<Location>()), command("naturally", then = bool()).option()).apply(it) { item, loc, naturally ->
+            now {
+                if (naturally == true) {
+                    loc.world.dropItemNaturally(loc, item)
+                } else {
+                    loc.world.dropItem(loc, item)
                 }
             }
         }
