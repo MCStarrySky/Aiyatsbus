@@ -1,0 +1,38 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: healing_close_combat
+  name: "回春"
+  max_level: 3
+
+rarity: 传奇
+targets:
+  - 剑
+  - 斧
+
+limitations: [ ]
+
+display:
+  description:
+    general: "使得被攻击的血量降低的玩家血量恢复"
+    specific: "&7使得被攻击的血量降低的玩家血量恢复&a{血量}"
+
+variables:
+  leveled:
+    血量: "点:2*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if not instance-of &event[entity] is org.bukkit.entity.Player then {
+          exit
+        }
+        set added to math add [ &event[entity.health] type double &血量 ]
+        set &event[damage] to 0
+        add-potion-effect GLOWING on &event[entity] duration 3 amplifier 1
+        set &event[entity.health] to min &added &event[entity.max-health]

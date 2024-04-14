@@ -9,6 +9,8 @@ import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 import org.bukkit.util.Vector
 import taboolib.common.platform.function.isPrimaryThread
 import taboolib.common.platform.function.submit
@@ -175,7 +177,7 @@ object Actions {
         }
     }
 
-    @KetherParser(["drop-item"])
+    @KetherParser(["drop-item"], shared = true)
     fun actionDropItem() = combinationParser {
         it.group(type<ItemStack>(), command("at", then = type<Location>()), command("naturally", then = bool()).option()).apply(it) { item, loc, naturally ->
             now {
@@ -184,6 +186,23 @@ object Actions {
                 } else {
                     loc.world.dropItem(loc, item)
                 }
+            }
+        }
+    }
+
+    @KetherParser(["add-potion-effect"], shared = true)
+    fun actionAddPotionEffect() = combinationParser {
+        it.group(
+            text(),
+            command("on", then = type<LivingEntity>()),
+            command("duration", then = int()),
+            command("amplifier", then = int()),
+            command("ambient", then = bool()).option(),
+            command("particles", then = bool()).option(),
+            command("icon", then = bool()).option()
+        ).apply(it) { type, entity, duration, amplifier, ambient, particles, icon ->
+            now {
+                entity.addPotionEffect(PotionEffect(PotionEffectType.getByName(type) ?: return@now, duration, amplifier, ambient ?: true, particles ?: true, icon ?: true))
             }
         }
     }
