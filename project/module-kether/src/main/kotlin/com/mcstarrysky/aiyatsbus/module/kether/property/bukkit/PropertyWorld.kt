@@ -79,4 +79,25 @@ class PropertyWorld : AiyatsbusGenericProperty<World>("world") {
         // TODO
         return OpenResult.failed()
     }
+
+    @AiyatsbusProperty(
+        id = "world-environment",
+        bind = World.Environment::class
+    )
+    class PropertyWorldEnvironment : AiyatsbusGenericProperty<World.Environment>("world-environment") {
+
+        override fun readProperty(instance: World.Environment, key: String): OpenResult {
+            val property: Any? = when (key) {
+                "name" -> instance.name
+                "id" -> instance.id
+                "ordinal" -> instance.ordinal
+                else -> return OpenResult.failed()
+            }
+            return OpenResult.successful(property)
+        }
+
+        override fun writeProperty(instance: World.Environment, key: String, value: Any?): OpenResult {
+            return OpenResult.failed()
+        }
+    }
 }
