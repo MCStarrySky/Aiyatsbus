@@ -18,8 +18,6 @@ import taboolib.library.kether.ArgTypes
 import taboolib.module.kether.*
 import taboolib.module.nms.getI18nName
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.math.max
-import kotlin.math.min
 import kotlin.math.roundToLong
 
 /**
@@ -40,9 +38,12 @@ object Actions {
     fun instanceOfParser() = combinationParser {
         it.group(any(), command("is", then = text())).apply(it) { obj, cast ->
             now {
-                // 缓存
-                val clazz = cache.computeIfAbsent(cast) { Class.forName(cast) }
-                clazz.isInstance(obj)
+                // 尝试避免 ClassNotFoundException
+                kotlin.runCatching {
+                    // 缓存
+                    val clazz = cache.computeIfAbsent(cast) { Class.forName(cast) }
+                    clazz.isInstance(obj)
+                }.getOrElse { false }
             }
         }
     }
@@ -54,9 +55,12 @@ object Actions {
     fun castParser() = combinationParser {
         it.group(any(), command("to", then = text())).apply(it) { obj, cast ->
             now {
-                // 缓存
-                val clazz = cache.computeIfAbsent(cast) { Class.forName(cast) }
-                clazz.cast(obj)
+                // 尝试避免 ClassNotFoundException
+                kotlin.runCatching {
+                    // 缓存
+                    val clazz = cache.computeIfAbsent(cast) { Class.forName(cast) }
+                    clazz.cast(obj)
+                }.getOrElse { obj }
             }
         }
     }
