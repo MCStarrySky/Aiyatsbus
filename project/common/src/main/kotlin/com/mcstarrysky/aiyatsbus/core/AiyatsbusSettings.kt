@@ -77,6 +77,12 @@ object AiyatsbusSettings {
     var enableKetherPreheat = true
 
     /**
+     * 是否开启性能检测工具
+     */
+    @ConfigNode("Settings.enable-performance-tool")
+    var enablePerformanceTool = false
+
+    /**
      * 是否显示性能监控的详情信息
      */
     @ConfigNode("Settings.show-performance-details")

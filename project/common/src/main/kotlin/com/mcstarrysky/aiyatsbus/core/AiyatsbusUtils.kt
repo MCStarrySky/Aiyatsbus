@@ -10,6 +10,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.EnchantmentStorageMeta
 import org.bukkit.inventory.meta.ItemMeta
+import taboolib.common.platform.ProxyCommandSender
 import taboolib.common5.RandomList
 import taboolib.platform.util.modifyMeta
 
@@ -47,6 +48,34 @@ fun CommandSender.asLang(node: String, vararg args: Any): String {
  */
 fun CommandSender.asLangList(node: String, vararg args: Any): List<String> {
     return Aiyatsbus.api().getLanguage().getLangList(this, node, *args)
+}
+
+/**
+ * 使用 AiyatsbusLanguage 发送语言文件
+ */
+fun ProxyCommandSender.sendLang(node: String, vararg args: Any) {
+    cast<CommandSender>().sendLang(node, *args)
+}
+
+/**
+ * 使用 AiyatsbusLanguage 获取语言文件
+ */
+fun ProxyCommandSender.asLangOrNull(node: String, vararg args: Any): String? {
+    return cast<CommandSender>().asLangOrNull(node, *args)
+}
+
+/**
+ * 使用 AiyatsbusLanguage 获取语言文件
+ */
+fun ProxyCommandSender.asLang(node: String, vararg args: Any): String {
+    return cast<CommandSender>().asLang(node, *args)
+}
+
+/**
+ * 使用 AiyatsbusLanguage 获取语言文件
+ */
+fun ProxyCommandSender.asLangList(node: String, vararg args: Any): List<String> {
+    return cast<CommandSender>().asLangList(node, *args)
 }
 
 /**

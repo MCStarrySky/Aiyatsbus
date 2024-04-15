@@ -4,6 +4,7 @@ import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
+import com.mcstarrysky.aiyatsbus.core.util.Mirror
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.core.util.mirrorNow
@@ -116,7 +117,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                 if (!enchant.limitations.checkAvailable(CheckType.USE, item, entity, it).first) continue
 
                 enchant.trigger.listeners
-                    .filterValues { it.getEventPriority() == eventPriority && it.listen == listen }
+                    .filterValues { it.priority == eventPriority && it.listen == listen }
                     .forEach { (_, executor) ->
                         val vars = mutableMapOf(
                             "triggerSlot" to it.name,
@@ -125,15 +126,19 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                             "player" to player,
                             "item" to item,
                             "enchant" to enchant,
-                            "level" to enchantPair.value
+                            "level" to enchantPair.value,
+                            "mirror" to Mirror.MirrorStatus()
                         )
 
                         vars += enchant.variables.variables(enchantPair.value, entity, item, false)
 
-                        mirrorNow("Enchantment:Listener:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${enchant.basicData.id}" else "") {
-                            vars += "mirror" to it
-                            Aiyatsbus.api().getKetherHandler()
-                                .invoke(executor.handle, player as? Player, variables = vars)
+                        if (AiyatsbusSettings.enablePerformanceTool) {
+                            mirrorNow("Enchantment:Listener:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${enchant.basicData.id}" else "") {
+                                vars += "mirror" to it
+                                Aiyatsbus.api().getKetherHandler().invoke(executor.handle, player as? Player, variables = vars)
+                            }
+                        } else {
+                            Aiyatsbus.api().getKetherHandler().invoke(executor.handle, player as? Player, variables = vars)
                         }
                     }
             }

@@ -1,12 +1,13 @@
 package com.mcstarrysky.aiyatsbus.core.data
 
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
+import com.mcstarrysky.aiyatsbus.core.sendLang
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import org.bukkit.Material
 import org.bukkit.inventory.EquipmentSlot
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
-import taboolib.common.platform.function.info
+import taboolib.common.platform.function.console
 import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.configuration.Config
@@ -59,6 +60,6 @@ object TargetLoader {
         val time = System.currentTimeMillis()
         targets.clear()
         targets += config.getKeys(false).map { config.getConfigurationSection(it)!! }.map { it.name to Target(it) }
-        info("Loaded ${targets.size} targets in ${System.currentTimeMillis() - time}ms")
+        console().sendLang("loading-targets", targets.size, System.currentTimeMillis() - time)
     }
 }

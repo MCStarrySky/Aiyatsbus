@@ -11,10 +11,7 @@ import taboolib.common.io.newFolder
 import taboolib.common.io.runningResourcesInJar
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
-import taboolib.common.platform.function.getDataFolder
-import taboolib.common.platform.function.info
-import taboolib.common.platform.function.registerLifeCycleTask
-import taboolib.common.platform.function.releaseResourceFile
+import taboolib.common.platform.function.*
 import taboolib.module.configuration.Configuration
 import taboolib.platform.util.onlinePlayers
 import java.io.File
@@ -96,7 +93,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
 
                     onlinePlayers.forEach(Player::updateInventory)
 
-                    info("Auto-reloaded changes for enchantment $id in ${System.currentTimeMillis() - time0}ms")
+                    console().sendLang("enchantment-reload", id, System.currentTimeMillis() - time0)
                 }
 
                 val enchant = AiyatsbusEnchantmentBase(id, config)
@@ -107,7 +104,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
                 FILES[id] = file
             }
 
-        info("Loaded ${BY_ID.size} enchantments in ${System.currentTimeMillis() - time}ms")
+        console().sendLang("loading-enchantments", BY_ID.size, System.currentTimeMillis() - time)
     }
 
     override fun clearEnchantments() {

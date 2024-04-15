@@ -1,10 +1,13 @@
 package com.mcstarrysky.aiyatsbus.module.kether
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusKetherHandler
+import org.bukkit.command.CommandSender
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
+import taboolib.common.platform.function.adaptCommandSender
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.platform.function.console
 import taboolib.module.kether.KetherShell
@@ -22,11 +25,12 @@ import java.util.concurrent.CompletableFuture
  */
 class DefaultAiyatsbusKetherHandler : AiyatsbusKetherHandler {
 
-    override fun invoke(source: String, player: Player?, variables: Map<String, Any?>): CompletableFuture<Any?>? {
+    override fun invoke(source: String, sender: CommandSender?, variables: Map<String, Any?>): CompletableFuture<Any?>? {
+        val player = sender as? Player
         return runKether(detailError = true) {
             KetherShell.eval(source,
                 ScriptOptions.builder().namespace(namespace = listOf("aiyatsbus"))
-                    .sender(sender = if (player != null) adaptPlayer(player) else console())
+                    .sender(sender = if (player != null) adaptPlayer(player) else if (sender != null) adaptCommandSender(sender) else console())
                     .vars(variables)
                     .build())
         }

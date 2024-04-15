@@ -31,17 +31,19 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
     private val playerDataHandler = PlatformFactory.getAPI<AiyatsbusPlayerDataHandler>()
 
-    private val enchantmentRegisterer: AiyatsbusEnchantmentRegisterer = if (MinecraftVersion.majorLegacy <= 12002) {
-        DefaultLegacyEnchantmentRegisterer
-    } else run {
-        proxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
+    private val enchantmentRegisterer0: AiyatsbusEnchantmentRegisterer by lazy {
+        if (MinecraftVersion.majorLegacy <= 12002) {
+            DefaultLegacyEnchantmentRegisterer
+        } else run {
+            proxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
+        }
     }
 
     private val eventExecutor = PlatformFactory.getAPI<AiyatsbusEventExecutor>()
 
     private val ketherHandler = PlatformFactory.getAPI<AiyatsbusKetherHandler>()
 
-    private val mcAPI by lazy {
+    private val minecraftAPI0 by lazy {
         proxy<AiyatsbusMinecraftAPI>("com.mcstarrysky.aiyatsbus.impl.nms.DefaultAiyatsbusMinecraftAPI")
     }
 
@@ -56,7 +58,7 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
     }
 
     override fun getEnchantmentRegisterer(): AiyatsbusEnchantmentRegisterer {
-        return enchantmentRegisterer
+        return enchantmentRegisterer0
     }
 
     override fun getEventExecutor(): AiyatsbusEventExecutor {
@@ -76,7 +78,7 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
     }
 
     override fun getMinecraftAPI(): AiyatsbusMinecraftAPI {
-        return mcAPI
+        return minecraftAPI0
     }
 
     override fun getPlayerDataHandler(): AiyatsbusPlayerDataHandler {
@@ -96,8 +98,8 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
     init {
         CompletableFuture.runAsync {
-            enchantmentRegisterer
-            mcAPI
+            enchantmentRegisterer0
+            minecraftAPI0
         }
     }
 

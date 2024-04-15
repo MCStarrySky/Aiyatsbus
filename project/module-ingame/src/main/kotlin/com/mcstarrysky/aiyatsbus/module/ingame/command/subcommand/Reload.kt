@@ -1,9 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.command.subcommand
 
-import com.mcstarrysky.aiyatsbus.core.AIYATSBUS_PREFIX
-import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
-import com.mcstarrysky.aiyatsbus.core.AiyatsbusDisplayManager
-import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
+import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.registration.modern.ModernEnchantmentRegisterer
 import com.mcstarrysky.aiyatsbus.core.util.Reloadables
 import com.mcstarrysky.aiyatsbus.module.ingame.command.AiyatsbusCommand
@@ -11,7 +8,6 @@ import com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism.*
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.subCommand
-import taboolib.module.chat.colored
 import taboolib.module.lang.Language
 import taboolib.module.nms.MinecraftVersion
 import taboolib.platform.util.onlinePlayers
@@ -25,6 +21,7 @@ import taboolib.platform.util.onlinePlayers
  */
 val reloadSubCommand = subCommand {
     execute<CommandSender> { sender, _, _ ->
+        val time = System.currentTimeMillis()
         if (MinecraftVersion.majorLegacy >= 12003) {
             (Aiyatsbus.api().getEnchantmentRegisterer() as ModernEnchantmentRegisterer).replaceRegistry()
         }
@@ -39,7 +36,7 @@ val reloadSubCommand = subCommand {
         GrindstoneListener.conf.reload()
         VillagerListener.conf.reload()
         onlinePlayers.forEach(Player::updateInventory)
-        sender.sendMessage("$AIYATSBUS_PREFIX Done.".colored())
         AiyatsbusCommand.init() // 重新生成 TabList
+        sender.sendLang("plugin-reload", System.currentTimeMillis() - time)
     }
 }
