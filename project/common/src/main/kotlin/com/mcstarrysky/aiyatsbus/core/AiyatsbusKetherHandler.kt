@@ -1,6 +1,6 @@
 package com.mcstarrysky.aiyatsbus.core
 
-import org.bukkit.entity.Player
+import org.bukkit.command.CommandSender
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -15,7 +15,7 @@ interface AiyatsbusKetherHandler {
     /**
      * 执行 Kether 脚本
      */
-    fun invoke(source: String, player: Player?, variables: Map<String, Any?> = emptyMap()): CompletableFuture<Any?>?
+    fun invoke(source: String, sender: CommandSender?, variables: Map<String, Any?> = emptyMap()): CompletableFuture<Any?>?
 
     /**
      * 预热 Kether 脚本, 提升第一次运行速度

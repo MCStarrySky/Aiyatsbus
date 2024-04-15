@@ -1,12 +1,13 @@
 package com.mcstarrysky.aiyatsbus.core.data
 
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
+import com.mcstarrysky.aiyatsbus.core.sendLang
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.replace
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
-import taboolib.common.platform.function.info
+import taboolib.common.platform.function.console
 import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.chat.component
@@ -68,6 +69,6 @@ object RarityLoader {
         val time = System.currentTimeMillis()
         rarities.clear()
         rarities += config.getKeys(false).map { config.getConfigurationSection(it)!! }.map { it.name to Rarity(it) }
-        info("Loaded ${rarities.size} rarities in ${System.currentTimeMillis() - time}ms")
+        console().sendLang("loading-rarities", rarities.size, System.currentTimeMillis() - time)
     }
 }

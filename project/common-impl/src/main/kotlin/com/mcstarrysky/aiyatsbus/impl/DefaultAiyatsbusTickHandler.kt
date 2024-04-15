@@ -4,6 +4,7 @@ import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
+import com.mcstarrysky.aiyatsbus.core.util.Mirror
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.core.util.mirrorNow
@@ -68,7 +69,8 @@ class DefaultAiyatsbusTickHandler : AiyatsbusTickHandler {
 
                 val variables = mutableMapOf(
                     "player" to player,
-                    "enchant" to ench
+                    "enchant" to ench,
+                    "mirror" to Mirror.MirrorStatus()
                 )
 
                 slots.forEach slot@{ slot ->
@@ -93,26 +95,41 @@ class DefaultAiyatsbusTickHandler : AiyatsbusTickHandler {
                             "triggerSlot" to slot.name,
                             "trigger-slot" to slot.name,
                             "item" to item,
-                            "level" to level
+                            "level" to level,
                         )
 
                         vars += ench.variables.variables(level, player, item, false)
 
                         if (!record.contains(id)) {
                             record += id
-                            mirrorNow("Enchantment:Tick:PreHandle:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${ench.basicData.id}" else "") {
+                            if (AiyatsbusSettings.enablePerformanceTool) {
+                                mirrorNow("Enchantment:Tick:PreHandle:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${ench.basicData.id}" else "") {
+                                    vars += "mirror" to it
+                                    Aiyatsbus.api().getKetherHandler().invoke(ticker.preHandle, player, vars)
+                                }
+                            } else {
                                 Aiyatsbus.api().getKetherHandler().invoke(ticker.preHandle, player, vars)
                             }
                         }
 
-                        mirrorNow("Enchantment:Tick:Handle:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${ench.basicData.id}" else "") {
+                        if (AiyatsbusSettings.enablePerformanceTool) {
+                            mirrorNow("Enchantment:Tick:Handle:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${ench.basicData.id}" else "") {
+                                vars += "mirror" to it
+                                Aiyatsbus.api().getKetherHandler().invoke(ticker.handle, player, vars)
+                            }
+                        } else {
                             Aiyatsbus.api().getKetherHandler().invoke(ticker.handle, player, vars)
                         }
                     }
                 }
                 if (!flag && record.contains(id)) {
                     record -= id
-                    mirrorNow("Enchantment:Tick:PostHandle:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${ench.basicData.id}" else "") {
+                    if (AiyatsbusSettings.enablePerformanceTool) {
+                        mirrorNow("Enchantment:Tick:PostHandle:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${ench.basicData.id}" else "") {
+                            variables += "mirror" to it
+                            Aiyatsbus.api().getKetherHandler().invoke(ticker.postHandle, player, variables)
+                        }
+                    } else {
                         Aiyatsbus.api().getKetherHandler().invoke(ticker.postHandle, player, variables)
                     }
                 }

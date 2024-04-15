@@ -18,19 +18,13 @@ data class Trigger(private val section: ConfigurationSection?, private val encha
     val tickers: ConcurrentHashMap<String, Ticker> = ConcurrentHashMap()
 
     init {
-        loadListeners()
-    }
-
-    private fun loadListeners() {
-        listeners.clear()
-
         section?.getConfigurationSection("listeners")?.let { listenersSection ->
             listeners += listenersSection.getKeys(false)
-                .associateWith { EventExecutor.load(listenersSection.getConfigurationSection(it)!!) }
+                .associateWith { EventExecutor(listenersSection.getConfigurationSection(it)!!) }
         }
         section?.getConfigurationSection("tickers")?.let { tickersSection ->
             tickers += tickersSection.getKeys(false)
-                .associateWith { Ticker.load(tickersSection.getConfigurationSection(it)!!) }
+                .associateWith { Ticker(tickersSection.getConfigurationSection(it)!!) }
                 .mapKeys { "${enchant.basicData.id}.$it" }
                 .also {
                     it.entries.forEach { (id, ticker) -> Aiyatsbus.api().getTickHandler().getRoutine().put(enchant, id, ticker.interval) }
@@ -40,7 +34,6 @@ data class Trigger(private val section: ConfigurationSection?, private val encha
 
     fun onDisable() {
         listeners.clear()
-
         tickers.keys.forEach { Aiyatsbus.api().getTickHandler().getRoutine().remove(enchant, it) }
         tickers.clear()
     }

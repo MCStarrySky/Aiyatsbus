@@ -4,7 +4,7 @@ import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
-import taboolib.common.platform.function.info
+import taboolib.common.platform.function.console
 import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.configuration.Config
@@ -62,6 +62,6 @@ object GroupLoader {
         val time = System.currentTimeMillis()
         groups.clear()
         groups += config.getKeys(false).map { config.getConfigurationSection(it)!! }.map { it.name to Group(it) }
-        info("Loaded ${groups.size} groups in ${System.currentTimeMillis() - time}ms")
+        console().sendLang("loading-groups", groups.size, System.currentTimeMillis() - time)
     }
 }
