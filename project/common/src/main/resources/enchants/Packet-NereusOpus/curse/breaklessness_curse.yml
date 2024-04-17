@@ -1,0 +1,42 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  enable: true
+  disable_worlds: [ ]
+  id: breaklessness_curse
+  name: "无力诅咒"
+  max_level: 3
+
+rarity: 诅咒
+targets:
+  - 镐
+  - 斧
+  - 锄
+  - 铲
+
+limitations: [ ]
+
+alternative:
+  grindstoneable: false
+  is_cursed: true
+
+display:
+  description:
+    general: "使用被诅咒的工具破坏方块时有概率失败"
+    specific: "&7使用被诅咒的工具破坏方块时有&a{概率}&7的概率失败"
+
+variables:
+  leveled:
+    概率: "%:15*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "block-damage"
+      handle: |-
+        if check random2 0 to 100 <= type double &概率 then {
+          set &event[isCancelled] to true
+        }

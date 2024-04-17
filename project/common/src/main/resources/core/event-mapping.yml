@@ -71,4 +71,9 @@ mappings:
   # 箭射中东西事件
   projectile-hit:
     class: 'org.bukkit.event.entity.ProjectileHitEvent'
-    slots: ALL
+    slots: HANDS
+
+  # 玩家损坏方块事件
+  block-damage:
+    class: 'org.bukkit.event.block.BlockDamageEvent'
+    slots: HANDS

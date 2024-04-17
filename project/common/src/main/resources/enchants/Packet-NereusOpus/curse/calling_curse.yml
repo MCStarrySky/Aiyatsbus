@@ -1,0 +1,45 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  enable: true
+  disable_worlds: [ ]
+  id: calling_curse
+  name: "仇恶诅咒"
+  max_level: 1
+
+rarity: 诅咒
+targets:
+  - 头盔
+  - 胸甲
+  - 护腿
+  - 靴子
+
+limitations: [ ]
+
+alternative:
+  grindstoneable: false
+  is_cursed: true
+
+display:
+  description:
+    general: "使被诅咒的装备被穿戴时会激怒周围的怪物"
+    specific: "&7使装备被穿戴时会激怒周围&a{范围}格&7内的怪物"
+
+variables:
+  ordinary:
+    范围: 20 # 你也可以改成受等级影响的
+
+mechanisms:
+  tickers:
+    on:
+      interval: 100 # 每 5 秒
+      handle: |-
+        set range to type double &范围
+        for entity in near-by-entities &player in &range &range &range then {
+          if instance-of &entity is org.bukkit.entity.Mob then {
+            set &entity[target] to &player
+          }
+        }
