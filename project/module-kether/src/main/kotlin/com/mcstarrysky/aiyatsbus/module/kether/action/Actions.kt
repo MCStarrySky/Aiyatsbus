@@ -210,4 +210,11 @@ object Actions {
             }
         }
     }
+
+    @KetherParser(["near-by-entities"], shared = true)
+    fun actionNearByEntities() = combinationParser {
+        it.group(type<Entity>(), command("in", then = double()), double(), double()).apply(it) { entity, r1, r2, r3 ->
+            now { entity.getNearbyEntities(r1, r2, r3) }
+        }
+    }
 }
