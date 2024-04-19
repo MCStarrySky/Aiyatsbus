@@ -3,6 +3,9 @@
 #         Powered by TabooLib 6.1         #
 
 
+# 是否开启附魔展示系统
+# 如果不开启, 插件将不会对物品进行任何处理
+enable: true
 # 默认的格式，分为前部和后部
 format:
   default_previous: "{enchant_display_roman}"

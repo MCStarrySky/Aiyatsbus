@@ -1,6 +1,5 @@
 package com.mcstarrysky.aiyatsbus.core
 
-import com.mcstarrysky.aiyatsbus.core.data.Rarity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.common.LifeCycle
@@ -22,6 +21,11 @@ import taboolib.platform.util.onlinePlayers
 interface AiyatsbusDisplayManager {
 
     /**
+     * 按照配置中设定的品质排行顺序整理附魔
+     */
+    fun sortEnchants(enchants: Map<AiyatsbusEnchantment, Int>): LinkedHashMap<AiyatsbusEnchantment, Int>
+
+    /**
      * 展示附魔, 展示是给玩家看的, 玩家必须存在
      */
     fun display(item: ItemStack, player: Player): ItemStack
@@ -37,6 +41,9 @@ interface AiyatsbusDisplayManager {
         @Config("enchants/display.yml", autoReload = true)
         lateinit var conf: Configuration
             private set
+
+        @ConfigNode("enable")
+        var enable = true
 
         @ConfigNode("format.default_previous")
         var defaultPrevious = "{enchant_display_roman}"
