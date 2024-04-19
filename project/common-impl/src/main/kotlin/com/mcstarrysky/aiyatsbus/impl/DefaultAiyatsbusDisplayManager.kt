@@ -40,7 +40,7 @@ class DefaultAiyatsbusDisplayManager : AiyatsbusDisplayManager {
     /**
      * 按照配置中设定的品质排行顺序整理附魔
      */
-    private fun sortEnchants(enchants: Map<AiyatsbusEnchantment, Int>): LinkedHashMap<AiyatsbusEnchantment, Int> {
+    override fun sortEnchants(enchants: Map<AiyatsbusEnchantment, Int>): LinkedHashMap<AiyatsbusEnchantment, Int> {
         return linkedMapOf(*enchants.toList().sortedBy { (enchant, level) ->
             rarityOrder.indexOf(enchant.rarity.id) * 100000 + (if (sortByLevel) level else 0)
         }.toTypedArray())
@@ -77,6 +77,7 @@ class DefaultAiyatsbusDisplayManager : AiyatsbusDisplayManager {
     }
 
     override fun display(item: ItemStack, player: Player): ItemStack {
+        if (!AiyatsbusDisplayManager.enable) return item
         if (item.isNull) return item
         return item.clone().modifyMeta<ItemMeta> {
             item.fixedEnchants.ifEmpty { return@modifyMeta }
@@ -124,6 +125,7 @@ class DefaultAiyatsbusDisplayManager : AiyatsbusDisplayManager {
     }
 
     override fun undisplay(item: ItemStack, player: Player): ItemStack {
+        if (!AiyatsbusDisplayManager.enable) return item
         if (item.isNull) return item
         return item.clone().modifyMeta<ItemMeta> {
             this["display_mark", PersistentDataType.STRING]?.cbool ?: return@modifyMeta
