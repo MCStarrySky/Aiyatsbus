@@ -75,20 +75,21 @@ template:
 
   'E':
     material: PLAYER_HEAD
-    name: "&e{group} &7(&a{amount}&7)||{enchant_display_lore}"
-    lore:
-      - "&8| &7最大共存数 > &c{max_coexist}"
-      - "&8| &7点击查看该分组下的所有附魔"
-      - "分隔符号"
-      - "&8| &7附魔 > {enchant_display}"
-      - "&8| &7等级 > &e{level} / &c{max_level}"
-      - "&8| &7品质 > {rarity_display}"
-      - "&8| &7简介 > {description}"
-      - "&7"
-      - "&8| &7点击查看详细信息"
     feature:
       - ==: Functional
         keyword: EnchantInfo:element
+        group_name: "&e{group} &7(&a{amount}&7)"
+        enchant_name: "{enchant_display_lore}"
+        group_lore:
+          - "&8| &7最大共存数 > &c{max_coexist}"
+          - "&8| &7点击查看该分组下的所有附魔"
+        enchant_lore:
+          - "&8| &7附魔 > {enchant_display}"
+          - "&8| &7等级 > &e{level} / &c{max_level}"
+          - "&8| &7品质 > {rarity_display}"
+          - "&8| &7简介 > {description}"
+          - "&7"
+          - "&8| &7点击查看详细信息"
 
   'S':
     material: PLAYER_HEAD

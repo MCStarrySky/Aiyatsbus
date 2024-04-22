@@ -1,6 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.registry
 
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.container.SimpleRegistry
+import com.mcstarrysky.aiyatsbus.core.util.container.SimpleRegistry
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunction
 import java.util.*
 

@@ -1,5 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.ui
 
+import com.mcstarrysky.aiyatsbus.core.asLang
+import com.mcstarrysky.aiyatsbus.core.asLangList
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.fixedEnchants
 import com.mcstarrysky.aiyatsbus.core.util.isNull
@@ -19,6 +21,7 @@ import taboolib.module.ui.openMenu
 import taboolib.module.ui.type.Chest
 import com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism.AnvilListener
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.UIType
+import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variable
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.record
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
@@ -26,7 +29,7 @@ import taboolib.common.platform.Awake
 @MenuComponent("Anvil")
 object AnvilUI {
 
-    @Config("core/ui/anvil.yml")
+    @Config("core/ui/anvil.yml", autoReload = true)
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 
@@ -44,7 +47,7 @@ object AnvilUI {
 
     fun open(player: Player, a: ItemStack? = null, b: ItemStack? = null) {
         player.record(UIType.ANVIL, "a" to a, "b" to b)
-        player.openMenu<Chest>(config.title()) {
+        player.openMenu<Chest>(config.title().component().buildColored().toLegacyText()) {
 //            virtualize()
 
             val (shape, templates) = config
@@ -64,18 +67,18 @@ object AnvilUI {
                 else !result.isSimilar(a)
 
                 if (canCombine) {
-                    info["allowed"] = "&a允许"
-                    info["level"] = "$cost"
-                    info["reasons"] = "无"
+                    info["allowed"] = player.asLang("ui-anvil-info-allow")
+                    info["level"] = player.asLang("ui-anvil-info-level", cost to "cost")
+                    info["reasons"] = player.asLangList("ui-anvil-info-reasons-empty").joinToString("[](br)")
                 } else {
                     val bugs = b.fixedEnchants.mapNotNull { (enchant, _) ->
                         val check = enchant.limitations.checkAvailable(CheckType.ANVIL, a, player)
                         if (!check.first) check.second
                         else null
                     }
-                    info["allowed"] = "&c不允许"
-                    info["level"] = "N/A"
-                    info["reasons"] = "||" + (bugs + "" + "其他可能:" + "拼合前后物品&e不变" + "经验值消耗&e小于等于0级").joinToString("||")
+                    info["allowed"] = player.asLang("ui-anvil-info-disallow")
+                    info["level"] = player.asLang("ui-anvil-info-level-disallow")
+                    info["reasons"] = player.asLangList("ui-anvil-info-reasons").variable("reason", bugs).joinToString("[](br)")
                 }
             }
 
@@ -125,7 +128,7 @@ object AnvilUI {
                 when (it) {
                     "allowed" -> listOf(info["allowed"]!!)
                     "level" -> listOf(info["level"]!!)
-                    "reasons" -> info["reasons"]!!.split("||")
+                    "reasons" -> info["reasons"]!!.split("[](br)")
                     else -> listOf()
                 }
             }

@@ -5,20 +5,22 @@ import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.*
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
+import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variable
+import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.registry.MenuFunctions
 import org.bukkit.entity.Player
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
 import taboolib.module.ui.openMenu
 import taboolib.module.ui.type.Chest
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.registry.MenuFunctions
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.registerLifeCycleTask
+import taboolib.module.chat.component
 
 @MenuComponent("Menu")
 object MainMenuUI {
 
-    @Config("core/ui/menu.yml")
+    @Config("core/ui/menu.yml", autoReload = true)
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 
@@ -36,8 +38,7 @@ object MainMenuUI {
 
     fun open(player: Player) {
         player.record(UIType.MAIN_MENU)
-        player.openMenu<Chest>(config.title()) {
-//            virtualize()
+        player.openMenu<Chest>(config.title().component().buildColored().toLegacyText()) {
             val (shape, templates) = config
             rows(shape.rows)
             map(*shape.array)
@@ -47,20 +48,35 @@ object MainMenuUI {
     }
 
     @MenuComponent
-    private val enchant_search = MenuFunctionBuilder { onClick { (_, _, _, event, _) -> EnchantSearchUI.open(event.clicker) } }
+    private val enchant_search = MenuFunctionBuilder {
+        onClick { (_, _, _, event, _) ->
+            EnchantSearchUI.open(event.clicker)
+        }
+    }
 
     @MenuComponent
-    private val item_check = MenuFunctionBuilder { onClick { (_, _, _, event, _) -> ItemCheckUI.open(event.clicker, null, ItemCheckUI.CheckMode.LOAD) } }
+    private val item_check = MenuFunctionBuilder {
+        onClick { (_, _, _, event, _) ->
+            ItemCheckUI.open(event.clicker, null, ItemCheckUI.CheckMode.LOAD)
+        }
+    }
 
     @MenuComponent
-    private val anvil = MenuFunctionBuilder { onClick { (_, _, _, event, _) -> AnvilUI.open(event.clicker) } }
+    private val anvil = MenuFunctionBuilder {
+        onClick { (_, _, _, event, _) ->
+            AnvilUI.open(event.clicker)
+        }
+    }
 
     @Reloadable
     @Awake(LifeCycle.CONST)
     fun initialize() {
         registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.MENU) {
             MenuFunctions.unregister("Back")
-            MenuFunctions.register("Back", false) { back }
+            MenuFunctions.register("Back", false) { MenuFunctionBuilder {
+                onBuild { (_, _, _, _, icon, args) -> icon.variable("last", listOf((args["player"] as Player).last())) }
+                onClick { (_, _, _, event, _) -> event.clicker.back() }
+            } }
             AnvilUI.reload()
             EnchantInfoUI.reload()
             EnchantSearchUI.reload()
@@ -68,7 +84,7 @@ object MainMenuUI {
             FilterRarityUI.reload()
             FilterTargetUI.reload()
             ItemCheckUI.reload()
-            MainMenuUI.reload()
+            this.reload()
         }
     }
 }

@@ -33,7 +33,7 @@ import taboolib.platform.util.modifyMeta
 @MenuComponent("ItemCheck")
 object ItemCheckUI {
 
-    @Config("core/ui/item_check.yml")
+    @Config("core/ui/item_check.yml", autoReload = true)
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 
@@ -49,16 +49,18 @@ object ItemCheckUI {
         }
     }
 
-    enum class CheckMode(val display: String) {
-        FIND("搜索可用附魔"),
-        LOAD("读取物品附魔")
+    enum class CheckMode(private val node: String) {
+        FIND("ui-check-mode-find"),
+        LOAD("ui-check-mode-load");
+
+        fun ifCurrent(current: Boolean): String {
+            return if (current) "$node-current" else node
+        }
     }
 
     fun open(player: Player, item: ItemStack? = null, mode: CheckMode) {
         player.record(UIType.ITEM_CHECK, "item" to item, "mode" to mode)
-        player.openMenu<PageableChest<Pair<AiyatsbusEnchantment, Int>>>(config.title()) {
-//            virtualize()
-
+        player.openMenu<PageableChest<Pair<AiyatsbusEnchantment, Int>>>(config.title().component().buildColored().toLegacyText()) {
             val (shape, templates) = config
             rows(shape.rows)
             val slots = shape["ItemCheck:enchant"].toList()
@@ -74,7 +76,7 @@ object ItemCheckUI {
             pages(shape, templates)
 
             val template = templates.require("ItemCheck:enchant")
-            onGenerate { _, element, index, slot ->
+            onGenerate(async = true) { _, element, index, slot ->
                 template(slot, index) {
                     this["enchantPair"] = element
                     this["player"] = player
@@ -84,7 +86,7 @@ object ItemCheckUI {
             onClick { event, element -> templates[event.rawSlot]?.handle(this, event, "enchant" to element.first, "level" to element.second) }
 
             item?.let { setSlots(shape, templates, "ItemCheck:item", listOf(), "item" to it, "mode" to mode) }
-            setSlots(shape, templates, "ItemCheck:mode", listOf(), "item" to (item ?: ""), "mode" to mode)
+            setSlots(shape, templates, "ItemCheck:mode", listOf(), "item" to (item ?: ""), "mode" to mode, "player" to player)
 
             onClick { event ->
                 event.isCancelled = true
@@ -113,11 +115,9 @@ object ItemCheckUI {
     @MenuComponent
     private val mode = MenuFunctionBuilder {
         onBuild { (_, _, _, _, icon, args) ->
+            val player = args["player"] as Player
             val current = args["mode"] as CheckMode
-            icon.variable("modes", CheckMode.values().map {
-                if (current == it) "&a${it.display}"
-                else "&7${it.display}"
-            })
+            icon.variable("modes", CheckMode.values().map { it.ifCurrent(current == it) })
         }
         onClick { (_, _, _, event, args) ->
             val current = args["mode"] as CheckMode

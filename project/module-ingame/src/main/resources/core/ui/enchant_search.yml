@@ -3,18 +3,18 @@
 #         Powered by TabooLib 6.1         #
 
 
-title: "附魔大全 | 左侧按钮可筛选附魔"
+title: "[Aiyatsbus](gradient=#6a11cb,#2575fc) &8| 附魔大全 两侧可筛选附魔"
 # W - 按照品质筛选菜单
 # X - 按照对象筛选
 # Y - 按照附魔定位/类型筛选
 # Z - 输入字符串搜索
 shape:
-  - 'BCFFFFFFF'
-  - 'FFFEEEEEE'
-  - 'WXFEEEEEE'
-  - 'YZFEEEEEE'
-  - 'FFFEEEEEE'
-  - 'PNFFFFFFF'
+  - 'FFFFFFFFF'
+  - 'FFEEEEEFF'
+  - 'WFEEEEEFY'
+  - 'XFEEEEEFZ'
+  - 'FFEEEEEFF'
+  - 'BFFPFNFFC'
 
 template:
   'F':

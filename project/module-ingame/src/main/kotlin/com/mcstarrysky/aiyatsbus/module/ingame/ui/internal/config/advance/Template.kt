@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.advance
 
 import com.google.common.collect.HashMultimap
+import com.mcstarrysky.aiyatsbus.core.util.container.SimpleRegistry
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.asMap
@@ -8,7 +9,6 @@ import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.oneOf
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.MenuItem
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuSection
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.container.SimpleRegistry
 import taboolib.library.configuration.ConfigurationSection
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")

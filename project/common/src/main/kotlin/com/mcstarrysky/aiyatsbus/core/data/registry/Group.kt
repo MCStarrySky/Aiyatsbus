@@ -1,7 +1,8 @@
-package com.mcstarrysky.aiyatsbus.core.data
+package com.mcstarrysky.aiyatsbus.core.data.registry
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.container.SimpleRegistry
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.console
@@ -33,13 +34,11 @@ data class Group(
     val maxCoexist: Int = root.getInt("max_coexist", 1)
 )
 
-object GroupLoader {
+object GroupLoader : SimpleRegistry<String, Group>(ConcurrentHashMap()) {
 
     @Config("enchants/group.yml", autoReload = true)
     lateinit var config: Configuration
         private set
-
-    val groups = ConcurrentHashMap<String, Group>()
 
     @Reloadable
     @Awake(LifeCycle.CONST)
@@ -60,8 +59,14 @@ object GroupLoader {
 
     private fun load() {
         val time = System.currentTimeMillis()
-        groups.clear()
-        groups += config.getKeys(false).map { config.getConfigurationSection(it)!! }.map { it.name to Group(it) }
-        console().sendLang("loading-groups", groups.size, System.currentTimeMillis() - time)
+        clearRegistry()
+        config.getKeys(false).map { config.getConfigurationSection(it)!! }.forEach {
+            register(Group(it))
+        }
+        console().sendLang("loading-groups", size, System.currentTimeMillis() - time)
+    }
+
+    override fun getKey(value: Group): String {
+        return value.name
     }
 }

@@ -12,14 +12,14 @@ import taboolib.module.ui.type.PageableChest
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class MenuConfiguration(internal val source: Configuration) {
 
-    val isDebug: Boolean by lazy { source.oneOf(*MenuSection.DEBUG.paths, getter = ConfigurationSection::getBoolean) ?: false }
+    val isDebug: Boolean = source.oneOf(*MenuSection.DEBUG.paths, getter = ConfigurationSection::getBoolean) ?: false
 
-    val title: String? by lazy { source.oneOf(*MenuSection.TITLE.paths, getter = ConfigurationSection::getString) }
-    val shape: ShapeConfiguration by lazy { ShapeConfiguration(this) }
-    val templates: TemplateConfiguration by lazy { TemplateConfiguration(this) }
-    val keywords: KeywordConfiguration by lazy { KeywordConfiguration(this) }
-    val cached: MutableMap<String, Any?> by lazy { HashMap() }
-    val mapped: MutableMap<Int, Any?> by lazy { HashMap() }
+    val title: String? = source.oneOf(*MenuSection.TITLE.paths, getter = ConfigurationSection::getString)
+    val shape: ShapeConfiguration = ShapeConfiguration(this)
+    val templates: TemplateConfiguration = TemplateConfiguration(this)
+    val keywords: KeywordConfiguration = KeywordConfiguration(this)
+    val cached: MutableMap<String, Any?> = HashMap()
+    val mapped: MutableMap<Int, Any?> = HashMap()
 
     fun title(vararg variables: Pair<String, () -> String>): String {
         return with(variables.toMap()) {

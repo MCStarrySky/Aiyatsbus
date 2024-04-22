@@ -30,7 +30,7 @@ import kotlin.collections.set
 @MenuComponent("EnchantSearch")
 object EnchantSearchUI {
 
-    @Config("core/ui/enchant_search.yml")
+    @Config("core/ui/enchant_search.yml", autoReload = true)
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 
@@ -48,7 +48,7 @@ object EnchantSearchUI {
 
     fun open(player: Player) {
         player.record(UIType.ENCHANT_SEARCH)
-        player.openMenu<PageableChest<AiyatsbusEnchantment>>(config.title()) {
+        player.openMenu<PageableChest<AiyatsbusEnchantment>>(config.title().component().buildColored().toLegacyText()) {
 //            virtualize()
 
             val (shape, templates) = config
@@ -65,7 +65,7 @@ object EnchantSearchUI {
             pages(shape, templates)
 
             val template = templates.require("EnchantSearch:enchant")
-            onGenerate { _, element, index, slot -> template(slot, index) { this["enchant"] = element } }
+            onGenerate(async = true) { _, element, index, slot -> template(slot, index) { this["enchant"] = element } }
             onClick { event, element -> templates[event.rawSlot]?.handle(this, event, "element" to element) }
 
             FilterType.values().forEach {
@@ -153,7 +153,7 @@ object EnchantSearchUI {
                     }
                 }
 
-                ClickType.SHIFT_LEFT, ClickType.SHIFT_RIGHT -> {
+                ClickType.DOUBLE_CLICK -> {
                     Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.STRING)
                     open(player)
                 }

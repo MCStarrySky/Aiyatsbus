@@ -13,7 +13,7 @@ import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.registry.MenuFeatures
 import taboolib.common.platform.function.warning
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.library.xseries.XItemStack
-import taboolib.module.chat.colored
+import taboolib.module.chat.component
 import taboolib.module.ui.ClickEvent
 import taboolib.module.ui.Menu
 import taboolib.platform.util.isAir
@@ -71,8 +71,10 @@ class MenuItem(
                             return@let item
                         }
                         item.modifyMeta<ItemMeta> {
-                            setDisplayName(displayName.colored())
-                            lore = lore?.map { it.colored() }
+                            setDisplayName(displayName.component().buildColored().toLegacyText())
+                            lore = lore?.map { it.component().buildColored().toLegacyText() }
+                            // displayName(displayName.component().buildColored().tabooToAdventure().decoration(TextDecoration.ITALIC, false))
+                            // lore(lore?.map { it.component().buildColored().tabooToAdventure().decoration(TextDecoration.ITALIC, false) })
                         }
                     }
                 } catch (ex: Throwable) {

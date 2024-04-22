@@ -1,6 +1,6 @@
 package com.mcstarrysky.aiyatsbus.core
 
-import com.mcstarrysky.aiyatsbus.core.trigger.TriggerSlots
+import com.mcstarrysky.aiyatsbus.core.data.trigger.TriggerSlots
 import taboolib.common.platform.event.EventPriority
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.configuration.Config

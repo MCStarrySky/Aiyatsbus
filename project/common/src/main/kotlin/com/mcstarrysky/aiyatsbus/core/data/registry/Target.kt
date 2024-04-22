@@ -1,8 +1,9 @@
-package com.mcstarrysky.aiyatsbus.core.data
+package com.mcstarrysky.aiyatsbus.core.data.registry
 
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.sendLang
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.container.SimpleRegistry
 import org.bukkit.Material
 import org.bukkit.inventory.EquipmentSlot
 import taboolib.common.LifeCycle
@@ -31,13 +32,11 @@ data class Target(
     val skull: String = root.getString("skull", "")!!
 )
 
-object TargetLoader {
+object TargetLoader : SimpleRegistry<String, Target>(ConcurrentHashMap()) {
 
     @Config("enchants/target.yml")
     lateinit var config: Configuration
         private set
-
-    val targets = ConcurrentHashMap<String, Target>()
 
     @Reloadable
     @Awake(LifeCycle.CONST)
@@ -58,8 +57,14 @@ object TargetLoader {
 
     private fun load() {
         val time = System.currentTimeMillis()
-        targets.clear()
-        targets += config.getKeys(false).map { config.getConfigurationSection(it)!! }.map { it.name to Target(it) }
-        console().sendLang("loading-targets", targets.size, System.currentTimeMillis() - time)
+        clearRegistry()
+        config.getKeys(false).map { config.getConfigurationSection(it)!! }.forEach {
+            register(Target(it))
+        }
+        console().sendLang("loading-targets", size, System.currentTimeMillis() - time)
+    }
+
+    override fun getKey(value: Target): String {
+        return value.id
     }
 }
