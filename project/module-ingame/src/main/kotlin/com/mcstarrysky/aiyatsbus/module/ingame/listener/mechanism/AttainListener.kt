@@ -2,7 +2,7 @@ package com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
-import com.mcstarrysky.aiyatsbus.core.data.Rarity
+import com.mcstarrysky.aiyatsbus.core.data.registry.Rarity
 import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
 import com.mcstarrysky.aiyatsbus.core.util.calcToInt
 import com.mcstarrysky.aiyatsbus.core.util.serialized

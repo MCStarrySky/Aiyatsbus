@@ -1,6 +1,6 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
-package com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.container
+package com.mcstarrysky.aiyatsbus.core.util.container
 
 abstract class Registry<K, V>(val registered: MutableMap<K, V>) : Map<K, V> by registered {
     open fun transformKey(key: K): K = key
@@ -37,6 +37,8 @@ abstract class Registry<K, V>(val registered: MutableMap<K, V>) : Map<K, V> by r
     fun ofNullable(key: K?): V? = if (key != null) of(key) else null
 
     override fun containsKey(key: K): Boolean = registered.containsKey(transformKey(key))
+
+    fun clearRegistry() = registered.clear()
 }
 
 abstract class SimpleRegistry<K, V>(source: MutableMap<K, V>) : Registry<K, V>(source) {

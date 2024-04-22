@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.core.trigger
+package com.mcstarrysky.aiyatsbus.core.data.trigger
 
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings

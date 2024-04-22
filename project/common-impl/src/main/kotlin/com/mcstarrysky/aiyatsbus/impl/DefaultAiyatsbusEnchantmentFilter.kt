@@ -2,9 +2,6 @@ package com.mcstarrysky.aiyatsbus.impl
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.FilterType.*
-import com.mcstarrysky.aiyatsbus.core.data.Group
-import com.mcstarrysky.aiyatsbus.core.data.Rarity
-import com.mcstarrysky.aiyatsbus.core.data.Target
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake

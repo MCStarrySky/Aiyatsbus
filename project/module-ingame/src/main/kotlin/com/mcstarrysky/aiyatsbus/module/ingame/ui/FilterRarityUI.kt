@@ -1,7 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.ui
 
 import com.mcstarrysky.aiyatsbus.core.*
-import com.mcstarrysky.aiyatsbus.core.data.Rarity
+import com.mcstarrysky.aiyatsbus.core.data.registry.Rarity
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.MenuComponent
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
@@ -26,7 +26,7 @@ import kotlin.collections.set
 @MenuComponent("FilterRarity")
 object FilterRarityUI {
 
-    @Config("core/ui/filter_rarity.yml")
+    @Config("core/ui/filter_rarity.yml", autoReload = true)
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 
@@ -44,7 +44,7 @@ object FilterRarityUI {
 
     fun open(player: Player) {
         player.record(UIType.FILTER_RARITY)
-        player.openMenu<PageableChest<Rarity>>(config.title()) {
+        player.openMenu<PageableChest<Rarity>>(config.title().component().buildColored().toLegacyText()) {
 //            virtualize()
             val (shape, templates) = config
             rows(shape.rows)
@@ -56,7 +56,7 @@ object FilterRarityUI {
             pages(shape, templates)
 
             val template = templates.require("FilterRarity:filter")
-            onGenerate { _, element, index, slot ->
+            onGenerate(async = true) { _, element, index, slot ->
                 template(slot, index) {
                     this["rarity"] = element
                     this["player"] = player

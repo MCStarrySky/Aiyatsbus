@@ -4,7 +4,7 @@ import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.FilterStatement
 import com.mcstarrysky.aiyatsbus.core.FilterType
 import com.mcstarrysky.aiyatsbus.core.aiyatsbusTargets
-import com.mcstarrysky.aiyatsbus.core.data.Target
+import com.mcstarrysky.aiyatsbus.core.data.registry.Target
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.MenuComponent
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
@@ -29,7 +29,7 @@ import kotlin.collections.set
 @MenuComponent("FilterTarget")
 object FilterTargetUI {
 
-    @Config("core/ui/filter_target.yml")
+    @Config("core/ui/filter_target.yml", autoReload = true)
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 
@@ -47,7 +47,7 @@ object FilterTargetUI {
 
     fun open(player: Player) {
         player.record(UIType.FILTER_TARGET)
-        player.openMenu<PageableChest<Target>>(config.title()) {
+        player.openMenu<PageableChest<Target>>(config.title().component().buildColored().toLegacyText()) {
 //            virtualize()
 
             val (shape, templates) = config
@@ -60,7 +60,7 @@ object FilterTargetUI {
             pages(shape, templates)
 
             val template = templates.require("FilterTarget:filter")
-            onGenerate { _, element, index, slot ->
+            onGenerate(async = true) { _, element, index, slot ->
                 template(slot, index) {
                     this["target"] = element
                     this["player"] = player

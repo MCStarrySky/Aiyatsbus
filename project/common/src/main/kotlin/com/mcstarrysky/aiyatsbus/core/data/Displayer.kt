@@ -94,7 +94,7 @@ data class Displayer(
         fun load(displayerConfig: ConfigurationSection, enchant: AiyatsbusEnchantment): Displayer {
             val previous = displayerConfig.getString("format.previous", "{default_previous}")!!
             val subsequent = displayerConfig.getString("format.subsequent", "{default_subsequent}")!!
-            val generalDescription = displayerConfig.getString("description.general", "&7附魔介绍未设置")!!
+            val generalDescription = displayerConfig.getString("description.general", "&7")!!
             val specificDescription = displayerConfig.getString("description.specific", generalDescription)!!
             return Displayer(previous, subsequent, generalDescription, specificDescription, enchant)
         }

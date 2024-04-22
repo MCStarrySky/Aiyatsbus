@@ -3,11 +3,9 @@ package com.mcstarrysky.aiyatsbus.module.ingame.ui.internal
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.*
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.ItemStack
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variable
 import taboolib.common.platform.event.SubscribeEvent
 import java.util.*
 
@@ -91,12 +89,6 @@ fun Player.back() {
         UIType.MAIN_MENU -> MainMenuUI.open(this)
         UIType.FAVORITE -> {}
     }
-}
-
-@MenuComponent
-val back = MenuFunctionBuilder {
-    onBuild { (_, _, _, _, icon, args) -> icon.variable("last", listOf((args["player"] as Player).last())) }
-    onClick { (_, _, _, event, _) -> event.clicker.back() }
 }
 
 object Recorder {

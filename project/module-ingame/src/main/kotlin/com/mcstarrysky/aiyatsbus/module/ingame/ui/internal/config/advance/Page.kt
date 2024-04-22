@@ -1,8 +1,8 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.advance
 
+import com.mcstarrysky.aiyatsbus.core.util.container.SimpleRegistry
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.MenuItem
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.container.SimpleRegistry
 import java.util.stream.Collectors
 import kotlin.math.ceil
 

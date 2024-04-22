@@ -7,6 +7,7 @@ import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.data.LimitType
 import com.mcstarrysky.aiyatsbus.core.data.MenuMode
 import com.mcstarrysky.aiyatsbus.core.util.*
+import com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism.VillagerListener
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.*
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
@@ -14,7 +15,6 @@ import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variable
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variables
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.inventory.EquipmentSlot.*
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import taboolib.module.chat.component
@@ -35,7 +35,7 @@ import kotlin.collections.set
 @MenuComponent("EnchantInfo")
 object EnchantInfoUI {
 
-    @Config("core/ui/enchant_info.yml")
+    @Config("core/ui/enchant_info.yml", autoReload = true)
     private lateinit var source: Configuration
     private lateinit var config: MenuConfiguration
 
@@ -75,7 +75,8 @@ object EnchantInfoUI {
         player.record(UIType.ENCHANT_INFO, "enchant" to enchant, "level" to level, "checked" to checked, "category" to category)
         player.openMenu<PageableChest<String>>(
             config.title()
-                .replace("[enchant_display_roman]", enchant.displayName(level))
+                .replace("[enchant_display_roman]", enchant.displayName(level)
+                    .component().buildColored().toLegacyText())
         ) {
 //            virtualize()
 
@@ -116,7 +117,7 @@ object EnchantInfoUI {
             pages(shape, templates)
 
             val template = templates.require("EnchantInfo:element")
-            onGenerate { _, element, index, slot -> template(slot, index) { this["element"] = element;this["category"] = category } }
+            onGenerate(async = true) { _, element, index, slot -> template(slot, index) { this["element"] = element;this["category"] = category } }
             onClick { event, element -> templates[event.rawSlot]?.handle(this, event, "element" to element) }
 
             val params = arrayOf(
@@ -160,13 +161,14 @@ object EnchantInfoUI {
     @MenuComponent
     private val level = MenuFunctionBuilder {
         onBuild { (_, _, _, _, icon, args) ->
+            val player = args["player"] as Player
             val level = args["level"] as Int
             val enchant = args["enchant"] as AiyatsbusEnchantment
             icon.amount = level
             icon.variables {
                 when (it) {
                     "params" -> enchant.variables.leveled.map { (variable) ->
-                        "&b$variable &7> " + enchant.variables.leveled(variable, level, true)
+                        player.asLang("ui-enchant-info-variables", variable to "variable", enchant.variables.leveled(variable, level, false) to "value")
                     }
 
                     "roman" -> listOf(level.roman())
@@ -220,16 +222,9 @@ object EnchantInfoUI {
             val conflicts = limits.filter { it.first.toString().contains("CONFLICT") }.joinToString("; ") { it.second }
             val dependencies = limits.filter { it.first.toString().contains("DEPENDENCE") }.joinToString("; ") { it.second }
             val perms = limits.filter { it.first == LimitType.PERMISSION }.map { it.second }
-            val permission = if (perms.none { !player.hasPermission(it) }) "&a✓" else "&c✗"
+            val permission = player.asLang("ui-enchant-info-limitations-permission-${perms.none { !player.hasPermission(it) }}")
             val activeSlots = enchant.targets.map { it.activeSlots }.flatten().toSet().joinToString("; ") {
-                when (it) {
-                    HAND -> "主手"
-                    OFF_HAND -> "副手"
-                    FEET -> "足"
-                    LEGS -> "腿"
-                    CHEST -> "胸"
-                    HEAD -> "头"
-                }
+                player.asLang("limitations-${it.name.lowercase()}")
             }
             icon.variables {
                 listOf(
@@ -253,24 +248,25 @@ object EnchantInfoUI {
     private val other = MenuFunctionBuilder {
         onBuild { (_, _, _, _, icon, args) ->
             val enchant = args["enchant"] as AiyatsbusEnchantment
+            val player = args["player"] as Player
             var attainWays = ""
             if (enchant.alternativeData.isDiscoverable &&
                 enchant.alternativeData.weight > 0 &&
                 enchant.rarity.weight > 0
-            ) attainWays += "&d附魔台 &e战利品箱"
+            ) attainWays += player.asLang("ui-enchant-info-other-attain-ways-discoverable-enchantable")
             if (enchant.alternativeData.isTradeable &&
-                enchant.enchantment.isInGroup("可交易附魔")
+                enchant.enchantment.isInGroup(VillagerListener.tradeGroup)
             ) {
                 if (attainWays.isNotBlank()) attainWays += " "
-                attainWays += "&6村民"
+                attainWays += player.asLang("ui-enchant-info-other-attain-ways-tradeable")
             }
             icon.variables {
                 listOf(
                     when (it) {
                         "attain_ways" -> attainWays
-                        "grindstoneable" -> if (enchant.alternativeData.grindstoneable) "&a✓" else "&c✗"
-                        "treasure" -> if (enchant.alternativeData.isTreasure) "&a✓" else "&c✗"
-                        "curse" -> if (enchant.alternativeData.isCursed) "&a✓" else "&c✗"
+                        "grindstoneable" -> player.asLang("ui-enchant-info-other-grindstoneable-${enchant.alternativeData.grindstoneable}")
+                        "treasure" -> player.asLang("ui-enchant-info-other-treasure-${enchant.alternativeData.isTreasure}")
+                        "curse" -> player.asLang("ui-enchant-info-other-curse-${enchant.alternativeData.isCursed}")
                         else -> ""
                     }
                 )
@@ -281,26 +277,26 @@ object EnchantInfoUI {
     @MenuComponent
     private val available = MenuFunctionBuilder {
         onBuild { (_, _, _, _, icon, args) ->
+            val player = args["player"] as Player
             val enchant = args["enchant"] as AiyatsbusEnchantment
             val checked = args["checked"] as ItemStack
             if (checked.isNull) {
                 return@onBuild icon.variables {
                     listOf(
                         when (it) {
-                            "state" -> "N/A"
-                            "reasons" -> "无"
+                            "state" -> player.asLang("ui-enchant-info-available-state-unknown")
+                            "reasons" -> player.asLang("ui-enchant-info-available-reasons-unknown")
                             else -> ""
                         }
                     )
                 }
             }
             val level = checked.etLevel(enchant)
-            val player = args["player"] as Player
             val result = enchant.limitations.checkAvailable(CheckType.ANVIL, checked, player)
-            val state = if (level > 0) "&a已安装 " + if (level < enchant.basicData.maxLevel) "可升级" else "最高级"
-            else if (result.first) "&e可安装"
-            else "&c不可安装"
-            val reasons = result.second.ifEmpty { "无" }
+            val state = if (level > 0)
+                player.asLang("ui-enchant-info-available-installed", player.asLang("ui-enchant-info-available-installed-can-upgrade-${level < enchant.basicData.maxLevel}") to "upgrade")
+            else player.asLang("ui-enchant-info-available-can-install-${result.first}")
+            val reasons = result.second.ifEmpty { player.asLang("ui-enchant-info-available-reasons-empty") }
 
             icon.variables {
                 listOf(
@@ -314,47 +310,41 @@ object EnchantInfoUI {
         }
     }
 
+    @Suppress("unchecked_cast")
     @MenuComponent
     private val element = MenuFunctionBuilder {
-        onBuild { (_, _, _, _, icon, args) ->
+        onBuild { (_, extra, _, _, icon, args) ->
             val element = args["element"].toString()
             val parts = element.split(":")
-            when (parts[0]) {
-                "group" -> {
-                    val group = aiyatsbusGroup(parts[1])!!
-                    icon.name = icon.name!!.split("||")[0]
-                    icon.skull(group.skull)
-                        .modifyMeta<ItemMeta> {
-                            val lore = lore!!
-                            val index = lore.indexOf("分隔符号")
-                            this.lore = lore.subList(0, index)
-                        }.variables {
-                            listOf(
-                                when (it) {
-                                    "group" -> group.name
-                                    "amount" -> group.enchantments.size.toString()
-                                    "max_coexist" -> if (args["category"] == "conflicts") "${group.maxCoexist - 1}" else "删除本行"
-                                    else -> ""
-                                }
-                            )
-                        }.modifyLore { removeIf { it.contains("删除本行") } }
-                }
+            val type = parts[0].lowercase()
+            val lore = extra[type + "_lore"] as List<String>
+            val name = extra[type + "_name"] as String
 
-                "enchant" -> {
-                    val enchant = aiyatsbusEt(parts[1])!!
-                    val holders = enchant.displayer.holders(enchant.basicData.maxLevel)
-                    icon.name = icon.name!!.split("||")[1]
-                    icon.skull(enchant.rarity.skull)
-                        .modifyMeta<ItemMeta> {
-                            val lore = lore!!
-                            val index = lore.indexOf("分隔符号")
-                            this.lore = lore.subList(index + 1)
-                        }
-                        .modifyMeta<ItemMeta> { lore = lore.toBuiltComponent().map(Source::toLegacyText) }
-                        .variables { variable -> listOf(holders[variable] ?: "") }
+            icon.modifyMeta<ItemMeta> {
+                setDisplayName(name)
+                this.lore = lore
+            }.let { item ->
+                when (type) {
+                    "group" -> {
+                        val group = aiyatsbusGroup(parts[1])!!
+                        item.skull(group.skull).variables {
+                                listOf(
+                                    when (it) {
+                                        "group" -> group.name
+                                        "amount" -> group.enchantments.size.toString()
+                                        "max_coexist" -> if (args["category"] == "conflicts") "${group.maxCoexist - 1}" else "删除本行"
+                                        else -> ""
+                                    }
+                                )
+                            }.modifyLore { removeIf { it.contains("删除本行") } }
+                    }
+                    "enchant" -> {
+                        val enchant = aiyatsbusEt(parts[1])!!
+                        val holders = enchant.displayer.holders(enchant.basicData.maxLevel)
+                        item.skull(enchant.rarity.skull).variables { variable -> listOf(holders[variable] ?: "") }
+                    }
+                    else -> item
                 }
-
-                else -> icon
             }
         }
 
@@ -380,12 +370,7 @@ object EnchantInfoUI {
         onBuild { (_, _, _, _, icon, args) ->
             val enchant = args["enchant"] as AiyatsbusEnchantment
             val player = args["player"] as Player
-            icon.variable(
-                "state", listOf(
-                    if (!player.favorites.contains(enchant.basicData.id)) "&a收藏"
-                    else "&c移除收藏"
-                )
-            )
+            icon.variable("state", listOf(player.asLang("ui-enchant-info-favorite-${!player.favorites.contains(enchant.basicData.id)}")))
         }
 
 

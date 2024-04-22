@@ -43,7 +43,7 @@ fun Chest.load(
     vararg ignored: String
 ) {
     val notAuto = ignored.toMutableList() + "Back"
-    onBuild { _, inventory ->
+    onBuild(async = true) { _, inventory ->
         shape.all(*notAuto.toTypedArray()) { slot, index, item, _ ->
             inventory.setItem(slot, item(slot, index))
         }

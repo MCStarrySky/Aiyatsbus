@@ -1,7 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.command.subcommand
 
 import com.mcstarrysky.aiyatsbus.core.*
-import com.mcstarrysky.aiyatsbus.core.data.Rarity
+import com.mcstarrysky.aiyatsbus.core.data.registry.Rarity
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -22,7 +22,7 @@ val randomSubCommand = subCommand {
         suggestion<CommandSender> { _, _ -> aiyatsbusRarities.map { it.key } + aiyatsbusRarities.map { it.value.name } }
         execute<CommandSender> { sender, args, _ -> handleRandom(sender, null, aiyatsbusRarity(args["rarity"])!!) }
         dynamic("level", true) {
-            suggestionUncheck<CommandSender> { _, _ -> listOf("等级") }
+            suggestionUncheck<CommandSender> { _, _ -> listOf("等级", "level") }
             execute<CommandSender> { sender, args, _ -> handleRandom(sender, null, aiyatsbusRarity(args["rarity"])!!, args["level"]) }
             dynamic("player", true) {
                 suggestPlayers()

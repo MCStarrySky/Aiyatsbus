@@ -2,7 +2,6 @@ package com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
-import com.mcstarrysky.aiyatsbus.core.data.Group
 import org.bukkit.event.entity.VillagerAcquireTradeEvent
 import org.bukkit.inventory.MerchantRecipe
 import taboolib.common.platform.event.EventPriority

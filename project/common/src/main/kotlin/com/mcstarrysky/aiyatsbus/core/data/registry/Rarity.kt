@@ -1,8 +1,9 @@
-package com.mcstarrysky.aiyatsbus.core.data
+package com.mcstarrysky.aiyatsbus.core.data.registry
 
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.sendLang
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.container.SimpleRegistry
 import com.mcstarrysky.aiyatsbus.core.util.replace
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
@@ -39,13 +40,11 @@ data class Rarity(
     }
 }
 
-object RarityLoader {
+object RarityLoader : SimpleRegistry<String, Rarity>(ConcurrentHashMap()) {
 
     @Config("enchants/rarity.yml", autoReload = true)
     lateinit var config: Configuration
         private set
-
-    val rarities = ConcurrentHashMap<String, Rarity>()
 
     @Reloadable
     @Awake(LifeCycle.CONST)
@@ -67,8 +66,14 @@ object RarityLoader {
 
     private fun load() {
         val time = System.currentTimeMillis()
-        rarities.clear()
-        rarities += config.getKeys(false).map { config.getConfigurationSection(it)!! }.map { it.name to Rarity(it) }
-        console().sendLang("loading-rarities", rarities.size, System.currentTimeMillis() - time)
+        clearRegistry()
+        config.getKeys(false).map { config.getConfigurationSection(it)!! }.forEach {
+            register(Rarity(it))
+        }
+        console().sendLang("loading-rarities", size, System.currentTimeMillis() - time)
+    }
+
+    override fun getKey(value: Rarity): String {
+        return value.id
     }
 }
