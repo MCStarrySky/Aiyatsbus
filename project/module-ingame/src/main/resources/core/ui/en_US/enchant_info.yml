@@ -1,0 +1,216 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+title: "Enchantment Info | [enchant_display_roman]"
+shape:
+  - 'FIFJFXZYF'
+  - 'FKFMFFFFF'
+  - 'FFFFFSDGF'
+  - 'FEEEEEEEF'
+  - 'FEEEEEEEF'
+  - 'FBCFLFPNF'
+
+template:
+  'F':
+    material: BLACK_STAINED_GLASS_PANE
+    name: "&7"
+
+  'C':
+    material: PLAYER_HEAD
+    name: "&cClose"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc1NDgzNjJhMjRjMGZhODQ1M2U0ZDkzZTY4YzU5NjlkZGJkZTU3YmY2NjY2YzAzMTljMWVkMWU4NGQ4OTA2NSJ9fX0="
+      - ==: Close
+
+  'O':
+    material: PLAYER_HEAD
+    name: "&7"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjgyYWQxYjljYjRkZDIxMjU5YzBkNzVhYTMxNWZmMzg5YzNjZWY3NTJiZTM5NDkzMzgxNjRiYWM4NGE5NmUifX19"
+
+  'B':
+    material: PLAYER_HEAD
+    name: "&bBack to {last}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzk3OGYzNWM2Mzg2MGQ2OTRmZWU0YWIzYzM2OTRmZGU0MDQ2Yzk2NmU0YzFiZjA2NjVmODg3NDhmOWY4MDI1In19fQ=="
+      - ==: Functional
+        keyword: Back
+
+  'P':
+    material: PLAYER_HEAD
+    name: "&ePrevious Page"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjllYTFkODYyNDdmNGFmMzUxZWQxODY2YmNhNmEzMDQwYTA2YzY4MTc3Yzc4ZTQyMzE2YTEwOThlNjBmYjdkMyJ9fX0="
+      - ==: Functional
+        keyword: Previous
+
+  'N':
+    material: PLAYER_HEAD
+    name: "&eNext Page"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODI3MWE0NzEwNDQ5NWUzNTdjM2U4ZTgwZjUxMWE5ZjEwMmIwNzAwY2E5Yjg4ZTg4Yjc5NWQzM2ZmMjAxMDVlYiJ9fX0="
+      - ==: Functional
+        keyword: Next
+
+  'L':
+    material: PLAYER_HEAD
+    name: "&bFavourite"
+    lore:
+      - "&8| &7Don't know what enchantments to use?"
+      - "&8| &7Collect your favourite enchantments here!"
+      - "&8| &7"
+      - "&8| &7Click the button to {state}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTYzMzBhNGEyMmZmNTU4NzFmYzhjNjE4ZTQyMWEzNzczM2FjMWRjYWI5YzhlMWE0YmI3M2FlNjQ1YTRhNGUifX19"
+      - ==: Functional
+        keyword: EnchantInfo:favorite
+
+  'E':
+    material: PLAYER_HEAD
+    feature:
+      - ==: Functional
+        keyword: EnchantInfo:element
+        group_name: "&e{group} &7(&a{amount}&7)"
+        enchant_name: "{enchant_display_lore}"
+        group_lore:
+          - "&8| &7Max coexist amount > &c{max_coexist}"
+          - "&8| &7Click to view all enchantments in this group"
+        enchant_lore:
+          - "&8| &7Enchantment > {enchant_display}"
+          - "&8| &7Level > &e{level} / &c{max_level}"
+          - "&8| &7Rarity > {rarity_display}"
+          - "&8| &7Description > {description}"
+          - "&7"
+          - "&8| &7Click for more info"
+
+  'S':
+    material: PLAYER_HEAD
+    name: "&cConflicts"
+    lore:
+      - "&8| &7Click to show all"
+      - "&8| &7enchantments that conflict with this"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTFkYTNjZWNlMWI3ZGRlZjMwMzgyMWRkODljY2I3NGExNjU5NmNmZTE5MGQzYTMwYTg0NDYzYTI3Mjc4NzE0MiJ9fX0="
+      - ==: Functional
+        keyword: EnchantInfo:conflicts
+
+  'D':
+    material: PLAYER_HEAD
+    name: "&aDependencies"
+    lore:
+      - "&8| &7Click to show all"
+      - "&8| &7enchantments that this depends on"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTIyNzVhOTQ1NmM0ZTE1Yzc3Y2UxNTk0YjNmYmUxZGM1MmI4ZDc1OWQyNmQ0MjIyOWI3Zjk5ZjM2MmQ1NDEyMiJ9fX0="
+      - ==: Functional
+        keyword: EnchantInfo:dependencies
+
+  'G':
+    material: PLAYER_HEAD
+    name: "&eRelated"
+    lore:
+      - "&8| &7Click to show all"
+      - "&8| &7enchantments that are related to this"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzUzYjRkMTEzMzg3NThmMzdmZjIwMmYwZjk5NmI0YzUxOGJmZjM4OTdhZWRkZmEyZDg0NjY0NmYxYzNjMDcyZSJ9fX0="
+      - ==: Functional
+        keyword: EnchantInfo:related
+
+  'Z':
+    material: PLAYER_HEAD
+    name: "&7Level data &a{roman}"
+    lore:
+      - "&8| &7{params}"
+      - "&7"
+      - "&8| &7&cClick &7to restore to max level"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0="
+      - ==: Functional
+        keyword: EnchantInfo:level
+
+  'X':
+    material: RED_STAINED_GLASS_PANE
+    name: "&c-1"
+    lore:
+      - "&8| &7&cClick &7to find out about level &c-1"
+    feature:
+      - ==: Functional
+        keyword: EnchantInfo:minus
+
+  'Y':
+    material: GREEN_STAINED_GLASS_PANE
+    name: "&a+1"
+    lore:
+      - "&8| &7&cClick &7to find out about level &c+1"
+    feature:
+      - ==: Functional
+        keyword: EnchantInfo:plus
+
+  'I':
+    material: PLAYER_HEAD
+    name: "{enchant_display_lore}"
+    lore:
+      - "&8| &7Enchantment > {enchant_display}"
+      - "&8| &7Level > &e{level} / &c{max_level}"
+      - "&8| &7Rarity > {rarity_display}"
+      - "&8| &7Description > {description}"
+    feature:
+      - ==: Functional
+        keyword: EnchantInfo:basic
+
+  'J':
+    material: PLAYER_HEAD
+    name: "&6Limitation"
+    lore:
+      - "&8| &7Targets > {targets}"
+      - "&8| &7Active Slots > {active_slots}"
+      - "&8| &7Conflicts > {conflicts}"
+      - "&8| &7Dependencies > {dependencies}"
+      - "&8| &7Permission > {permission}"
+      - "&8| &7Disabled Worlds > {disable_worlds}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTFjMGU2OWYyY2RiNTQyNmFhZWQ3MTFjZTAzZWE2ZDcwOWM5MmU5YmViODRhZDFkMjJiNTg0YzQ2MWQ1MzM1ZCJ9fX0="
+      - ==: Functional
+        keyword: EnchantInfo:limitations
+
+  'K':
+    material: PLAYER_HEAD
+    name: "&eOhter attributes"
+    lore:
+      - "&8| &7Obtain > {attain_ways}"
+      - "&8| &7Grindstoneable > {grindstoneable}"
+      - "&8| &7Treasure > {treasure}"
+      - "&8| &7Curse > {curse}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmEyYWZhN2JiMDYzYWMxZmYzYmJlMDhkMmM1NThhN2RmMmUyYmFjZGYxNWRhYzJhNjQ2NjJkYzQwZjhmZGJhZCJ9fX0="
+      - ==: Functional
+        keyword: EnchantInfo:other
+
+  'M':
+    material: PLAYER_HEAD
+    name: "&eItem lookup"
+    lore:
+      - "&8| &7Click one item in your inventory"
+      - "&8| &7to see if the enchantment can be applied"
+      - "&7"
+      - "&8| &7State > {state}"
+      - "&8| &7Reason > {reasons}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzBjN2VlYjU3MmUwYzEyMjcxYmUwMGRkMDc0MGQzMWVjMDViYWI2YWNjNDNhNTYwNDhmMTgyMmUxYzNhY2Y4NSJ9fX0="
+      - ==: Functional
+        keyword: EnchantInfo:available
