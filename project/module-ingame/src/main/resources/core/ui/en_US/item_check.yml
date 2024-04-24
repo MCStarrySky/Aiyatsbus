@@ -1,0 +1,97 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+title: "Click item in your inventory to see information"
+# I 上传的物品的位置
+# E 物品附魔的简略信息，点击进入 EnchantInfo 界面查看详细信息
+
+# 点击背包内的物品，复制一个物品上传到 I 位置，自动扫描物品的附魔
+# 生成各个附魔对应的物品（简略信息），在 E 位置排列
+# 考虑到附魔可能很多，所以可以翻页
+shape:
+  - 'FFFFFFFFF'
+  - 'FIFEEEEEF'
+  - 'FFFEEEEEF'
+  - 'FMFEEEEEF'
+  - 'FFFBCFPNF'
+
+template:
+  'F':
+    material: BLACK_STAINED_GLASS_PANE
+    name: "&7"
+
+  'C':
+    material: PLAYER_HEAD
+    name: "&cClose"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc1NDgzNjJhMjRjMGZhODQ1M2U0ZDkzZTY4YzU5NjlkZGJkZTU3YmY2NjY2YzAzMTljMWVkMWU4NGQ4OTA2NSJ9fX0="
+      - ==: Close
+
+  'B':
+    material: PLAYER_HEAD
+    name: "&bBack to {last}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzk3OGYzNWM2Mzg2MGQ2OTRmZWU0YWIzYzM2OTRmZGU0MDQ2Yzk2NmU0YzFiZjA2NjVmODg3NDhmOWY4MDI1In19fQ=="
+      - ==: Functional
+        keyword: Back
+
+  'P':
+    material: PLAYER_HEAD
+    name: "&ePrevious Page"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjllYTFkODYyNDdmNGFmMzUxZWQxODY2YmNhNmEzMDQwYTA2YzY4MTc3Yzc4ZTQyMzE2YTEwOThlNjBmYjdkMyJ9fX0="
+      - ==: Functional
+        keyword: Previous
+
+  'N':
+    material: PLAYER_HEAD
+    name: "&eNext Page"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODI3MWE0NzEwNDQ5NWUzNTdjM2U4ZTgwZjUxMWE5ZjEwMmIwNzAwY2E5Yjg4ZTg4Yjc5NWQzM2ZmMjAxMDVlYiJ9fX0="
+      - ==: Functional
+        keyword: Next
+
+  'E':
+    material: PLAYER_HEAD
+    name: "{enchant_display_lore}"
+    lore:
+      - "&8| &7Enchantment > {enchant_display}"
+      - "&8| &7Level > &e{level} / &c{max_level}"
+      - "&8| &7Rarity > {rarity_display}"
+      - "&8| &7Description > {description}"
+      - "&7"
+      - "&8| &7Click to view detailed information"
+
+    feature:
+      - ==: Functional
+        keyword: ItemCheck:enchant
+
+  'I':
+    material: PLAYER_HEAD
+    name: "&eAwaiting for selection"
+    lore:
+      - "&8| &7Click on items in your inventory to select"
+      - "&8| &7{mode}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjViOTVkYTEyODE2NDJkYWE1ZDAyMmFkYmQzZTdjYjY5ZGMwOTQyYzgxY2Q2M2JlOWMzODU3ZDIyMmUxYzhkOSJ9fX0="
+      - ==: Functional
+        keyword: ItemCheck:item
+
+  'M':
+    material: PLAYER_HEAD
+    name: "&bQuery mode"
+    lore:
+      - "&8| &7Click to switch mode"
+      - "      &7> {modes}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjVlODRmOTNlNzkzMTJhMWUyYzUzNDQyYWM1YTA4YTk2NTNjNDYxMTg0ODAxYjBjODA5OGE3M2VkMDdkNmNlNyJ9fX0="
+      - ==: Functional
+        keyword: ItemCheck:mode

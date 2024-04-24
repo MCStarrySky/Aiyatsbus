@@ -1,0 +1,129 @@
+#         Powered by TabooLib 6.1         #
+
+title: "[Aiyatsbus](gradient=#6a11cb,#2575fc) &8| Enchantments List | Check on two sides for filters"
+# W - 按照品质筛选菜单
+# X - 按照对象筛选
+# Y - 按照附魔定位/类型筛选
+# Z - 输入字符串搜索
+shape:
+  - "FFFFFFFFF"
+  - "FFEEEEEFF"
+  - "WFEEEEEFY"
+  - "XFEEEEEFZ"
+  - "FFEEEEEFF"
+  - "BFFPFNFFC"
+
+template:
+  "F":
+    material: BLACK_STAINED_GLASS_PANE
+    name: "&7"
+
+  "C":
+    material: PLAYER_HEAD
+    name: "&cClose"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc1NDgzNjJhMjRjMGZhODQ1M2U0ZDkzZTY4YzU5NjlkZGJkZTU3YmY2NjY2YzAzMTljMWVkMWU4NGQ4OTA2NSJ9fX0="
+      - ==: Close
+
+  "B":
+    material: PLAYER_HEAD
+    name: "&bBack to {last}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzk3OGYzNWM2Mzg2MGQ2OTRmZWU0YWIzYzM2OTRmZGU0MDQ2Yzk2NmU0YzFiZjA2NjVmODg3NDhmOWY4MDI1In19fQ=="
+      - ==: Functional
+        keyword: Back
+
+  "P":
+    material: PLAYER_HEAD
+    name: "&ePrevious Page"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjllYTFkODYyNDdmNGFmMzUxZWQxODY2YmNhNmEzMDQwYTA2YzY4MTc3Yzc4ZTQyMzE2YTEwOThlNjBmYjdkMyJ9fX0="
+      - ==: Functional
+        keyword: Previous
+
+  "N":
+    material: PLAYER_HEAD
+    name: "&eNext Page"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODI3MWE0NzEwNDQ5NWUzNTdjM2U4ZTgwZjUxMWE5ZjEwMmIwNzAwY2E5Yjg4ZTg4Yjc5NWQzM2ZmMjAxMDVlYiJ9fX0="
+      - ==: Functional
+        keyword: Next
+
+  "W":
+    material: PLAYER_HEAD
+    name: "&bFilter &7>> &eby rarity"
+    lore:
+      - "&8| &7Current filter > "
+      - "&7    {rarities}"
+      - "&7"
+      - "&8| &7Click to show or hide enchantments of specific rarities"
+      - "&8| &7Shift + click to clear current filter"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzg2YjgwMjZhNjU5NmQ5MjJiM2I5ZTI0NWM2YjNmYWYzMTdhY2Q0ZjNjOTU3YTU4ZmE4NTNhZjY2MzJhOWViMiJ9fX0="
+      - ==: Functional
+        keyword: EnchantSearch:filter_rarity
+
+  "X":
+    material: PLAYER_HEAD
+    name: "&bFilter &7>> &eby target"
+    lore:
+      - "&8| &7Current filter > "
+      - "&7    {targets}"
+      - "&7"
+      - "&8| &7Click to show or hide enchantments for specific item targets"
+      - "&8| &7Shift + click to clear current filter"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjZlYTIxMzU4Mzg0NjE1MzQzNzJmMmRhNmM4NjJkMjFjZDVmM2QyYzcxMTlmMmJiNjc0YmJkNDI3OTEifX19"
+      - ==: Functional
+        keyword: EnchantSearch:filter_target
+
+  "Y":
+    material: PLAYER_HEAD
+    name: "&bFilter &7>> &eby type/group"
+    lore:
+      - "&8| &7Current filter > "
+      - "&7    {groups}"
+      - "&7"
+      - "&8| &7Click to show or hide enchantments for specific types/groups"
+      - "&8| &7Shift + click to clear current filter"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzkyYTBhMzY5Yzg5ZTRiYTJjOTNkMWNhN2Y1YzY1MDkwOTVlMGI5YmUyNWI3MzIxNmVhODgyZGM2NzFjMWE3NiJ9fX0="
+      - ==: Functional
+        keyword: EnchantSearch:filter_group
+
+  "Z":
+    material: PLAYER_HEAD
+    name: "&bFilter &7>> &eby name/description"
+    lore:
+      - "&8| &7Current filter > "
+      - "&7    {strings}"
+      - "&7"
+      - "&8| &7Left-click &a✓to only show enchantments containing specific keywords"
+      - "&8| &7Shift + click &e੦to clear current filter"
+      - "&8| &7Right-click &c✗to hide enchantments containing specific keywords"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmEyYWZhN2JiMDYzYWMxZmYzYmJlMDhkMmM1NThhN2RmMmUyYmFjZGYxNWRhYzJhNjQ2NjJkYzQwZjhmZGJhZCJ9fX0="
+      - ==: Functional
+        keyword: EnchantSearch:filter_string
+
+  "E":
+    material: PLAYER_HEAD
+    name: "{enchant_display_lore}"
+    lore:
+      - "&8| &7Enchantment > {enchant_display}"
+      - "&8| &7Level > &e{level} / &c{max_level}"
+      - "&8| &7Rarity > {rarity_display}"
+      - "&8| &7Description > {description}"
+      - "&7"
+      - "&8| &7Click to view detailed information"
+    feature:
+      - ==: Functional
+        keyword: EnchantSearch:enchant

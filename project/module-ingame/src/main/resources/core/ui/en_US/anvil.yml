@@ -1,0 +1,78 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+title: "Anvil | Click item in your inventory to upload"
+shape:
+  - 'FFFFFFFFF'
+  - 'FAPBERFIF'
+  - 'FFFFFFFFF'
+
+template:
+  'F':
+    material: BLACK_STAINED_GLASS_PANE
+    name: "&7"
+
+  'P':
+    material: PLAYER_HEAD
+    name: "&e+"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhMGZjNmRjZjczOWMxMWZlY2U0M2NkZDE4NGRlYTc5MWNmNzU3YmY3YmQ5MTUzNmZkYmM5NmZhNDdhY2ZiIn19fQ=="
+
+  'E':
+    material: PLAYER_HEAD
+    name: "&e="
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzAzMDgyZjAzM2Y5NzI0Y2IyMmZlMjdkMGRlNDk3NTA5MDMzNTY0MWVlZTVkOGQ5MjdhZGY1YThiNjdmIn19fQ=="
+
+  'I':
+    material: PLAYER_HEAD
+    name: "&bCombine Information"
+    lore:
+      - "&8| &7Combinable > {allowed}" 
+      - "&8| &7Level Cost > &e{level}级"
+      - "&8| &7Info > "
+      - "   &7{reasons}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTFjNDEzYThkMjZkNDY1NDFmYmVhZTRkM2U4MzBiYzRmYjE3YWIwNDAzODZkMTJjYzQzMDE0ZGE4N2VkOGFhZiJ9fX0="
+      - ==: Functional
+        keyword: Anvil:information
+
+  'A':
+    material: PLAYER_HEAD
+    name: "&bItem A"
+    lore:
+      - "&8| &7Click item in your inventory to upload"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjViOTVkYTEyODE2NDJkYWE1ZDAyMmFkYmQzZTdjYjY5ZGMwOTQyYzgxY2Q2M2JlOWMzODU3ZDIyMmUxYzhkOSJ9fX0="
+      - ==: Functional
+        keyword: Anvil:a
+
+  'B':
+    material: PLAYER_HEAD
+    name: "&bItem B"
+    lore:
+      - "&8| &7Click item in your inventory to upload"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjViOTVkYTEyODE2NDJkYWE1ZDAyMmFkYmQzZTdjYjY5ZGMwOTQyYzgxY2Q2M2JlOWMzODU3ZDIyMmUxYzhkOSJ9fX0="
+      - ==: Functional
+        keyword: Anvil:b
+
+  'R':
+    material: PLAYER_HEAD
+    name: "&bResult"
+    lore:
+      - "&8| &7After uploading two items here, the result will be displayed"
+      - "&8| &7If not, means the combination is not allowed"
+      - "&8| &7For more information, check what's on the right side"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTY5NTkwNThjMGMwNWE0MTdmZDc1N2NiODViNDQxNWQ5NjZmMjczM2QyZTdjYTU0ZjdiYTg2OGUzMjQ5MDllMiJ9fX0="
+      - ==: Functional
+        keyword: Anvil:result
