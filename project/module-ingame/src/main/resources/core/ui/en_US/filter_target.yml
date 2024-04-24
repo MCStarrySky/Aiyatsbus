@@ -1,0 +1,75 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+title: "Filter: Target"
+shape:
+  - 'FFFFFFFFF'
+  - 'FTTTTTTTF'
+  - 'FTTTTTTTF'
+  - 'FFFFRFFFF'
+  - ' BC   PN '
+
+template:
+  'F':
+    material: BLACK_STAINED_GLASS_PANE
+    name: "&7"
+
+  'C':
+    material: PLAYER_HEAD
+    name: "&cClose"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc1NDgzNjJhMjRjMGZhODQ1M2U0ZDkzZTY4YzU5NjlkZGJkZTU3YmY2NjY2YzAzMTljMWVkMWU4NGQ4OTA2NSJ9fX0="
+      - ==: Close
+
+  'B':
+    material: PLAYER_HEAD
+    name: "&bBack to {last}"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzk3OGYzNWM2Mzg2MGQ2OTRmZWU0YWIzYzM2OTRmZGU0MDQ2Yzk2NmU0YzFiZjA2NjVmODg3NDhmOWY4MDI1In19fQ=="
+      - ==: Functional
+        keyword: Back
+
+  'P':
+    material: PLAYER_HEAD
+    name: "&ePrevious Page"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjllYTFkODYyNDdmNGFmMzUxZWQxODY2YmNhNmEzMDQwYTA2YzY4MTc3Yzc4ZTQyMzE2YTEwOThlNjBmYjdkMyJ9fX0="
+      - ==: Functional
+        keyword: Previous
+
+  'N':
+    material: PLAYER_HEAD
+    name: "&eNext Page"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODI3MWE0NzEwNDQ5NWUzNTdjM2U4ZTgwZjUxMWE5ZjEwMmIwNzAwY2E5Yjg4ZTg4Yjc5NWQzM2ZmMjAxMDVlYiJ9fX0="
+      - ==: Functional
+        keyword: Next
+
+  'R':
+    material: PLAYER_HEAD
+    name: "&cReset"
+    lore:
+      - "&8| &7Click to clear current filter"
+    feature:
+      - ==: Head
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2JkYjUyMWZkODM1ZDkyMTIxM2UzODNmOWQ2MzkwZTQyNTU4NDllY2RiN2ViNTA4YzQzZmFjMDczZmU4YjgyYSJ9fX0="
+      - ==: Functional
+        keyword: FilterTarget:reset
+
+  'T':
+    material: PLAYER_HEAD
+    name: "&f{name} &7(&a{amount}&7)"
+    lore:
+      - "&8| &7Left-click &a✓ to only see enchantments suitable for this item type"
+      - "&8| &7Shift + Click &e੦ to clear current filters"
+      - "&8| &7Right-click &c✗ to exclude enchantments suitable for this item type"
+
+    feature:
+      - ==: Functional
+        keyword: FilterTarget:filter
