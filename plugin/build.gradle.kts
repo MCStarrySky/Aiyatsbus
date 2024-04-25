@@ -5,12 +5,23 @@ taboolib {
         name(rootProject.name)
         contributors {
             name("米咔噜")
+            name("坏黑")
             name("南外丶仓鼠")
             name("xiaozhangup")
             name("yanshiqwq")
+            name("Itz_Dr_Li")
         }
-        desc("Aiyatsbus is an powerful enchantment framework for Paper servers.")
+
+        dependencies {
+            name("PlaceholderAPI").optional(true)
+            name("ItemsAdder").optional(true)
+            name("BentoBox").optional(true)
+            name("Residence").optional(true)
+        }
+
+        desc("Aiyatsbus is a powerful enchantment framework for Paper servers.")
         load("STARTUP")
+        bukkitApi("1.16")
     }
 }
 
