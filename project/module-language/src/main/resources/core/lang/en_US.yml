@@ -47,6 +47,16 @@ filter-statement-symbol-off: '&c✘'
 add: 'Add'
 remove: 'Remove'
 
+ui-type-anvil: 'Anvil emulator'
+ui-type-enchant_info: 'Enchantment Info of {0}'
+ui-type-enchant_search: 'Enchantment List'
+ui-type-filter_group: 'Filter of Groups'
+ui-type-filter_rarity: 'Filter of Rarities'
+ui-type-filter_target: 'Filter of Targets'
+ui-type-item_check: 'Enchantment Query'
+ui-type-main-menu: 'Main Menu'
+ui-type-favorite: 'Favorites'
+
 ui-check-mode-find: '&aSearch Available Enchantments'
 ui-check-mode-find-current: '&7Search Current Available Enchantments'
 ui-check-mode-load: '&aLoad Available Enchantments'
@@ -76,8 +86,8 @@ ui-enchant-info-favorite-false: '&cRemove from Favorite'
 
 ui-anvil-info-allow: '&aAllow'
 ui-anvil-info-disallow: '&cDisallow'
-ui-anvil-info-level: "{cost}"
-ui-anvil-info-level-disallow: "N/A"
+ui-anvil-info-level: '{cost}'
+ui-anvil-info-level-disallow: 'N/A'
 ui-anvil-info-reasons-empty: 'Empty'
 ui-anvil-info-reasons:
   - '&7'
@@ -150,7 +160,7 @@ command-subCommands-menu-description: 'Open enchanting menu'
 command-subCommands-menu-usage: '&7<&8Player&7> &7<&8Menu Type&7>'
 command-subCommands-menu-fail: '{prefix} &7Console cannot open menu'
 
-command-subCommands-mode-description: 'Set player's menu mode'
+command-subCommands-mode-description: 'Set player''s menu mode'
 command-subCommands-mode-usage: '&7\[&8Mode&7\] &7<&8Player&7>'
 command-subCommands-mode-sender: '{prefix} &7Successfully changed the menu mode of &e{name} &7to &a{mode}'
 command-subCommands-mode-receiver: '{prefix} &7Menu mode changed to &a{mode}'

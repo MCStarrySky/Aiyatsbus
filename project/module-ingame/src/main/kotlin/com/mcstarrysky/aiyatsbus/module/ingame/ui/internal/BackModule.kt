@@ -3,10 +3,12 @@ package com.mcstarrysky.aiyatsbus.module.ingame.ui.internal
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.*
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.util.replaceWithOrder
 import java.util.*
 
 val recorders = mutableMapOf<UUID, MutableList<Pair<UIType, Map<String, Any?>>>>()
@@ -30,17 +32,17 @@ fun Player.last(): String {
     val recorder = recorders[uniqueId]!!
     val size = recorder.size
     if (size == 0) return "N/A"
-    if (size == 1) return forceLast(recorder[0].first)
+    if (size == 1) return forceLast(recorder[0].first, this)
     val last = recorder[size - 2]
     val type = last.first
     val params = last.second
-    return "${type.display} " + when (type) {
+    return type.display(this)?.replaceWithOrder(when (type) {
         UIType.ENCHANT_INFO -> (params["enchant"] as AiyatsbusEnchantment).displayName(params["level"] as Int)
         else -> ""
-    }
+    }) ?: UIType.UNKNOWN.display(this) ?: "N/A"
 }
 
-fun forceLast(type: UIType): String {
+fun forceLast(type: UIType, sender: CommandSender): String {
     return when (type) {
         UIType.ANVIL -> UIType.MAIN_MENU
         UIType.ENCHANT_INFO -> UIType.ENCHANT_SEARCH
@@ -48,10 +50,10 @@ fun forceLast(type: UIType): String {
         UIType.FILTER_GROUP -> UIType.ENCHANT_SEARCH
         UIType.FILTER_RARITY -> UIType.ENCHANT_SEARCH
         UIType.FILTER_TARGET -> UIType.ENCHANT_SEARCH
-        UIType.ITEM_CHECK -> null
+        UIType.ITEM_CHECK, UIType.UNKNOWN -> null
         UIType.MAIN_MENU -> UIType.MAIN_MENU
         UIType.FAVORITE -> UIType.MAIN_MENU
-    }?.display ?: "N/A"
+    }?.display(sender) ?: UIType.UNKNOWN.display(sender) ?: "N/A"
 }
 
 fun Player.forceBack(type: UIType) {
@@ -65,6 +67,8 @@ fun Player.forceBack(type: UIType) {
         UIType.ITEM_CHECK -> MainMenuUI.open(this)
         UIType.MAIN_MENU -> performCommand(AiyatsbusSettings.mainMenuBack).also { recorders.remove(uniqueId) }
         UIType.FAVORITE -> MainMenuUI.open(this)
+        UIType.UNKNOWN -> {
+        }
     }
 }
 
@@ -87,7 +91,9 @@ fun Player.back() {
         UIType.FILTER_TARGET -> FilterTargetUI.open(this)
         UIType.ITEM_CHECK -> ItemCheckUI.open(this, params["item"] as? ItemStack, params["mode"] as ItemCheckUI.CheckMode)
         UIType.MAIN_MENU -> MainMenuUI.open(this)
-        UIType.FAVORITE -> {}
+        UIType.FAVORITE -> {} // TODO
+        UIType.UNKNOWN -> {
+        }
     }
 }
 

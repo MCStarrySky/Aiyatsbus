@@ -3,6 +3,7 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.ui
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
+import com.mcstarrysky.aiyatsbus.core.asLang
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.etsAvailable
 import com.mcstarrysky.aiyatsbus.core.fixedEnchants
@@ -117,7 +118,7 @@ object ItemCheckUI {
         onBuild { (_, _, _, _, icon, args) ->
             val player = args["player"] as Player
             val current = args["mode"] as CheckMode
-            icon.variable("modes", CheckMode.values().map { it.ifCurrent(current == it) })
+            icon.variable("modes", CheckMode.values().map { player.asLang(it.ifCurrent(current == it)) })
         }
         onClick { (_, _, _, event, args) ->
             val current = args["mode"] as CheckMode

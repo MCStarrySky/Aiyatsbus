@@ -18,7 +18,7 @@ template:
     name: "&eEnchantments"
     lore:
       - ""
-      - " &7Browse all enchantments here,"
+      - " &7Browse all enchantments here."
       - " &7You can filter enchantments by the following filters:"
       - "   &7- Rarity"
       - "   &7- Group"
@@ -36,7 +36,7 @@ template:
     name: "&eEnchantment Lookup"
     lore:
       - ""
-      - " &7Check the enchantments here,"
+      - " &7Check the enchantments here."
       - " &7You can also click the enchantment to enter the &eEnchant Info&7."
       - ""
       - "&eClick to open enchantment lookup!"
@@ -50,7 +50,7 @@ template:
     name: "&eAnvil Simulator"
     lore:
       - ""
-      - " &7Preview the result of combining enchantments here,"
+      - " &7Preview the result of combining enchantments here."
       - " &7or acknowledge the &ereason why combine cannot be done&7: "
       - "   &7- Conflict"
       - "   &7- Dependency"
@@ -64,16 +64,15 @@ template:
       - ==: Functional
         keyword: Menu:anvil
 
-# 如果您需要返回上一页的按钮, 就取消下面的注释
-# 并将按钮 D 添加进配置文件最上方的 shape 抽象字符布局界面里
-# 这个返回上一页按钮点击后会调用命令
-# 这个命令是您在 config.yml 里配置的命令 (main-menu-back)
+# Uncomment the following lines if you want to keep the Previous button.
+# And add the button 'D' to the list "shape" which is at the top of this configuration.
+# The Previous button will perform the command you configured in config.yml (main-menu-back) as the clicker when the button is clicked.
 
 #  'D':
 #    material: PLAYER_HEAD
-#    name: "&e返回"
+#    name: "&eBack"
 #    lore:
-#      - "&7至{last}。" # 这里的 last 一般是附魔主菜单, 但您可能需要配置成打开这个附魔菜单的上一级菜单, 比如您服务器用菜单插件制作的菜单
+#      - "&7To {last}." # This 'last' means the main menu, but you may replace '{last}' with your own previous menu name.
 #    feature:
 #      - ==: Head
 #        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzk3OGYzNWM2Mzg2MGQ2OTRmZWU0YWIzYzM2OTRmZGU0MDQ2Yzk2NmU0YzFiZjA2NjVmODg3NDhmOWY4MDI1In19fQ=="

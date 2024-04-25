@@ -4,12 +4,12 @@
 
 
 title: "Click item in your inventory to see information"
-# I 上传的物品的位置
-# E 物品附魔的简略信息，点击进入 EnchantInfo 界面查看详细信息
+# I 上传的物品的位置 The item's position that uploaded
+# E The brief information of the item's enchantment, click to view detailed information
 
-# 点击背包内的物品，复制一个物品上传到 I 位置，自动扫描物品的附魔
-# 生成各个附魔对应的物品（简略信息），在 E 位置排列
-# 考虑到附魔可能很多，所以可以翻页
+# Click on an item in your inventory to copy an item to the I position, and automatically scan the item's enchantment
+# Generate items corresponding to each enchantment (brief information), arranged in the E position
+# Considering that there may be many enchantments, so you can turn the page
 shape:
   - 'FFFFFFFFF'
   - 'FIFEEEEEF'
