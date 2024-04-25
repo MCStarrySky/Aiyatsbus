@@ -105,7 +105,7 @@ data class Limitations(
                     CONFLICT_GROUP -> other.isInGroup(it.second)
                     else -> false
                 }
-            }.all { true }
+            }.any { true }
     }
 
     companion object {
