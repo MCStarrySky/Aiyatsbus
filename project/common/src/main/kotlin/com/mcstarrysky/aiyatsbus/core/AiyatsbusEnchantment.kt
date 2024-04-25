@@ -83,7 +83,7 @@ interface AiyatsbusEnchantment {
     val trigger: Trigger
 
     fun conflictsWith(other: Enchantment): Boolean {
-        return false
+        return limitations.conflictsWith(other)
     }
 
     /**

@@ -38,9 +38,9 @@ class LegacyCraftEnchantment(
 
     override fun isCursed(): Boolean = enchant.alternativeData.isCursed
 
-    override fun conflictsWith(p0: Enchantment): Boolean = false
+    override fun conflictsWith(other: Enchantment): Boolean = enchant.conflictsWith(other)
 
-    override fun canEnchantItem(p0: ItemStack): Boolean = true
+    override fun canEnchantItem(item: ItemStack): Boolean = true
 
     override fun displayName(level: Int): Component {
         return enchant.displayName(level).legacyToAdventure()

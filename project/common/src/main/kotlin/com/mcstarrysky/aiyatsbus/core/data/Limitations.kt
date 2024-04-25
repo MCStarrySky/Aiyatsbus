@@ -5,6 +5,7 @@ import com.mcstarrysky.aiyatsbus.core.data.LimitType.*
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.EquipmentSlot
@@ -94,6 +95,17 @@ data class Limitations(
             CONFLICT_GROUP -> enchants.count { (enchant, _) -> enchant.enchantment.isInGroup(value) && enchant.enchantmentKey != belonging.enchantmentKey } < (aiyatsbusGroup(value)?.maxCoexist ?: 10000)
             else -> true
         }
+    }
+
+    fun conflictsWith(other: Enchantment): Boolean {
+        return limitations.filter { it.first == CONFLICT_ENCHANT || it.first == CONFLICT_GROUP }
+            .map {
+                when (it.first) {
+                    CONFLICT_ENCHANT -> other.key == aiyatsbusEt(it.second)?.enchantmentKey
+                    CONFLICT_GROUP -> other.isInGroup(it.second)
+                    else -> false
+                }
+            }.all { true }
     }
 
     companion object {
