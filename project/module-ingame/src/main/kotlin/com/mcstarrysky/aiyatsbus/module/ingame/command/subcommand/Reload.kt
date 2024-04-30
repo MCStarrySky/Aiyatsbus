@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.command.subcommand
 
 import com.mcstarrysky.aiyatsbus.core.*
+import com.mcstarrysky.aiyatsbus.core.compat.EnchantRegistrationHooks
 import com.mcstarrysky.aiyatsbus.core.registration.modern.ModernEnchantmentRegisterer
 import com.mcstarrysky.aiyatsbus.core.util.Reloadables
 import com.mcstarrysky.aiyatsbus.module.ingame.command.AiyatsbusCommand
@@ -25,7 +26,6 @@ val reloadSubCommand = subCommand {
         if (MinecraftVersion.majorLegacy >= 12003) {
             (Aiyatsbus.api().getEnchantmentRegisterer() as ModernEnchantmentRegisterer).replaceRegistry()
         }
-        // TODO: Reloadable 成组
         Language.reload()
         AiyatsbusSettings.conf.reload()
         Reloadables.execute()
@@ -38,5 +38,7 @@ val reloadSubCommand = subCommand {
         onlinePlayers.forEach(Player::updateInventory)
         AiyatsbusCommand.init() // 重新生成 TabList
         sender.sendLang("plugin-reload", System.currentTimeMillis() - time)
+        EnchantRegistrationHooks.unregisterHooks()
+        EnchantRegistrationHooks.registerHooks()
     }
 }

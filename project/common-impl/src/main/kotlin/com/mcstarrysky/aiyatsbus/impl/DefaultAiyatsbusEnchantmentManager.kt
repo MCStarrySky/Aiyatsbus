@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.impl
 
 import com.mcstarrysky.aiyatsbus.core.*
+import com.mcstarrysky.aiyatsbus.core.compat.EnchantRegistrationHooks
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.unwatch
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.watch
@@ -94,6 +95,8 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
                     onlinePlayers.forEach(Player::updateInventory)
 
                     console().sendLang("enchantment-reload", id, System.currentTimeMillis() - time0)
+                    EnchantRegistrationHooks.unregisterHooks()
+                    EnchantRegistrationHooks.registerHooks()
                 }
 
                 val enchant = AiyatsbusEnchantmentBase(id, config)
@@ -105,6 +108,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
             }
 
         console().sendLang("loading-enchantments", BY_ID.size, System.currentTimeMillis() - time)
+        EnchantRegistrationHooks.registerHooks()
     }
 
     override fun clearEnchantments() {
