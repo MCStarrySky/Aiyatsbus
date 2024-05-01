@@ -45,6 +45,11 @@ interface AiyatsbusEnchantment {
     val alternativeData: AlternativeData
 
     /**
+     * 附魔的依赖信息, 包括必须为 MC 哪个版本才能使用, 必须安装哪些数据包, 必须安装哪些插件
+     */
+    val dependencies: Dependencies
+
+    /**
      * Bukkit 附魔实例, 在注册后赋值, 一般是 CraftEnchantment
      *
      * 在 1.20.2 及以下版本中, 这个是 LegacyCraftEnchantment

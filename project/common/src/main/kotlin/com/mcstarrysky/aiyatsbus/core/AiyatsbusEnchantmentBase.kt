@@ -26,6 +26,8 @@ class AiyatsbusEnchantmentBase(
 
     override val alternativeData: AlternativeData = AlternativeData(config.getConfigurationSection("alternative"))
 
+    override val dependencies: Dependencies = Dependencies(config.getConfigurationSection("dependencies"))
+
     override lateinit var enchantment: Enchantment
 
     override val rarity: Rarity

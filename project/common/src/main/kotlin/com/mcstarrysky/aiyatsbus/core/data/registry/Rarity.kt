@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.core.data.registry
 
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
+import com.mcstarrysky.aiyatsbus.core.data.Dependencies
 import com.mcstarrysky.aiyatsbus.core.sendLang
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.container.SimpleRegistry
@@ -29,7 +30,8 @@ data class Rarity(
     val name: String = root.getString("name")!!,
     val color: String = root.getString("color")!!,
     val weight: Int = root.getInt("weight", 100),
-    val skull: String = root.getString("skull", "")!!
+    val skull: String = root.getString("skull", "")!!,
+    val dependencies: Dependencies = Dependencies(root.getConfigurationSection("dependencies"))
 ) {
 
     /**
@@ -68,7 +70,11 @@ object RarityLoader : SimpleRegistry<String, Rarity>(ConcurrentHashMap()) {
         val time = System.currentTimeMillis()
         clearRegistry()
         config.getKeys(false).map { config.getConfigurationSection(it)!! }.forEach {
-            register(Rarity(it))
+            val rarity = Rarity(it)
+            if (!rarity.dependencies.checkAvailable()) {
+                return@forEach
+            }
+            register(rarity)
         }
         console().sendLang("loading-rarities", size, System.currentTimeMillis() - time)
     }

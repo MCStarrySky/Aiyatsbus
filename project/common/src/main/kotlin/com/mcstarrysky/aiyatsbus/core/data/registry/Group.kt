@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.core.data.registry
 
 import com.mcstarrysky.aiyatsbus.core.*
+import com.mcstarrysky.aiyatsbus.core.data.Dependencies
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.container.SimpleRegistry
 import taboolib.common.LifeCycle
@@ -31,7 +32,8 @@ data class Group(
         "skull",
         "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzRiODlhZDA2ZDMxOGYwYWUxZWVhZjY2MGZlYTc4YzM0ZWI1NWQwNWYwMWUxY2Y5OTlmMzMxZmIzMmQzODk0MiJ9fX0="
     )!!,
-    val maxCoexist: Int = root.getInt("max_coexist", 1)
+    val maxCoexist: Int = root.getInt("max_coexist", 1),
+    val dependencies: Dependencies = Dependencies(root.getConfigurationSection("dependencies"))
 )
 
 object GroupLoader : SimpleRegistry<String, Group>(ConcurrentHashMap()) {
@@ -61,7 +63,11 @@ object GroupLoader : SimpleRegistry<String, Group>(ConcurrentHashMap()) {
         val time = System.currentTimeMillis()
         clearRegistry()
         config.getKeys(false).map { config.getConfigurationSection(it)!! }.forEach {
-            register(Group(it))
+            val group = Group(it)
+            if (!group.dependencies.checkAvailable()) {
+                return@forEach
+            }
+            register(group)
         }
         console().sendLang("loading-groups", size, System.currentTimeMillis() - time)
     }

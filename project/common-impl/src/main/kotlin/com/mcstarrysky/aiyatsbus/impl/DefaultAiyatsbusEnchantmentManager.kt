@@ -6,6 +6,7 @@ import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.unwatch
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.watch
 import com.mcstarrysky.aiyatsbus.core.util.deepRead
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.io.newFolder
@@ -14,6 +15,7 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
 import taboolib.common.platform.function.*
 import taboolib.module.configuration.Configuration
+import taboolib.module.nms.MinecraftVersion
 import taboolib.platform.util.onlinePlayers
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
@@ -74,37 +76,43 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
             .map { it.deepRead("yml") }
             .map{ it.toList() }
             .flatten()
-            .forEach { file ->
-                val config = Configuration.loadFromFile(file)
-                val id = config["basic.id"].toString()
+            .let { files ->
+                for (file in files) {
+                    val config = Configuration.loadFromFile(file)
+                    val id = config["basic.id"].toString()
 
-                file.watch {
-                    val time0 = System.currentTimeMillis()
+                    val enchant = AiyatsbusEnchantmentBase(id, config)
+                    if (!enchant.dependencies.checkAvailable()) continue
 
-                    val enchantName = BY_ID[id]?.basicData?.name
-                    BY_ID[id]!!.trigger.onDisable()
-                    Aiyatsbus.api().getEnchantmentRegisterer().unregister(BY_ID[id]!!)
-                    BY_ID.remove(id)
-                    BY_NAME.remove(enchantName)
-
-                    val enchant = AiyatsbusEnchantmentBase(id, Configuration.loadFromFile(it))
                     val enchantment = Aiyatsbus.api().getEnchantmentRegisterer().register(enchant) as AiyatsbusEnchantment
+
                     BY_ID[id] = enchantment
                     BY_NAME[enchantment.basicData.name] = enchantment
+                    FILES[id] = file
 
-                    onlinePlayers.forEach(Player::updateInventory)
+                    file.watch {
+                        val time0 = System.currentTimeMillis()
 
-                    console().sendLang("enchantment-reload", id, System.currentTimeMillis() - time0)
-                    EnchantRegistrationHooks.unregisterHooks()
-                    EnchantRegistrationHooks.registerHooks()
+                        val enchantName = BY_ID[id]?.basicData?.name
+                        BY_ID[id]!!.trigger.onDisable()
+                        Aiyatsbus.api().getEnchantmentRegisterer().unregister(BY_ID[id]!!)
+                        BY_ID.remove(id)
+                        BY_NAME.remove(enchantName)
+
+                        val newEnchant = AiyatsbusEnchantmentBase(id, Configuration.loadFromFile(it))
+                        if (!newEnchant.dependencies.checkAvailable()) return@watch
+
+                        val newEnchantment = Aiyatsbus.api().getEnchantmentRegisterer().register(newEnchant) as AiyatsbusEnchantment
+                        BY_ID[id] = newEnchantment
+                        BY_NAME[newEnchantment.basicData.name] = newEnchantment
+
+                        onlinePlayers.forEach(Player::updateInventory)
+
+                        console().sendLang("enchantment-reload", id, System.currentTimeMillis() - time0)
+                        EnchantRegistrationHooks.unregisterHooks()
+                        EnchantRegistrationHooks.registerHooks()
+                    }
                 }
-
-                val enchant = AiyatsbusEnchantmentBase(id, config)
-                val enchantment = Aiyatsbus.api().getEnchantmentRegisterer().register(enchant) as AiyatsbusEnchantment
-
-                BY_ID[id] = enchantment
-                BY_NAME[enchantment.basicData.name] = enchantment
-                FILES[id] = file
             }
 
         console().sendLang("loading-enchantments", BY_ID.size, System.currentTimeMillis() - time)

@@ -22,5 +22,9 @@ limitations:
 display:
   description:
     general: "增加近战攻击伤害"
+    specific: "近战攻击伤害增加&a{伤害增加}"
 
-#TODO 数据录入
+# 原版附魔机制本插件不提供修改，因此此处改了也没有效果
+variables:
+  leveled:
+    伤害增加: "点:0.5*{level}+0.5"
