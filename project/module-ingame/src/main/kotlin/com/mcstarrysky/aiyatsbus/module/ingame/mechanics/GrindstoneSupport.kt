@@ -1,6 +1,6 @@
 @file:Suppress("deprecation")
 
-package com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism
+package com.mcstarrysky.aiyatsbus.module.ingame.mechanics
 
 import com.destroystokyo.paper.event.inventory.PrepareGrindstoneEvent
 import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent
@@ -10,7 +10,6 @@ import com.mcstarrysky.aiyatsbus.core.fixedEnchants
 import com.mcstarrysky.aiyatsbus.core.isInGroup
 import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
 import com.mcstarrysky.aiyatsbus.core.util.calcToInt
-import com.mcstarrysky.aiyatsbus.core.util.remove
 import org.bukkit.entity.ExperienceOrb
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerQuitEvent
@@ -26,7 +25,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 @ConfigNode(bind = "core/mechanisms/grindstone.yml")
-object GrindstoneListener {
+object GrindstoneSupport {
 
     @Config("core/mechanisms/grindstone.yml", autoReload = true)
     lateinit var conf: Configuration
@@ -110,7 +109,7 @@ object GrindstoneListener {
         result.clearEts()
         item.fixedEnchants.forEach { (enchant, level) ->
             val maxLevel = enchant.basicData.maxLevel
-            if (enchant.enchantment.isInGroup(blacklist)) result.addEt(enchant, level)
+            if (enchant.enchantment.isInGroup(blacklist) || !enchant.alternativeData.grindstoneable) result.addEt(enchant, level)
             else {
                 val bonus = rarityBonus[enchant.rarity.id] ?: rarityBonus[enchant.rarity.name] ?: defaultBonus
                 val refund = expPerEnchant.calcToDouble("level" to level, "max_level" to maxLevel, "bonus" to bonus)

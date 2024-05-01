@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism
+package com.mcstarrysky.aiyatsbus.module.ingame.mechanics
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
@@ -19,7 +19,7 @@ import taboolib.module.nms.MinecraftVersion
  * @since 2024/2/22 23:35
  */
 @ConfigNode(bind = "core/mechanisms/villager.yml")
-object VillagerListener {
+object VillagerSupport {
 
     @Config("core/mechanisms/villager.yml", autoReload = true)
     lateinit var conf: Configuration

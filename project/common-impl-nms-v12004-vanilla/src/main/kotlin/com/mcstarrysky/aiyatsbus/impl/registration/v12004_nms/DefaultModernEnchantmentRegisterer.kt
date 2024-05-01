@@ -25,7 +25,6 @@ import org.bukkit.enchantments.Enchantment
 import taboolib.common.util.unsafeLazy
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.library.reflex.Reflex.Companion.invokeMethod
-import taboolib.library.reflex.UnsafeAccess
 import java.util.*
 import kotlin.collections.HashMap
 

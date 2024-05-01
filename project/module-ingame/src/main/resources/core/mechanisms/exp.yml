@@ -3,6 +3,7 @@
 #         Powered by TabooLib 6.1         #
 
 
+# 是否开启经验魔改器
 enable: false
 
 exp_per_level:

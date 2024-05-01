@@ -32,6 +32,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
     private val BY_NAME = ConcurrentHashMap<String, AiyatsbusEnchantment>()
 
     private val FILES = ConcurrentHashMap<String, File>()
+    private val watching = linkedSetOf<String>()
 
     override fun getByIDs(): Map<String, AiyatsbusEnchantment> {
         return BY_ID
@@ -77,7 +78,8 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
             .flatten()
             .let { files ->
                 for (file in files) {
-                    val config = YamlUpdater.loadFromFile(file.path.removePrefix("plugins/Aiyatsbus/"), AiyatsbusSettings.enableUpdater, AiyatsbusSettings.updateContents)
+                    val path = file.path.substring(file.path.indexOf("enchants/"), file.path.length)
+                    val config = YamlUpdater.loadFromFile(path, AiyatsbusSettings.enableUpdater, AiyatsbusSettings.updateContents)
                     val id = config["basic.id"].toString()
 
                     val enchant = AiyatsbusEnchantmentBase(id, config)
@@ -90,8 +92,14 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
                     FILES[id] = file
 
                     file.watch {
+                        if (watching.contains(path)) {
+                            watching -= path
+                            return@watch
+                        }
                         if (AiyatsbusSettings.enableUpdater) {
                             console().sendLang("enchantment-reload-failed", id)
+                            watching += path
+                            YamlUpdater.loadFromFile(path, AiyatsbusSettings.enableUpdater, AiyatsbusSettings.updateContents)
                             return@watch
                         }
                         val time0 = System.currentTimeMillis()
@@ -102,8 +110,6 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
                         BY_ID.remove(id)
                         BY_NAME.remove(enchantName)
 
-                        // 因为没开启自动平衡性调整, 所以这里不需要用 YamlUpdater 来更新配置
-                        // 如果这里用 YamlUpdater 更新了配置, 很可能会造成递归错误 (我没测试, 猜的)
                         val newEnchant = AiyatsbusEnchantmentBase(id, Configuration.loadFromFile(it))
                         if (!newEnchant.dependencies.checkAvailable()) return@watch
 

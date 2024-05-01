@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism
+package com.mcstarrysky.aiyatsbus.module.ingame.mechanics
 
 import com.mcstarrysky.aiyatsbus.core.util.calcToInt
 import org.bukkit.entity.Player
@@ -13,7 +13,7 @@ import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.conversion
 
 @ConfigNode(bind = "core/mechanisms/exp.yml")
-object ExpListener {
+object ExpModifier {
 
     @Config("core/mechanisms/exp.yml", autoReload = true)
     lateinit var conf: Configuration
@@ -55,14 +55,14 @@ object ExpListener {
         }
     }
 
-    fun modified(level: Int) =
+    private fun modified(level: Int) =
         expFormulas.lastOrNull { it.first <= level }?.second?.calcToInt("level" to level) ?: vanilla(level)
 
-    fun vanilla(level: Int) = if (level <= 15) 2 * level + 7
+    private fun vanilla(level: Int) = if (level <= 15) 2 * level + 7
     else if (level <= 30) 5 * level - 38
     else 9 * level - 158
 
-    fun finalAttain(origin: Int, player: Player) = privilege.maxOf { (perm, expression) ->
+    private fun finalAttain(origin: Int, player: Player) = privilege.maxOf { (perm, expression) ->
         if (player.hasPermission(perm)) expression.calcToInt("exp" to origin)
         else origin
     }.coerceAtLeast(0)

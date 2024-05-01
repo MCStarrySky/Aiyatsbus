@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism
+package com.mcstarrysky.aiyatsbus.module.ingame.mechanics
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
 import com.mcstarrysky.aiyatsbus.core.sendLang
@@ -8,12 +8,12 @@ import taboolib.common.platform.function.pluginVersion
 
 /**
  * Aiyatsbus
- * com.mcstarrysky.aiyatsbus.module.listener.mechanism.ThankMessageListener
+ * com.mcstarrysky.aiyatsbus.module.ingame.mechanics.ThankMessage
  *
  * @author mical
- * @since 2024/3/3 17:01
+ * @since 2024/5/1 23:46
  */
-object ThankMessageListener {
+object ThankMessage {
 
     @SubscribeEvent
     fun e(e: PlayerJoinEvent) {

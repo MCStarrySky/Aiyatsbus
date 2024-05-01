@@ -1,11 +1,8 @@
-
-
-#         Powered by TabooLib 6.1         #
-
-
-# 不使用插件的附魔随机器，只用原版机制
-# 打开意味着玩家只能从附魔台得到原版附魔
-vanilla_table: false
+# 使附魔插件干预原版战利品生成
+# 这样战利品的附魔书里会出现更多附魔
+enable: true
+cost: 3 # 按照点击附魔台第三个按钮的计算权重来计算
+bonus: 16 # 按照16(最高)书架等级附魔台的权重来计算
 # 一次性附魔得到的附魔个数对应的概率
 # 可用变量：{cost}
 more_enchant_chance:
@@ -19,6 +16,6 @@ more_enchant_chance:
 level_formula: "{max_level}*{cost}/3.0*({bonus}+1.0)/17.0-{random}"
 privilege:
   chance:
-    - "aiyatsbus.privilege.table.vip:{chance}*1.2"
-    - "aiyatsbus.privilege.table.svip:{chance}*1.4"
-  full_level: "aiyatsbus.privilege.table.full"
+    - "aiyatsbus.privilege.loot.vip:{chance}*1.2"
+    - "aiyatsbus.privilege.loot.svip:{chance}*1.4"
+  full_level: "aiyatsbus.privilege.loot.full"

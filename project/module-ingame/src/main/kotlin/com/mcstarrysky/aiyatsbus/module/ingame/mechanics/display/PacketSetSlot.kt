@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.module.ingame.listener.packet
+package com.mcstarrysky.aiyatsbus.module.ingame.mechanics.display
 
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.util.isNull
