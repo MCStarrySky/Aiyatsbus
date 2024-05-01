@@ -19,13 +19,13 @@ object YamlUpdater {
     fun loadFromFile(path: String, autoUpdate: Boolean = true, updateNodes: List<String> = emptyList(), updateExists: Boolean = true): Configuration {
         // 如果配置不存在, 直接释放即可, 并不需要任何检查操作
         if (!newFile(getDataFolder(), path, create = false).exists()) {
-            return Configuration.loadFromFile(releaseResourceFile(path), concurrent = false)
+            return Configuration.loadFromFile(releaseResourceFile(path))
         }
         val configFile = newFile(getDataFolder(), path)
         val config = YamlConfiguration.loadConfiguration(configFile)
 
         // 如果不需要自动更新, 直接返回
-        if (!autoUpdate) Configuration.loadFromFile(releaseResourceFile(path), concurrent = false)
+        if (!autoUpdate) Configuration.loadFromFile(releaseResourceFile(path))
 
         // 读取 Jar 包内的对应配置文件
         val cache = Configuration.loadFromInputStream(javaClass.classLoader.getResourceAsStream(path) ?: error("resource not found: $path"))
@@ -34,7 +34,7 @@ object YamlUpdater {
         read(cache, config, updateNodes, updated, updateExists)
         if (updated.isNotEmpty()) {
             config.save(configFile)
-            return Configuration.loadFromFile(configFile, concurrent = false)
+            return Configuration.loadFromFile(configFile)
         }
 
         return Configuration.loadFromOther(config)
