@@ -5,8 +5,8 @@ import com.mcstarrysky.aiyatsbus.core.compat.EnchantRegistrationHooks
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.unwatch
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.watch
+import com.mcstarrysky.aiyatsbus.core.util.YamlUpdater
 import com.mcstarrysky.aiyatsbus.core.util.deepRead
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.io.newFolder
@@ -15,7 +15,6 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
 import taboolib.common.platform.function.*
 import taboolib.module.configuration.Configuration
-import taboolib.module.nms.MinecraftVersion
 import taboolib.platform.util.onlinePlayers
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
@@ -78,7 +77,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
             .flatten()
             .let { files ->
                 for (file in files) {
-                    val config = Configuration.loadFromFile(file)
+                    val config = YamlUpdater.loadFromFile(file.path.removePrefix("plugins/Aiyatsbus/"), AiyatsbusSettings.enableUpdater, AiyatsbusSettings.updateContents)
                     val id = config["basic.id"].toString()
 
                     val enchant = AiyatsbusEnchantmentBase(id, config)
@@ -91,6 +90,10 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
                     FILES[id] = file
 
                     file.watch {
+                        if (AiyatsbusSettings.enableUpdater) {
+                            console().sendLang("enchantment-reload-failed", id)
+                            return@watch
+                        }
                         val time0 = System.currentTimeMillis()
 
                         val enchantName = BY_ID[id]?.basicData?.name
@@ -99,6 +102,8 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
                         BY_ID.remove(id)
                         BY_NAME.remove(enchantName)
 
+                        // 因为没开启自动平衡性调整, 所以这里不需要用 YamlUpdater 来更新配置
+                        // 如果这里用 YamlUpdater 更新了配置, 很可能会造成递归错误 (我没测试, 猜的)
                         val newEnchant = AiyatsbusEnchantmentBase(id, Configuration.loadFromFile(it))
                         if (!newEnchant.dependencies.checkAvailable()) return@watch
 

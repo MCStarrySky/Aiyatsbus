@@ -13,6 +13,9 @@ loading-groups: '{prefix} &aFINE &8| &a{0} &3groups were loaded &8({1} ms)'
 plugin-reload: '{prefix} &aFINE &8| &3Successfully reloaded plugin &8({0} ms)'
 
 enchantment-reload: '{prefix} &aFINE &8| &3Automatically reloaded enchantment {0} &8({1} ms)'
+enchantment-reload-failed:
+  - '{prefix} &bINFO &8| &3{0} enchantment configuration changes were blocked due to automatic balance adjustment'
+  - '{prefix} &bINFO &8| &3If you do have enchantment parameter adjustment requirements, please go to config.yml to turn off this feature'
 
 thanks:
   - '{prefix} &7Successfully loaded Aiyatsbus v{0}! Author: 南外丶仓鼠(白熊)'
