@@ -10,7 +10,6 @@ import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import org.bukkit.entity.Player
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.common.platform.function.severe
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.library.reflex.Reflex.Companion.setProperty
 import taboolib.module.configuration.Configuration
@@ -58,32 +57,36 @@ object PacketSystemChat {
     }
 
     fun modify(component: Component, player: Player): Component {
-        var json = gson.serialize(component)
-
         try {
-            // 弱者做法: 二次解析, 防止 GsonComponentSerializer 把单引号解析成 \u0027
-            json = Configuration.loadFromString(json, Type.FAST_JSON).saveToString()
+            var json = gson.serialize(component)
+
+            try {
+                // 弱者做法: 二次解析, 防止 GsonComponentSerializer 把单引号解析成 \u0027
+                json = Configuration.loadFromString(json, Type.FAST_JSON).saveToString()
+            } catch (_: Throwable) {
+                return component
+            }
+
+            val stacks = extractHoverEvents(json)
+
+            for (stack in stacks) {
+                val id = stack.get("id").asString
+                val tag = stack.get("tag")?.asString ?: continue
+
+                val item = Aiyatsbus.api().getMinecraftAPI().createItemStack(id, tag)
+                val display = Aiyatsbus.api().getDisplayManager().display(item, player)
+
+                val target = display.displayName().hoverEvent(display.asHoverEvent())
+                json = json.replace(
+                    stack.get("tag").asString.flat(),
+                    extractHoverEvents(gson.serialize(target)).first().get("tag").asString.flat()
+                )
+            }
+
+            return gson.deserialize(json)
         } catch (_: Throwable) {
             return component
         }
-
-        val stacks = extractHoverEvents(json)
-
-        for (stack in stacks) {
-            val id = stack.get("id").asString
-            val tag = stack.get("tag")?.asString ?: continue
-
-            val item = Aiyatsbus.api().getMinecraftAPI().createItemStack(id, tag)
-            val display = Aiyatsbus.api().getDisplayManager().display(item, player)
-
-            val target = display.displayName().hoverEvent(display.asHoverEvent())
-            json = json.replace(
-                stack.get("tag").asString.flat(),
-                extractHoverEvents(gson.serialize(target)).first().get("tag").asString.flat()
-            )
-        }
-
-        return gson.deserialize(json)
     }
 
     private fun extractHoverEvents(jsonString: String): List<JsonObject> {

@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.core.util
 
 import taboolib.common5.cdouble
+import java.math.BigDecimal
 import java.util.*
 
 /**
@@ -41,14 +42,14 @@ object MathUtils {
     /**
      * 计算数字
      */
-    private fun calculateToDouble(a1: Double, a2: Double, operator: Char): Double {
+    private fun calculateToDouble(a1: BigDecimal, a2: BigDecimal, operator: Char): Double {
         return when (operator) {
             '+' -> a1 + a2
             '-' -> a1 - a2
             '*' -> a1 * a2
             '/' -> a1 / a2
             else -> throw IllegalArgumentException("Unknown operator: $operator")
-        }
+        }.toDouble()
     }
 
     /**
@@ -117,7 +118,7 @@ object MathUtils {
             if (symbol.matches("[+\\-*/]".toRegex())) {
                 val a2 = stack.pop()
                 val a1 = stack.pop()
-                stack.push(calculateToDouble(a1, a2, symbol[0]))
+                stack.push(calculateToDouble(a1.toBigDecimal(), a2.toBigDecimal(), symbol[0]))
             } else {
                 stack.push(symbol.cdouble)
             }
