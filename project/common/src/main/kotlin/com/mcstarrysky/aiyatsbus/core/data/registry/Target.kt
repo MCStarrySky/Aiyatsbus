@@ -5,7 +5,6 @@ import com.mcstarrysky.aiyatsbus.core.data.Dependencies
 import com.mcstarrysky.aiyatsbus.core.sendLang
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.container.SimpleRegistry
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.inventory.EquipmentSlot
 import taboolib.common.LifeCycle
@@ -16,7 +15,6 @@ import taboolib.library.configuration.ConfigurationSection
 import taboolib.library.xseries.XMaterial
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
-import taboolib.module.nms.MinecraftVersion
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.jvm.optionals.getOrNull
 

@@ -38,3 +38,19 @@ Settings:
   anti-grief-ignore-op: true
   # 若没有特殊设置, 将冷却消息显示在动作栏而不是聊天框
   cool-down-in-actionbar: false
+  # 自动更新
+  updater:
+    # 是否启用平衡性自动更新的功能
+    enable: true
+    # 附魔平衡性+语言修正调整自动获取官方最新
+    contents:
+      - "basic.name"
+      - "basic.max_level"
+      - "alternative"
+      - "dependencies"
+      - "rarity"
+      - "targets"
+      - "limitations"
+      - "display"
+      - "variables"
+      - "mechanisms"
