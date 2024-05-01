@@ -12,6 +12,7 @@ alternative:
   is_vanilla: true
   grindstoneable: false
   is_cursed: true
+  is_treasure: true
 
 rarity: 诅咒
 targets:

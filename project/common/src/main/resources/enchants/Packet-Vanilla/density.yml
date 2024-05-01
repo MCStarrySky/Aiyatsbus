@@ -1,0 +1,35 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: density
+  name: "致密"
+  max_level: 5
+
+alternative:
+  is_vanilla: true
+  # 暂时无法获得
+  is_treasure: true
+  is_discoverable: false
+  is_tradeable: false
+
+dependencies:
+  supports: 12005
+  datapacks:
+    - update_1_21
+
+rarity: 普通
+targets:
+  - 重锤
+
+display:
+  description:
+    general: "增加重锤造成的伤害"
+    specific: "&7重锤每摔落一格时造成&a{伤害}&7伤害"
+
+# 原版附魔机制本插件不提供修改，因此此处改了也没有效果
+variables:
+  leveled:
+    伤害: "点:{level}"

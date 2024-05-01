@@ -29,6 +29,19 @@ axes:
     - STONE_AXE
     - WOODEN_AXE
     - NETHERITE_AXE
+maces:
+  max: 7
+  name: 重锤
+  skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTZiMWQ0OTQ3NzYzOTE3ODE0YWUxNjMyYjgyMDY5NjA5ODkyNzg5NWFhYWYxMjRjZDI5ZWIzNTg1NmFhYTViOSJ9fX0="
+  active_slots:
+    - HAND
+  types:
+    - MACE
+  dependencies:
+    supports: 12005
+    datapacks:
+      - update_1_21
+
 pickaxes:
   max: 7
   name: 镐
@@ -220,6 +233,7 @@ damageable:
     - CHEST
     - HEAD
   types:
+    - MACE
     - FLINT_AND_STEEL
     - FISHING_ROD
     - SHIELD
@@ -295,6 +309,7 @@ all:
     - CHEST
     - HEAD
   types:
+    - MACE
     - PLAYER_HEAD
     - CARVED_PUMPKIN
     - CREEPER_HEAD

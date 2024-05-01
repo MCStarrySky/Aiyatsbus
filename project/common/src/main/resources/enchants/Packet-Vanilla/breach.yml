@@ -1,0 +1,35 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: breach
+  name: "破甲"
+  max_level: 4
+
+alternative:
+  is_vanilla: true
+  # 暂时无法获得
+  is_treasure: true
+  is_discoverable: false
+  is_tradeable: false
+
+dependencies:
+  supports: 12005
+  datapacks:
+    - update_1_21
+
+rarity: 普通
+targets:
+  - 重锤
+
+display:
+  description:
+    general: "被攻击生物护甲减免伤害降低"
+    specific: "&7被攻击生物护甲减免伤害降低&a{百分比}"
+
+# 原版附魔机制本插件不提供修改，因此此处改了也没有效果
+variables:
+  leveled:
+    百分比: "%:{level}*15"

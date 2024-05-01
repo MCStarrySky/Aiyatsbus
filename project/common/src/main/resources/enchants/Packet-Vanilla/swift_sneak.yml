@@ -10,6 +10,8 @@ basic:
 
 alternative:
   is_vanilla: true
+  is_treasure: true
+  is_tradeable: false
 
 rarity: 精良
 targets:
@@ -22,4 +24,4 @@ display:
   description:
     general: "增加玩家下蹲时的移动速度"
 
-#TODO 数据录入
+# TODO 数据录入

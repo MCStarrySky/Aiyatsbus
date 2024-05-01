@@ -1,9 +1,11 @@
 package com.mcstarrysky.aiyatsbus.core.data.registry
 
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
+import com.mcstarrysky.aiyatsbus.core.data.Dependencies
 import com.mcstarrysky.aiyatsbus.core.sendLang
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.container.SimpleRegistry
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.inventory.EquipmentSlot
 import taboolib.common.LifeCycle
@@ -11,9 +13,12 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.function.console
 import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.library.configuration.ConfigurationSection
+import taboolib.library.xseries.XMaterial
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
+import taboolib.module.nms.MinecraftVersion
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Aiyatsbus
@@ -28,8 +33,9 @@ data class Target(
     val name: String = root.getString("name")!!,
     val capability: Int = root.getInt("max"),
     val activeSlots: List<EquipmentSlot> = root.getStringList("active_slots").map { EquipmentSlot.valueOf(it) },
-    val types: List<Material> = root.getStringList("types").map { Material.valueOf(it) },
-    val skull: String = root.getString("skull", "")!!
+    val types: List<Material> = root.getStringList("types").mapNotNull { XMaterial.matchXMaterial(it).getOrNull()?.parseMaterial() },
+    val skull: String = root.getString("skull", "")!!,
+    val dependencies: Dependencies = Dependencies(root.getConfigurationSection("dependencies"))
 )
 
 object TargetLoader : SimpleRegistry<String, Target>(ConcurrentHashMap()) {
@@ -58,8 +64,12 @@ object TargetLoader : SimpleRegistry<String, Target>(ConcurrentHashMap()) {
     private fun load() {
         val time = System.currentTimeMillis()
         clearRegistry()
-        config.getKeys(false).map { config.getConfigurationSection(it)!! }.forEach {
-            register(Target(it))
+        for (section in config.getKeys(false).map { config.getConfigurationSection(it)!! }) {
+            val target = Target(section)
+            if (!target.dependencies.checkAvailable()) {
+                continue
+            }
+            register(target)
         }
         console().sendLang("loading-targets", size, System.currentTimeMillis() - time)
     }

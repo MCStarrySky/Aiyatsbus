@@ -10,6 +10,7 @@ basic:
 
 alternative:
   is_vanilla: true
+  is_treasure: true
 
 rarity: 传奇
 targets:
