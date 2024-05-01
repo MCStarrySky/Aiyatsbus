@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism
+package com.mcstarrysky.aiyatsbus.module.ingame.mechanics
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable

@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism
+package com.mcstarrysky.aiyatsbus.module.ingame.mechanics
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
@@ -21,7 +21,7 @@ import kotlin.math.ceil
 import kotlin.math.roundToInt
 
 @ConfigNode(bind = "core/mechanisms/anvil.yml")
-object AnvilListener {
+object AnvilSupport {
 
     @Config("core/mechanisms/anvil.yml", autoReload = true)
     lateinit var conf: Configuration
@@ -134,7 +134,7 @@ object AnvilListener {
         return Triple(result, finalCost(cost, player), amount)
     }
 
-    fun durabilityFixed(type: Material, fixer: Material, amount: Int, dmgA: Int, dmgB: Int): Pair<Int, Int> {
+    private fun durabilityFixed(type: Material, fixer: Material, amount: Int, dmgA: Int, dmgB: Int): Pair<Int, Int> {
         val typeS = type.toString()
         val fixerS = fixer.toString()
         val isArmor = typeS.contains("HELMET") ||
@@ -169,7 +169,7 @@ object AnvilListener {
         return (fixed * minAmount).coerceAtMost(type.maxDurability.toInt()) to minAmount
     }
 
-    fun finalCost(origin: Double, player: Player) = privilege.minOf { (perm, expression) ->
+    private fun finalCost(origin: Double, player: Player) = privilege.minOf { (perm, expression) ->
         if (player.hasPermission(perm)) expression.calcToInt("cost" to origin)
         else origin.roundToInt()
     }.coerceAtMost(maxCost).coerceAtLeast(1)

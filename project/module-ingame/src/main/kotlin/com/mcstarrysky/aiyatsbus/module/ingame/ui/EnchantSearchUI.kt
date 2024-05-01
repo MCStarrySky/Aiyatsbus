@@ -153,7 +153,7 @@ object EnchantSearchUI {
                     }
                 }
 
-                ClickType.DOUBLE_CLICK -> {
+                ClickType.SHIFT_LEFT, ClickType.SHIFT_RIGHT -> {
                     Aiyatsbus.api().getEnchantmentFilter().clearFilter(player, FilterType.STRING)
                     open(player)
                 }

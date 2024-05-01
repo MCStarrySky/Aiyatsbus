@@ -7,7 +7,7 @@ import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.data.LimitType
 import com.mcstarrysky.aiyatsbus.core.data.MenuMode
 import com.mcstarrysky.aiyatsbus.core.util.*
-import com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism.VillagerListener
+import com.mcstarrysky.aiyatsbus.module.ingame.mechanics.VillagerSupport
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.*
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
@@ -255,7 +255,7 @@ object EnchantInfoUI {
                 enchant.rarity.weight > 0
             ) attainWays += player.asLang("ui-enchant-info-other-attain-ways-discoverable-enchantable")
             if (enchant.alternativeData.isTradeable &&
-                enchant.enchantment.isInGroup(VillagerListener.tradeGroup)
+                enchant.enchantment.isInGroup(VillagerSupport.tradeGroup)
             ) {
                 if (attainWays.isNotBlank()) attainWays += " "
                 attainWays += player.asLang("ui-enchant-info-other-attain-ways-tradeable")

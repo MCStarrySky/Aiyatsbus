@@ -19,7 +19,7 @@ import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
 import taboolib.module.ui.openMenu
 import taboolib.module.ui.type.Chest
-import com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism.AnvilListener
+import com.mcstarrysky.aiyatsbus.module.ingame.mechanics.AnvilSupport
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.UIType
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variable
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.record
@@ -59,7 +59,7 @@ object AnvilUI {
             val info = mutableMapOf<String, String>()
             var result: ItemStack? = ItemStack(Material.AIR)
             if (!a.isNull && !b.isNull) {
-                val resultPair = AnvilListener.anvil(a!!, b!!, player)
+                val resultPair = AnvilSupport.anvil(a!!, b!!, player)
                 result = resultPair.first
                 val cost = resultPair.second
 

@@ -65,7 +65,7 @@ class AiyatsbusCraftEnchantment(
     }
 
     override fun isTradeable(): Boolean {
-        return enchant.alternativeData.isTreasure
+        return enchant.alternativeData.isTradeable
     }
 
     override fun isDiscoverable(): Boolean {

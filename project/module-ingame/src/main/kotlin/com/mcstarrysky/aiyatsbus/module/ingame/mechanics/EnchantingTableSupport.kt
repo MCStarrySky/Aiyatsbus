@@ -1,8 +1,7 @@
-package com.mcstarrysky.aiyatsbus.module.ingame.listener.mechanism
+package com.mcstarrysky.aiyatsbus.module.ingame.mechanics
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
-import com.mcstarrysky.aiyatsbus.core.data.registry.Rarity
 import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
 import com.mcstarrysky.aiyatsbus.core.util.calcToInt
 import com.mcstarrysky.aiyatsbus.core.util.serialized
@@ -12,23 +11,19 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.event.enchantment.EnchantItemEvent
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent
-import org.bukkit.event.world.LootGenerateEvent
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.submit
-import taboolib.common5.util.replace
-import taboolib.library.configuration.ConfigurationSection
-import taboolib.module.chat.colored
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.conversion
-import taboolib.platform.util.onlinePlayers
+import taboolib.module.nms.PacketSendEvent
 import kotlin.math.roundToInt
 
 @ConfigNode(bind = "core/mechanisms/enchanting_table.yml")
-object AttainListener {
+object EnchantingTableSupport {
 
     private val shelfAmount = mutableMapOf<String, Int>()
 
@@ -45,24 +40,21 @@ object AttainListener {
     @ConfigNode("privilege.full_level")
     var fullLevelPrivilege = "aiyatsbus.privilege.table.full"
 
-    @delegate:ConfigNode("celebrate_notice")
-    val celebrateNotice by conversion<ConfigurationSection, Map<Rarity?, List<String>>> {
-        mapOf(*getKeys(false).map { aiyatsbusRarity(it) to getStringList(it) }.toTypedArray())
-    }
-
     @delegate:ConfigNode("privilege.chance")
     val moreEnchantPrivilege by conversion<List<String>, Map<String, String>> {
         mapOf(*map { it.split(":")[0] to it.split(":")[1] }.toTypedArray())
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    fun loot(event: LootGenerateEvent) {
-        (event.entity as? Player)?.let {
-            event.loot.replaceAll { item ->
-                if (item.fixedEnchants.isNotEmpty()) enchant(it, ItemStack(item.type)).second
-                else item
-            }
-        } ?: event.loot.removeIf { it.fixedEnchants.isNotEmpty() }
+    @SubscribeEvent(priority = EventPriority.MONITOR)
+    fun e(e: PacketSendEvent) {
+        if (e.packet.name == "PacketPlayOutWindowData") {
+            runCatching {
+                val a = e.packet.read<Int>("b", false)
+                if (a in 4..6) {
+                    e.packet.write("c", -1)
+                }
+            }.onFailure { it.printStackTrace() }
+        }
     }
 
     // 记录附魔台的书架等级
@@ -100,23 +92,6 @@ object AttainListener {
                 event.inventory.setItem(0, result.second)
             }
         }
-
-        result.first.forEach { (enchant, level) ->
-            val rarity = enchant.rarity
-            celebrateNotice[rarity]?.let { lines ->
-                lines.forEach { line ->
-                    val type = line.substringBefore(':')
-                    val text = line.substringAfter(":").replace("player" to player.name, "enchant" to enchant.displayName(level)).colored()
-                    onlinePlayers.forEach {
-                        when (type) {
-                            "actionbar" -> it.sendActionBar(text)
-                            "message" -> it.sendMessage(text)
-                            "title" -> it.sendTitle(text.split(";")[0], text.split(";")[1])
-                        }
-                    }
-                }
-            }
-        }
     }
 
     fun enchant(
@@ -150,11 +125,11 @@ object AttainListener {
         return enchantsToAdd to result
     }
 
-    fun enchantAmount(player: Player, cost: Int) = moreEnchantChance.count {
+    private fun enchantAmount(player: Player, cost: Int) = moreEnchantChance.count {
         Math.random() <= finalChance(it.calcToDouble("cost" to cost), player)
     }.coerceAtLeast(1)
 
-    fun finalChance(origin: Double, player: Player) = moreEnchantPrivilege.maxOf { (perm, expression) ->
+    private fun finalChance(origin: Double, player: Player) = moreEnchantPrivilege.maxOf { (perm, expression) ->
         if (player.hasPermission(perm)) expression.calcToInt("chance" to origin)
         else origin.roundToInt()
     }.coerceAtLeast(0)
