@@ -77,3 +77,12 @@ mappings:
   block-damage:
     class: 'org.bukkit.event.block.BlockDamageEvent'
     slots: HANDS
+
+  # 插件接管的玩家铁砧事件
+  aiyatsbus-prepare-anvil:
+    class: 'com.mcstarrysky.aiyatsbus.core.event.AiyatsbusPrepareAnvilEvent'
+    slots: NONE
+    # 是否不检测 slot
+    unsafe: true
+    # 如果不检测 slot, 需要指定物品
+    itemPreference: "item"

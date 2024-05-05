@@ -36,7 +36,7 @@ interface AiyatsbusEventExecutor {
 
         @delegate:ConfigNode("mappings")
         val slots: Map<String, TriggerSlots> by conversion<ConfigurationSection, Map<String, TriggerSlots>> {
-            getKeys(false).associateWith { TriggerSlots.valueOf(this["$it.slot"] as? String ?: return@associateWith TriggerSlots.ALL) }
+            getKeys(false).associateWith { TriggerSlots.valueOf(this["$it.slot"] as? String ?: return@associateWith TriggerSlots.NONE) }
         }
 
         @delegate:ConfigNode("mappings")
@@ -47,6 +47,16 @@ interface AiyatsbusEventExecutor {
         @delegate:ConfigNode("mappings")
         val eventPriorities: Map<String, List<EventPriority>> by conversion<ConfigurationSection, Map<String, List<EventPriority>>> {
             getKeys(false).associateWith { (this["$it.priorities"] as? List<String>)?.map(EventPriority::valueOf) ?: listOf(EventPriority.HIGHEST) }
+        }
+
+        @delegate:ConfigNode("mappings")
+        val unsafe: Map<String, Boolean> by conversion<ConfigurationSection, Map<String, Boolean>> {
+            getKeys(false).associateWith { this["$it.unsafe"] as? Boolean ?: false }
+        }
+
+        @delegate:ConfigNode("mappings")
+        val itemReferences: Map<String, String?> by conversion<ConfigurationSection, Map<String, String?>> {
+            getKeys(false).associateWith { this["$it.itemReference"] as? String }
         }
     }
 }

@@ -3,6 +3,7 @@ package com.mcstarrysky.aiyatsbus.impl.nms
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusMinecraftAPI
 import com.mcstarrysky.aiyatsbus.core.util.isNull
+import com.mcstarrysky.aiyatsbus.impl.nms.v12005_nms.NMS12005
 import io.papermc.paper.adventure.PaperAdventure
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
@@ -28,8 +29,33 @@ import java.io.IOException
  */
 class DefaultAiyatsbusMinecraftAPI : AiyatsbusMinecraftAPI {
 
+    init {
+        // 预热
+        NMS12005.instance
+    }
+
     private val gsonComponentSerializer = GsonComponentSerializer.gson()
     private val NBT_CODEC: Codec<Any, String, IOException, IOException> = PaperAdventure::class.java.getProperty("NBT_CODEC", isStatic = true)!!
+
+    override fun getRepairCost(item: ItemStack): Int {
+        return if (MinecraftVersion.isUniversal) {
+            if (MinecraftVersion.majorLegacy >= 12005) {
+                NMS12005.instance.getRepairCost(item)
+            } else {
+                (NMSItem.asNMSCopy(item) as NMSItemStack).baseRepairCost
+            }
+        } else (NMSItem.asNMSCopy(item) as NMS16ItemStack).repairCost
+    }
+
+    override fun setRepairCost(item: ItemStack, cost: Int) {
+        if (MinecraftVersion.isUniversal) {
+            if (MinecraftVersion.majorLegacy >= 12005) {
+                NMS12005.instance.setRepairCost(item, cost)
+            } else {
+                (NMSItem.asNMSCopy(item) as NMSItemStack).setRepairCost(cost)
+            }
+        } else (NMSItem.asNMSCopy(item) as NMS16ItemStack).repairCost = cost
+    }
 
     override fun createItemStack(material: String, tag: String?): ItemStack {
         return try {

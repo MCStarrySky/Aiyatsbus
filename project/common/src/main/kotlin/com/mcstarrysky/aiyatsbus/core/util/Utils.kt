@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.core.util
 
 import com.google.gson.JsonParser
+import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Location
@@ -29,6 +30,13 @@ import java.lang.reflect.Field
  * @author mical
  * @since 2024/2/17 17:07
  */
+
+/**
+ * 物品在铁砧上的操作数
+ */
+var ItemStack.repairCost: Int
+    get() = Aiyatsbus.api().getMinecraftAPI().getRepairCost(this)
+    set(value) = Aiyatsbus.api().getMinecraftAPI().setRepairCost(this, value)
 
 /**
  * 标记

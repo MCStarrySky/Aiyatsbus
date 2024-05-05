@@ -17,6 +17,16 @@ import kotlin.jvm.Throws
 interface AiyatsbusMinecraftAPI {
 
     /**
+     * 获取物品在铁砧上的操作数
+     */
+    fun getRepairCost(item: ItemStack): Int
+
+    /**
+     * 设置物品在铁砧上的操作数
+     */
+    fun setRepairCost(item: ItemStack, cost: Int)
+
+    /**
      * 1.18.2 以下版本 (不包含 1.18.2) 中 ItemFactory#createItemStack 不存在
      * 此函数用以替代
      */
