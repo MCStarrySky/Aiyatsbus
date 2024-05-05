@@ -105,7 +105,7 @@ object AnvilSupport {
         e.inventory.result = result.item
     }
 
-    private fun doMerge(left: ItemStack, right: ItemStack?, name: String?, player: Player): AnvilResult {
+    fun doMerge(left: ItemStack, right: ItemStack?, name: String?, player: Player): AnvilResult {
         var experience = 0.0
         var costItemAmount = 0
         var result: ItemStack? = left.clone()

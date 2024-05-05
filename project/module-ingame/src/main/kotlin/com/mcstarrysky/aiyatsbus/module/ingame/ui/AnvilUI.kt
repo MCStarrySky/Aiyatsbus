@@ -59,9 +59,9 @@ object AnvilUI {
             val info = mutableMapOf<String, String>()
             var result: ItemStack? = ItemStack(Material.AIR)
             if (!a.isNull && !b.isNull) {
-                val resultPair = AnvilSupport.anvil(a!!, b!!, player)
-                result = resultPair.first
-                val cost = resultPair.second
+                val doMerge = AnvilSupport.doMerge(a!!, b!!, null, player)
+                result = doMerge.item
+                val cost = doMerge.experience
 
                 val canCombine = if (result == null || cost <= 0) false
                 else !result.isSimilar(a)
