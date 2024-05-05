@@ -4,6 +4,8 @@ import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
+import com.mcstarrysky.aiyatsbus.core.data.trigger.TriggerSlots
+import com.mcstarrysky.aiyatsbus.core.event.AiyatsbusPrepareAnvilEvent
 import com.mcstarrysky.aiyatsbus.core.util.Mirror
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.isNull
@@ -55,7 +57,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
     private fun handle(it: Any?, listen: String, eventPriority: EventPriority) {
         val playerReference: String? = AiyatsbusEventExecutor.playerReferences[listen]
-        val slot = AiyatsbusEventExecutor.slots[listen] ?: return
+        val slot = AiyatsbusEventExecutor.slots[listen] ?: TriggerSlots.NONE
 
         val event = it as? Event ?: return
         /* 特殊事件处理 */
@@ -100,10 +102,26 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
         val entity = player as? LivingEntity ?: return
         val inventory = entity.equipment ?: return
+
         slot.slots.forEach {
-            val item: ItemStack
+            var item: ItemStack? = null
             try {
-                item = inventory.getItem(it)
+                val itemReference = AiyatsbusEventExecutor.itemReferences[listen]
+                // 如果没有指定 slot, 但 itemReference 不为空, 则获取 itemReference
+                if (it == null && AiyatsbusEventExecutor.unsafe[listen] == true && itemReference != null) {
+                    item = when (event) {
+                        is AiyatsbusPrepareAnvilEvent -> event.left
+                        else -> event.getProperty(itemReference, false) as? ItemStack ?: throw IllegalStateException()
+                    }
+                }
+                // 如果指定了 slot
+                if (it != null) {
+                    item = inventory.getItem(it)
+                }
+
+                if (item == null) {
+                    throw IllegalStateException()
+                }
             } catch (_: Throwable) {
                 // 离谱的低版本报错:
                 // java.lang.NullPointerException: player.inventory.getItem(slot) must not be null
@@ -120,8 +138,8 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                     .filterValues { it.priority == eventPriority && it.listen == listen }
                     .forEach { (_, executor) ->
                         val vars = mutableMapOf(
-                            "triggerSlot" to it.name,
-                            "trigger-slot" to it.name,
+                            "triggerSlot" to it?.name,
+                            "trigger-slot" to it?.name,
                             "event" to event,
                             "player" to player,
                             "item" to item,

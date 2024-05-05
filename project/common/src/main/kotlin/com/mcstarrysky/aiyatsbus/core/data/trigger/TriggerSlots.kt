@@ -2,7 +2,7 @@ package com.mcstarrysky.aiyatsbus.core.data.trigger
 
 import org.bukkit.inventory.EquipmentSlot
 
-enum class TriggerSlots(val slots: Set<EquipmentSlot>) {
+enum class TriggerSlots(val slots: Set<EquipmentSlot?>) {
 
     ARMORS(
         setOf(
@@ -28,5 +28,6 @@ enum class TriggerSlots(val slots: Set<EquipmentSlot>) {
             EquipmentSlot.LEGS,
             EquipmentSlot.FEET
         )
-    );
+    ),
+    NONE(setOf(null));
 }
