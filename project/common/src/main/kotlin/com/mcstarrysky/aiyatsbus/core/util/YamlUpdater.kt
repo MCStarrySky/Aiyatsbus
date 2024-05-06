@@ -25,7 +25,7 @@ object YamlUpdater {
         val config = YamlConfiguration.loadConfiguration(configFile)
 
         // 读取 Jar 包内的对应配置文件
-        val cache = Configuration.loadFromInputStream(javaClass.classLoader.getResourceAsStream(path) ?: error("resource not found: $path"))
+        val cache = Configuration.loadFromInputStream(javaClass.classLoader.getResourceAsStream(path) ?: return Configuration.loadFromOther(config))
 
         val updated = mutableListOf<String>()
         read(cache, config, updateNodes, updated, autoUpdate)

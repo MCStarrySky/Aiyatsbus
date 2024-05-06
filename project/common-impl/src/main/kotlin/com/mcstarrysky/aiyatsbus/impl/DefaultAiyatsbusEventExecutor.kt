@@ -108,10 +108,10 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
             try {
                 val itemReference = AiyatsbusEventExecutor.itemReferences[listen]
                 // 如果没有指定 slot, 但 itemReference 不为空, 则获取 itemReference
-                if (it == null && AiyatsbusEventExecutor.unsafe[listen] == true && itemReference != null) {
+                if (it == null && AiyatsbusEventExecutor.unsafe[listen] == true) {
                     item = when (event) {
                         is AiyatsbusPrepareAnvilEvent -> event.left
-                        else -> event.getProperty(itemReference, false) as? ItemStack ?: throw IllegalStateException()
+                        else -> event.getProperty(itemReference ?: throw IllegalStateException(), false) as? ItemStack ?: throw IllegalStateException()
                     }
                 }
                 // 如果指定了 slot

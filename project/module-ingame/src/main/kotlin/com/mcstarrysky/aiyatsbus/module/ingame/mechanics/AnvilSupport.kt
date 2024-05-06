@@ -14,6 +14,7 @@ import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common5.cdouble
 import taboolib.common5.cint
+import taboolib.module.chat.colored
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
@@ -86,8 +87,7 @@ object AnvilSupport {
     @SubscribeEvent(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onAnvil(e: PrepareAnvilEvent) {
         e.inventory.maximumRepairCost = maxCost
-
-        val renameText = (if (e.result?.name?.isBlank() == true) e.inventory.renameText else e.result?.name) ?: ""
+        val renameText = e.inventory.renameText ?: ""
 
         val result = doMerge(e.inventory.firstItem ?: return, e.inventory.secondItem, renameText, e.viewers[0] as Player)
 
@@ -110,6 +110,8 @@ object AnvilSupport {
         var costItemAmount = 0
         var result: ItemStack? = left.clone()
         var renameText = name
+        // 这是一个标记, 合并附魔有可能造成左面的物品和结果物品一样, 这里做个标记防止给拦了
+        var mergedEnchants = false
 
         // 新增事件, 处理 烙印诅咒(Permanence Curse) 这样的附魔
         val event = AiyatsbusPrepareAnvilEvent(left, right, result, renameText, player)
@@ -119,18 +121,19 @@ object AnvilSupport {
         result = event.result
         renameText = event.name
 
-        // 是否改了名字, 改名框内不为空
-        if (!(renameText.isNullOrEmpty() || renameText.isBlank())) {
-            // 如果没改名
-            if (left.name == renameText) return AnvilResult.Failed
-
-            experience += renameCost
-            // 改名, 用了自己写的一个扩展属性
-            result?.name = name
+        // 若改名框内没有文本, 且不是物品合并
+        if ((renameText.isNullOrEmpty() || renameText.isBlank()) && right == null) {
+            return AnvilResult.Failed
         }
+
+        experience += renameCost
+        // 改名, 用了自己写的一个扩展属性
+        result?.name = name
 
         // 如果右面物品不存在, 就只是改名, 可以直接返回结果了
         if (right == null || right.isAir) {
+            // 如果没改名, 改名框内的名字和原物品是一样的
+            if (left.name?.colored() == renameText?.colored()) return AnvilResult.Failed
             return AnvilResult.Successful(result, experience.cint, 0)
         }
 
@@ -193,17 +196,25 @@ object AnvilSupport {
             // 如果左面物品附魔已有要添加的附魔, 则视为合并
             if (previousLevel != null) {
                 // 假如是两个锋利 5 合并, 且允许的话
-                if (previousLevel == level && allowUnsafeCombine) {
-                    outEnchants += rightEnchant to level + 1
+                outEnchants += if (previousLevel == level) {
+                    if (level >= maxLevel && allowUnsafeCombine) {
+                        rightEnchant to level + 1
+                    } else rightEnchant to (level + 1).coerceAtMost(maxLevel)
                 } else {
-                    // 如果左右两个附魔有任意一个超出最大等级, 且允许的话
+                    // 如果左右两个附魔有任意一个超出最大等级
                     // 比如锋利 100 和锋利 5, 或者锋利 5 和 锋利 100 合并
-                    if ((previousLevel > maxLevel || level > maxLevel) && allowUnsafeLevel) {
-                        outEnchants += rightEnchant to max(previousLevel, level)
+                    if (previousLevel > maxLevel || level > maxLevel) {
+                        // 如果允许的话
+                        if (allowUnsafeLevel) rightEnchant to max(previousLevel, level)
+                        // 如果不允许的话
+                        // 情况一: 直接阻止这种合并
+                        else if (blockOnUnsafeLevel) return AnvilResult.Failed
+                        // 情况二: 合并后等级为该附魔等级最大值
+                        else rightEnchant to max(previousLevel, level).coerceAtMost(maxLevel)
                     } else {
                         // 正常的合并而已~
-                        if (blockOnUnsafeLevel) return AnvilResult.Failed
-                        outEnchants += rightEnchant to max(previousLevel, level).coerceAtMost(maxLevel)
+                        // 取两个附魔中等级较大的那个为结果等级
+                        rightEnchant to max(previousLevel, level)
                     }
                 }
             } else {
@@ -220,6 +231,9 @@ object AnvilSupport {
                 tempLeftItem.addEt(rightEnchant, level)
                 outEnchants += rightEnchant to level
             }
+
+            // 上标记
+            if (!mergedEnchants) mergedEnchants = true
         }
 
         // 向结果物品中增加附魔, 同时计算经验等级
@@ -228,6 +242,9 @@ object AnvilSupport {
             val previousLevel = leftEnchants[outEnchant] ?: 0
             experience += enchantCostPerLevel.calcToDouble("max_level" to outEnchant.basicData.maxLevel) * (level - previousLevel)
         }
+
+        // 如果最后产出的物品跟原来的一模一样, 且没有合并附魔, 就是压根没改
+        if (left == result && !mergedEnchants) return AnvilResult.Failed
 
         return AnvilResult.Successful(result, finalCost(experience, player), costItemAmount)
     }

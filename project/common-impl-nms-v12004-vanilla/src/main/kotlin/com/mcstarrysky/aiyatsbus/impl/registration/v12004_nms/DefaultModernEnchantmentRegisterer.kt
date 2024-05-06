@@ -14,12 +14,15 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.IChatBaseComponent
 import net.minecraft.server.MinecraftServer
+import net.minecraft.world.inventory.ContainerAnvil
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.enchantment.EnchantmentSlotType
 import net.minecraft.world.item.enchantment.Enchantments
 import org.bukkit.Bukkit
 import org.bukkit.craftbukkit.v1_20_R3.CraftRegistry
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer
 import org.bukkit.craftbukkit.v1_20_R3.enchantments.CraftEnchantment
+import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftNamespacedKey
 import org.bukkit.enchantments.Enchantment
 import taboolib.common.util.unsafeLazy
@@ -117,6 +120,17 @@ class DefaultModernEnchantmentRegisterer : ModernEnchantmentRegisterer {
 
         private val enchant: AiyatsbusEnchantment?
             get() = Aiyatsbus.api().getEnchantmentManager().getByID(id)
+
+        override fun canEnchant(stack: ItemStack): Boolean {
+            // 使 Aiyatsbus 接管铁砧
+            val caller = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).callerClass
+            if (caller.name == ContainerAnvil::class.java.name) {
+                return false
+            }
+
+            val item = CraftItemStack.asCraftMirror(stack)
+            return enchant?.canEnchantItem(item) ?: false
+        }
 
         override fun getMinLevel(): Int = 1
 
