@@ -84,5 +84,3 @@ mappings:
     slots: NONE
     # 是否不检测 slot
     unsafe: true
-    # 如果不检测 slot, 需要指定物品
-    itemPreference: "item"
