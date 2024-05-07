@@ -113,6 +113,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                     when (itemReference) {
                         "left" -> event.left
                         "right" -> event.right
+                        "result" -> event.result
                         else -> event.getProperty(itemReference ?: return, false) as? ItemStack ?: return
                     }
                 }
