@@ -17,6 +17,8 @@ import taboolib.module.kether.compileToJexl
 import taboolib.platform.compat.replacePlaceholder
 
 /**
+ * TODO: 写得比较乱也比较烂, 后面可能会重写这套系统
+ *
  * Aiyatsbus
  * com.mcstarrysky.aiyatsbus.core.data.Limitations
  *
@@ -47,9 +49,11 @@ data class Limitations(
     /**
      * 检查操作是否被允许（比如是否可以附魔到某个物品上、使用时是否可以生效、村民生成新交易等）
      * item 就是跟操作直接有关的物品（如正在被附魔的书、正在使用的剑、生成的新交易中卖出的附魔书等）
+     *
+     * @param ignoreSlot 像烙印诅咒这些，不需要检查装备槽
      */
-    fun checkAvailable(checkType: CheckType, item: ItemStack, creature: LivingEntity? = null, slot: EquipmentSlot? = null): Pair<Boolean, String> {
-        return checkAvailable(checkType.limitTypes.toList(), item, creature, slot, checkType == CheckType.USE)
+    fun checkAvailable(checkType: CheckType, item: ItemStack, creature: LivingEntity? = null, slot: EquipmentSlot? = null, ignoreSlot: Boolean = false): Pair<Boolean, String> {
+        return checkAvailable(checkType.limitTypes.toList(), item, creature, slot, checkType == CheckType.USE, ignoreSlot)
     }
 
     fun checkAvailable(
@@ -57,7 +61,8 @@ data class Limitations(
         item: ItemStack,
         creature: LivingEntity? = null,
         slot: EquipmentSlot? = null,
-        use: Boolean = false
+        use: Boolean = false,
+        ignoreSlot: Boolean = false
     ): Pair<Boolean, String> {
         val sender = creature as? Player ?: Bukkit.getConsoleSender()
 
@@ -74,18 +79,18 @@ data class Limitations(
                 DISABLE_WORLD -> !belonging.basicData.disableWorlds.contains(creature?.world?.name)
                 TARGET, MAX_CAPABILITY, SLOT,
                 CONFLICT_ENCHANT, CONFLICT_GROUP,
-                DEPENDENCE_ENCHANT, DEPENDENCE_GROUP -> checkItem(type, item, value, slot, use)
+                DEPENDENCE_ENCHANT, DEPENDENCE_GROUP -> checkItem(type, item, value, slot, use, ignoreSlot)
             }.run { if (!this) return false to sender.asLang("limitations-check-failed", sender.asLang("limitations-typename-${type.name.lowercase()}") to "typename") }
         }
 
         return true to ""
     }
 
-    private fun checkItem(type: LimitType, item: ItemStack, value: String, slot: EquipmentSlot?, use: Boolean): Boolean {
+    private fun checkItem(type: LimitType, item: ItemStack, value: String, slot: EquipmentSlot?, use: Boolean, ignoreSlot: Boolean): Boolean {
         val itemType = item.type
         val enchants = item.fixedEnchants
         return when (type) {
-            SLOT -> belonging.targets.find { itemType.isInTarget(it) }?.activeSlots?.contains(slot) ?: false
+            SLOT -> if (slot == null) ignoreSlot else belonging.targets.find { itemType.isInTarget(it) }?.activeSlots?.contains(slot) ?: false
             TARGET -> belonging.targets.any { itemType.isInTarget(it) } || (!use && (itemType == Material.BOOK || itemType == Material.ENCHANTED_BOOK))
             MAX_CAPABILITY -> itemType.capability > enchants.size
             DEPENDENCE_ENCHANT -> return enchants.containsKey(aiyatsbusEt(value))

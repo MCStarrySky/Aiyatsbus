@@ -28,6 +28,5 @@ enum class TriggerSlots(val slots: Set<EquipmentSlot?>) {
             EquipmentSlot.LEGS,
             EquipmentSlot.FEET
         )
-    ),
-    NONE(setOf(null));
+    )
 }

@@ -96,10 +96,11 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
                             watching -= path
                             return@watch
                         }
-                        if (AiyatsbusSettings.enableUpdater) {
+                        val resourceStream = javaClass.classLoader.getResourceAsStream(path)
+                        if (AiyatsbusSettings.enableUpdater && resourceStream != null) {
                             console().sendLang("enchantment-reload-failed", id)
                             watching += path
-                            YamlUpdater.loadFromFile(path, AiyatsbusSettings.enableUpdater, AiyatsbusSettings.updateContents)
+                            YamlUpdater.loadFromFile(path, AiyatsbusSettings.enableUpdater, AiyatsbusSettings.updateContents, Configuration.loadFromInputStream(resourceStream))
                             return@watch
                         }
                         val time0 = System.currentTimeMillis()

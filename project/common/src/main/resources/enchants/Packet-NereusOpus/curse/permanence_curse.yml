@@ -1,0 +1,36 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  enable: true
+  disable_worlds: [ ]
+  id: permanence_curse
+  name: "烙印诅咒"
+  max_level: 1
+
+rarity: 诅咒
+targets:
+  - 所有物品
+
+limitations: [ ]
+
+alternative:
+  grindstoneable: false
+  is_cursed: true
+
+display:
+  description:
+    general: "使被诅咒的物品在铁砧中无法被修改"
+
+mechanisms:
+  listeners:
+    on-anvil-left:
+      listen: aiyatsbus-prepare-anvil-left
+      handle: |-
+        set &event[isCancelled] to true
+    on-anvil-right:
+      listen: aiyatsbus-prepare-anvil-right
+      handle: |-
+        set &event[isCancelled] to true
