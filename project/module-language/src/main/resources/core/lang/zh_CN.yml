@@ -35,7 +35,7 @@ limitations-typename-conflict_group: '冲突'
 limitations-typename-dependence_enchant: '依赖'
 limitations-typename-dependence_group: '依赖'
 limitations-typename-disable_world: '禁用世界'
-limitations-typename-slots: '可用位置'
+limitations-typename-slot: '可用位置'
 
 limitations-check-failed: '{typename}错误'
 

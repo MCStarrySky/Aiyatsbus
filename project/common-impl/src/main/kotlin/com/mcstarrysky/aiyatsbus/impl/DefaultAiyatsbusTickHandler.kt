@@ -148,6 +148,7 @@ class DefaultAiyatsbusTickHandler : AiyatsbusTickHandler {
         @Awake(LifeCycle.CONST)
         fun load() {
             registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.TICKERS) {
+                Aiyatsbus.api().getTickHandler().reset()
                 Aiyatsbus.api().getTickHandler().start()
             }
         }

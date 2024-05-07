@@ -16,7 +16,7 @@ import taboolib.module.configuration.Configuration
  */
 object YamlUpdater {
 
-    fun loadFromFile(path: String, autoUpdate: Boolean = true, updateNodes: List<String> = emptyList()): Configuration {
+    fun loadFromFile(path: String, autoUpdate: Boolean = true, updateNodes: List<String> = emptyList(), cache: Configuration? = null): Configuration {
         // 如果配置不存在, 直接释放即可, 并不需要任何检查操作
         if (!newFile(getDataFolder(), path, create = false).exists()) {
             return Configuration.loadFromFile(releaseResourceFile(path))
@@ -25,10 +25,10 @@ object YamlUpdater {
         val config = YamlConfiguration.loadConfiguration(configFile)
 
         // 读取 Jar 包内的对应配置文件
-        val cache = Configuration.loadFromInputStream(javaClass.classLoader.getResourceAsStream(path) ?: return Configuration.loadFromOther(config))
+        val cachedFile = cache ?: Configuration.loadFromInputStream(javaClass.classLoader.getResourceAsStream(path) ?: return Configuration.loadFromOther(config))
 
         val updated = mutableListOf<String>()
-        read(cache, config, updateNodes, updated, autoUpdate)
+        read(cachedFile, config, updateNodes, updated, autoUpdate)
         if (updated.isNotEmpty()) {
             config.save(configFile)
         }

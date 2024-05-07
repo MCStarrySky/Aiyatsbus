@@ -35,7 +35,7 @@ limitations-typename-conflict_group: 'Conflict Group'
 limitations-typename-dependence_enchant: 'Dependence Enchantment'
 limitations-typename-dependence_group: 'Dependence Group'
 limitations-typename-disable_world: 'Disabled World'
-limitations-typename-slots: 'Slots'
+limitations-typename-slot: 'Slots'
 
 limitations-check-failed: '{typename} Error'
 

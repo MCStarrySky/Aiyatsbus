@@ -4,7 +4,6 @@ import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
-import com.mcstarrysky.aiyatsbus.core.data.trigger.TriggerSlots
 import com.mcstarrysky.aiyatsbus.core.event.AiyatsbusPrepareAnvilEvent
 import com.mcstarrysky.aiyatsbus.core.util.Mirror
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
@@ -24,6 +23,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryEvent
 import org.bukkit.event.player.PlayerEvent
 import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
@@ -57,7 +57,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
     private fun handle(it: Any?, listen: String, eventPriority: EventPriority) {
         val playerReference: String? = AiyatsbusEventExecutor.playerReferences[listen]
-        val slot = AiyatsbusEventExecutor.slots[listen] ?: TriggerSlots.NONE
+        val slot = AiyatsbusEventExecutor.slots[listen]
 
         val event = it as? Event ?: return
         /* 特殊事件处理 */
@@ -89,6 +89,8 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
             is EntityEvent -> (event.entity as? LivingEntity)
             is InventoryClickEvent -> event.whoClicked
             is InventoryEvent -> event.view.player
+
+            is AiyatsbusPrepareAnvilEvent -> event.player
             else -> {
                 playerReference?.let { ref ->
                     try {
@@ -103,25 +105,29 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
         val entity = player as? LivingEntity ?: return
         val inventory = entity.equipment ?: return
 
-        slot.slots.forEach {
-            var item: ItemStack? = null
-            try {
-                val itemReference = AiyatsbusEventExecutor.itemReferences[listen]
-                // 如果没有指定 slot, 但 itemReference 不为空, 则获取 itemReference
-                if (it == null && AiyatsbusEventExecutor.unsafe[listen] == true) {
-                    item = when (event) {
-                        is AiyatsbusPrepareAnvilEvent -> event.left
-                        else -> event.getProperty(itemReference ?: throw IllegalStateException(), false) as? ItemStack ?: throw IllegalStateException()
+        if (slot == null) {
+            val itemReference = AiyatsbusEventExecutor.itemReferences[listen]
+            // 如果没有指定 slot, 但 itemReference 不为空, 则获取 itemReference
+            val item = when (event) {
+                is AiyatsbusPrepareAnvilEvent -> {
+                    when (itemReference) {
+                        "left" -> event.left
+                        "right" -> event.right
+                        else -> event.getProperty(itemReference ?: return, false) as? ItemStack ?: return
                     }
                 }
-                // 如果指定了 slot
-                if (it != null) {
-                    item = inventory.getItem(it)
-                }
+                else -> event.getProperty(itemReference ?: return, false) as? ItemStack ?: return
+            }
+            if (item.isNull) return
 
-                if (item == null) {
-                    throw IllegalStateException()
-                }
+            item!!.triggerEts(listen, event, eventPriority, entity, null, true)
+            return
+        }
+
+        slot.slots.forEach {
+            val item: ItemStack?
+            try {
+                item = inventory.getItem(it ?: return)
             } catch (_: Throwable) {
                 // 离谱的低版本报错:
                 // java.lang.NullPointerException: player.inventory.getItem(slot) must not be null
@@ -129,37 +135,41 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
             }
             if (item.isNull) return@forEach
 
-            for (enchantPair in item.fixedEnchants) {
-                val enchant = enchantPair.key
+            item.triggerEts(listen, event, eventPriority, entity, it, false)
+        }
+    }
 
-                if (!enchant.limitations.checkAvailable(CheckType.USE, item, entity, it).first) continue
+    private fun ItemStack.triggerEts(listen: String, event: Event, eventPriority: EventPriority, entity: LivingEntity, slot: EquipmentSlot?, ignoreSlot: Boolean = false) {
+        for (enchantPair in fixedEnchants) {
+            val enchant = enchantPair.key
 
-                enchant.trigger.listeners
-                    .filterValues { it.priority == eventPriority && it.listen == listen }
-                    .forEach { (_, executor) ->
-                        val vars = mutableMapOf(
-                            "triggerSlot" to it?.name,
-                            "trigger-slot" to it?.name,
-                            "event" to event,
-                            "player" to player,
-                            "item" to item,
-                            "enchant" to enchant,
-                            "level" to enchantPair.value,
-                            "mirror" to Mirror.MirrorStatus()
-                        )
+            if (!enchant.limitations.checkAvailable(CheckType.USE, this, entity, slot, ignoreSlot).first) continue
 
-                        vars += enchant.variables.variables(enchantPair.value, entity, item, false)
+            enchant.trigger.listeners
+                .filterValues { it.priority == eventPriority && it.listen == listen }
+                .forEach { (_, executor) ->
+                    val vars = mutableMapOf(
+                        "triggerSlot" to slot?.name,
+                        "trigger-slot" to slot?.name,
+                        "event" to event,
+                        "player" to (entity as? Player ?: entity),
+                        "item" to this,
+                        "enchant" to enchant,
+                        "level" to enchantPair.value,
+                        "mirror" to Mirror.MirrorStatus()
+                    )
 
-                        if (AiyatsbusSettings.enablePerformanceTool) {
-                            mirrorNow("Enchantment:Listener:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${enchant.basicData.id}" else "") {
-                                vars += "mirror" to it
-                                Aiyatsbus.api().getKetherHandler().invoke(executor.handle, player as? Player, variables = vars)
-                            }
-                        } else {
-                            Aiyatsbus.api().getKetherHandler().invoke(executor.handle, player as? Player, variables = vars)
+                    vars += enchant.variables.variables(enchantPair.value, entity, this, false)
+
+                    if (AiyatsbusSettings.enablePerformanceTool) {
+                        mirrorNow("Enchantment:Listener:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${enchant.basicData.id}" else "") {
+                            vars += "mirror" to it
+                            Aiyatsbus.api().getKetherHandler().invoke(executor.handle, entity, variables = vars)
                         }
+                    } else {
+                        Aiyatsbus.api().getKetherHandler().invoke(executor.handle, entity, variables = vars)
                     }
-            }
+                }
         }
     }
 
