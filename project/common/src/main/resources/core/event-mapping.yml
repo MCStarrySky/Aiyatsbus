@@ -87,3 +87,8 @@ mappings:
   aiyatsbus-prepare-anvil-right:
     class: 'com.mcstarrysky.aiyatsbus.core.event.AiyatsbusPrepareAnvilEvent'
     itemReference: "right"
+
+  # 实体射箭事件
+  entity-shoot-bow:
+    class: 'org.bukkit.event.entity.EntityShootBowEvent'
+    slot: MAIN_HAND

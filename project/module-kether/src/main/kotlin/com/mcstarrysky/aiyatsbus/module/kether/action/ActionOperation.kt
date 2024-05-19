@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action
 
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusParser
+import com.mcstarrysky.aiyatsbus.module.kether.action.operation.Aiming
 import com.mcstarrysky.aiyatsbus.module.kether.action.operation.FastMultiBreak
 import com.mcstarrysky.aiyatsbus.module.kether.action.operation.Plant
 import com.mcstarrysky.aiyatsbus.module.kether.aiyatsbus
@@ -11,6 +12,7 @@ import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.SpectralArrow
 import org.bukkit.event.entity.CreatureSpawnEvent
+import org.bukkit.event.entity.EntityShootBowEvent
 import org.bukkit.util.Vector
 import taboolib.library.reflex.Reflex.Companion.setProperty
 import taboolib.module.kether.player
@@ -22,6 +24,7 @@ import taboolib.module.kether.player
  * @author mical
  * @since 2024/3/10 15:33
  */
+@Deprecated("等待重构以支持添加自定义操作")
 object ActionOperation {
 
     @Suppress("UNCHECKED_CAST")
@@ -66,6 +69,12 @@ object ActionOperation {
                             old.customEffects.forEach { e -> it.addCustomEffect(e, true) }
                         }
                     }
+                }
+            }
+            "aiming" -> {
+                combine(any(), trim("by", then = double()), trim("period", then = long())) { event, range, ticks ->
+                    event as EntityShootBowEvent
+                    Aiming.shootBow(range, ticks, event)
                 }
             }
             else -> error("unknown operation")
