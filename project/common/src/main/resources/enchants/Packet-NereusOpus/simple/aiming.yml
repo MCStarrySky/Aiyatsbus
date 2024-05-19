@@ -33,9 +33,10 @@ mechanisms:
       handle: |-
         if all [
           type boolean &require-full-charge
-          check &event[force] >= 1.0
+          check &event[force] < 1.0
         ] then {
-          set range to type double &范围
-          set repeat-ticks to type long &生效周期
-          operation aiming &event by &range period &repeat-ticks
+          exit
         }
+        set range to type double &范围
+        set repeat-ticks to type long &生效周期
+        operation aiming &event by &range period &repeat-ticks
