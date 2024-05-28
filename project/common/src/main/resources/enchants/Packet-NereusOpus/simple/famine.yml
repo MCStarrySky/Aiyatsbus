@@ -1,0 +1,53 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: famine
+  name: "啜食"
+  max_level: 6
+
+rarity: 罕见
+targets:
+  - 剑
+
+limitations: [ ]
+
+display:
+  description:
+    general: "在攻击时有概率使对手获得饥饿效果"
+    specific: "&7攻击时有&a{概率}&7的概率使对手获得&a{时间}&7的饥饿效果"
+
+variables:
+  leveled:
+    # 你也可以改成刻为单位, 但是记得要改下面脚本, 不要乘 20
+    # 那默认的参数就是: "刻:40*{level}", 1 秒等于 20 刻
+    时间: "秒:2*{level}"
+    概率: "%:3*{level}"
+    倍率: "级:0.5+{level}/2"
+  ordinary:
+    require-full-charge: true
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if instance-of &event[entity] is org.bukkit.entity.LivingEntity then {
+          if all [
+            type boolean &require-full-charge
+            check &event[damager.attackCooldown] < 1.0
+          ] then {
+            exit
+          }
+        
+          if not check random2 0 to 100 <= type double &概率 then {
+            exit
+          }
+        
+          set duration to type int math mul [ &时间 20 ]
+          set amplifier to type int math - [ &倍率 1 ]
+        
+          add-potion-effect HUNGER on &event[entity] duration &duration amplifier &amplifier
+        }
