@@ -1,0 +1,35 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: defender
+  name: "明辨"
+  max_level: 1
+
+rarity: 普通
+targets:
+  - 弓
+  - 弩
+  - 剑
+  - 斧
+
+limitations: [ ]
+
+display:
+  description:
+    general: "防止伤害自己的宠物"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if instance-of &event[entity] is org.bukkit.entity.Tameable then {
+          if &event[entity.isTamed] then {
+            if check &event[entity.owner-uuid] is &event[damager.uuid] then {
+              set &event[isCancelled] to true
+            }
+          }
+        }

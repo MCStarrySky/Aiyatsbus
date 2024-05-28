@@ -46,7 +46,7 @@ class PropertyEntity : AiyatsbusGenericProperty<Entity>("entity") {
             "ticksLived", "ticks-lived" -> instance.ticksLived
             "type*" -> instance.type
             "type" -> instance.type
-            "uniqueId", "unique-id", "uuid" -> instance.uniqueId
+            "uniqueId", "unique-id", "uuid" -> instance.uniqueId.toString()
             "vehicle" -> instance.vehicle
             "velocity" -> instance.velocity
             "width" -> instance.width
