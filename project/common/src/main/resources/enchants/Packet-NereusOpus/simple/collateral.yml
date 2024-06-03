@@ -1,0 +1,39 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: collateral
+  name: 穿心
+  max_level: 1
+
+rarity: 史诗
+
+targets:
+  - 弓
+
+limitations:
+  - "CONFLICT_ENCHANT:穿颅"
+
+display:
+  description:
+    general: "射出的箭矢伤害降低但能破盾并穿透生物"
+    specific: "&7射出的箭矢伤害降低&a{倍数}&7但能破盾并穿透生物&a{次数}"
+
+variables:
+  leveled:
+    倍数: "倍:0.5"
+    次数: "次:{level}"
+
+mechanisms:
+  listeners:
+    on-shoot-bow:
+      listen: "entity-shoot-bow"
+      handle: |-
+        set &event[projectile.pierce-level] to type int &次数
+
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        set &event[damage] to math mul [ &event[damage] type double &倍数 ]

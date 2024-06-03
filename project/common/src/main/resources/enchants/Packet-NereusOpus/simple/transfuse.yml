@@ -29,7 +29,6 @@ variables:
     掉落: DIAMOND_ORE,GOLD_ORE,LAPIS_ORE,REDSTONE_ORE,IRON_ORE # 钻石,金,青金石,红石,铁矿石
     挖掘目标: STONE,DEEPSLATE # 石头 深板岩
 
-
 mechanisms:
   listeners:
     on-break:
