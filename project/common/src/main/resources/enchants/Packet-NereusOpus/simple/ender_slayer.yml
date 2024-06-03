@@ -26,7 +26,7 @@ display:
 
 variables:
   leveled:
-    伤害: "点:1+0.5*{level}"
+    伤害: "倍:1+0.5*{level}"
 
 mechanisms:
   listeners:
@@ -34,5 +34,5 @@ mechanisms:
       listen: "entity-damage-by-entity"
       handle: |-
         if check &event[entity.type.name] contains END then {
-          set &event[damage] to math add [ &event[damage] type double &伤害 ]
+          set &event[damage] to math mul [ &event[damage] type double &伤害 ]
         }

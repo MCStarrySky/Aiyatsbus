@@ -1,0 +1,46 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: celebral
+  name: 穿颅
+  max_level: 6
+
+rarity: 史诗
+
+targets:
+  - 弓
+  - 弩
+  - 三叉戟
+
+limitations:
+  - "CONFLICT_ENCHANT:穿心"
+
+display:
+  description:
+    general: "射出的箭矢爆头伤害提升"
+    specific: "&7射射出的箭矢爆头伤害提升&a{倍数}"
+
+variables:
+  leveled:
+    倍数: "倍:0.5"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if all [
+          instance-of &event[damager] is Arrow
+          instance-of &event[entity] is LivingEntity
+        ] then {
+          set arrow to &event[damager]
+          set creature to &event[entity]
+          set b to math sub [ math add [ &creature[location.y] &creature[eye-height] ] 0.22 ]
+          if check &arrow[location.y] < b then {
+            exit
+          }
+          set &event[damage] to math mul [ &event[damage] type double &倍数 ]
+        }

@@ -25,7 +25,7 @@ display:
 
 variables:
   leveled:
-    伤害: "点:1+0.1*{level}"
+    伤害: "倍:1+0.1*{level}"
   ordinary:
     disable-on-players: false
     decrease-if-cooldown: true
@@ -52,4 +52,4 @@ mechanisms:
           exit
         }
         
-        set &event[damage] to math add [ &event[damage] &multiplier ]
+        set &event[damage] to math mul [ &event[damage] &multiplier ]

@@ -1,0 +1,43 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: block_breather
+  name: 无氧
+  max_level: 2
+
+rarity: 普通
+
+targets:
+  - 头盔
+
+limitations: [ ]
+
+display:
+  description:
+    general: "有概率免疫窒息伤害"
+    specific: "&7有&a{概率}&7的概率免疫窒息伤害"
+
+variables:
+  leveled:
+    概率: "%:50*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage"
+      handle: |-
+        if any [
+          check &event[cause] is DROWNING
+          check &event[cause] is SUFFOCATION
+        ] then {
+        
+          if not check random2 0 to 100 <= type double &概率 then {
+            exit
+          }
+        
+          set &event[isCancelled] to true
+        
+        }
