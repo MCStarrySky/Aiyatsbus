@@ -1,0 +1,59 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: rage
+  name: 煽动
+  max_level: 5
+
+rarity: 罕见
+
+targets:
+  - 弓
+
+limitations: [ ]
+
+display:
+  description:
+    general: "射出的箭矢造成伤害时有概率号召附近的怪物攻击对手"
+    specific: "&7射出的箭矢造成伤害时有&a{概率}&7的概率号召附近&a{范围}&7内的怪物攻击对手"
+
+variables:
+  leveled:
+    概率: "%:10*{level}"
+    范围: "格:2*{level}"
+  ordinary:
+    only_player: true
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if not check random2 0 to 100 <= type double &概率 then {
+          exit
+        }
+        
+        if instance-of &event[entity] is LivingEntity then {
+          set creature to &event[entity]
+        
+          if all [
+            type boolean &only_player
+            &creature[type] != PLAYER
+          ] then {
+            exit
+          }
+        
+          set range to type double &范围
+        
+          for entity in near-by-entities &player in &range &range &range then {
+        
+            if instance-of &entity is org.bukkit.entity.Mob then {
+              set &entity[target] to &player
+            }
+        
+          }
+        
+        }
