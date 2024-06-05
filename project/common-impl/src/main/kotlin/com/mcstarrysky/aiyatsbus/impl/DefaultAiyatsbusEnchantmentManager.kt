@@ -63,8 +63,8 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
             if (AiyatsbusSettings.autoReleaseEnchants) {
                 runningResourcesInJar.keys.filter {
                     it.endsWith(".yml")
-                            && it.startsWith("enchants/")
-                            && it.count { c -> c == '/' } >= 2
+                            && it.startsWith("enchants" + File.separator)
+                            && it.count { c -> c == File.separatorChar } >= 2
                 }.forEach { releaseResourceFile(it) }
             }
         }
@@ -78,7 +78,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
             .flatten()
             .let { files ->
                 for (file in files) {
-                    val path = file.path.substring(file.path.indexOf("enchants/"), file.path.length)
+                    val path = file.path.substring(file.path.indexOf("enchants" + File.separator), file.path.length)
                     val config = YamlUpdater.loadFromFile(path, AiyatsbusSettings.enableUpdater, AiyatsbusSettings.updateContents)
                     val id = config["basic.id"].toString()
 
