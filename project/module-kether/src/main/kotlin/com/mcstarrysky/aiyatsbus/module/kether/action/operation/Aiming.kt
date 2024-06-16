@@ -1,12 +1,10 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.operation
 
-import com.mcstarrysky.aiyatsbus.core.util.VectorUtils
-import org.bukkit.entity.AbstractArrow
-import org.bukkit.entity.ArmorStand
-import org.bukkit.entity.Entity
-import org.bukkit.entity.LivingEntity
+import org.bukkit.entity.*
 import org.bukkit.event.entity.EntityShootBowEvent
+import org.bukkit.util.Vector
 import taboolib.common.platform.function.submit
+import kotlin.math.*
 
 /**
  * Aiyatsbus
@@ -16,38 +14,57 @@ import taboolib.common.platform.function.submit
  * @since 2024/5/19 12:14
  */
 object Aiming {
-
     fun shootBow(range: Double, ticks: Long, event: EntityShootBowEvent) {
         val arrow = event.projectile as AbstractArrow
-        val who: Entity = event.entity
+        val who: Player = event.entity as Player
 
         arrow.isGlowing = true
         arrow.shooter = event.entity
 
+        var target: LivingEntity? = (
+
+                // 优先寻找玩家所指向的实体
+                who.getTargetEntity(
+                    range.roundToInt() * 2
+                ) ?: who.getTargetBlockExact( // 如果没有，则根据距离找可用的实体
+                    range.roundToInt() * 2
+                )?.location?.getNearbyEntities(range, range, range)?.firstOrNull()
+
+                )?.let {
+                if (
+                    it.uniqueId !== who.uniqueId
+                    && it is LivingEntity
+                    && it !is ArmorStand
+                    && who.hasLineOfSight(it)
+                ) it else null
+            } // 如果有预先瞄准则获取特定的目标并持续追踪
+
         submit(delay = 1L, period = ticks) {
-            if (arrow.isDead) {
+            // 判断此箭货是否还在飞行
+            if (arrow.isDead || arrow.isInBlock || target?.isDead == true) {
                 cancel()
+                target?.isGlowing = false
                 return@submit
             }
-            if (arrow.isInBlock) {
-                cancel()
-                return@submit
+
+            // 分成两个 else 而不是一个是为了找到后就立即修正一次方向
+            if (target == null) {
+                target = arrow.getNearbyEntities(range, range, range).firstOrNull {
+                    it.uniqueId !== who.uniqueId
+                            // && !PermissionUtils.checkIfIsNPC(entity)
+                            && it is LivingEntity
+                            && it !is ArmorStand
+                            && who.hasLineOfSight(it)
+                } as LivingEntity?
             }
-            for (entity in arrow.getNearbyEntities(range, range, range)) {
-                if (entity.uniqueId !== who.uniqueId && entity is LivingEntity
-                    && entity !is ArmorStand
-                    // && !PermissionUtils.checkIfIsNPC(entity)
-                    && entity.hasLineOfSight(who)
-                ) {
-                    val arrowLoc = arrow.location
-                    val destination = entity.location
-                    val vector = destination.subtract(arrowLoc).toVector().normalize()
-                    val origin = arrow.velocity
-                    if (origin.add(vector.multiply(origin.length() / 2)).length() < 5) {
-                        VectorUtils.addVelocity(arrow, origin.add(vector.multiply(origin.length() / 2)), false)
-                    }
-                    break
-                }
+
+            if (target != null) { // 如果找到了目标就继续冲
+                target?.isGlowing = true // TODO 颜色
+
+                val perfectDirection: Vector = arrow.location.clone().subtract(target!!.eyeLocation).toVector()
+                perfectDirection.normalize()
+                perfectDirection.multiply(-1)
+                arrow.velocity = perfectDirection.multiply(0.5)
             }
         }
     }
