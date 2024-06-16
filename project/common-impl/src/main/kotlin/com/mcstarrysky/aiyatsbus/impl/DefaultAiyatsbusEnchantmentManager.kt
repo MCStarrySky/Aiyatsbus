@@ -7,6 +7,7 @@ import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.unwatch
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.watch
 import com.mcstarrysky.aiyatsbus.core.util.YamlUpdater
 import com.mcstarrysky.aiyatsbus.core.util.deepRead
+import com.mcstarrysky.aiyatsbus.core.util.replace
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.io.newFolder
@@ -62,9 +63,10 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
         if (newFolder(getDataFolder(), "enchants").listFiles()?.none { it.isDirectory } == true) {
             if (AiyatsbusSettings.autoReleaseEnchants) {
                 runningResourcesInJar.keys.filter {
-                    it.endsWith(".yml")
-                            && it.startsWith("enchants" + File.separator)
-                            && it.count { c -> c == File.separatorChar } >= 2
+                    val path = it.replace("/", File.separator)
+                    path.endsWith(".yml")
+                            && path.startsWith("enchants" + File.separator)
+                            && path.count { c -> c == File.separatorChar } >= 2
                 }.forEach { releaseResourceFile(it) }
             }
         }
