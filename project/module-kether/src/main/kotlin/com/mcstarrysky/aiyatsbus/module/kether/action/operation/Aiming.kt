@@ -18,7 +18,7 @@ import kotlin.math.*
 object Aiming {
     fun shootBow(range: Double, ticks: Long, event: EntityShootBowEvent, color: ChatColor) {
         val arrow = event.projectile as AbstractArrow
-        val who: Player = event.entity as Player
+        val who: LivingEntity = event.entity
 
         TeamColorUtils.getTeamByColor(color)?.addEntry(arrow.uniqueId.toString())
         arrow.isGlowing = true
