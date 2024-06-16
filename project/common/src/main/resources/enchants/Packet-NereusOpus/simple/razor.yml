@@ -20,8 +20,8 @@ limitations:
 
 display:
   description:
-    general: "对爬行者的伤害提升"
-    specific: "&7对爬行者的伤害提升&a{伤害}"
+    general: "在攻击时伤害大幅提升"
+    specific: "&7在攻击时伤害提升&a{伤害}"
 
 variables:
   leveled:

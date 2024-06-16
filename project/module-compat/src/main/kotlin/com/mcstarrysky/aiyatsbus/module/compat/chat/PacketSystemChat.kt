@@ -4,6 +4,7 @@ package com.mcstarrysky.aiyatsbus.module.compat.chat
 
 import com.google.gson.JsonObject
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
+import com.mcstarrysky.aiyatsbus.core.toDisplayMode
 import com.mcstarrysky.aiyatsbus.core.util.JSON_PARSER
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
@@ -74,7 +75,7 @@ object PacketSystemChat {
                 val tag = stack.get("tag")?.asString ?: continue
 
                 val item = Aiyatsbus.api().getMinecraftAPI().createItemStack(id, tag)
-                val display = Aiyatsbus.api().getDisplayManager().display(item, player)
+                val display = item.toDisplayMode(player)
 
                 val target = display.displayName().hoverEvent(display.asHoverEvent())
                 json = json.replace(

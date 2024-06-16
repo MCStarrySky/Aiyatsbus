@@ -1,7 +1,7 @@
 package com.mcstarrysky.aiyatsbus.impl.nms
 
-import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusMinecraftAPI
+import com.mcstarrysky.aiyatsbus.core.toDisplayMode
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.impl.nms.v12005_nms.NMS12005
 import io.papermc.paper.adventure.PaperAdventure
@@ -88,7 +88,7 @@ class DefaultAiyatsbusMinecraftAPI : AiyatsbusMinecraftAPI {
         fun adapt(item: Any, player: Player): Any {
             val bkItem = NMSItem.asBukkitCopy(item)
             if (bkItem.isNull) return item
-            return NMSItem.asNMSCopy(Aiyatsbus.api().getDisplayManager().display(bkItem, player))
+            return bkItem.toDisplayMode(player)
         }
 
         return when (MinecraftVersion.major) {
