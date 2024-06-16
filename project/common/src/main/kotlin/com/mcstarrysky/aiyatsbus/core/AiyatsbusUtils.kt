@@ -84,7 +84,7 @@ fun ProxyCommandSender.asLangList(node: String, vararg args: Any): List<String> 
  * 奇妙的 Et 命名来自白熊, 是 enchant 的缩写
  */
 val Enchantment.aiyatsbusEt: AiyatsbusEnchantment
-    get() = Aiyatsbus.api().getEnchantmentManager().getByID(key.key) ?: error("Enchantment ${key.key} not found.")
+    get() = Aiyatsbus.api().getEnchantmentManager().getByID(key.key) ?: error("Enchantment ${key.key} not found. (Maybe it's a vanilla enchantment. Please ensure all of the vanilla enchantment's files are complete.)")
 
 /**
  * 根据名称或 Key 获取 AiyatsbusEnchantment 附魔对象
@@ -102,6 +102,14 @@ fun aiyatsbusEt(key: NamespacedKey) = aiyatsbusEt(key.key)
  * 获取某个品质对应的所有 AiyatsbusEnchantment 附魔
  */
 fun aiyatsbusEts(rarity: Rarity) = Aiyatsbus.api().getEnchantmentManager().getByIDs().values.filter { it.rarity == rarity }
+
+fun ItemStack.toDisplayMode(player: Player): ItemStack {
+    return Aiyatsbus.api().getDisplayManager().display(this, player)
+}
+
+fun ItemStack.toRevertMode(player: Player): ItemStack {
+    return Aiyatsbus.api().getDisplayManager().undisplay(this, player)
+}
 
 /**
  * 获取附魔的附魔书

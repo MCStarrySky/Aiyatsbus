@@ -1,6 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.mechanics.display
 
-import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
+import com.mcstarrysky.aiyatsbus.core.toRevertMode
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
@@ -23,7 +23,7 @@ object PacketSetCreativeSlot {
                 val origin = e.packet.read<Any>("b", false)!!
                 val bkItem = NMSItem.asBukkitCopy(origin)
                 if (bkItem.isNull) return
-                val adapted = NMSItem.asNMSCopy(Aiyatsbus.api().getDisplayManager().undisplay(bkItem, e.player))
+                val adapted = NMSItem.asNMSCopy(bkItem.toRevertMode(e.player))
                 e.packet.write("b", adapted)
             }.onFailure { it.printStackTrace() }
         }

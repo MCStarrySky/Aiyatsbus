@@ -1,6 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.mechanics.display
 
-import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
+import com.mcstarrysky.aiyatsbus.core.toDisplayMode
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
@@ -30,7 +30,7 @@ object PacketWindowItems {
                 for (i in slots.indices) {
                     val bkItem = NMSItem.asBukkitCopy(slots[i])
                     if (bkItem.isNull) continue
-                    val nmsItem = NMSItem.asNMSCopy(Aiyatsbus.api().getDisplayManager().display(bkItem, e.player))
+                    val nmsItem = NMSItem.asNMSCopy(bkItem.toDisplayMode(e.player))
                     slots[i] = nmsItem
                 }
                 e.packet.write(field, slots)
@@ -39,7 +39,7 @@ object PacketWindowItems {
                     val cursor = e.packet.read<Any>("d", false)!!
                     val bkItem = NMSItem.asBukkitCopy(cursor)
                     if (bkItem.isNull) return
-                    val nmsItem = NMSItem.asNMSCopy(Aiyatsbus.api().getDisplayManager().display(bkItem, e.player))
+                    val nmsItem = NMSItem.asNMSCopy(bkItem.toDisplayMode(e.player))
                     e.packet.write("d", nmsItem)
                 }
             }.onFailure { it.printStackTrace() }
