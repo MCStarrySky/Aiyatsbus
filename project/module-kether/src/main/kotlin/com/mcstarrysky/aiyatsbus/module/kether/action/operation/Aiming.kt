@@ -1,5 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.operation
 
+import com.mcstarrysky.aiyatsbus.core.util.TeamColorUtils
+import org.bukkit.ChatColor
 import org.bukkit.entity.*
 import org.bukkit.event.entity.EntityShootBowEvent
 import org.bukkit.util.Vector
@@ -14,10 +16,11 @@ import kotlin.math.*
  * @since 2024/5/19 12:14
  */
 object Aiming {
-    fun shootBow(range: Double, ticks: Long, event: EntityShootBowEvent) {
+    fun shootBow(range: Double, ticks: Long, event: EntityShootBowEvent, color: ChatColor) {
         val arrow = event.projectile as AbstractArrow
         val who: Player = event.entity as Player
 
+        TeamColorUtils.getTeamByColor(color)?.addEntry(arrow.uniqueId.toString())
         arrow.isGlowing = true
         arrow.shooter = event.entity
 
@@ -59,7 +62,8 @@ object Aiming {
             }
 
             if (target != null) { // 如果找到了目标就继续冲
-                target?.isGlowing = true // TODO 颜色
+                target?.uniqueId?.let { TeamColorUtils.getTeamByColor(color)?.addEntry(it.toString()) }
+                target?.isGlowing = true
 
                 val perfectDirection: Vector = arrow.location.clone().subtract(target!!.eyeLocation).toVector()
                 perfectDirection.normalize()

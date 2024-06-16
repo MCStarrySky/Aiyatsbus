@@ -25,6 +25,7 @@ variables:
     范围: "格:4+{level}"
   ordinary:
     require-full-charge: false
+    color: "RED"
 
 mechanisms:
   listeners:
@@ -39,4 +40,4 @@ mechanisms:
         }
         set range to type double &范围
         set repeat-ticks to type long &生效周期
-        operation aiming &event by &range period &repeat-ticks
+        operation aiming &event by &range period &repeat-ticks &color

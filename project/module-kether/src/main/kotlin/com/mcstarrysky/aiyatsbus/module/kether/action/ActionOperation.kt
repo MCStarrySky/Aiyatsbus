@@ -5,6 +5,7 @@ import com.mcstarrysky.aiyatsbus.module.kether.action.operation.Aiming
 import com.mcstarrysky.aiyatsbus.module.kether.action.operation.FastMultiBreak
 import com.mcstarrysky.aiyatsbus.module.kether.action.operation.Plant
 import com.mcstarrysky.aiyatsbus.module.kether.aiyatsbus
+import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.entity.AbstractArrow
 import org.bukkit.entity.Arrow
@@ -72,9 +73,9 @@ object ActionOperation {
                 }
             }
             "aiming" -> {
-                combine(any(), trim("by", then = double()), trim("period", then = long())) { event, range, ticks ->
+                combine(any(), trim("by", then = double()), trim("period", then = long()), trim("color", then = text())) { event, range, ticks, color ->
                     event as EntityShootBowEvent
-                    Aiming.shootBow(range, ticks, event)
+                    Aiming.shootBow(range, ticks, event, ChatColor.values().firstOrNull { it.name.lowercase() == color.lowercase() } ?: ChatColor.WHITE)
                 }
             }
             else -> error("unknown operation")
