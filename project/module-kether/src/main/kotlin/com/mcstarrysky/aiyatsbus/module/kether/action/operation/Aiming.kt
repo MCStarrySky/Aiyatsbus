@@ -25,7 +25,6 @@ object Aiming {
         arrow.shooter = event.entity
 
         var target: LivingEntity? = (
-
                 // 优先寻找玩家所指向的实体
                 who.getTargetEntity(
                     range.roundToInt() * 2
@@ -61,11 +60,12 @@ object Aiming {
                 } as LivingEntity?
             }
 
-            if (target != null) { // 如果找到了目标就继续冲
-                target?.uniqueId?.let { TeamColorUtils.getTeamByColor(color)?.addEntry(it.toString()) }
-                target?.isGlowing = true
+            // 如果找到了目标就继续冲
+            target?.let {
+                TeamColorUtils.getTeamByColor(color)?.addEntry(it.uniqueId.toString())
+                it.isGlowing = true
 
-                val perfectDirection: Vector = arrow.location.clone().subtract(target!!.eyeLocation).toVector()
+                val perfectDirection: Vector = arrow.location.clone().subtract(it.eyeLocation).toVector()
                 perfectDirection.normalize()
                 perfectDirection.multiply(-1)
                 arrow.velocity = perfectDirection.multiply(0.5)
