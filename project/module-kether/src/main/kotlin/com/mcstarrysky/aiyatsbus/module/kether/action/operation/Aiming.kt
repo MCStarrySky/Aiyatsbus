@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.operation
 
 import com.mcstarrysky.aiyatsbus.core.util.TeamColorUtils
+import com.mcstarrysky.aiyatsbus.core.util.VectorUtils
 import org.bukkit.ChatColor
 import org.bukkit.entity.*
 import org.bukkit.event.entity.EntityShootBowEvent
@@ -16,7 +17,8 @@ import kotlin.math.*
  * @since 2024/5/19 12:14
  */
 object Aiming {
-    fun shootBow(range: Double, ticks: Long, event: EntityShootBowEvent, color: ChatColor) {
+
+    fun shootBow(range: Double, ticks: Long, event: EntityShootBowEvent, color: ChatColor, blackList: List<String>) {
         val arrow = event.projectile as AbstractArrow
         val who: LivingEntity = event.entity
 
@@ -54,8 +56,8 @@ object Aiming {
                 target = arrow.getNearbyEntities(range, range, range).firstOrNull {
                     it.uniqueId !== who.uniqueId
                             // && !PermissionUtils.checkIfIsNPC(entity)
-                            && it is LivingEntity
-                            && it !is ArmorStand
+                            && it is Mob
+                            && it.type.name.lowercase() !in blackList
                             && who.hasLineOfSight(it)
                 } as LivingEntity?
             }
@@ -65,10 +67,13 @@ object Aiming {
                 TeamColorUtils.getTeamByColor(color)?.addEntry(it.uniqueId.toString())
                 it.isGlowing = true
 
-                val perfectDirection: Vector = arrow.location.clone().subtract(it.eyeLocation).toVector()
-                perfectDirection.normalize()
-                perfectDirection.multiply(-1)
-                arrow.velocity = perfectDirection.multiply(0.5)
+                val perfectDirection: Vector = arrow.location.clone()
+                    .subtract(it.eyeLocation)
+                    .toVector()
+                    .normalize()
+                    .multiply(-1)
+                // 设置箭速
+                VectorUtils.addVelocity(arrow, perfectDirection.multiply(arrow.velocity.length()), false)
             }
         }
     }

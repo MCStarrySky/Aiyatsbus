@@ -15,7 +15,6 @@ import org.bukkit.entity.SpectralArrow
 import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.event.entity.EntityShootBowEvent
 import org.bukkit.util.Vector
-import taboolib.library.reflex.Reflex.Companion.setProperty
 import taboolib.module.kether.player
 
 /**
@@ -73,9 +72,9 @@ object ActionOperation {
                 }
             }
             "aiming" -> {
-                combine(any(), trim("by", then = double()), trim("period", then = long()), trim("color", then = text())) { event, range, ticks, color ->
+                combine(any(), trim("by", then = double()), trim("period", then = long()), trim("color", then = text()), trim("except", then = text())) { event, range, ticks, color, except ->
                     event as EntityShootBowEvent
-                    Aiming.shootBow(range, ticks, event, ChatColor.values().firstOrNull { it.name.lowercase() == color.lowercase() } ?: ChatColor.WHITE)
+                    Aiming.shootBow(range, ticks, event, ChatColor.values().firstOrNull { it.name.lowercase() == color.lowercase() } ?: ChatColor.WHITE, except.lowercase().split(","))
                 }
             }
             else -> error("unknown operation")

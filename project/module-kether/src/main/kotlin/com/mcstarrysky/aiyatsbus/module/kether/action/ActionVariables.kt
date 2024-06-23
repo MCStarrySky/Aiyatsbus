@@ -11,7 +11,10 @@ import com.mcstarrysky.aiyatsbus.module.kether.aiyatsbus
  * @author mical
  * @since 2024/3/10 16:03
  */
+@Deprecated("等待重写, 现在的太智障了")
 object ActionVariables {
+
+    // TODO: getBoolean, getDouble, getStringList, etc.
 
     /**
      * ordinary-var &enchant name
