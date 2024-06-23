@@ -50,13 +50,19 @@ object Aiming {
                 return@submit
             }
 
+            val blackList = arrayOf(
+                EntityType.ARMOR_STAND, EntityType.ALLAY, EntityType.VILLAGER, EntityType.WANDERING_TRADER,
+                EntityType.WOLF, EntityType.CAT, EntityType.BAT, EntityType.ENDERMAN,
+                EntityType.HORSE, EntityType.SKELETON_HORSE, EntityType.ZOMBIE_HORSE
+            )
+
             // 分成两个 else 而不是一个是为了找到后就立即修正一次方向
             if (target == null) {
                 target = arrow.getNearbyEntities(range, range, range).firstOrNull {
                     it.uniqueId !== who.uniqueId
                             // && !PermissionUtils.checkIfIsNPC(entity)
-                            && it is LivingEntity
-                            && it !is ArmorStand
+                            && it is Mob
+                            && it.type !in blackList
                             && who.hasLineOfSight(it)
                 } as LivingEntity?
             }

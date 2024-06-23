@@ -15,7 +15,6 @@ import org.bukkit.entity.SpectralArrow
 import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.event.entity.EntityShootBowEvent
 import org.bukkit.util.Vector
-import taboolib.library.reflex.Reflex.Companion.setProperty
 import taboolib.module.kether.player
 
 /**
