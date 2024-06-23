@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.operation
 
 import com.mcstarrysky.aiyatsbus.core.util.TeamColorUtils
+import com.mcstarrysky.aiyatsbus.core.util.VectorUtils
 import org.bukkit.ChatColor
 import org.bukkit.entity.*
 import org.bukkit.event.entity.EntityShootBowEvent
@@ -65,10 +66,13 @@ object Aiming {
                 TeamColorUtils.getTeamByColor(color)?.addEntry(it.uniqueId.toString())
                 it.isGlowing = true
 
-                val perfectDirection: Vector = arrow.location.clone().subtract(it.eyeLocation).toVector()
-                perfectDirection.normalize()
-                perfectDirection.multiply(-1)
-                arrow.velocity = perfectDirection.multiply(0.5)
+                val perfectDirection: Vector = arrow.location.clone()
+                    .subtract(it.eyeLocation)
+                    .toVector()
+                    .normalize()
+                    .multiply(-1)
+                // 设置箭速
+                VectorUtils.addVelocity(arrow, perfectDirection.multiply(arrow.velocity.length()), false)
             }
         }
     }
