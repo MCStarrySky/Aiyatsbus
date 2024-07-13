@@ -92,4 +92,4 @@ mechanisms:
           }
         }
 
-        operation fast-multi-break &breaks &per-tick
+        operation fast-multi-break args array [ &player &breaks &per-tick ]

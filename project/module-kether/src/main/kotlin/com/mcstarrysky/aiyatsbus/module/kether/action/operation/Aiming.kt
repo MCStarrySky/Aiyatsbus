@@ -1,7 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.operation
 
-import com.mcstarrysky.aiyatsbus.core.util.TeamColorUtils
-import com.mcstarrysky.aiyatsbus.core.util.VectorUtils
+import com.mcstarrysky.aiyatsbus.core.util.*
 import org.bukkit.ChatColor
 import org.bukkit.entity.*
 import org.bukkit.event.entity.EntityShootBowEvent
@@ -18,7 +17,18 @@ import kotlin.math.*
  */
 object Aiming {
 
-    fun shootBow(range: Double, ticks: Long, event: EntityShootBowEvent, color: ChatColor, blackList: List<String>) {
+    @Suppress("UNCHECKED_CAST")
+    fun shootBow(args: List<Any?>?) {
+        shootBow(
+            args?.get(0).coerceDouble(),
+            args?.get(1).coerceLong(),
+            args?.get(2) as EntityShootBowEvent,
+            ChatColor.values().firstOrNull { it.name.lowercase() == args[3].toString().lowercase() } ?: ChatColor.WHITE,
+            args[4] as List<String>
+        )
+    }
+
+    private fun shootBow(range: Double, ticks: Long, event: EntityShootBowEvent, color: ChatColor, blackList: List<String>) {
         val arrow = event.projectile as AbstractArrow
         val who: LivingEntity = event.entity
 

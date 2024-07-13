@@ -1,21 +1,22 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action
 
-import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusParser
+import com.mcstarrysky.aiyatsbus.core.util.container.Registry
 import com.mcstarrysky.aiyatsbus.module.kether.action.operation.Aiming
 import com.mcstarrysky.aiyatsbus.module.kether.action.operation.FastMultiBreak
 import com.mcstarrysky.aiyatsbus.module.kether.action.operation.Plant
-import com.mcstarrysky.aiyatsbus.module.kether.aiyatsbus
-import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.entity.AbstractArrow
 import org.bukkit.entity.Arrow
+import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.SpectralArrow
 import org.bukkit.event.entity.CreatureSpawnEvent
-import org.bukkit.event.entity.EntityShootBowEvent
 import org.bukkit.util.Vector
-import taboolib.module.kether.player
+import taboolib.module.kether.KetherParser
+import taboolib.module.kether.combinationParser
+import java.util.concurrent.ConcurrentHashMap
+import java.util.function.Function
 
 /**
  * Aiyatsbus
@@ -24,60 +25,52 @@ import taboolib.module.kether.player
  * @author mical
  * @since 2024/3/10 15:33
  */
-@Deprecated("等待重构以支持添加自定义操作")
-object ActionOperation {
+object ActionOperation : Registry<String, Function<List<Any?>?, Any?>>(ConcurrentHashMap()) {
 
-    @Suppress("UNCHECKED_CAST")
-    @AiyatsbusParser(["operation"])
-    fun operation() = aiyatsbus {
-        when (nextToken()) {
-            "fast-multi-break", "fastMultiBreak" -> {
-                combine(any(), int()) { breaks, speed ->
-                    FastMultiBreak.fastMultiBreak(
-                        player().castSafely()!!,
-                        (breaks as List<Location>).toMutableList(),
-                        speed
-                    )
-                }
-            }
-            "plant" -> {
-                combine(int(), text()) { side, seeds ->
-                    Plant.plant(player().castSafely()!!, side, seeds)
-                }
-            }
-            "spawn-arrow", "spawnArrow" -> {
-                combine(trim("at", then = any()), trim("by-vec", then = any()), trim("by-shooter", then = entity()), optional("by-old", then = entity())) { loc, vec, shooter, old ->
-                    if (old !is AbstractArrow) return@combine null // 不是三叉戟啊喂!!!
-                    vec as Vector
-                    loc as Location
-                    val spectral = old is SpectralArrow
-                    loc.world?.spawnEntity(loc, if (spectral) EntityType.SPECTRAL_ARROW else EntityType.ARROW, CreatureSpawnEvent.SpawnReason.CUSTOM) {
-                        if (spectral) {
-                            it as SpectralArrow
-                            old as SpectralArrow
+    init {
+        register("aiming", Function { Aiming.shootBow(it) })
+        register("plant", Function { Plant.plant(it) })
+        listOf("fast-multi-break", "fastMultiBreak").forEach { name ->
+            register(name, Function { FastMultiBreak.fastMultiBreak(it) })
+        }
+        listOf("spawn-arrow", "spawnArrow").forEach { name ->
+            register(name, Function { it ->
+                val old = it?.get(3) as? AbstractArrow ?: return@Function null // 不是三叉戟啊喂!!!
+                val loc = it[0] as Location
+                val vec = it[1] as Vector
+                val shooter = it[2] as Entity
+                val spectral = old is SpectralArrow
+                return@Function loc.world?.spawnEntity(loc, if (spectral) EntityType.SPECTRAL_ARROW else EntityType.ARROW, CreatureSpawnEvent.SpawnReason.CUSTOM) {
+                    if (spectral) {
+                        it as SpectralArrow
+                        old as SpectralArrow
 
-                            it.velocity = vec
-                            it.isGlowing = old.isGlowing
-                            it.glowingTicks = old.glowingTicks
-                        } else {
-                            it as Arrow
-                            old as Arrow
+                        it.velocity = vec
+                        it.isGlowing = old.isGlowing
+                        it.glowingTicks = old.glowingTicks
+                    } else {
+                        it as Arrow
+                        old as Arrow
 
-                            it.velocity = vec
-                            it.shooter = shooter as? LivingEntity
-                            it.basePotionType = old.basePotionType
-                            old.customEffects.forEach { e -> it.addCustomEffect(e, true) }
-                        }
+                        it.velocity = vec
+                        it.shooter = shooter as? LivingEntity
+                        it.basePotionType = old.basePotionType
+                        old.customEffects.forEach { e -> it.addCustomEffect(e, true) }
                     }
                 }
+            })
+        }
+    }
+
+    /**
+     * operation xxx args [ &int &text ]
+     */
+    @KetherParser(["operation"])
+    fun operationParser() = combinationParser {
+        it.group(text(), command("args", then = anyAsList()).option()).apply(it) { operation, args ->
+            now {
+                ActionOperation[operation]?.apply(args)
             }
-            "aiming" -> {
-                combine(any(), trim("by", then = double()), trim("period", then = long()), trim("color", then = text()), trim("except", then = text())) { event, range, ticks, color, except ->
-                    event as EntityShootBowEvent
-                    Aiming.shootBow(range, ticks, event, ChatColor.values().firstOrNull { it.name.lowercase() == color.lowercase() } ?: ChatColor.WHITE, except.lowercase().split(","))
-                }
-            }
-            else -> error("unknown operation")
         }
     }
 }

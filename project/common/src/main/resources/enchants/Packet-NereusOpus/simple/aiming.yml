@@ -41,4 +41,4 @@ mechanisms:
         }
         set range to type double &范围
         set repeat-ticks to type long &生效周期
-        operation aiming &event by &range period &repeat-ticks &color except &black-list
+        operation aiming args array [ &range &repeat-ticks &event &color split &black-list by "," ]

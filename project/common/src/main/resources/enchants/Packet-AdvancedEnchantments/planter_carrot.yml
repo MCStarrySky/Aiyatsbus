@@ -34,7 +34,7 @@ mechanisms:
           set cd to a-cd check &enchant &player &冷却 true
         
           if &cd then {
-            operation plant &边长 CARROT
+            operation plant args array [ &player &边长 CARROT ]
             a-cd add &enchant &player
           }
         }
