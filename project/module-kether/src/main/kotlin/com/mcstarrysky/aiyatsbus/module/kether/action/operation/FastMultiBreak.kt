@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.operation
 
 import com.mcstarrysky.aiyatsbus.core.compat.AntiGriefChecker
+import com.mcstarrysky.aiyatsbus.core.util.coerceInt
 import com.mcstarrysky.aiyatsbus.core.util.doBreakBlock
 import com.mcstarrysky.aiyatsbus.core.util.serialized
 import org.bukkit.Location
@@ -17,7 +18,12 @@ import taboolib.common.platform.function.warning
  */
 object FastMultiBreak {
 
-    fun fastMultiBreak(player: Player, breaks: MutableList<Location>, speed: Int) {
+    @Suppress("UNCHECKED_CAST")
+    fun fastMultiBreak(args: List<Any?>?) {
+        fastMultiBreak(args?.get(0) as Player, (args[1] as List<Location>).toMutableList(), args[2].coerceInt())
+    }
+
+    private fun fastMultiBreak(player: Player, breaks: MutableList<Location>, speed: Int) {
         submit(delay = 0, period = 1) {
             for (i in 0 until speed) {
 

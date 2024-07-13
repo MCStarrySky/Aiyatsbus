@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.operation
 
 import com.mcstarrysky.aiyatsbus.core.compat.AntiGriefChecker
+import com.mcstarrysky.aiyatsbus.core.util.coerceInt
 import com.mcstarrysky.aiyatsbus.core.util.placeBlock
 import org.bukkit.FluidCollisionMode
 import org.bukkit.Material
@@ -38,7 +39,11 @@ object Plant {
         return null
     }
 
-    fun plant(player: Player, sideLength: Int, seeds: String?) {
+    fun plant(args: List<Any?>?) {
+        plant(args?.get(0) as Player, args[1].coerceInt(), args[2].toString())
+    }
+
+    private fun plant(player: Player, sideLength: Int, seeds: String?) {
         if (sideLength <= 1) return
 
         val block = player.rayTraceBlocks(6.0, FluidCollisionMode.NEVER)?.hitBlock ?: return

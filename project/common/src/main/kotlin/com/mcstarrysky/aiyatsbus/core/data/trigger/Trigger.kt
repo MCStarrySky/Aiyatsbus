@@ -20,11 +20,11 @@ data class Trigger(private val section: ConfigurationSection?, private val encha
     init {
         section?.getConfigurationSection("listeners")?.let { listenersSection ->
             listeners += listenersSection.getKeys(false)
-                .associateWith { EventExecutor(listenersSection.getConfigurationSection(it)!!) }
+                .associateWith { EventExecutor(listenersSection.getConfigurationSection(it)!!, enchant) }
         }
         section?.getConfigurationSection("tickers")?.let { tickersSection ->
             tickers += tickersSection.getKeys(false)
-                .associateWith { Ticker(tickersSection.getConfigurationSection(it)!!) }
+                .associateWith { Ticker(tickersSection.getConfigurationSection(it)!!, enchant) }
                 .mapKeys { "${enchant.basicData.id}.$it" }
                 .also {
                     it.entries.forEach { (id, ticker) -> Aiyatsbus.api().getTickHandler().getRoutine().put(enchant, id, ticker.interval) }
