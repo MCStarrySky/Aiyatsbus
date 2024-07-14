@@ -16,7 +16,7 @@ import com.mcstarrysky.aiyatsbus.module.kether.LiveData.Companion.liveShort
 import com.mcstarrysky.aiyatsbus.module.kether.LiveData.Companion.liveStringList
 import com.mcstarrysky.aiyatsbus.module.kether.LiveData.Companion.liveVector
 import com.mcstarrysky.aiyatsbus.module.kether.LiveData.Companion.readerOf
-import com.mcstarrysky.aiyatsbus.module.kether.action.ActionBlock
+import com.mcstarrysky.aiyatsbus.module.kether.action.internal.ActionBlock
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory

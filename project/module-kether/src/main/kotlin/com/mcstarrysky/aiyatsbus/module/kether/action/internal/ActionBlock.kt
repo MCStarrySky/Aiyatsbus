@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.module.kether.action
+package com.mcstarrysky.aiyatsbus.module.kether.action.internal
 
 import taboolib.library.kether.ParsedAction
 import taboolib.module.kether.ScriptAction

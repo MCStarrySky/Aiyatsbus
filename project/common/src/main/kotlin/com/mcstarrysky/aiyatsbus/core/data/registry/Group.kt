@@ -3,7 +3,7 @@ package com.mcstarrysky.aiyatsbus.core.data.registry
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.Dependencies
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
-import com.mcstarrysky.aiyatsbus.core.util.container.SimpleRegistry
+import com.mcstarrysky.aiyatsbus.core.util.SimpleRegistry
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.console
