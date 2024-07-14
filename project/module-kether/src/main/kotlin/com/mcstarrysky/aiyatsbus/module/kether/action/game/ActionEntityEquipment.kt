@@ -25,4 +25,14 @@ object ActionEntityEquipment {
             now { entity.equipment?.setItem(slot as? EquipmentSlot ?: EquipmentSlot.valueOf(slot.toString()), item) }
         }
     }
+
+    @KetherParser(["equip-get-item"], shared = true)
+    fun equipGetItem() = combinationParser {
+        it.group(
+            any(),
+            command("from", "on", then = type<LivingEntity>())
+        ).apply(it) { slot, entity ->
+            now { entity.equipment?.getItem(slot as? EquipmentSlot ?: EquipmentSlot.valueOf(slot.toString())) }
+        }
+    }
 }
