@@ -92,3 +92,8 @@ mappings:
   entity-shoot-bow:
     class: 'org.bukkit.event.entity.EntityShootBowEvent'
     slot: MAIN_HAND
+
+  # 当一个方块被玩家破坏且掉落物品时触发本事件
+  block-drop-item:
+    class: 'org.bukkit.event.block.BlockDropItemEvent'
+    slot: HAND
