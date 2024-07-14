@@ -1,0 +1,41 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: backstab
+  name: "不意"
+  max_level: 6
+
+rarity: 精良
+targets:
+  - 剑
+  - 斧
+
+limitations: [ ]
+
+display:
+  description:
+    general: "攻击对手后方时伤害提升"
+    specific: "&7攻击对手后方时伤害提升&a{倍数}"
+
+variables:
+  leveled:
+    倍数: "倍:1+0.1*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage"
+      handle: |-
+        if all [
+          instance-of &event[damager] is org.bukkit.entity.LivingEntity
+          instance-of &event[entity] is org.bukkit.entity.LivingEntity
+        ] then {
+          set entity1 to &event[damager]
+          set entity2 to &event[entity]
+          if entity-is-behind &entity1 &entity2 then {
+            set &event[damage] to math mul [ &event[damage] type double &倍数 ]
+          }
+        }
