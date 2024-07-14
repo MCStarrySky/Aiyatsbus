@@ -1,6 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.game
 
 import com.mcstarrysky.aiyatsbus.core.util.VectorUtils
+import com.mcstarrysky.aiyatsbus.core.util.isBehind
 import com.mcstarrysky.aiyatsbus.core.util.realDamage
 import org.bukkit.Location
 import org.bukkit.entity.Entity
@@ -109,5 +110,10 @@ object ActionEntity {
         }
     }
 
-
+    @KetherParser(["entity-is-behind"], shared = true)
+    fun actionEntityIsBehind() = combinationParser {
+        it.group(type<LivingEntity>(), type<LivingEntity>()).apply(it) { entity1, entity2 ->
+            now { entity1.isBehind(entity2) }
+        }
+    }
 }
