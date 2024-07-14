@@ -21,7 +21,7 @@ limitations:
 display:
   description:
     general: "长时间不攻击状态下伤害提升"
-    specific: "&7持续&a{时间}&7不攻击状态下伤害变为原来&a{伤害倍数}"
+    specific: "&7持续&a{时间}&7不攻击状态下伤害提升&a{伤害倍数}"
 
 variables:
   leveled:
