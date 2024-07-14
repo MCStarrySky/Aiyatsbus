@@ -4,28 +4,26 @@
 
 
 basic:
-  id: abrasion
-  name: "磨蚀"
+  id: corrosive
+  name: "侵损"
   max_level: 3
 
 rarity: 精良
 targets:
-  - 剑
-  - 斧
+  - 弓
+  - 弩
 
 limitations: [ ]
 
 display:
   description:
-    general: "在攻击时有概率损坏对手盔甲"
-    specific: "&7在攻击时有&a{概率}&7的概率损坏对手盔甲"
+    general: "射出的箭矢有概率损坏对手的装备"
+    specific: "&7射出的箭矢有&a{概率}&7的概率损坏对手的装备"
 
 variables:
   leveled:
     耐久: "点:{level}"
-    概率: "%:3*{level}"
-  ordinary:
-    require-full-charge: true
+    概率: "%:5*{level}"
 
 mechanisms:
   listeners:
@@ -33,12 +31,6 @@ mechanisms:
       listen: "entity-damage-by-entity"
       handle: |-
         if not instance-of &event[entity] is org.bukkit.entity.LivingEntity then {
-          exit
-        }
-        if all [
-          type boolean &require-full-charge
-          check &event[entity.attackCooldown] < 1.0
-        ] then {
           exit
         }
         if not check random2 0 to 100 <= type double &概率 then {

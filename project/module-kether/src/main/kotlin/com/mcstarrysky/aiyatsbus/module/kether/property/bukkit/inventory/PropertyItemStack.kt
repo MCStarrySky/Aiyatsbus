@@ -24,7 +24,7 @@ import taboolib.module.nms.getI18nName
     id = "itemstack",
     bind = ItemStack::class
 )
-class ItemStackProperty : AiyatsbusGenericProperty<ItemStack>("itemstack") {
+class PropertyItemStack : AiyatsbusGenericProperty<ItemStack>("itemstack") {
 
     override fun readProperty(instance: ItemStack, key: String): OpenResult {
         val property: Any? = when (key) {
