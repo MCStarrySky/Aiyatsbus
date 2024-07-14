@@ -1,0 +1,45 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  enable: true
+  disable_worlds: [ ]
+  id: accumulation
+  name: "蓄力"
+  max_level: 8
+
+rarity: 精良
+targets:
+  - 剑
+  - 斧
+
+limitations:
+  - "CONFLICT_ENCHANT:蓄能" # 与 Aiyatsbus 附魔包的蓄能附魔类似
+
+display:
+  description:
+    general: "长时间不攻击状态下伤害提升"
+    specific: "&7持续&a{时间}&7不攻击状态下伤害变为原来&a{伤害倍数}"
+
+variables:
+  leveled:
+    时间: "秒:8-0.5*{level}"
+    伤害倍数: "倍:1+0.05*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        set multiplier to type double &伤害增加百分比
+        set duration to math mul [ type double &伤害增加百分比 1000 ]
+        if hasMetadata aiyatsbus_accumulation on &player then {
+          set record to type long getMetadata aiyatsbus_accumulation on &player by 0
+          set delta to math sub [ time record ]
+          if check &delta >= &duration then {
+            set &event[damage] to math mul [ &event[damage] type double &伤害倍数 ]
+          }
+        }
+        setMetadata aiyatsbus_accumulation to time on &player
