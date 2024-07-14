@@ -1,6 +1,6 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
-package com.mcstarrysky.aiyatsbus.core.util.container
+package com.mcstarrysky.aiyatsbus.core.util
 
 abstract class Registry<K, V>(val registered: MutableMap<K, V>) : Map<K, V> by registered {
     open fun transformKey(key: K): K = key

@@ -1,7 +1,7 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.advance
 
 import com.google.common.collect.HashMultimap
-import com.mcstarrysky.aiyatsbus.core.util.container.SimpleRegistry
+import com.mcstarrysky.aiyatsbus.core.util.SimpleRegistry
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.asMap

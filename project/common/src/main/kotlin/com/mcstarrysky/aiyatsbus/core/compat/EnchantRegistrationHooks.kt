@@ -1,6 +1,6 @@
 package com.mcstarrysky.aiyatsbus.core.compat
 
-import com.mcstarrysky.aiyatsbus.core.util.container.SimpleRegistry
+import com.mcstarrysky.aiyatsbus.core.util.SimpleRegistry
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.platform.util.bukkitPlugin

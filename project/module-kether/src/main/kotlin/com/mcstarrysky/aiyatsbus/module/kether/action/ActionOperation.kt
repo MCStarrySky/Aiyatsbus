@@ -1,6 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action
 
-import com.mcstarrysky.aiyatsbus.core.util.container.Registry
+import com.mcstarrysky.aiyatsbus.core.util.Registry
 import com.mcstarrysky.aiyatsbus.module.kether.action.operation.Aiming
 import com.mcstarrysky.aiyatsbus.module.kether.action.operation.FastMultiBreak
 import com.mcstarrysky.aiyatsbus.module.kether.action.operation.Plant

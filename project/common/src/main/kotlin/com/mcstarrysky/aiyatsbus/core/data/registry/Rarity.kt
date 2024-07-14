@@ -4,7 +4,7 @@ import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.data.Dependencies
 import com.mcstarrysky.aiyatsbus.core.sendLang
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
-import com.mcstarrysky.aiyatsbus.core.util.container.SimpleRegistry
+import com.mcstarrysky.aiyatsbus.core.util.SimpleRegistry
 import com.mcstarrysky.aiyatsbus.core.util.replace
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle

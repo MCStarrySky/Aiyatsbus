@@ -3,6 +3,7 @@ package com.mcstarrysky.aiyatsbus.module.kether.property.bukkit.entity
 import com.mcstarrysky.aiyatsbus.core.util.coerceBoolean
 import com.mcstarrysky.aiyatsbus.core.util.coerceFloat
 import com.mcstarrysky.aiyatsbus.core.util.coerceInt
+import com.mcstarrysky.aiyatsbus.core.util.equippedItems
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusGenericProperty
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusProperty
 import org.bukkit.entity.Entity
@@ -74,6 +75,8 @@ class PropertyEntity : AiyatsbusGenericProperty<Entity>("entity") {
             "isFromMobSpawner", "from-mob-spawner" -> instance.fromMobSpawner()
 
             "isMoving", "moving" -> !instance.velocity.isZero
+
+            "equippedItem" -> instance.equippedItems // Aiyatsbus
             else -> return OpenResult.failed()
         }
         return OpenResult.successful(property)
