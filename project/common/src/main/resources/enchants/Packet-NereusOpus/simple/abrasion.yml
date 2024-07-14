@@ -47,6 +47,6 @@ mechanisms:
         set equippedItems to &event[entity.equippedItems]
         for slot in map-keys &equippedItems then {
           set item to map-get &slot in &equippedItems
-          set modifiedItem = item dura take &item to type int &耐久
+          set modifiedItem to item dura take &item to type int &耐久
           equip-set-item &modifiedItem in &slot to &event[entity]
         }
