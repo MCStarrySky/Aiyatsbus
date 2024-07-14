@@ -1,0 +1,52 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: abrasion
+  name: "磨蚀"
+  max_level: 3
+
+rarity: 精良
+targets:
+  - 剑
+  - 斧
+
+limitations: [ ]
+
+display:
+  description:
+    general: "在攻击时有概率损坏对手盔甲"
+    specific: "&7在攻击时有概率损坏对手盔甲"
+
+variables:
+  leveled:
+    耐久: "点:{level}"
+    概率: "%:3*{level}"
+  ordinary:
+    require-full-charge: true
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if not instance-of &event[entity] is org.bukkit.entity.LivingEntity then {
+          exit
+        }
+        if all [
+          type boolean &require-full-charge
+          check &event[entity.attackCooldown] < 1.0
+        ] then {
+          exit
+        }
+        if not check random2 0 to 100 <= type double &概率 then {
+          exit
+        }
+        set equippedItems to &event[entity.equippedItems]
+        for slot in map-keys &equippedItems then {
+          set item to map-get &slot in &equippedItems
+          set modifiedItem = item dura take &item to type int &耐久
+          equip-set-item &modifiedItem in &slot to &event[entity]
+        }

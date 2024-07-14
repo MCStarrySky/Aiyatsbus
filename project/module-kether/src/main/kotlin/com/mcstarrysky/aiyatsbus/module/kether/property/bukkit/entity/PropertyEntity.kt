@@ -76,7 +76,7 @@ class PropertyEntity : AiyatsbusGenericProperty<Entity>("entity") {
 
             "isMoving", "moving" -> !instance.velocity.isZero
 
-            "equippedItem" -> instance.equippedItems // Aiyatsbus
+            "equippedItem", "equipped-items" -> instance.equippedItems // Aiyatsbus
             else -> return OpenResult.failed()
         }
         return OpenResult.successful(property)
