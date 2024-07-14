@@ -1,0 +1,41 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: chopless
+  name: "钝化"
+  max_level: 6
+
+rarity: 精良
+targets:
+  - 头盔
+  - 胸甲
+  - 护腿
+  - 靴子
+
+limitations: [ ]
+
+display:
+  description:
+    general: "来自斧的伤害降低"
+    specific: "&7来自斧的伤害降低&a{倍数}"
+
+variables:
+  leveled:
+    倍数: "倍:1-0.05*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage"
+      handle: |-
+        if instance-of &event[damager] is org.bukkit.entity.LivingEntity then {
+          set tool to equip-get-item HAND from &event[damager]
+          if check &tool not null then {
+            if check axes in &tool[belongingTargets] then {
+              set &event[damage] to math mul [ &event[damage] type double &倍数 ]
+            }
+          }
+        }
