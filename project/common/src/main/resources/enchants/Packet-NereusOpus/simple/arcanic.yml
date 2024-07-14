@@ -31,6 +31,9 @@ mechanisms:
     on-damage:
       listen: "entity-damage"
       handle: |-
+        if not check random2 0 to 100 <= type double &概率 then {
+          exit
+        }
         if any [
           check &event[cause] is POTION
           check &event[cause] is WITHER
