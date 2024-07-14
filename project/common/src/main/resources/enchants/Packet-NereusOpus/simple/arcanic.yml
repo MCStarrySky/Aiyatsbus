@@ -1,0 +1,41 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: arcanic
+  name: "无缝"
+  max_level: 5
+
+rarity: 罕见
+targets:
+  - 头盔
+  - 胸甲
+  - 护腿
+  - 靴子
+
+limitations: [ ]
+
+display:
+  description:
+    general: "有概率免疫药水伤害"
+    specific: "&7有&a{概率}&7的概率免疫药水伤害"
+
+variables:
+  leveled:
+    概率: "%:8*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage"
+      handle: |-
+        if any [
+          check &event[cause] is POTION
+          check &event[cause] is WITHER
+          check &event[cause] is STARVATION
+          check &event[cause] is DRAGON_BREATH
+        ] then {
+          set &event[isCancelled] to true
+        }
