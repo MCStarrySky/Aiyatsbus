@@ -1,6 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.kether.util
 
-import com.mcstarrysky.aiyatsbus.module.kether.action.internal.ActionBlock
+import com.mcstarrysky.aiyatsbus.module.kether.action.ActionBlock
 import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyPlayer
 import taboolib.library.kether.*
