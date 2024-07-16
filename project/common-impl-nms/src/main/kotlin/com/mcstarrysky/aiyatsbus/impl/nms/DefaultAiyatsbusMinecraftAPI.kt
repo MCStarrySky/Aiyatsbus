@@ -88,7 +88,7 @@ class DefaultAiyatsbusMinecraftAPI : AiyatsbusMinecraftAPI {
         fun adapt(item: Any, player: Player): Any {
             val bkItem = NMSItem.asBukkitCopy(item)
             if (bkItem.isNull) return item
-            return bkItem.toDisplayMode(player)
+            return NMSItem.asNMSCopy(bkItem.toDisplayMode(player))
         }
 
         return when (MinecraftVersion.major) {

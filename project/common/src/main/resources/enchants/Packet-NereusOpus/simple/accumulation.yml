@@ -33,8 +33,8 @@ mechanisms:
     on-damage:
       listen: "entity-damage-by-entity"
       handle: |-
-        set multiplier to type double &伤害增加百分比
-        set duration to math mul [ type double &伤害增加百分比 1000 ]
+        set multiplier to type double &伤害倍数
+        set duration to math mul [ type double &伤害倍数 1000 ]
         if hasMetadata aiyatsbus_accumulation on &player then {
           set record to type long getMetadata aiyatsbus_accumulation on &player by 0
           set delta to math sub [ time record ]
