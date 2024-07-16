@@ -55,9 +55,9 @@ object VillagerSupport {
             e.isCancelled = true
 
         origin.run origin@{
-            e.recipe = if (MinecraftVersion.majorLegacy >= 11801) {
+            e.recipe = (if (MinecraftVersion.majorLegacy >= 11801) {
                 MerchantRecipe(result, uses, maxUses, hasExperienceReward(), villagerExperience, priceMultiplier, demand, specialPrice, shouldIgnoreDiscounts())
-            } else MerchantRecipe(result, uses, maxUses, hasExperienceReward(), villagerExperience, priceMultiplier, shouldIgnoreDiscounts())
+            } else MerchantRecipe(result, uses, maxUses, hasExperienceReward(), villagerExperience, priceMultiplier, shouldIgnoreDiscounts()))
                 .run new@{ this@new.ingredients = this@origin.ingredients; this }
         }
     }
