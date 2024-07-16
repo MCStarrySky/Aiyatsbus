@@ -21,7 +21,7 @@ import taboolib.common.platform.command.suggestPlayers
  */
 val menuSubCommand = subCommand {
     execute<CommandSender> { sender, _, _ -> handleMenu(sender) }
-    dynamic("player", true) {
+    dynamic("player", true, permission = "aiyatsbus.command.menu.other") {
         suggestPlayers()
         execute<CommandSender> { sender, args, _ -> handleMenu(sender, args["player"]) }
 
