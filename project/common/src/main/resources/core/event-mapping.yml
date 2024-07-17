@@ -101,4 +101,4 @@ mappings:
   # 鞘翅加速事件
   elytra-boost:
     class: 'com.destroystokyo.paper.event.player.PlayerElytraBoostEvent'
-    slot: CHEST
+    slot: CHESTPLATE
