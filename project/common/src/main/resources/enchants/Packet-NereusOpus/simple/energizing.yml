@@ -1,0 +1,36 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: energizing
+  name: "活力"
+  max_level: 3
+
+rarity: 罕见
+targets:
+  - 镐
+  - 斧
+  - 铲
+  - 锄
+
+limitations: [ ]
+
+display:
+  description:
+    general: "挖掘后获得急迫效果"
+
+variables:
+  leveled:
+    持续时间: "刻:8*{level}"
+    效果倍率: "倍:{level}"
+
+mechanisms:
+  listeners:
+    on-break:
+      listen: "block-break"
+      handle: |-
+        set duration to type int &持续时间
+        set amplifier to math sub [ type int &效果倍率 1 ]
+        add-potion-effect FAST_DIGGING on &event[entity] duration &duration amplifier &amplifier

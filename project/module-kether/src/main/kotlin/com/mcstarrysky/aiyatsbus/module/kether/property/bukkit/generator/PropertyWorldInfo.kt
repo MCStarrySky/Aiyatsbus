@@ -22,7 +22,7 @@ class PropertyWorldInfo : AiyatsbusGenericProperty<WorldInfo>("world-info") {
         val property: Any? = when (key) {
             "name" -> instance.name
             "uid" -> instance.uid
-            "environment" -> instance.environment
+            "environment" -> instance.environment.name
             "seed" -> instance.seed
             "minHeight", "min-height" -> instance.minHeight
             "maxHeight", "max-height" -> instance.maxHeight
