@@ -1,0 +1,38 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: disappear
+  name: "脱身"
+  max_level: 6
+
+rarity: 罕见
+targets:
+  - 头盔
+  - 胸甲
+  - 护腿
+  - 靴子
+
+limitations: [ ]
+
+display:
+  description:
+    general: "在低血量时获得隐身效果"
+    specific: "&7在血量&e低于&7最大血量的&a{最低血量百分比}&7时获得隐身效果"
+
+variables:
+  leveled:
+    最低血量百分比: "%:0.05*{level}"
+
+mechanisms:
+  tickers:
+    durability:
+      interval: 100
+      handle: |-
+        if any [ check player gamemode is SURVIVAL check player gamemode is ADVENTURE ] then {
+          if check math div [ player health player max health ] <= type double &最低血量百分比 then [
+            add-potion-effect INVISIBILITY on &event[entity] duration 100 amplifier 0
+          ]
+        }
