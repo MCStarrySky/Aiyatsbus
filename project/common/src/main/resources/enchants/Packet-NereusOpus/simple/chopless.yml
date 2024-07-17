@@ -29,7 +29,7 @@ variables:
 mechanisms:
   listeners:
     on-damage:
-      listen: "entity-damage"
+      listen: "entity-damage-by-entity"
       handle: |-
         if instance-of &event[damager] is org.bukkit.entity.LivingEntity then {
           set tool to equip-get-item HAND from &event[damager]

@@ -4,26 +4,25 @@
 
 
 basic:
-  id: blind
-  name: "致盲"
+  id: disable
+  name: "疲倦"
   max_level: 3
 
-rarity: 罕见
+rarity: 精良
 targets:
-  - 弓
-  - 弩
+  - 斧
 
 limitations: [ ]
 
 display:
   description:
-    general: "射出的箭矢有概率致盲命中对象"
-    specific: "&7射出的箭矢有&a{概率}&7的概率致盲命中对象"
+    general: "在攻击时有概率使对手获得挖掘疲劳效果"
+    specific: "&7在攻击时有&a{概率}&7的概率使对手获得挖掘疲劳效果"
 
 variables:
   leveled:
     概率: "%:3*{level}"
-    持续时间: "刻:40*{level}"
+    持续时间: "刻:20*{level}"
     效果倍率: "倍:{level}"
 
 mechanisms:
@@ -31,11 +30,17 @@ mechanisms:
     on-damage:
       listen: "entity-damage-by-entity"
       handle: |-
+        if all [
+          type boolean &require-full-charge
+          check &event[entity.attackCooldown] < 1.0
+        ] then {
+          exit
+        }
         if instance-of &event[entity] is org.bukkit.entity.LivingEntity then {
           set duration to type int &持续时间
           set amplifier to math sub [ type int &效果倍率 1 ]
           if not check random2 0 to 100 <= type double &概率 then {
             exit
           }
-          add-potion-effect BLINDNESS on &event[entity] duration &duration amplifier &amplifier
+          add-potion-effect SLOW_DIGGING on &event[entity] duration &duration amplifier &amplifier
         }
