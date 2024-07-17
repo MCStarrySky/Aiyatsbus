@@ -1,0 +1,35 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: diurnal
+  name: 昼行
+  max_level: 4
+
+rarity: 精良
+
+targets:
+  - 剑
+
+limitations:
+  - "CONFLICT_ENCHANT:夜伏"
+
+display:
+  description:
+    general: "在白天时造成的伤害提升"
+    specific: "&7在白天时造成的伤害提升&a{倍数}"
+
+variables:
+  leveled:
+    倍数: "倍:1+0.05*level"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        if &event[entity.world.isDay] then {
+          set &event[damage] to math mul [ &event[damage] type double &倍数 ]
+        }
