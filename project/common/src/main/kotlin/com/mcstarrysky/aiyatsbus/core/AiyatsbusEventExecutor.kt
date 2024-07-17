@@ -1,12 +1,11 @@
 package com.mcstarrysky.aiyatsbus.core
 
-import com.mcstarrysky.aiyatsbus.core.data.trigger.TriggerSlots
-import taboolib.common.platform.event.EventPriority
-import taboolib.library.configuration.ConfigurationSection
-import taboolib.module.configuration.Config
-import taboolib.module.configuration.ConfigNode
-import taboolib.module.configuration.Configuration
-import taboolib.module.configuration.conversion
+import com.mcstarrysky.aiyatsbus.core.data.trigger.event.EventResolver
+import org.bukkit.event.Event
+import org.bukkit.event.player.PlayerEvent
+import org.bukkit.event.player.PlayerMoveEvent
+import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Aiyatsbus
@@ -17,41 +16,29 @@ import taboolib.module.configuration.conversion
  */
 interface AiyatsbusEventExecutor {
 
+    /**
+     * 注册监听器
+     */
     fun registerListeners()
 
-    fun unregisterListeners()
+    /**
+     * 销毁监听器
+     */
+    fun destroyListeners()
 
-    @Suppress("UNCHECKED_CAST")
-    @ConfigNode(bind = "core/event-mapping.yml")
     companion object {
 
-        @Config("core/event-mapping.yml", autoReload = true)
-        lateinit var conf: Configuration
-            private set
+        val resolver = ConcurrentHashMap<Class<out Event>, EventResolver<out Event>>()
 
-        @delegate:ConfigNode("mappings")
-        val mappings: Map<String, String> by conversion<ConfigurationSection, Map<String, String>> {
-            getKeys(false).associateWith { this["$it.class"].toString() }
-        }
-
-        @delegate:ConfigNode("mappings")
-        val slots: Map<String, TriggerSlots?> by conversion<ConfigurationSection, Map<String, TriggerSlots?>> {
-            getKeys(false).associateWith { TriggerSlots.valueOf(this["$it.slot"] as? String ?: return@associateWith null) }
-        }
-
-        @delegate:ConfigNode("mappings")
-        val playerReferences: Map<String, String?> by conversion<ConfigurationSection, Map<String, String?>> {
-            getKeys(false).associateWith { this["$it.playerReference"] as? String }
-        }
-
-        @delegate:ConfigNode("mappings")
-        val eventPriorities: Map<String, List<EventPriority>> by conversion<ConfigurationSection, Map<String, List<EventPriority>>> {
-            getKeys(false).associateWith { (this["$it.priorities"] as? List<String>)?.map(EventPriority::valueOf) ?: listOf(EventPriority.HIGHEST) }
-        }
-
-        @delegate:ConfigNode("mappings")
-        val itemReferences: Map<String, String?> by conversion<ConfigurationSection, Map<String, String?>> {
-            getKeys(false).associateWith { this["$it.itemReference"] as? String }
+        init {
+            resolver += PlayerEvent::class.java to EventResolver<PlayerEvent>({ event, _ -> event.player })
+            resolver += PlayerMoveEvent::class.java to EventResolver<PlayerMoveEvent>(
+                { event, _ -> event.player },
+                { event ->
+                    /* 过滤视角转动 */
+                    if (event.from.world == event.to.world && event.from.distance(event.to) < 1e-1) return@EventResolver
+                }
+            )
         }
     }
 }
