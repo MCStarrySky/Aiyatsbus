@@ -4,25 +4,25 @@
 
 
 basic:
-  id: disable
-  name: "疲倦"
+  id: dullness
+  name: "弱敌"
   max_level: 3
 
-rarity: 精良
+rarity: 罕见
 targets:
-  - 斧
+  - 剑
 
 limitations: [ ]
 
 display:
   description:
-    general: "在攻击时有概率使对手获得挖掘疲劳效果"
-    specific: "&7在攻击时有&a{概率}&7的概率使对手获得挖掘疲劳效果"
+    general: "在攻击时有概率让对手获得虚弱效果"
+    specific: "&7在攻击时有&a{概率}&7的概率让对手获得虚弱效果"
 
 variables:
   leveled:
     概率: "%:3*{level}"
-    持续时间: "刻:20*{level}"
+    持续时间: "刻:40*{level}"
     效果倍率: "倍:{level}"
   ordinary:
     require-full-charge: true
@@ -44,5 +44,5 @@ mechanisms:
           if not check random2 0 to 100 <= type double &概率 then {
             exit
           }
-          add-potion-effect SLOW_DIGGING on &event[entity] duration &duration amplifier &amplifier
+          add-potion-effect WEAKNESS on &event[entity] duration &duration amplifier &amplifier
         }
