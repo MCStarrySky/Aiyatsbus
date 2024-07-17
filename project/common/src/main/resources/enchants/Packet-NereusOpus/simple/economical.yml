@@ -1,0 +1,35 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: economical
+  name: "节能"
+  max_level: 4
+
+rarity: 史诗
+targets:
+  - 鞘翅
+
+limitations: [ ]
+
+display:
+  description:
+    general: "使用烟花火箭加速时有概率不消耗"
+    specific: "&7使用烟花火箭加速时有&a{概率}&7的概率不消耗"
+
+variables:
+  leveled:
+    概率: "%:12.5*{level}"
+
+mechanisms:
+  listeners:
+    on-elytra-boost:
+      listen: "elytra-boost"
+      handle: |-
+        if not check random2 0 to 100 <= type double &概率 then {
+          exit
+        }
+        set &event[should-consume] to false
+        

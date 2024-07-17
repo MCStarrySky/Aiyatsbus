@@ -17,6 +17,7 @@ import taboolib.common.OpenResult
     bind = PlayerInteractEntityEvent::class
 )
 class PropertyPlayerInteractEntityEvent : AiyatsbusGenericProperty<PlayerInteractEntityEvent>("player-interact-entity-event") {
+
     override fun readProperty(instance: PlayerInteractEntityEvent, key: String): OpenResult {
         val property: Any? = when (key) {
             "rightClicked", "right-clicked", "entity" -> instance.rightClicked
