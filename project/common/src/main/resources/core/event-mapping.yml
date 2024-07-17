@@ -97,3 +97,8 @@ mappings:
   block-drop-item:
     class: 'org.bukkit.event.block.BlockDropItemEvent'
     slot: MAIN_HAND
+
+  # 鞘翅加速事件
+  elytra-boost:
+    class: 'com.destroystokyo.paper.event.player.PlayerElytraBoostEvent'
+    slot: CHEST
