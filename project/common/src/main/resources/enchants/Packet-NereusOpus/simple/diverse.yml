@@ -1,0 +1,35 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: diverse
+  name: 克剑
+  max_level: 6
+
+rarity: 史诗
+
+targets:
+  - 斧
+
+limitations: [ ]
+
+display:
+  description:
+    general: "对持剑生物的伤害提升"
+    specific: "&7对持剑生物的伤害提升&a{倍数}"
+
+variables:
+  leveled:
+    倍数: "倍:1+0.05*level"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-by-entity"
+      handle: |-
+        set item to equip-get-item HAND from &event[entity]
+        if all [ check &item not null check SWORD in &item[type] ] then {
+          set &event[damage] to math mul [ &event[damage] type double &倍数 ]
+        }

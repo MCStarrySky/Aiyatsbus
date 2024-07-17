@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.game
 
+import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
@@ -20,9 +21,9 @@ object ActionEntityEquipment {
         it.group(
             type<ItemStack?>(),
             command("in", then = any()),
-            command("to", "on", then = type<LivingEntity>())
+            command("to", "on", then = type<Entity>())
         ).apply(it) { item, slot, entity ->
-            now { entity.equipment?.setItem(slot as? EquipmentSlot ?: EquipmentSlot.valueOf(slot.toString()), item) }
+            now { (entity as? LivingEntity)?.equipment?.setItem(slot as? EquipmentSlot ?: EquipmentSlot.valueOf(slot.toString()), item) }
         }
     }
 
@@ -30,9 +31,9 @@ object ActionEntityEquipment {
     fun equipGetItem() = combinationParser {
         it.group(
             any(),
-            command("from", "on", then = type<LivingEntity>())
+            command("from", "on", then = type<Entity>())
         ).apply(it) { slot, entity ->
-            now { entity.equipment?.getItem(slot as? EquipmentSlot ?: EquipmentSlot.valueOf(slot.toString())) }
+            now { (entity as? LivingEntity)?.equipment?.getItem(slot as? EquipmentSlot ?: EquipmentSlot.valueOf(slot.toString())) }
         }
     }
 }
