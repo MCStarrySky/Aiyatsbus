@@ -29,7 +29,7 @@ variables:
 mechanisms:
   listeners:
     on-damage:
-      listen: "entity-damage-by-entity"
+      listen: "block-drop-item"
       handle: |-
         if not check random2 0 to 100 <= type double &概率 then {
           exit

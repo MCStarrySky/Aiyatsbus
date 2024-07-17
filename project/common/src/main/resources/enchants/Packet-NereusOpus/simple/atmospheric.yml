@@ -26,7 +26,7 @@ variables:
 mechanisms:
   listeners:
     on-damage:
-      listen: "entity-damage"
+      listen: "entity-damage-by-entity"
       handle: |-
         if all [
           instance-of &event[damager] is org.bukkit.entity.Projectile
