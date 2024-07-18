@@ -22,11 +22,6 @@ import taboolib.common.platform.event.ProxyListener
 import taboolib.common.platform.function.registerBukkitListener
 import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.common.platform.function.unregisterListener
-import taboolib.library.configuration.ConfigurationSection
-import taboolib.module.configuration.Config
-import taboolib.module.configuration.ConfigNode
-import taboolib.module.configuration.Configuration
-import taboolib.module.configuration.conversion
 
 /**
  * Aiyatsbus
@@ -40,7 +35,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
     private val listeners: Table<String, EventPriority, ProxyListener> = HashBasedTable.create()
 
     override fun registerListeners() {
-        mappings.forEach { (listen, mapping) ->
+        AiyatsbusEventExecutor.mappings.forEach { (listen, mapping) ->
             val (clazz, _, _, _, eventPriorities) = mapping
             eventPriorities.forEach { priority ->
                 listeners.put(listen, priority, registerBukkitListener(Class.forName(clazz), priority, true) {
@@ -120,14 +115,6 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
     companion object {
 
-        @Config(value = "core/event-mapping.yml", autoReload = true)
-        private lateinit var conf: Configuration
-
-        @delegate:ConfigNode("mappings", bind = "core/event-mapping.yml")
-        val mappings: Map<String, EventMapping> by conversion<ConfigurationSection, Map<String, EventMapping>> {
-            getKeys(false).associateWith { EventMapping(conf.getConfigurationSection("mappings.$it")!!) }
-        }
-
         @Awake(LifeCycle.CONST)
         fun init() {
             PlatformFactory.registerAPI<AiyatsbusEventExecutor>(DefaultAiyatsbusEventExecutor())
@@ -142,16 +129,6 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
             }
             registerLifeCycleTask(LifeCycle.DISABLE) {
                 Aiyatsbus.api().getEventExecutor().destroyListeners()
-            }
-        }
-
-        @Awake(LifeCycle.ENABLE)
-        fun reload() {
-            registerLifeCycleTask(LifeCycle.ENABLE) {
-                conf.onReload {
-                    Aiyatsbus.api().getEventExecutor().destroyListeners()
-                    Aiyatsbus.api().getEventExecutor().registerListeners()
-                }
             }
         }
     }
