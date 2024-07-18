@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap
  * @author mical
  * @since 2024/2/18 11:09
  */
-data class Group(
+data class Group @JvmOverloads constructor(
     private val root: ConfigurationSection,
     val name: String = root.name,
     val enchantments: List<AiyatsbusEnchantment> = root.getStringList("enchants").mapNotNull(::aiyatsbusEt)

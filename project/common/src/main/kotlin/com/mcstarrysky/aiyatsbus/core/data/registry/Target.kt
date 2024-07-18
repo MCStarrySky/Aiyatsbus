@@ -25,7 +25,7 @@ import kotlin.jvm.optionals.getOrNull
  * @author mical
  * @since 2024/2/17 23:32
  */
-data class Target(
+data class Target @JvmOverloads constructor(
     private val root: ConfigurationSection,
     val id: String = root.name,
     val name: String = root.getString("name")!!,

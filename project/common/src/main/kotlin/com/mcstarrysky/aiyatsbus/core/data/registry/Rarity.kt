@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap
  * @author mical
  * @since 2024/2/17 14:19
  */
-data class Rarity(
+data class Rarity @JvmOverloads constructor(
     private val root: ConfigurationSection,
     val id: String = root.name,
     val name: String = root.getString("name")!!,

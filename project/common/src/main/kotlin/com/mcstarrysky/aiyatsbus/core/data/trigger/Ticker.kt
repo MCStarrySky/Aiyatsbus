@@ -14,7 +14,7 @@ import taboolib.library.kether.LocalizedException
  * @author mical
  * @since 2024/3/20 22:28
  */
-data class Ticker(
+data class Ticker @JvmOverloads constructor(
     private val root: ConfigurationSection,
     private val enchant: AiyatsbusEnchantment,
     val preHandle: String = root.getString("pre-handle") ?: "",
