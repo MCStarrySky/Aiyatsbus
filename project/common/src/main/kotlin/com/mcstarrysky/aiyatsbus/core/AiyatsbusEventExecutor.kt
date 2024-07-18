@@ -45,9 +45,19 @@ interface AiyatsbusEventExecutor {
     fun registerListeners()
 
     /**
+     * 注册一个监听器
+     */
+    fun registerListener(listen: String, eventMapping: EventMapping)
+
+    /**
      * 销毁监听器
      */
     fun destroyListeners()
+
+    /**
+     * 销毁某个事件对应的监听器
+     */
+    fun destroyListener(listen: String)
 
     companion object {
 
@@ -58,6 +68,8 @@ interface AiyatsbusEventExecutor {
         val mappings: MutableMap<String, EventMapping> by conversion<ConfigurationSection, MutableMap<String, EventMapping>> {
             getKeys(false).associateWith { EventMapping(conf.getConfigurationSection("mappings.$it")!!) }.toMutableMap()
         }
+
+        val externalMappings: ConcurrentHashMap<String, EventMapping> = ConcurrentHashMap()
 
         @Awake(LifeCycle.ENABLE)
         fun reload() {
