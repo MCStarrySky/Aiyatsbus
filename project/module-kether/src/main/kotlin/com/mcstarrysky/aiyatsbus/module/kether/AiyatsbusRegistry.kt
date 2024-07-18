@@ -83,4 +83,20 @@ object AiyatsbusRegistry : ClassInjector() {
         // 注册属性 私有
         Kether.registeredScriptProperty.computeIfAbsent(annotation.bind.java) { HashMap() }[property.id] = property
     }
+
+    fun <T : AiyatsbusGenericProperty<*>> registerProperty(clazz: Class<T>, instance: T) {
+        if (!clazz.isAnnotationPresent(AiyatsbusProperty::class.java)) {
+            return
+        }
+
+        if (!AiyatsbusGenericProperty::class.java.isAssignableFrom(clazz)) {
+            return
+        }
+
+        // 加载注解
+        val annotation = clazz.getAnnotation(AiyatsbusProperty::class.java)
+
+        // 注册属性 私有
+        Kether.registeredScriptProperty.computeIfAbsent(annotation.bind.java) { HashMap() }[instance.id] = instance
+    }
 }
