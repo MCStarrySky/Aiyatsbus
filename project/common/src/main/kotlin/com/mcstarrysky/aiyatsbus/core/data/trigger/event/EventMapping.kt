@@ -12,8 +12,10 @@ import taboolib.library.configuration.ConfigurationSection
  * @author mical
  * @since 2024/7/18 00:29
  */
-data class EventMapping(
+class EventMapping(
     private val root: ConfigurationSection,
+
+    val clazz: String = root.getString("class")!!,
 
     val slots: List<EquipmentSlot> = if (root.isList("slots")) root.getStringList("slots")
         .mapNotNull { it.enumOf<EquipmentSlot>() } else listOfNotNull(
@@ -26,8 +28,15 @@ data class EventMapping(
     val itemReference: String? = root.getString("itemReference") ?: root.getString("item")
     ?: root.getString("item-reference"),
 
-    val eventProperties: List<EventPriority> = if (root.isList("slots")) root.getStringList("slots")
+    val eventPriorities: List<EventPriority> = (if (root.isList("priorities")) root.getStringList("priorities")
         .mapNotNull { it.enumOf<EventPriority>() } else listOfNotNull(
-        root.getString("slots").enumOf<EventPriority>()
-    )
-)
+        root.getString("priorities").enumOf<EventPriority>()
+    )).ifEmpty { listOf(EventPriority.HIGHEST) }
+) {
+
+    operator fun component1() = clazz
+    operator fun component2() = slots
+    operator fun component3() = playerReference
+    operator fun component4() = itemReference
+    operator fun component5() = eventPriorities
+}

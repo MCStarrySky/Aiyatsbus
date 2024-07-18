@@ -23,7 +23,7 @@ display:
 
 variables:
   leveled:
-    倍数: "倍:1+0.05*level"
+    倍数: "倍:1+0.05*{level}"
 
 mechanisms:
   listeners:
