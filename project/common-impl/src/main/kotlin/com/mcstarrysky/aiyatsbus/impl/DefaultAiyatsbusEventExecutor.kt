@@ -34,15 +34,23 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
     private val listeners: Table<String, EventPriority, ProxyListener> = HashBasedTable.create()
 
-    override fun registerListeners() {
-        AiyatsbusEventExecutor.mappings.forEach { (listen, mapping) ->
-            val (clazz, _, _, _, eventPriorities) = mapping
-            eventPriorities.forEach { priority ->
-                listeners.put(listen, priority, registerBukkitListener(Class.forName(clazz), priority, true) {
-                    processEvent(listen, it as? Event ?: return@registerBukkitListener, mapping, priority)
-                })
-            }
+    override fun registerListener(listen: String, eventMapping: EventMapping) {
+        val (clazz, _, _, _, eventPriorities) = eventMapping
+        eventPriorities.forEach { priority ->
+            listeners.put(listen, priority, registerBukkitListener(Class.forName(clazz), priority, true) {
+                processEvent(listen, it as? Event ?: return@registerBukkitListener, eventMapping, priority)
+            })
         }
+    }
+
+    override fun registerListeners() {
+        AiyatsbusEventExecutor.mappings.forEach(::registerListener)
+        AiyatsbusEventExecutor.externalMappings.forEach(::registerListener)
+    }
+
+    override fun destroyListener(listen: String) {
+        listeners.row(listen).values.forEach { unregisterListener(it) }
+        listeners.row(listen).clear()
     }
 
     override fun destroyListeners() {

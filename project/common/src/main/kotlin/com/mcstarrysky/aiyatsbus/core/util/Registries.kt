@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+@file:Suppress("MemberVisibilityCanBePrivate", "unused", "PLATFORM_CLASS_MAPPED_TO_KOTLIN")
 
 package com.mcstarrysky.aiyatsbus.core.util
 

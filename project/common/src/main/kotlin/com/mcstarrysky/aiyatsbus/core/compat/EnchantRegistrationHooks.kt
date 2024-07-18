@@ -1,6 +1,5 @@
 package com.mcstarrysky.aiyatsbus.core.compat
 
-import com.mcstarrysky.aiyatsbus.core.util.SimpleRegistry
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.platform.util.bukkitPlugin
@@ -24,10 +23,12 @@ interface EnchantRegistrationHook {
     }
 }
 
-object EnchantRegistrationHooks : SimpleRegistry<String, EnchantRegistrationHook>(ConcurrentHashMap()) {
+object EnchantRegistrationHooks {
+
+    val registered: ConcurrentHashMap<String, EnchantRegistrationHook> = ConcurrentHashMap()
 
     fun registerHooks() {
-        values.forEach { registerHook(it) }
+        registered.values.forEach { registerHook(it) }
     }
 
     fun registerHook(hook: EnchantRegistrationHook) {
@@ -44,10 +45,6 @@ object EnchantRegistrationHooks : SimpleRegistry<String, EnchantRegistrationHook
 
     @Awake(LifeCycle.DISABLE)
     fun unregisterHooks() {
-        values.forEach { unregisterHook(it) }
-    }
-
-    override fun getKey(value: EnchantRegistrationHook): String {
-        return value.getPluginName()
+        registered.values.forEach { unregisterHook(it) }
     }
 }

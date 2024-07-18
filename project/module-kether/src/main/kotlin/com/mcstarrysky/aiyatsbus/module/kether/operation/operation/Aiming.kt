@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.module.kether.action.game.operation
+package com.mcstarrysky.aiyatsbus.module.kether.operation.operation
 
 import com.mcstarrysky.aiyatsbus.core.util.*
 import org.bukkit.ChatColor

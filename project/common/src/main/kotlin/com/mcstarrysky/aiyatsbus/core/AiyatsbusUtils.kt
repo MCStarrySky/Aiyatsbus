@@ -270,29 +270,29 @@ val Player.cooldown get() = Aiyatsbus.api().getPlayerDataHandler().get(this).coo
 /**
  * 所有分组
  */
-val aiyatsbusGroups = GroupLoader
+val aiyatsbusGroups = GroupLoader.registered
 
 /**
  * 获取分组
  */
-fun aiyatsbusGroup(identifier: String): Group? = GroupLoader[identifier]
+fun aiyatsbusGroup(identifier: String): Group? = aiyatsbusGroups[identifier]
 
 /**
  * 所有品质
  */
-val aiyatsbusRarities = RarityLoader
+val aiyatsbusRarities = RarityLoader.registered
 
 /**
  * 获取品质
  */
-fun aiyatsbusRarity(identifier: String): Rarity? = RarityLoader[identifier] ?: RarityLoader.values.firstOrNull { it.name == identifier }
+fun aiyatsbusRarity(identifier: String): Rarity? = aiyatsbusRarities[identifier] ?: aiyatsbusRarities.values.firstOrNull { it.name == identifier }
 
 /**
  * 所有对象
  */
-val aiyatsbusTargets = TargetLoader
+val aiyatsbusTargets = TargetLoader.registered
 
 /**
  * 获取对象
  */
-fun aiyatsbusTarget(identifier: String): Target? = TargetLoader[identifier] ?: TargetLoader.values.firstOrNull { it.name == identifier }
+fun aiyatsbusTarget(identifier: String): Target? = aiyatsbusTargets[identifier] ?: aiyatsbusTargets.values.firstOrNull { it.name == identifier }

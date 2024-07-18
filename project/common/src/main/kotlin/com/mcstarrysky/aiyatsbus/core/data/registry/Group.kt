@@ -3,7 +3,6 @@ package com.mcstarrysky.aiyatsbus.core.data.registry
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.Dependencies
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
-import com.mcstarrysky.aiyatsbus.core.util.SimpleRegistry
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.console
@@ -36,11 +35,13 @@ data class Group @JvmOverloads constructor(
     val dependencies: Dependencies = Dependencies(root.getConfigurationSection("dependencies"))
 )
 
-object GroupLoader : SimpleRegistry<String, Group>(ConcurrentHashMap()) {
+object GroupLoader {
 
     @Config("enchants/group.yml", autoReload = true)
     lateinit var config: Configuration
         private set
+
+    val registered: ConcurrentHashMap<String, Group> = ConcurrentHashMap()
 
     @Reloadable
     @Awake(LifeCycle.CONST)
@@ -61,18 +62,14 @@ object GroupLoader : SimpleRegistry<String, Group>(ConcurrentHashMap()) {
 
     private fun load() {
         val time = System.currentTimeMillis()
-        clearRegistry()
+        registered.clear()
         config.getKeys(false).map { config.getConfigurationSection(it)!! }.forEach {
             val group = Group(it)
             if (!group.dependencies.checkAvailable()) {
                 return@forEach
             }
-            register(group)
+            registered += group.name to group
         }
-        console().sendLang("loading-groups", size, System.currentTimeMillis() - time)
-    }
-
-    override fun getKey(value: Group): String {
-        return value.name
+        console().sendLang("loading-groups", registered.size, System.currentTimeMillis() - time)
     }
 }
