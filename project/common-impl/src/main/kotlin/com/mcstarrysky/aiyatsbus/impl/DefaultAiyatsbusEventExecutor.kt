@@ -1,46 +1,32 @@
-@file:Suppress("UNCHECKED_CAST")
-
 package com.mcstarrysky.aiyatsbus.impl
 
+import com.google.common.collect.HashBasedTable
+import com.google.common.collect.Table
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.data.trigger.event.EventMapping
-import com.mcstarrysky.aiyatsbus.core.data.trigger.event.EventResolver
-import com.mcstarrysky.aiyatsbus.core.event.AiyatsbusPrepareAnvilEvent
 import com.mcstarrysky.aiyatsbus.core.util.Mirror
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.core.util.mirrorNow
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
-import org.bukkit.entity.Projectile
 import org.bukkit.event.Event
-import org.bukkit.event.block.BlockBreakEvent
-import org.bukkit.event.block.BlockPlaceEvent
-import org.bukkit.event.entity.EntityDamageByEntityEvent
-import org.bukkit.event.entity.EntityDeathEvent
-import org.bukkit.event.entity.EntityEvent
-import org.bukkit.event.entity.ProjectileHitEvent
-import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.event.inventory.InventoryEvent
-import org.bukkit.event.player.PlayerEvent
-import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
 import taboolib.common.platform.event.EventPriority
+import taboolib.common.platform.event.ProxyListener
+import taboolib.common.platform.function.registerBukkitListener
 import taboolib.common.platform.function.registerLifeCycleTask
+import taboolib.common.platform.function.unregisterListener
 import taboolib.library.configuration.ConfigurationSection
-import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.conversion
-import taboolib.platform.util.killer
-import java.util.LinkedList
-import java.util.function.BiFunction
 
 /**
  * Aiyatsbus
@@ -51,20 +37,30 @@ import java.util.function.BiFunction
  */
 class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
+    private val listeners: Table<String, EventPriority, ProxyListener> = HashBasedTable.create()
+
     override fun registerListeners() {
-        TODO("Not yet implemented")
+        mappings.forEach { (listen, mapping) ->
+            val (clazz, _, _, _, eventPriorities) = mapping
+            eventPriorities.forEach { priority ->
+                listeners.put(listen, priority, registerBukkitListener(Class.forName(clazz), priority, true) {
+                    processEvent(listen, it as? Event ?: return@registerBukkitListener, mapping, priority)
+                })
+            }
+        }
     }
 
     override fun destroyListeners() {
-        TODO("Not yet implemented")
+        listeners.values().forEach { unregisterListener(it) }
+        listeners.clear()
     }
 
     private fun processEvent(listen: String, event: Event, eventMapping: EventMapping, eventPriority: EventPriority) {
-        val resolver = AiyatsbusEventExecutor.resolver[event::class.java] as? EventResolver<Event> ?: return
+        val resolver = AiyatsbusEventExecutor.getResolver(event) ?: return
         /* 特殊事件处理 */
-        resolver.eventResolver.accept(event)
+        resolver.eventResolver.invoke(event)
 
-        val entity = resolver.entityResolver.apply(event, eventMapping.playerReference)
+        val entity = resolver.entityResolver.invoke(event, eventMapping.playerReference) ?: return
 
         if (eventMapping.slots.isNotEmpty()) {
             eventMapping.slots.forEach { slot ->
@@ -82,7 +78,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                 item!!.triggerEts(listen, event, eventPriority, entity, slot, false)
             }
         } else {
-            val item = resolver.itemResolver?.apply(event, eventMapping.itemReference, entity)
+            val item = resolver.itemResolver.invoke(event, eventMapping.itemReference, entity)
             if (item.isNull) return
             item!!.triggerEts(listen, event, eventPriority, entity, null, true)
         }
@@ -124,12 +120,12 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
     companion object {
 
-        @Config(value = "event-mapping.yml", autoReload = true)
+        @Config(value = "core/event-mapping.yml", autoReload = true)
         private lateinit var conf: Configuration
 
-        @delegate:ConfigNode("mappings")
+        @delegate:ConfigNode("mappings", bind = "core/event-mapping.yml")
         val mappings: Map<String, EventMapping> by conversion<ConfigurationSection, Map<String, EventMapping>> {
-            getKeys(false).associateWith { EventMapping(conf.getConfigurationSection(it)!!) }
+            getKeys(false).associateWith { EventMapping(conf.getConfigurationSection("mappings.$it")!!) }
         }
 
         @Awake(LifeCycle.CONST)

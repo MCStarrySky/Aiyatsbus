@@ -8,97 +8,122 @@
 # 别名 -> 触发位置
 
 # 槽位映射
-# ARMORS(装甲):
-# -> HEAD
-# -> CHEST
-# -> LEGS
-# -> FEET
-# HANDS(主副手):
-# -> HAND
-# -> OFF_HAND
-# MAIN_HAND(主手):
-# -> HAND
-# OFF_HAND(副手):
-# -> OFF_HAND
-# HELMET(头盔):
-# -> HEAD
-# CHESTPLATE(胸甲):
-# -> CHEST
-# LEGGINGS(护腿):
-# -> LEGS
-# BOOTS(靴子):
-# -> FEET
-# ALL(所有):
-# -> HAND, OFFHAND, HEAD, CHEST, LEGS, FEET
+# HAND 主手, OFFHAND 副手, HEAD 头盔, CHEST 胸甲, LEGS 护腿, FEET 靴子
 
 mappings:
   # 破坏方块事件
   block-break:
     class: 'org.bukkit.event.block.BlockBreakEvent'
-    slot: HANDS
+    slots:
+      - HAND
+      - OFF_HAND
 
   # 玩家交互事件
   player-interact:
     class: 'org.bukkit.event.player.PlayerInteractEvent'
-    slot: ALL # 例如 Physical 需要所有槽位
+    # 例如 Physical 需要所有槽位
+    slots:
+      - HAND
+      - OFF_HAND
+      - HEAD
+      - CHEST
+      - LEGS
+      - FEET
 
   # 实体受伤事件
   entity-damage:
     class: 'org.bukkit.event.entity.EntityDamageEvent'
-    slot: ALL
-    playerReference: "entity" # 如果这里是子类 EntityDamageByEntityEvent, 那么这里应该指定 entity 才是受伤者
+    slots:
+      - HAND
+      - OFF_HAND
+      - HEAD
+      - CHEST
+      - LEGS
+      - FEET
+    player: "entity" # 如果这里是子类 EntityDamageByEntityEvent, 那么这里应该指定 entity 才是受伤者
 
   # 玩家下蹲事件
   player-toggle-sneak:
     class: 'org.bukkit.event.player.PlayerToggleSneakEvent'
-    slot: ALL
+    slots:
+      - HAND
+      - OFF_HAND
+      - HEAD
+      - CHEST
+      - LEGS
+      - FEET
 
   # 实体受到其他实体伤害事件
   entity-damage-by-entity:
     class: 'org.bukkit.event.entity.EntityDamageByEntityEvent'
-    slot: ALL
+    slots:
+      - HAND
+      - OFF_HAND
+      - HEAD
+      - CHEST
+      - LEGS
+      - FEET
 
   # 实体死亡事件
   entity-death:
     class: 'org.bukkit.event.entity.EntityDeathEvent'
-    slot: ALL
+    slots:
+      - HAND
+      - OFF_HAND
+      - HEAD
+      - CHEST
+      - LEGS
+      - FEET
 
   # 玩家消耗物品事件
   player-item-damage:
     class: 'org.bukkit.event.player.PlayerItemDamageEvent'
-    slot: ALL
+    slots:
+      - HAND
+      - OFF_HAND
+      - HEAD
+      - CHEST
+      - LEGS
+      - FEET
 
   # 箭射中东西事件
   projectile-hit:
     class: 'org.bukkit.event.entity.ProjectileHitEvent'
-    slot: HANDS
+    slots:
+      - HAND
+      - OFF_HAND
 
   # 玩家损坏方块事件
   block-damage:
     class: 'org.bukkit.event.block.BlockDamageEvent'
-    slot: HANDS
+    slots:
+      - HAND
+      - OFF_HAND
 
   # 插件接管的玩家铁砧事件-左
   aiyatsbus-prepare-anvil-left:
     class: 'com.mcstarrysky.aiyatsbus.core.event.AiyatsbusPrepareAnvilEvent'
-    itemReference: "left"
+    item: "left"
 
   # 插件接管的玩家铁砧事件-右
   aiyatsbus-prepare-anvil-right:
     class: 'com.mcstarrysky.aiyatsbus.core.event.AiyatsbusPrepareAnvilEvent'
-    itemReference: "right"
+    item: "right"
 
   # 实体射箭事件
   entity-shoot-bow:
     class: 'org.bukkit.event.entity.EntityShootBowEvent'
-    slot: MAIN_HAND
+    slots:
+      - HAND
 
   # 当一个方块被玩家破坏且掉落物品时触发本事件
   block-drop-item:
     class: 'org.bukkit.event.block.BlockDropItemEvent'
-    slot: MAIN_HAND
+    slots:
+      - HAND
 
   # 鞘翅加速事件
   elytra-boost:
     class: 'com.destroystokyo.paper.event.player.PlayerElytraBoostEvent'
-    slot: CHESTPLATE
+    slots:
+      - CHEST

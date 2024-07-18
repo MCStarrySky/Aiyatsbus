@@ -3,15 +3,6 @@ package com.mcstarrysky.aiyatsbus.core.data.trigger.event
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
-import com.mcstarrysky.aiyatsbus.core.data.CheckType
-import com.mcstarrysky.aiyatsbus.core.fixedEnchants
-import com.mcstarrysky.aiyatsbus.core.util.Mirror
-import com.mcstarrysky.aiyatsbus.core.util.mirrorNow
-import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Player
-import org.bukkit.event.Event
-import org.bukkit.inventory.EquipmentSlot
-import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.function.warning
 import taboolib.library.configuration.ConfigurationSection
@@ -39,40 +30,6 @@ data class EventExecutor(
             } catch (ex: LocalizedException) {
                 warning("Unable to preheat the event executor ${root.name} of enchantment ${enchant.id}: $ex")
             }
-        }
-    }
-
-    fun triggerEts(item: ItemStack, listen: String, event: Event, eventPriority: EventPriority, entity: LivingEntity, slot: EquipmentSlot?, ignoreSlot: Boolean = false) {
-        for (enchantPair in item.fixedEnchants) {
-            val enchant = enchantPair.key
-
-            if (!enchant.limitations.checkAvailable(CheckType.USE, item, entity, slot, ignoreSlot).first) continue
-
-            enchant.trigger.listeners
-                .filterValues { it.priority == eventPriority && it.listen == listen }
-                .forEach { (_, executor) ->
-                    val vars = mutableMapOf(
-                        "triggerSlot" to slot?.name,
-                        "trigger-slot" to slot?.name,
-                        "event" to event,
-                        "player" to (entity as? Player ?: entity),
-                        "item" to item,
-                        "enchant" to enchant,
-                        "level" to enchantPair.value,
-                        "mirror" to Mirror.MirrorStatus()
-                    )
-
-                    vars += enchant.variables.variables(enchantPair.value, entity, item, false)
-
-                    if (AiyatsbusSettings.enablePerformanceTool) {
-                        mirrorNow("Enchantment:Listener:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${enchant.basicData.id}" else "") {
-                            vars += "mirror" to it
-                            Aiyatsbus.api().getKetherHandler().invoke(executor.handle, entity, variables = vars)
-                        }
-                    } else {
-                        Aiyatsbus.api().getKetherHandler().invoke(executor.handle, entity, variables = vars)
-                    }
-                }
         }
     }
 }
