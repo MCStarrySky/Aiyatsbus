@@ -55,8 +55,8 @@ interface AiyatsbusEventExecutor {
         private lateinit var conf: Configuration
 
         @delegate:ConfigNode("mappings", bind = "core/event-mapping.yml")
-        val mappings: Map<String, EventMapping> by conversion<ConfigurationSection, Map<String, EventMapping>> {
-            getKeys(false).associateWith { EventMapping(conf.getConfigurationSection("mappings.$it")!!) }
+        val mappings: MutableMap<String, EventMapping> by conversion<ConfigurationSection, MutableMap<String, EventMapping>> {
+            getKeys(false).associateWith { EventMapping(conf.getConfigurationSection("mappings.$it")!!) }.toMutableMap()
         }
 
         @Awake(LifeCycle.ENABLE)

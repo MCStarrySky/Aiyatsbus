@@ -12,7 +12,7 @@ import taboolib.library.configuration.ConfigurationSection
  * @author mical
  * @since 2024/7/18 00:29
  */
-class EventMapping(
+class EventMapping @JvmOverloads constructor(
     private val root: ConfigurationSection,
 
     val clazz: String = root.getString("class")!!,

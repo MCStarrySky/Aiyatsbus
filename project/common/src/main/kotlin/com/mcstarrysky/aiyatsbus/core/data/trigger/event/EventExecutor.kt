@@ -15,7 +15,7 @@ import taboolib.library.kether.LocalizedException
  * @author mical
  * @since 2024/3/9 18:35
  */
-data class EventExecutor(
+data class EventExecutor @JvmOverloads constructor(
     private val root: ConfigurationSection,
     private val enchant: AiyatsbusEnchantment,
     val listen: String = root.getString("listen")!!,
