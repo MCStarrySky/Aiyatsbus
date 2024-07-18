@@ -58,9 +58,9 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
     private fun processEvent(listen: String, event: Event, eventMapping: EventMapping, eventPriority: EventPriority) {
         val resolver = AiyatsbusEventExecutor.getResolver(event) ?: return
         /* 特殊事件处理 */
-        resolver.eventResolver.invoke(event)
+        resolver.eventResolver.apply(event)
 
-        val entity = resolver.entityResolver.invoke(event, eventMapping.playerReference) ?: return
+        val entity = resolver.entityResolver.apply(event, eventMapping.playerReference) ?: return
 
         if (eventMapping.slots.isNotEmpty()) {
             eventMapping.slots.forEach { slot ->
@@ -78,7 +78,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                 item!!.triggerEts(listen, event, eventPriority, entity, slot, false)
             }
         } else {
-            val item = resolver.itemResolver.invoke(event, eventMapping.itemReference, entity)
+            val item = resolver.itemResolver.apply(event, eventMapping.itemReference, entity)
             if (item.isNull) return
             item!!.triggerEts(listen, event, eventPriority, entity, null, true)
         }

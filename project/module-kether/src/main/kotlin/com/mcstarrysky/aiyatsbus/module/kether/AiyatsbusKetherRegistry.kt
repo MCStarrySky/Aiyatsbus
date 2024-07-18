@@ -13,7 +13,7 @@ import java.util.function.Supplier
  * @author Lanscarlos
  * @since 2023-03-19 22:08
  */
-object AiyatsbusRegistry : ClassInjector() {
+object AiyatsbusKetherRegistry : ClassInjector() {
 
     /**
      * 访问函数
