@@ -26,7 +26,7 @@ abstract class ClassInjector {
     @Awake(LifeCycle.LOAD)
     object BacikalBoot : ClassVisitor(0) {
 
-        private val ketherRegistry = AiyatsbusRegistry
+        private val ketherRegistry = AiyatsbusKetherRegistry
 
         override fun getLifeCycle() = LifeCycle.LOAD
 
