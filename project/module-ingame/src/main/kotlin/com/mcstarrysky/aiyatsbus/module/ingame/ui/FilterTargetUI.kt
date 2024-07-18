@@ -85,7 +85,7 @@ object FilterTargetUI {
             icon.variables {
                 when (it) {
                     "name" -> listOf(target.name)
-                    "amount" -> listOf((Aiyatsbus.api().getEnchantmentManager().getByIDs().values.count { it.targets.contains(target) }).toString())
+                    "amount" -> listOf((Aiyatsbus.api().getEnchantmentManager().getEnchants().values.count { it.targets.contains(target) }).toString())
                     else -> emptyList()
                 }
             }.skull(target.skull)

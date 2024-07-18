@@ -23,7 +23,7 @@ class EssentialsRegistrationHook : EnchantRegistrationHook {
     override fun getPluginName(): String = "Essentials"
 
     override fun register() {
-        for (enchantment in Aiyatsbus.api().getEnchantmentManager().getByIDs().values) {
+        for (enchantment in Aiyatsbus.api().getEnchantmentManager().getEnchants().values) {
             for (field in fields) {
                 Enchantments::class.java.getProperty<MutableMap<String, Enchantment>>(field)?.let {
                     it[enchantment.basicData.id] = enchantment.enchantment
@@ -34,7 +34,7 @@ class EssentialsRegistrationHook : EnchantRegistrationHook {
     }
 
     override fun unregister() {
-        for (enchantment in Aiyatsbus.api().getEnchantmentManager().getByIDs().values) {
+        for (enchantment in Aiyatsbus.api().getEnchantmentManager().getEnchants().values) {
             for (field in fields) {
                 Enchantments::class.java.getProperty<MutableMap<String, Enchantment>>(field)?.let {
                     it -= enchantment.basicData.id

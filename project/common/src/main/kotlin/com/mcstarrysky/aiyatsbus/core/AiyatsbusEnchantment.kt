@@ -9,6 +9,7 @@ import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 import taboolib.module.configuration.Configuration
+import java.io.File
 
 /**
  * Aiyatsbus
@@ -28,6 +29,11 @@ interface AiyatsbusEnchantment {
      * 附魔的 Key
      */
     val enchantmentKey: NamespacedKey
+
+    /**
+     * 附魔文件
+     */
+    val file: File
 
     /**
      * 附魔的配置

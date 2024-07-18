@@ -1,5 +1,8 @@
 package com.mcstarrysky.aiyatsbus.core
 
+import org.bukkit.NamespacedKey
+import java.io.File
+
 /**
  * Aiyatsbus
  * com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantmentManager
@@ -10,19 +13,14 @@ package com.mcstarrysky.aiyatsbus.core
 interface AiyatsbusEnchantmentManager {
 
     /**
-     * 获取根据 ID 的所有附魔
+     * 获取附魔
      */
-    fun getByIDs(): Map<String, AiyatsbusEnchantment>
+    fun getEnchant(key: NamespacedKey): AiyatsbusEnchantment?
 
     /**
-     * 根据 ID 获取附魔
+     * 获取附魔
      */
-    fun getByID(id: String): AiyatsbusEnchantment?
-
-    /**
-     * 获取根据名称的所有附魔
-     */
-    fun getByNames(): Map<String, AiyatsbusEnchantment>
+    fun getEnchant(key: String): AiyatsbusEnchantment?
 
     /**
      * 根据名称获取附魔
@@ -30,14 +28,29 @@ interface AiyatsbusEnchantmentManager {
     fun getByName(name: String): AiyatsbusEnchantment?
 
     /**
+     * 获取全部附魔
+     */
+    fun getEnchants(): Map<NamespacedKey, AiyatsbusEnchantment>
+
+    /**
      * 注册附魔
      */
     fun register(enchantment: AiyatsbusEnchantmentBase)
 
     /**
+     * 取消注册附魔
+     */
+    fun unregister(enchantment: AiyatsbusEnchantment)
+
+    /**
      * 加载附魔
      */
     fun loadEnchantments()
+
+    /**
+     * 从文件中加载附魔
+     */
+    fun loadFromFile(file: File)
 
     /**
      * 删除附魔

@@ -6,6 +6,7 @@ import java.io.File
 object FileWatcher {
 
     private val fileWatcher = FileWatcher()
+    private val watching = LinkedHashSet<File>()
 
     /**
      * 监听文件改动
@@ -22,6 +23,17 @@ object FileWatcher {
      * 取消监听
      */
     fun File.unwatch() {
-        fileWatcher.removeListener(this)
+        if (fileWatcher.hasListener(this)) {
+            fileWatcher.removeListener(this)
+        }
     }
+
+    /**
+     * 检测文件是否正在被监听器处理
+     */
+    var File.isProcessingByWatcher: Boolean
+        get() = this in watching && fileWatcher.hasListener(this)
+        set(value) {
+            if (value) watching += this else watching -= this
+        }
 }
