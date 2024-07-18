@@ -26,12 +26,12 @@ object PluginMetrics {
 
         // enchantments
         metrics.addCustomChart(SingleLineChart("enchantments") {
-            Aiyatsbus.api().getEnchantmentManager().getByIDs().size
+            Aiyatsbus.api().getEnchantmentManager().getEnchants().size
         })
 
         // kether_triggers
         metrics.addCustomChart(SingleLineChart("kether_triggers") {
-            Aiyatsbus.api().getEnchantmentManager().getByIDs().values.map { it.trigger.listeners.values }.flatten().size
+            Aiyatsbus.api().getEnchantmentManager().getEnchants().values.map { it.trigger.listeners.values }.flatten().size
         })
     }
 }

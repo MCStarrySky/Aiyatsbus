@@ -17,7 +17,7 @@ import taboolib.common.platform.PlatformFactory
 class DefaultAiyatsbusEnchantmentFilter : AiyatsbusEnchantmentFilter {
 
     override fun filter(filters: Map<FilterType, Map<String, FilterStatement>>): List<AiyatsbusEnchantment> {
-        return Aiyatsbus.api().getEnchantmentManager().getByIDs().values.filter result@{ enchant ->
+        return Aiyatsbus.api().getEnchantmentManager().getEnchants().values.filter result@{ enchant ->
             filters.forEach { (type, rules) ->
                 var onFlag = false
                 var offFlag = false

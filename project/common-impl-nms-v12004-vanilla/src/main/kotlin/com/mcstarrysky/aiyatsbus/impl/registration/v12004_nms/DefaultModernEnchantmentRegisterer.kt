@@ -19,6 +19,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.enchantment.EnchantmentSlotType
 import net.minecraft.world.item.enchantment.Enchantments
 import org.bukkit.Bukkit
+import org.bukkit.NamespacedKey
 import org.bukkit.craftbukkit.v1_20_R3.CraftRegistry
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer
 import org.bukkit.craftbukkit.v1_20_R3.enchantments.CraftEnchantment
@@ -73,7 +74,7 @@ class DefaultModernEnchantmentRegisterer : ModernEnchantmentRegisterer {
             ((server.handle.server as MinecraftServer).registryAccess() as IRegistryCustom).registryOrThrow(Registries.ENCHANTMENT)
         ) { key, registry ->
             val isVanilla = vanillaEnchantments.contains(key)
-            val aiyatsbus = Aiyatsbus.api().getEnchantmentManager().getByID(key.key)
+            val aiyatsbus = Aiyatsbus.api().getEnchantmentManager().getEnchant(key)
 
             if (isVanilla) {
                 CraftEnchantment(key, registry)
@@ -118,8 +119,10 @@ class DefaultModernEnchantmentRegisterer : ModernEnchantmentRegisterer {
 
     class VanillaAiyatsbusEnchantment(val id: String) : net.minecraft.world.item.enchantment.Enchantment(Rarity.VERY_RARE, EnchantmentSlotType.VANISHABLE, emptyArray()) {
 
+        private val enchantmentKey: NamespacedKey = NamespacedKey.minecraft(id)
+
         private val enchant: AiyatsbusEnchantment?
-            get() = Aiyatsbus.api().getEnchantmentManager().getByID(id)
+            get() = Aiyatsbus.api().getEnchantmentManager().getEnchant(enchantmentKey)
 
         override fun canEnchant(stack: ItemStack): Boolean {
             // 使 Aiyatsbus 接管铁砧

@@ -7,6 +7,7 @@ import com.mcstarrysky.aiyatsbus.core.data.trigger.Trigger
 import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import taboolib.module.configuration.Configuration
+import java.io.File
 
 /**
  * Aiyatsbus
@@ -17,6 +18,7 @@ import taboolib.module.configuration.Configuration
  */
 class AiyatsbusEnchantmentBase(
     override val id: String,
+    override val file: File,
     override val config: Configuration
 ) : AiyatsbusEnchantment {
 

@@ -2,12 +2,13 @@ package com.mcstarrysky.aiyatsbus.impl
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.compat.EnchantRegistrationHooks
+import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.isProcessingByWatcher
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.unwatch
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.watch
 import com.mcstarrysky.aiyatsbus.core.util.YamlUpdater
 import com.mcstarrysky.aiyatsbus.core.util.deepRead
-import com.mcstarrysky.aiyatsbus.core.util.replace
+import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.io.newFolder
@@ -29,32 +30,33 @@ import java.util.concurrent.ConcurrentHashMap
  */
 class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
 
-    private val BY_ID = ConcurrentHashMap<String, AiyatsbusEnchantment>()
-    private val BY_NAME = ConcurrentHashMap<String, AiyatsbusEnchantment>()
+    private val values = ConcurrentHashMap<NamespacedKey, AiyatsbusEnchantment>()
 
-    private val FILES = ConcurrentHashMap<String, File>()
-    private val watching = linkedSetOf<String>()
-
-    override fun getByIDs(): Map<String, AiyatsbusEnchantment> {
-        return BY_ID
+    override fun getEnchants(): Map<NamespacedKey, AiyatsbusEnchantment> {
+        return values
     }
 
-    override fun getByID(id: String): AiyatsbusEnchantment? {
-        return BY_ID[id]
+    override fun getEnchant(key: NamespacedKey): AiyatsbusEnchantment? {
+        return getEnchant(key.key)
     }
 
-    override fun getByNames(): Map<String, AiyatsbusEnchantment> {
-        return BY_NAME
+    override fun getEnchant(key: String): AiyatsbusEnchantment? {
+        return values.values.firstOrNull { it.basicData.id == key }
     }
 
     override fun getByName(name: String): AiyatsbusEnchantment? {
-        return BY_NAME[name]
+        return values.values.firstOrNull { it.basicData.name == name }
     }
 
     override fun register(enchantment: AiyatsbusEnchantmentBase) {
-        Aiyatsbus.api().getEnchantmentRegisterer().register(enchantment)
-        BY_ID[enchantment.enchantmentKey.key] = enchantment as AiyatsbusEnchantment
-        BY_NAME[enchantment.basicData.name] = enchantment as AiyatsbusEnchantment
+        values[enchantment.enchantmentKey] = Aiyatsbus.api().getEnchantmentRegisterer().register(enchantment) as AiyatsbusEnchantment
+        EnchantRegistrationHooks.registerHooks()
+    }
+
+    override fun unregister(enchantment: AiyatsbusEnchantment) {
+        enchantment.trigger.onDisable()
+        Aiyatsbus.api().getEnchantmentRegisterer().unregister(enchantment)
+        values -= enchantment.enchantmentKey
     }
 
     override fun loadEnchantments() {
@@ -78,71 +80,59 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
             .map { it.deepRead("yml") }
             .map{ it.toList() }
             .flatten()
-            .let { files ->
-                for (file in files) {
-                    val path = file.path.substring(file.path.indexOf("enchants" + File.separator), file.path.length)
-                    val config = YamlUpdater.loadFromFile(path, AiyatsbusSettings.enableUpdater, AiyatsbusSettings.updateContents)
-                    val id = config["basic.id"].toString()
+            .forEach(::loadFromFile)
 
-                    val enchant = AiyatsbusEnchantmentBase(id, config)
-                    if (!enchant.dependencies.checkAvailable()) continue
+        console().sendLang("loading-enchantments", values.size, System.currentTimeMillis() - time)
+    }
 
-                    val enchantment = Aiyatsbus.api().getEnchantmentRegisterer().register(enchant) as AiyatsbusEnchantment
+    override fun loadFromFile(file: File) {
+        val path = file.path.substring(file.path.indexOf("enchants" + File.separator), file.path.length)
+        val config = YamlUpdater.loadFromFile(path, AiyatsbusSettings.enableUpdater, AiyatsbusSettings.updateContents)
+        val id = config["basic.id"].toString()
+        val key = NamespacedKey.minecraft(id)
 
-                    BY_ID[id] = enchantment
-                    BY_NAME[enchantment.basicData.name] = enchantment
-                    FILES[id] = file
+        val enchant = AiyatsbusEnchantmentBase(id, file, config)
+        if (!enchant.dependencies.checkAvailable()) return
 
-                    file.watch {
-                        if (watching.contains(path)) {
-                            watching -= path
-                            return@watch
-                        }
-                        val resourceStream = javaClass.classLoader.getResourceAsStream(path)
-                        if (AiyatsbusSettings.enableUpdater && resourceStream != null) {
-                            console().sendLang("enchantment-reload-failed", id)
-                            watching += path
-                            YamlUpdater.loadFromFile(path, AiyatsbusSettings.enableUpdater, AiyatsbusSettings.updateContents, Configuration.loadFromInputStream(resourceStream))
-                            return@watch
-                        }
-                        val time0 = System.currentTimeMillis()
+        register(enchant)
 
-                        val enchantName = BY_ID[id]?.basicData?.name
-                        BY_ID[id]!!.trigger.onDisable()
-                        Aiyatsbus.api().getEnchantmentRegisterer().unregister(BY_ID[id]!!)
-                        BY_ID.remove(id)
-                        BY_NAME.remove(enchantName)
-
-                        val newEnchant = AiyatsbusEnchantmentBase(id, Configuration.loadFromFile(it))
-                        if (!newEnchant.dependencies.checkAvailable()) return@watch
-
-                        val newEnchantment = Aiyatsbus.api().getEnchantmentRegisterer().register(newEnchant) as AiyatsbusEnchantment
-                        BY_ID[id] = newEnchantment
-                        BY_NAME[newEnchantment.basicData.name] = newEnchantment
-
-                        onlinePlayers.forEach(Player::updateInventory)
-
-                        console().sendLang("enchantment-reload", id, System.currentTimeMillis() - time0)
-                        EnchantRegistrationHooks.unregisterHooks()
-                        EnchantRegistrationHooks.registerHooks()
-                    }
-                }
+        file.watch { f ->
+            if (f.isProcessingByWatcher) {
+                f.isProcessingByWatcher = false
+                return@watch
+            }
+            val resourceStream = javaClass.classLoader.getResourceAsStream(path)
+            if (AiyatsbusSettings.enableUpdater && resourceStream != null) {
+                console().sendLang("enchantment-reload-failed", id)
+                f.isProcessingByWatcher = true
+                YamlUpdater.loadFromFile(path, AiyatsbusSettings.enableUpdater, AiyatsbusSettings.updateContents, Configuration.loadFromInputStream(resourceStream))
+                return@watch
             }
 
-        console().sendLang("loading-enchantments", BY_ID.size, System.currentTimeMillis() - time)
-        EnchantRegistrationHooks.registerHooks()
+            val time = System.currentTimeMillis()
+
+            val ench = getEnchant(key)!!
+            ench.trigger.onDisable()
+            unregister(ench)
+
+            val newEnchant = AiyatsbusEnchantmentBase(id, f, Configuration.loadFromFile(f))
+            if (!newEnchant.dependencies.checkAvailable()) return@watch
+            register(newEnchant)
+
+            onlinePlayers.forEach(Player::updateInventory)
+
+            console().sendLang("enchantment-reload", id, System.currentTimeMillis() - time)
+            EnchantRegistrationHooks.unregisterHooks()
+            EnchantRegistrationHooks.registerHooks()
+        }
     }
 
     override fun clearEnchantments() {
-        for (enchant in BY_ID.values) {
-            enchant.trigger.onDisable()
-            Aiyatsbus.api().getEnchantmentRegisterer().unregister(enchant)
+        for (enchant in values.values) {
+            enchant.file.isProcessingByWatcher = false
+            enchant.file.unwatch()
+            unregister(enchant)
         }
-        BY_ID.clear()
-        BY_NAME.clear()
-
-        FILES.values.forEach { it.unwatch() }
-        FILES.clear()
     }
 
     companion object {
@@ -150,6 +140,9 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
         @Awake(LifeCycle.CONST)
         fun init() {
             PlatformFactory.registerAPI<AiyatsbusEnchantmentManager>(DefaultAiyatsbusEnchantmentManager())
+            registerLifeCycleTask(LifeCycle.DISABLE) {
+                Aiyatsbus.api().getEnchantmentManager().clearEnchantments()
+            }
         }
 
         @Reloadable
@@ -158,11 +151,6 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
             registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.ENCHANTMENT) {
                 Aiyatsbus.api().getEnchantmentManager().loadEnchantments()
             }
-        }
-
-        @Awake(LifeCycle.DISABLE)
-        fun unload() {
-            Aiyatsbus.api().getEnchantmentManager().clearEnchantments()
         }
     }
 }
