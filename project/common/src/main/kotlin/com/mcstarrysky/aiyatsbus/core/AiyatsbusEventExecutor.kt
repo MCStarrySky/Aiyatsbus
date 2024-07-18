@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.core
 
+import com.mcstarrysky.aiyatsbus.core.data.trigger.event.EventMapping
 import com.mcstarrysky.aiyatsbus.core.data.trigger.event.EventResolver
 import com.mcstarrysky.aiyatsbus.core.event.AiyatsbusPrepareAnvilEvent
 import org.bukkit.entity.LivingEntity
@@ -17,7 +18,15 @@ import org.bukkit.event.inventory.InventoryEvent
 import org.bukkit.event.player.PlayerEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.inventory.ItemStack
+import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
+import taboolib.common.platform.function.registerLifeCycleTask
+import taboolib.library.configuration.ConfigurationSection
 import taboolib.library.reflex.Reflex.Companion.getProperty
+import taboolib.module.configuration.Config
+import taboolib.module.configuration.ConfigNode
+import taboolib.module.configuration.Configuration
+import taboolib.module.configuration.conversion
 import taboolib.platform.util.killer
 import java.util.concurrent.ConcurrentHashMap
 
@@ -41,6 +50,24 @@ interface AiyatsbusEventExecutor {
     fun destroyListeners()
 
     companion object {
+
+        @Config(value = "core/event-mapping.yml", autoReload = true)
+        private lateinit var conf: Configuration
+
+        @delegate:ConfigNode("mappings", bind = "core/event-mapping.yml")
+        val mappings: Map<String, EventMapping> by conversion<ConfigurationSection, Map<String, EventMapping>> {
+            getKeys(false).associateWith { EventMapping(conf.getConfigurationSection("mappings.$it")!!) }
+        }
+
+        @Awake(LifeCycle.ENABLE)
+        fun reload() {
+            registerLifeCycleTask(LifeCycle.ENABLE) {
+                conf.onReload {
+                    Aiyatsbus.api().getEventExecutor().destroyListeners()
+                    Aiyatsbus.api().getEventExecutor().registerListeners()
+                }
+            }
+        }
 
         val resolver = ConcurrentHashMap<Class<out Event>, EventResolver<*>>()
 
