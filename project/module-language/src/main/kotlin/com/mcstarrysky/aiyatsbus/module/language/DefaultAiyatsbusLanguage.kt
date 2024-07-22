@@ -45,6 +45,8 @@ class DefaultAiyatsbusLanguage : AiyatsbusLanguage {
             PlatformFactory.registerAPI<AiyatsbusLanguage>(DefaultAiyatsbusLanguage())
             // 设置语言文件路径
             Language.path = "core/lang"
+            // 设置语言文件释放路径
+            Language.releasePath = "plugins/{0}/core/lang/{1}"
             // 启用行内复合文本支持
             Language.enableSimpleComponent = true
         }
