@@ -49,5 +49,6 @@ combine:
   separate_special: true
   # 合并的布局
   layout:
-    - "{previous_1}{subsequent_1}" #只有一个的情况
-    - "{previous_1}&7, {previous_2}{subsequent_1}{subsequent_2}" #有两个的情况
+    - "{previous_1}{subsequent_1}" # 只有一个的情况
+    - "{previous_1}&7, {previous_2}{subsequent_1}{subsequent_2}" # 有两个的情况
+    - "{previous_1}&7, {previous_2}&7, {previous_3}{subsequent_1}{subsequent_2}{subsequent_3}" # 有三个的情况
