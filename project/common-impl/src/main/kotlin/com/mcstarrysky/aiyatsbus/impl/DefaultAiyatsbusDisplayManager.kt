@@ -20,6 +20,7 @@ import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.conversion
 import taboolib.platform.util.modifyMeta
+import taboolib.platform.util.onlinePlayers
 
 /**
  * Aiyatsbus
@@ -69,7 +70,7 @@ class DefaultAiyatsbusDisplayManager : AiyatsbusDisplayManager {
                 val specialEnchants = sortedEnchants.filter { isSpecial(it.key) }.toList()
                 // 按照每 combineAmount 处理数量个数据将普通附魔分割, 并分别处理
                 commonEnchants.chunked(combineAmount).forEach { chunk ->
-                    var layout = combineLayout[chunk.size]
+                    var layout = combineLayout[chunk.size - 1]
                     chunk.forEachIndexed { index, (enchant, level) ->
                         layout = layout.replace(enchant.displayer.displays(level, player, item, index + 1))
                     }
@@ -123,7 +124,7 @@ class DefaultAiyatsbusDisplayManager : AiyatsbusDisplayManager {
             val originLore = lore ?: emptyList()
             // 获取附魔显示格式
             val loreFormation =
-                if (originLore.isNotEmpty()) settings.hasLoreFormattion else settings.withoutLoreFormattion
+                if (originLore.isNotEmpty()) settings.hasLoreFormation else settings.withoutLoreFormation
             // 处理最终 Lore
             val result = buildList<String> {
                 loreFormation.forEach { line ->
@@ -238,10 +239,17 @@ class DefaultAiyatsbusDisplayManager : AiyatsbusDisplayManager {
         @ConfigNode("combine.separate_special")
         override var separateSpecial = true
 
-        @ConfigNode("lore_formattion.has_lore")
-        override var hasLoreFormattion = listOf<String>()
+        @ConfigNode("lore_formation.has_lore")
+        override var hasLoreFormation = listOf<String>()
 
-        @ConfigNode("lore_formattion.without_lore")
-        override var withoutLoreFormattion = listOf<String>()
+        @ConfigNode("lore_formation.without_lore")
+        override var withoutLoreFormation = listOf<String>()
+
+        @Awake(LifeCycle.ENABLE)
+        fun init() {
+            conf.onReload {
+                onlinePlayers.forEach(Player::updateInventory)
+            }
+        }
     }
 }

@@ -2,14 +2,7 @@ package com.mcstarrysky.aiyatsbus.core
 
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import taboolib.common.LifeCycle
-import taboolib.common.platform.Awake
-import taboolib.library.configuration.ConfigurationSection
-import taboolib.module.configuration.Config
-import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
-import taboolib.module.configuration.conversion
-import taboolib.platform.util.onlinePlayers
 
 /**
  * Aiyatsbus
@@ -75,10 +68,10 @@ interface AiyatsbusDisplayManager {
         var combineLayout: List<String>
 
         /** Lore 显示顺序 (物品本身有 Lore 时) */
-        var hasLoreFormattion: List<String>
+        var hasLoreFormation: List<String>
 
         /** Lore 显示顺序 (物品本身没有 Lore 时) */
-        var withoutLoreFormattion: List<String>
+        var withoutLoreFormation: List<String>
 
         /** 是否独立在最后单行显示拥有特殊显示的附魔 */
         var separateSpecial: Boolean
