@@ -29,7 +29,7 @@ val reloadSubCommand = subCommand {
         Language.reload()
         AiyatsbusSettings.conf.reload()
         Reloadables.execute()
-        AiyatsbusDisplayManager.conf.reload()
+        Aiyatsbus.api().getDisplayManager().getSettings().conf.reload()
         AnvilSupport.conf.reload()
         EnchantingTableSupport.conf.reload()
         ExpModifier.conf.reload()

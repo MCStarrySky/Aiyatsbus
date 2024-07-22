@@ -21,6 +21,11 @@ import taboolib.platform.util.onlinePlayers
 interface AiyatsbusDisplayManager {
 
     /**
+     * 获取显示模块配置
+     */
+    fun getSettings(): Settings
+
+    /**
      * 按照配置中设定的品质排行顺序整理附魔
      */
     fun sortEnchants(enchants: Map<AiyatsbusEnchantment, Int>): LinkedHashMap<AiyatsbusEnchantment, Int>
@@ -35,58 +40,47 @@ interface AiyatsbusDisplayManager {
      */
     fun undisplay(item: ItemStack, player: Player): ItemStack
 
-    @ConfigNode(bind = "enchants/display.yml")
-    companion object {
+    interface Settings {
 
-        @Config("enchants/display.yml", autoReload = true)
-        lateinit var conf: Configuration
-            private set
+        var conf: Configuration
 
-        @ConfigNode("enable")
-        var enable = true
+        /** 是否启用内置附魔显示 */
+        var enable: Boolean
 
-        @ConfigNode("format.default_previous")
-        var defaultPrevious = "{enchant_display_roman}"
+        /** 默认附魔前缀 */
+        var defaultPrevious: String
 
-        @ConfigNode("format.default_subsequent")
-        var defaultSubsequent = "\n&8| &7{description}"
+        /** 默认附魔后缀 */
+        var defaultSubsequent: String
 
-        @ConfigNode("capability_line")
-        var capabilityLine = "&8| &7附魔词条数空余: &e{capability}"
+        /** 附魔词条数空余 */
+        var capabilityLine: String
 
-        @ConfigNode("sort.level")
-        var sortByLevel = true
+        /** 按等级排序, 由高到低 */
+        var sortByLevel: Boolean
 
-        @delegate:ConfigNode("sort.rarity.order")
-        val rarityOrder by conversion<List<String>, List<String>> {
-            toMutableList().also { it += aiyatsbusRarities.keys.filterNot(this::contains) }
-        }
+        /** 品质顺序 */
+        val rarityOrder: List<String>
 
-        @ConfigNode("combine.enable")
-        var combine = false
+        /** 开启合并显示 */
+        var combine: Boolean
 
-        @ConfigNode("combine.min")
-        var minimal = 8
+        /** 当物品附魔超过多少时开启合并显示 */
+        var combineMinimal: Int
 
-        @ConfigNode("combine.amount")
-        var amount = 2
+        /** 每次合并几个附魔, 也就是每行显示几个 */
+        var combineAmount: Int
 
-        @ConfigNode("combine.layout")
-        var layouts = listOf<String>()
+        /** 合并布局 */
+        var combineLayout: List<String>
 
-        @ConfigNode("combine.separate_special")
-        var separateSpecial = true
+        /** Lore 显示顺序 (物品本身有 Lore 时) */
+        var hasLoreFormattion: List<String>
 
-        @delegate:ConfigNode("lore_formation")
-        val loreFormation by conversion<ConfigurationSection, Map<Boolean, List<String>>> {
-            mapOf(true to getStringList("has_lore"), false to getStringList("without_lore"))
-        }
+        /** Lore 显示顺序 (物品本身没有 Lore 时) */
+        var withoutLoreFormattion: List<String>
 
-        @Awake(LifeCycle.ENABLE)
-        fun init() {
-            conf.onReload {
-                onlinePlayers.forEach(Player::updateInventory)
-            }
-        }
+        /** 是否独立在最后单行显示拥有特殊显示的附魔 */
+        var separateSpecial: Boolean
     }
 }

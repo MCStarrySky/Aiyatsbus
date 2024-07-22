@@ -1,6 +1,6 @@
 package com.mcstarrysky.aiyatsbus.core.data
 
-import com.mcstarrysky.aiyatsbus.core.AiyatsbusDisplayManager
+import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.util.replace
 import com.mcstarrysky.aiyatsbus.core.util.roman
@@ -16,17 +16,19 @@ import taboolib.module.chat.colored
  * @since 2024/2/17 22:23
  */
 data class Displayer(
+    private val root: ConfigurationSection,
+    private val enchant: AiyatsbusEnchantment,
     /** 附魔显示的前半部分, 一般是名称和等级 */
-    val previous: String,
+    val previous: String = root.getString("format.previous", "{default_previous}")!!,
     /** 附魔显示的后半部分, 一般是描述并且换行写 */
-    val subsequent: String,
+    val subsequent: String = root.getString("format.subsequent", "{default_subsequent}")!!,
     /** 描述 */
-    val generalDescription: String,
+    val generalDescription: String = root.getString("description.general", "&7")!!,
     /** 一般有变量的描述会用这个替换变量, 这个不写默认为普通描述 */
-    val specificDescription: String,
-    /** 附魔 */
-    val enchant: AiyatsbusEnchantment
+    val specificDescription: String = root.getString("description.specific", generalDescription)!!
 ) {
+
+    val displayManagerSettings = Aiyatsbus.api().getDisplayManager().getSettings()
 
     /**
      * 是否是在 display.yml 中设置的默认配置格式
@@ -42,8 +44,8 @@ data class Displayer(
      * 生成本附魔在当前状态下的显示, 在非合并模式下
      */
     fun display(holders: Map<String, String>): String {
-        return (previous.replace("{default_previous}", AiyatsbusDisplayManager.defaultPrevious)
-                + subsequent.replace("{default_subsequent}", AiyatsbusDisplayManager.defaultSubsequent)
+        return (previous.replace("{default_previous}", displayManagerSettings.defaultPrevious)
+                + subsequent.replace("{default_subsequent}", displayManagerSettings.defaultSubsequent)
                 ).replace(holders).colored()
     }
 
@@ -59,8 +61,8 @@ data class Displayer(
         val suffix = index?.let { "_$it" } ?: ""
         val holders = holders(level, player, item)
         return mapOf(
-            "previous$suffix" to previous.replace("{default_previous}", AiyatsbusDisplayManager.defaultPrevious).replace(holders).colored(),
-            "subsequent$suffix" to subsequent.replace("{default_subsequent}", AiyatsbusDisplayManager.defaultSubsequent).replace(holders).colored()
+            "previous$suffix" to previous.replace("{default_previous}", displayManagerSettings.defaultPrevious).replace(holders).colored(),
+            "subsequent$suffix" to subsequent.replace("{default_subsequent}", displayManagerSettings.defaultSubsequent).replace(holders).colored()
         )
     }
 
@@ -87,16 +89,5 @@ data class Displayer(
         tmp["enchant_display_lore"] = display(tmp)
         tmp["description"] = specificDescription.replace(tmp).colored()
         return tmp
-    }
-
-    companion object {
-
-        fun load(displayerConfig: ConfigurationSection, enchant: AiyatsbusEnchantment): Displayer {
-            val previous = displayerConfig.getString("format.previous", "{default_previous}")!!
-            val subsequent = displayerConfig.getString("format.subsequent", "{default_subsequent}")!!
-            val generalDescription = displayerConfig.getString("description.general", "&7")!!
-            val specificDescription = displayerConfig.getString("description.specific", generalDescription)!!
-            return Displayer(previous, subsequent, generalDescription, specificDescription, enchant)
-        }
     }
 }

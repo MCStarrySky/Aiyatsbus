@@ -37,7 +37,7 @@ class AiyatsbusEnchantmentBase(
 
     override val variables: Variables = Variables.load(config.getConfigurationSection("variables"))
 
-    override val displayer: Displayer = Displayer.load(config.getConfigurationSection("display")!!, this)
+    override val displayer: Displayer = Displayer(config.getConfigurationSection("display")!!, this)
 
     override val targets: List<Target>
         get() = config.getStringList("targets").mapNotNull(::aiyatsbusTarget)
