@@ -5,13 +5,27 @@ import com.google.common.collect.Table
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.data.trigger.event.EventMapping
+import com.mcstarrysky.aiyatsbus.core.data.trigger.event.EventResolver
+import com.mcstarrysky.aiyatsbus.core.event.AiyatsbusPrepareAnvilEvent
 import com.mcstarrysky.aiyatsbus.core.util.Mirror
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.core.util.mirrorNow
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import org.bukkit.entity.Projectile
 import org.bukkit.event.Event
+import org.bukkit.event.block.BlockBreakEvent
+import org.bukkit.event.block.BlockPlaceEvent
+import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.EntityDeathEvent
+import org.bukkit.event.entity.EntityEvent
+import org.bukkit.event.entity.ProjectileHitEvent
+import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryEvent
+import org.bukkit.event.player.PlayerEvent
+import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import taboolib.common.LifeCycle
@@ -22,6 +36,14 @@ import taboolib.common.platform.event.ProxyListener
 import taboolib.common.platform.function.registerBukkitListener
 import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.common.platform.function.unregisterListener
+import taboolib.library.configuration.ConfigurationSection
+import taboolib.library.reflex.Reflex.Companion.getProperty
+import taboolib.module.configuration.Config
+import taboolib.module.configuration.ConfigNode
+import taboolib.module.configuration.Configuration
+import taboolib.module.configuration.conversion
+import taboolib.platform.util.killer
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Aiyatsbus
@@ -32,7 +54,51 @@ import taboolib.common.platform.function.unregisterListener
  */
 class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
+    private val resolvers = ConcurrentHashMap<Class<out Event>, EventResolver<*>>()
+
+    private val externalMappings: ConcurrentHashMap<String, EventMapping> = ConcurrentHashMap()
+
     private val listeners: Table<String, EventPriority, ProxyListener> = HashBasedTable.create()
+
+    init {
+        resolvers += PlayerEvent::class.java to EventResolver<PlayerEvent>({ event, _ -> event.player })
+        resolvers += PlayerMoveEvent::class.java to EventResolver<PlayerMoveEvent>(
+            entityResolver = { event, _ -> event.player },
+            eventResolver = { event ->
+                /* 过滤视角转动 */
+                if (event.from.world == event.to.world && event.from.distance(event.to) < 1e-1) return@EventResolver
+            }
+        )
+        resolvers += BlockPlaceEvent::class.java to EventResolver<BlockPlaceEvent>({ event, _ -> event.player })
+        resolvers += BlockBreakEvent::class.java to EventResolver<BlockBreakEvent>({ event, _ -> event.player })
+        resolvers += ProjectileHitEvent::class.java to EventResolver<ProjectileHitEvent>({ event, _ -> event.entity.shooter as? LivingEntity })
+        resolvers += EntityDamageByEntityEvent::class.java to EventResolver<EntityDamageByEntityEvent>({ event, playerReference ->
+            when (playerReference) {
+                "damager", null -> when (event.damager) {
+                    is Player -> event.damager as? LivingEntity
+                    is Projectile -> ((event.damager as Projectile).shooter as? LivingEntity)
+                    else -> null
+                }
+                "entity" -> event.entity as? LivingEntity
+                else -> null
+            }
+        })
+        resolvers += EntityDeathEvent::class.java to EventResolver<EntityDeathEvent>({ event, _ -> event.killer })
+        resolvers += EntityEvent::class.java to EventResolver<EntityEvent>({ event, _ -> event.entity as? LivingEntity })
+        resolvers += InventoryClickEvent::class.java to EventResolver<InventoryClickEvent>({ event, _ -> event.whoClicked })
+        resolvers += InventoryEvent::class.java to EventResolver<InventoryEvent>({ event, _ -> event.view.player })
+        resolvers += AiyatsbusPrepareAnvilEvent::class.java to EventResolver<AiyatsbusPrepareAnvilEvent>(
+            entityResolver = { event, _ -> event.player },
+            itemResolver = { event, itemReference, _ ->
+                when (itemReference) {
+                    "left" -> event.left
+                    "right" -> event.right
+                    "result" -> event.result
+                    else -> event.getProperty(itemReference ?: return@EventResolver null, false) as? ItemStack ?: return@EventResolver null
+                }
+            }
+        )
+    }
 
     override fun registerListener(listen: String, eventMapping: EventMapping) {
         val (clazz, _, _, _, eventPriorities) = eventMapping
@@ -44,8 +110,8 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
     }
 
     override fun registerListeners() {
-        AiyatsbusEventExecutor.mappings.forEach(::registerListener)
-        AiyatsbusEventExecutor.externalMappings.forEach(::registerListener)
+        mappings.forEach(::registerListener)
+        externalMappings.forEach(::registerListener)
     }
 
     override fun destroyListener(listen: String) {
@@ -58,8 +124,33 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
         listeners.clear()
     }
 
+    override fun getEventMappings(): Map<String, EventMapping> {
+        return mappings
+    }
+
+    override fun getExternalEventMappings(): MutableMap<String, EventMapping> {
+        return externalMappings
+    }
+
+    override fun getResolvers(): MutableMap<Class<out Event>, EventResolver<*>> {
+        return resolvers
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <T: Event> getResolver(instance: T): EventResolver<T>? {
+        var currentClass: Class<*>? = instance::class.java
+        while (currentClass != null) {
+            val resolver = resolvers[currentClass] as? EventResolver<T>
+            if (resolver != null) {
+                return resolver
+            }
+            currentClass = currentClass.superclass
+        }
+        return null
+    }
+
     private fun processEvent(listen: String, event: Event, eventMapping: EventMapping, eventPriority: EventPriority) {
-        val resolver = AiyatsbusEventExecutor.getResolver(event) ?: return
+        val resolver = getResolver(event) ?: return
         /* 特殊事件处理 */
         resolver.eventResolver.apply(event)
 
@@ -123,21 +214,37 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
     companion object {
 
+        @Config(value = "core/event-mapping.yml", autoReload = true)
+        private lateinit var conf: Configuration
+
+        @delegate:ConfigNode("mappings", bind = "core/event-mapping.yml")
+        private val mappings: MutableMap<String, EventMapping> by conversion<ConfigurationSection, MutableMap<String, EventMapping>> {
+            getKeys(false).associateWith { EventMapping(conf.getConfigurationSection("mappings.$it")!!) }.toMutableMap()
+        }
+
         @Awake(LifeCycle.CONST)
         fun init() {
             PlatformFactory.registerAPI<AiyatsbusEventExecutor>(DefaultAiyatsbusEventExecutor())
         }
 
         @Reloadable
-        @Awake(LifeCycle.CONST)
-        fun load() {
-            registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.EVENT_EXECUTORS) {
+        @AwakePriority(LifeCycle.ENABLE, StandardPriorities.EVENT_EXECUTORS)
+        fun onEnable() {
+            Aiyatsbus.api().getEventExecutor().destroyListeners()
+            Aiyatsbus.api().getEventExecutor().registerListeners()
+        }
+
+        @Awake(LifeCycle.ENABLE)
+        fun onReload() {
+            conf.onReload {
                 Aiyatsbus.api().getEventExecutor().destroyListeners()
                 Aiyatsbus.api().getEventExecutor().registerListeners()
             }
-            registerLifeCycleTask(LifeCycle.DISABLE) {
-                Aiyatsbus.api().getEventExecutor().destroyListeners()
-            }
+        }
+
+        @Awake(LifeCycle.DISABLE)
+        fun onDisable() {
+            Aiyatsbus.api().getEventExecutor().destroyListeners()
         }
     }
 }
