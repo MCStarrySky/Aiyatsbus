@@ -12,6 +12,8 @@ loading-groups: '{prefix} &a良好 &8| &a{0} &3个附魔组已加载 &8({1} ms)'
 
 plugin-reload: '{prefix} &a良好 &8| &3已重新载入插件 &8({0} ms)'
 
+configuration-reload: '{prefix} &a良好 &8| &3检测到 {0} 配置文件变动, 已自动重新载入 &8({1} ms)'
+
 enchantment-reload: '{prefix} &a良好 &8| &3检测到 {0} 附魔配置文件变动, 已自动重新载入 &8({1} ms)'
 enchantment-reload-failed:
   - '{prefix} &b信息 &8| &3由于您已开启自动平衡性调整, {0} 附魔配置文件变动被阻拦'
