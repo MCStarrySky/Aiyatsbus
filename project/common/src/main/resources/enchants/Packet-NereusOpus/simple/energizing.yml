@@ -33,4 +33,4 @@ mechanisms:
       handle: |-
         set duration to type int &持续时间
         set amplifier to math sub [ type int &效果倍率 1 ]
-        add-potion-effect FAST_DIGGING on &event[entity] duration &duration amplifier &amplifier
+        add-potion-effect FAST_DIGGING on &event[player] duration &duration amplifier &amplifier
