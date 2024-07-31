@@ -17,6 +17,6 @@ targets:
 
 display:
   description:
-    general: "提高箭矢造成的伤害"
+    general: "提高箭矢的伤害"
 
 # TODO 数据录入

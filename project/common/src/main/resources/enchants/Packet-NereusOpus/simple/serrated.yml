@@ -19,8 +19,8 @@ limitations:
 
 display:
   description:
-    general: "三叉戟造成的伤害大幅提高"
-    specific: "&7三叉戟造成的伤害提高&a{增幅}"
+    general: "三叉戟的伤害大幅提高"
+    specific: "&7三叉戟的伤害提高&a{增幅}"
 
 variables:
   leveled:
@@ -33,4 +33,4 @@ mechanisms:
       handle: |-
         set multiplier to type double &增幅
         set damage to &event[damage]
-        set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"
+        set &event[damage] to math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]

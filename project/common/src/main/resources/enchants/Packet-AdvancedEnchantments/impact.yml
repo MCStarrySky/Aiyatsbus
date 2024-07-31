@@ -39,7 +39,7 @@ mechanisms:
             if &cd then {
               set multiplier to type double &增幅
               set damage to &event[damage]
-              set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"
+              set &event[damage] to math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]
               a-cd add &enchant &player
               send-lang enchant-impact-damaged to &event[entity] with array [ entity-name &event[attacker.shooter] ]
               send-lang enchant-impact-attacker to &event[attacker.shooter] with array [ entity-name &event[entity] ]

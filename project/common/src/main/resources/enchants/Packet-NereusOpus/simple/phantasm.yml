@@ -23,8 +23,8 @@ limitations:
 
 display:
   description:
-    general: "对亡灵生物造成的伤害提高"
-    specific: "&7对亡灵生物造成的伤害提高&a{增幅}"
+    general: "对亡灵生物的伤害提高"
+    specific: "&7对亡灵生物的伤害提高&a{增幅}"
 
 variables:
   leveled:

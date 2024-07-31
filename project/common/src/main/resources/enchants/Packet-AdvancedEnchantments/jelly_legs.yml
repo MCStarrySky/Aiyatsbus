@@ -17,7 +17,7 @@ limitations:
 
 display:
   description:
-    general: "受到摔落伤害时可减少伤害并弹起"
+    general: "摔伤时可减少伤害并弹起"
     specific: "&7受到不超过&a{最大高度}&7的摔落伤害时减少&a{减少伤害}&7并弹起"
 
 variables:

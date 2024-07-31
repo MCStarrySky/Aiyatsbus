@@ -27,8 +27,8 @@ limitations:
 
 display:
   description:
-    general: "对史莱姆造成的伤害提高"
-    specific: "&7对史莱姆造成的伤害提高&a{增幅}"
+    general: "对史莱姆的伤害提高"
+    specific: "&7对史莱姆的伤害提高&a{增幅}"
 
 variables:
   leveled:
@@ -42,5 +42,5 @@ mechanisms:
         if instance-of &event[entity] is org.bukkit.entity.Slime then {
           set multiplier to type double &增幅
           set damage to &event[damage]
-          set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"
+          set &event[damage] to math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]
         }

@@ -20,8 +20,8 @@ limitations:
 
 display:
   description:
-    general: "攻击时有概率召唤闪电对目标造成真实伤害"
-    specific: "&7攻击时有&a{概率}&7的概率召唤闪电并对目标造成&a{伤害}&7真实伤害 (冷却:&a{冷却}&7)"
+    general: "攻击时有概率召唤闪电"
+    specific: "&7攻击时有&a{概率}&7的概率召唤闪电并造成&a{伤害}&7真实伤害 (冷却:&a{冷却}&7)"
 
 variables:
   leveled:

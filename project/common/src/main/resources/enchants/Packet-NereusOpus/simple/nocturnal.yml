@@ -18,8 +18,8 @@ limitations:
 
 display:
   description:
-    general: "在夜晚时造成的伤害提高"
-    specific: "&7在夜晚时造成的伤害提高&a{倍数}"
+    general: "在夜晚时伤害提高"
+    specific: "&7在夜晚时伤害提高&a{倍数}"
 
 variables:
   leveled:
@@ -33,5 +33,5 @@ mechanisms:
         if &event[entity.world.isNight] then {
           set multiplier to type double &增幅
           set damage to &event[damage]
-          set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"
+          set &event[damage] to math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]
         }

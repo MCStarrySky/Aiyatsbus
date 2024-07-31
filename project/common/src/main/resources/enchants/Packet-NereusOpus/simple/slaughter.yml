@@ -30,8 +30,8 @@ limitations:
 
 display:
   description:
-    general: "对动物造成的伤害提高"
-    specific: "&7对动物造成的伤害提高&a{伤害}"
+    general: "对动物的伤害提高"
+    specific: "&7对动物的伤害提高&a{伤害}"
 
 variables:
   leveled:
@@ -45,5 +45,5 @@ mechanisms:
         if instance-of &event[entity] is org.bukkit.entity.Animals then {
           set multiplier to type double &增幅
           set damage to &event[damage]
-          set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"
+          set &event[damage] to math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]
         }

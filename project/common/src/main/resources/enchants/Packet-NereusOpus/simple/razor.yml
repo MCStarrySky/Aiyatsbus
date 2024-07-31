@@ -54,4 +54,4 @@ mechanisms:
           exit
         }
         
-        set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"
+        set &event[damage] to math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]

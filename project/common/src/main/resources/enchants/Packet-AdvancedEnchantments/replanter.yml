@@ -17,8 +17,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "踩坏耕地时，不会使作物掉落而是会使其退化若干阶段"
-    specific: "&7踩坏耕地时，不会使作物掉落而是会使其退化&a{退化阶段}"
+    general: "踩坏耕地时，只会使作物退化而不是掉落"
+    specific: "&7踩坏耕地时，只会使其退化&a{退化阶段}"
 
 variables:
   leveled:

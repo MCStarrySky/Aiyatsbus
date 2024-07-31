@@ -8,7 +8,6 @@ basic:
   name: "索敌"
   max_level: 5
 
-# 小byd还会自动锁头(entity.eyeLocation)，升个稀有度
 rarity: 精良
 targets:
   - 弓

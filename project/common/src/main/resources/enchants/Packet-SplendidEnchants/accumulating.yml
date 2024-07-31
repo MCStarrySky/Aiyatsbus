@@ -44,7 +44,7 @@ mechanisms:
         if check &total >= type int &击杀累计 then {
           modifiable-var-set &enchant &item 当前累计 to 0
           modifiable-var-set &enchant &item 是否充能完毕 to 充能中
-          set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"
+          set &event[damage] to math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]
         }
 
         set total to type int modifiable-var &enchant &item 当前累计

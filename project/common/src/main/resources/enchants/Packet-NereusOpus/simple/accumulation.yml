@@ -20,8 +20,8 @@ limitations:
 
 display:
   description:
-    general: "持续一段时间不攻击后使下次攻击造成的伤害提高"
-    specific: "&7持续&a{时间}&7不攻击后伤害提高&a{增幅}"
+    general: "长时间不攻击后伤害提高"
+    specific: "&7持续&a{时间}&7不攻击后下次攻击伤害提高&a{增幅}"
 
 variables:
   leveled:
@@ -40,7 +40,7 @@ mechanisms:
           set record to type long getMetadata aiyatsbus_accumulation on &player by 0
           set delta to math sub [ time record ]
           if check &delta >= &duration then {
-            set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"
+            set &event[damage] to math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]
           }
         }
         setMetadata aiyatsbus_accumulation to time on &player

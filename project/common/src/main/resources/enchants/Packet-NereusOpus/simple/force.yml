@@ -41,5 +41,5 @@ mechanisms:
           }
           set multiplier to type double &增幅
           set damage to &event[damage]
-          set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"
+          set &event[damage] to math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]
         }
