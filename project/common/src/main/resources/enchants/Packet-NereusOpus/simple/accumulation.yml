@@ -35,7 +35,7 @@ mechanisms:
       handle: |-
         set multiplier to type double &增幅
         set damage to &event[damage]
-        set duration to math mul [ type double &伤害倍数 1000 ]
+        set duration to math mul [ type double &时间 20 ]
         if hasMetadata aiyatsbus_accumulation on &player then {
           set record to type long getMetadata aiyatsbus_accumulation on &player by 0
           set delta to math sub [ time record ]
