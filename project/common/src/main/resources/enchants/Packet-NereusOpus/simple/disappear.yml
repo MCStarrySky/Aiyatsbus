@@ -19,12 +19,12 @@ limitations: [ ]
 
 display:
   description:
-    general: "在低血量时获得隐身效果"
-    specific: "&7在血量&e低于&7最大血量的&a{最低血量百分比}&7时获得隐身效果"
+    general: "在生命值较低时获得隐身效果"
+    specific: "&7在生命值低于&7&a{阈值}&7时获得隐身效果"
 
 variables:
   leveled:
-    最低血量百分比: "%:0.05*{level}"
+    阈值: "%:0.05*{level}"
 
 mechanisms:
   tickers:
@@ -32,7 +32,7 @@ mechanisms:
       interval: 100
       handle: |-
         if any [ check player gamemode is SURVIVAL check player gamemode is ADVENTURE ] then {
-          if check math div [ player health player max health ] <= type double &最低血量百分比 then [
+          if check math div [ player health player max health ] <= type double &阈值 then [
             add-potion-effect INVISIBILITY on &event[entity] duration 100 amplifier 0
           ]
         }

@@ -21,12 +21,13 @@ limitations:
 
 display:
   description:
-    general: "对末地生物的伤害提升"
-    specific: "&7对末地生物的伤害提升&a{伤害}"
+    general: "对末地生物造成的伤害提高"
+    specific: "&7对末地生物造成的伤害提高&a{增幅}"
 
 variables:
   leveled:
-    伤害: "倍:1+0.5*{level}"
+    # 因为作用范围包含末影龙boss，故削弱数值
+    增幅: "%:20*{level}"
 
 mechanisms:
   listeners:
@@ -34,5 +35,7 @@ mechanisms:
       listen: "entity-damage-by-entity"
       handle: |-
         if check &event[entity.type.name] contains END then {
-          set &event[damage] to math mul [ &event[damage] type double &伤害 ]
+          set multiplier to type double &增幅
+          set damage to &event[damage]
+          set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"
         }

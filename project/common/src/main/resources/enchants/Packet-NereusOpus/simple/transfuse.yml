@@ -8,7 +8,8 @@ basic:
   name: 洗炼
   max_level: 3
 
-rarity: 史诗
+# 自己服务器试了试，搭配立方有点超模，故提升稀有度
+rarity: 传奇
 
 targets:
   - 镐
@@ -27,7 +28,7 @@ variables:
     概率: "%:0.5*{level}"
   ordinary:
     掉落: DIAMOND_ORE,GOLD_ORE,LAPIS_ORE,REDSTONE_ORE,IRON_ORE # 钻石,金,青金石,红石,铁矿石
-    挖掘目标: STONE,DEEPSLATE # 石头 深板岩
+    挖掘目标: STONE,DEEPSLATE,NETHERRACK # 石头 深板岩
 
 mechanisms:
   listeners:

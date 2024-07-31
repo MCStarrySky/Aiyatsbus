@@ -6,23 +6,25 @@
 basic:
   id: stand_and_fight
   name: "浴血"
-  max_level: 2
+  max_level: 3
 
 rarity: 史诗
 targets:
   - 剑
+  - 斧
 
 limitations: [ ]
 
 display:
   description:
-    general: "当前的血量越低，暴击伤害越高"
-    specific: "&7血量≤&a{阈值}&7时每损失&a1%&7的血量增加&a{增幅}&7的暴击伤害"
+    general: "当前的生命值越低，暴击伤害越高"
+    specific: "&7生命值不超过&a{阈值}&7时每损失&a1%&7的生命值提高&a{增幅}&7的暴击伤害，最高不超过&a{上限}"
 
 variables:
   leveled:
-    阈值: "%:{level}*5+35"
-    增幅: "%:{level}*0.5"
+    阈值: "%:{level}*20+35"
+    增幅: "%:{level}*0.65"
+    上限: "%:40+{level}*15"
 
 mechanisms:
   listeners:

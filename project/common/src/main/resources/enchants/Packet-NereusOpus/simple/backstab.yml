@@ -17,12 +17,12 @@ limitations: [ ]
 
 display:
   description:
-    general: "攻击对手后方时伤害提升"
-    specific: "&7攻击对手后方时伤害提升&a{倍数}"
+    general: "攻击对手后方时造成的伤害提高"
+    specific: "&7攻击对手后方时造成的伤害提高&a{增幅}"
 
 variables:
   leveled:
-    倍数: "倍:1+0.1*{level}"
+    增幅: "%:1+0.1*{level}"
 
 mechanisms:
   listeners:
@@ -36,6 +36,8 @@ mechanisms:
           set entity1 to &event[damager]
           set entity2 to &event[entity]
           if entity-is-behind &entity1 &entity2 then {
-            set &event[damage] to math mul [ &event[damage] type double &倍数 ]
+            set multiplier to type double &增幅
+            set damage to &event[damage]
+            set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"
           }
         }

@@ -19,8 +19,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "有概率免疫药水伤害"
-    specific: "&7有&a{概率}&7的概率免疫药水伤害"
+    general: "有概率免疫魔法伤害"
+    specific: "&7有&a{概率}&7的概率免疫魔法伤害"
 
 variables:
   leveled:
@@ -36,9 +36,10 @@ mechanisms:
         }
         if any [
           check &event[cause] is POTION
+          check &event[cause] is MAGIC
           check &event[cause] is WITHER
-          check &event[cause] is STARVATION
           check &event[cause] is DRAGON_BREATH
+          check &event[cause] is SONIC_BOOM
         ] then {
           set &event[isCancelled] to true
         }

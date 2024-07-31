@@ -18,12 +18,12 @@ limitations:
 
 display:
   description:
-    general: "射出的箭矢伤害降低但能破盾并穿透生物"
-    specific: "&7射出的箭矢伤害降低&a{倍数}&7但能破盾并穿透生物&a{次数}"
+    general: "射出的箭矢伤害降低但能够穿透盾牌和生物"
+    specific: "&7射出的箭矢伤害降低&a{减少量}&7但能够无视盾牌并穿透生物&a{次数}"
 
 variables:
   leveled:
-    倍数: "倍:0.5"
+    减少量: "%:50"
     次数: "次:{level}"
 
 mechanisms:
@@ -36,4 +36,6 @@ mechanisms:
     on-damage:
       listen: "entity-damage-by-entity"
       handle: |-
-        set &event[damage] to math mul [ &event[damage] type double &倍数 ]
+        set multiplier to type double &增幅
+        set damage to &event[damage]
+        set &event[damage] to calc "damage * ( 1 - multiplier / 100 )"

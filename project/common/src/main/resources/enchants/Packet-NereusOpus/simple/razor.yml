@@ -11,6 +11,7 @@ basic:
 rarity: 传奇
 targets:
   - 剑
+  - 斧
 
 limitations:
   - "CONFLICT_ENCHANT:拆弹"
@@ -20,12 +21,12 @@ limitations:
 
 display:
   description:
-    general: "在攻击时伤害大幅提升"
-    specific: "&7在攻击时伤害提升&a{伤害}"
+    general: "造成的伤害大幅提高"
+    specific: "&7造成的伤害提高&a{增幅}"
 
 variables:
   leveled:
-    伤害: "倍:1+0.1*{level}"
+    增幅: "%:10*{level}"
   ordinary:
     disable-on-players: false
     decrease-if-cooldown: true
@@ -35,14 +36,15 @@ mechanisms:
     on-damage:
       listen: "entity-damage-by-entity"
       handle: |-
-        set multiplier to type double &伤害
+        set multiplier to type double &增幅
+        set damage to &event[damage]
         
         if all [
           instance-of &event[damager] is org.bukkit.entity.Player
           type boolean &decrease-if-cooldown
         ] then {
           set cd to &event[damager.attackCooldown]
-          set multiplier to calc "1 + (multiplier - 1) * cd"
+          set multiplier to calc "(100 + multiplier) * cd - 100"
         }
         
         if all [
@@ -52,4 +54,4 @@ mechanisms:
           exit
         }
         
-        set &event[damage] to math mul [ &event[damage] &multiplier ]
+        set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"

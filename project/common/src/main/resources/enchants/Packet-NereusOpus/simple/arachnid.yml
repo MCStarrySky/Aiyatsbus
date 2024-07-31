@@ -25,12 +25,12 @@ limitations:
 
 display:
   description:
-    general: "对蜘蛛的伤害提升"
-    specific: "&7对蜘蛛的伤害提升&a{伤害}"
+    general: "对蜘蛛造成的伤害提高"
+    specific: "&7对蜘蛛造成的伤害提高&a{增幅}"
 
 variables:
   leveled:
-    伤害: "倍:1+0.5*{level}"
+    增幅: "%:50*{level}"
 
 mechanisms:
   listeners:
@@ -40,4 +40,6 @@ mechanisms:
         if not instance-of &event[entity] is org.bukkit.entity.Spider then {
           exit
         }
-        set &event[damage] to math mul [ &event[damage] type double &伤害 ]
+        set multiplier to type double &增幅
+        set damage to &event[damage]
+        set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"

@@ -21,13 +21,13 @@ display:
   format:
     previous: "{default_previous}  &7{是否充能完毕}(&e{当前累计}&7/&a{击杀累计}&7)"
   description:
-    general: "每击杀若干只怪物后，下一次攻击伤害增加"
-    specific: "&7每击杀&a{击杀累计}&7生物后，下一次攻击伤害增加&a{伤害增加百分比}"
+    general: "每击杀若干只怪物后，下一次攻击伤害提高"
+    specific: "&7每击杀&a{击杀}&7生物后，下一次攻击伤害提高&a{增幅}"
 
 variables:
   leveled:
-    击杀累计: "只:4-{level}"
-    伤害增加百分比: "%:15.0*{level}"
+    击杀: "只:4-{level}"
+    增幅: "%:15.0*{level}"
   modifiable:
     当前累计: test_current_total=0
     是否充能完毕: can_discharge=充能中
@@ -38,7 +38,7 @@ mechanisms:
       listen: "entity-damage-by-entity"
       handle: |-
         set total to type int modifiable-var &enchant &item 当前累计
-        set multiplier to type double &伤害增加百分比
+        set multiplier to type double &伤害提高百分比
         set damage to &event[damage]
 
         if check &total >= type int &击杀累计 then {

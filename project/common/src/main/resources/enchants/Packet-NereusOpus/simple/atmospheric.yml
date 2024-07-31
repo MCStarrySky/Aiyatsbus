@@ -16,12 +16,12 @@ limitations: [ ]
 
 display:
   description:
-    general: "在空中时投掷的三叉戟伤害提升"
-    specific: "&7在空中时投掷的三叉戟伤害提升&a{倍数}"
+    general: "在空中时投掷的三叉戟造成的伤害提高"
+    specific: "&7在空中时投掷的三叉戟造成的伤害提高&a{增幅}"
 
 variables:
   leveled:
-    倍数: "倍:1+0.1*{level}"
+    增幅: "%:10*{level}"
 
 mechanisms:
   listeners:
@@ -32,5 +32,7 @@ mechanisms:
           instance-of &event[damager] is org.bukkit.entity.Projectile
           not &player[isOnGround]
         ] then {
-          set &event[damage] to math mul [ &event[damage] type double &倍数 ]
+          set multiplier to type double &增幅
+          set damage to &event[damage]
+          set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"
         }

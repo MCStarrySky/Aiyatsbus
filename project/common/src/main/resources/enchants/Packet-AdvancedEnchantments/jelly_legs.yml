@@ -17,8 +17,8 @@ limitations:
 
 display:
   description:
-    general: "摔伤时可减少伤害并弹起"
-    specific: "&7不超过&a{最大高度}&7的摔伤时减少&a{减少伤害}&7伤害并弹起"
+    general: "受到摔落伤害时可减少伤害并弹起"
+    specific: "&7受到不超过&a{最大高度}&7的摔落伤害时减少&a{减少伤害}&7并弹起"
 
 variables:
   leveled:
@@ -34,6 +34,7 @@ mechanisms:
     on-entity-damage:
       listen: "entity-damage"
       # 下面有个公式建议不要修改, 已调整至最平衡 (set y to calc "0.1804 * height - 0.0044 * height * height + 0.00004 * height * height * height")
+      # 受到伤害小于0时取消伤害
       handle: |-
         set fallDistance to &event[entity.fallDistance]
         set height to calc "fallDistance / 2"
@@ -42,13 +43,15 @@ mechanisms:
 
         if check &event[cause] is FALL then {
           if check &fallDistance <= type double &最大高度 then {
-
             set y to calc "0.1804 * height - 0.0044 * height * height + 0.00004 * height * height * height"
             set velocity to vec build 0.0 &y 0.0
 
             set &event[entity.velocity] to &velocity
-            set &event[damage] to calc "eventDamage - damage"
-
+            if check calc "eventDamage - damage" <= 0.0 then {
+              set &event[is-cancelled] to true
+            } else {
+              set &event[damage] to calc "eventDamage - damage"
+            }
           }
         } else {
           set &mirror[isCancelled] to true

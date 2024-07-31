@@ -17,8 +17,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "射出的箭矢有概率损坏对手的装备"
-    specific: "&7射出的箭矢有&a{概率}&7的概率损坏对手的装备"
+    general: "射出的箭矢有概率使目标装备耐久度降低"
+    specific: "&7射出的箭矢有&a{概率}&7的概率使目标装备耐久度降低{耐久}"
 
 variables:
   leveled:

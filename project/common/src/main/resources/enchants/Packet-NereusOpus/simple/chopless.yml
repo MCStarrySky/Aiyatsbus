@@ -19,12 +19,12 @@ limitations: [ ]
 
 display:
   description:
-    general: "来自斧的伤害降低"
-    specific: "&7来自斧的伤害降低&a{倍数}"
+    general: "受到来自斧的伤害降低"
+    specific: "&7受到来自斧的伤害降低&a{减少量}"
 
 variables:
   leveled:
-    倍数: "倍:1-0.05*{level}"
+    减少量: "%:5*{level}"
 
 mechanisms:
   listeners:
@@ -35,7 +35,9 @@ mechanisms:
           set tool to equip-get-item HAND from &event[damager]
           if check &tool not null then {
             if check axes in &tool[belongingTargets] then {
-              set &event[damage] to math mul [ &event[damage] type double &倍数 ]
+              set multiplier to type double &减少量
+              set damage to &event[damage]
+              set &event[damage] to calc "damage * ( 1 - multiplier / 100 )"
             }
           }
         }

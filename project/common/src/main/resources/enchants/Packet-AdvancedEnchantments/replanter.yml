@@ -6,7 +6,8 @@
 basic:
   id: replanter
   name: "再植"
-  max_level: 2
+  # 让这个附魔更有用一点，3级即可不踩坏耕地
+  max_level: 3
 
 rarity: 罕见
 targets:
@@ -16,8 +17,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "把庄稼踩坏时，只会让其退化而不是掉落"
-    specific: "&7把庄稼踩坏时，只会让其退化&a{退化阶段}"
+    general: "踩坏耕地时，不会使作物掉落而是会使其退化若干阶段"
+    specific: "&7踩坏耕地时，不会使作物掉落而是会使其退化&a{退化阶段}"
 
 variables:
   leveled:

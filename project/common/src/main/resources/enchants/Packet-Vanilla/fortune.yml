@@ -23,4 +23,4 @@ limitations:
 
 display:
   description:
-    general: "增加破坏方块时物品的掉落数量或掉落概率"
+    general: "提高破坏方块时物品的掉落数量或掉落概率"

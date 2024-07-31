@@ -18,8 +18,8 @@ limitations:
 
 display:
   description:
-    general: "近战攻击时有概率使对手流血"
-    specific: "&7近战攻击时有&a{概率}&7的概率使对手流血 (伤害:&a{每次伤害}&7/&a{间隔} &7持续&a{持续时间}&7)"
+    general: "近战攻击时有概率使目标陷入流血状态"
+    specific: "&7近战攻击时有&a{概率}&7的概率每&a{间隔}对目标造成&a{每次伤害}&7伤害，&7持续&a{持续时间}"
 
 variables:
   leveled:

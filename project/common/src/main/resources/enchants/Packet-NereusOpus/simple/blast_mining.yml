@@ -8,7 +8,8 @@ basic:
   name: 立方
   max_level: 1
 
-rarity: 罕见
+# 自己服里试了试，感觉比较有用，故提升稀有度
+rarity: 精良
 
 targets:
   - 镐

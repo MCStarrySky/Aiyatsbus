@@ -20,12 +20,12 @@ limitations:
 
 display:
   description:
-    general: "射出的箭矢爆头伤害提升"
-    specific: "&7射出的箭矢爆头伤害提升&a{倍数}"
+    general: "射出的箭矢爆头时造成的伤害提高"
+    specific: "&7射出的箭矢爆头时造成伤害提高&a{增幅}"
 
 variables:
   leveled:
-    倍数: "倍:1+0.05*{level}"
+    增幅: "%:5*{level}"
 
 mechanisms:
   listeners:
@@ -42,5 +42,7 @@ mechanisms:
           if check &arrow[location.y] < &b then {
             exit
           }
-          set &event[damage] to math mul [ &event[damage] type double &倍数 ]
+          set multiplier to type double &增幅
+          set damage to &event[damage]
+          set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"
         }

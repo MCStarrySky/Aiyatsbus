@@ -17,7 +17,7 @@ limitations:
 
 display:
   description:
-    general: "右击可范围播种小麦(需要种子)"
+    general: "右击可范围播种小麦"
     specific: "&7右击可范围播种小麦(需要种子) (&a{边长}×&a{边长} &7冷却:&a{冷却}&7)"
 
 variables:

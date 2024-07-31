@@ -18,8 +18,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "使得被射中/抛掷中的血量降低的玩家血量恢复"
-    specific: "&7使得被射中/抛掷中的血量降低的玩家血量恢复&a{血量}"
+    general: "攻击不会对玩家造成伤害，并恢复被攻击玩家的生命值"
+    specific: "&7攻击使得被攻击的玩家恢复&a{恢复量}&7最大生命值"
 
 variables:
   leveled:

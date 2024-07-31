@@ -17,8 +17,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "在攻击时有概率损坏对手盔甲"
-    specific: "&7在攻击时有&a{概率}&7的概率损坏对手盔甲"
+    general: "在攻击时有概率使目标盔甲耐久度降低"
+    specific: "&7在攻击时有&a{概率}&7的概率使目标盔甲耐久度降低&a{耐久}"
 
 variables:
   leveled:
