@@ -16,8 +16,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "在空中时投掷的三叉戟造成的伤害提高"
-    specific: "&7在空中时投掷的三叉戟造成的伤害提高&a{增幅}"
+    general: "在空中投掷的三叉戟造成的伤害提高"
+    specific: "&7在空中投掷的三叉戟造成的伤害提高&a{增幅}"
 
 variables:
   leveled:

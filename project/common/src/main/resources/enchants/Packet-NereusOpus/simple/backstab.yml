@@ -17,8 +17,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "攻击对手后方时造成的伤害提高"
-    specific: "&7攻击对手后方时造成的伤害提高&a{增幅}"
+    general: "在目标后方攻击时造成的伤害提高"
+    specific: "&7在目标后方攻击时造成的伤害提高&a{增幅}"
 
 variables:
   leveled:

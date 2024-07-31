@@ -19,7 +19,7 @@ limitations: [ ]
 display:
   description:
     general: "攻击不会对玩家造成伤害，并恢复被攻击玩家的生命值"
-    specific: "&7攻击使得被攻击的玩家恢复&a{恢复量}&7最大生命值"
+    specific: "&7使被攻击的玩家恢复&a{恢复量}&7最大生命值"
 
 variables:
   leveled:
@@ -42,7 +42,7 @@ mechanisms:
           exit
         }
         set added to math add [ &event[entity.health] type double &血量 ]
-        set &event[damage] to 0
+        set &event[is-cancelled] to true
         add-potion-effect GLOWING on &event[entity] duration 3 amplifier 1
         set &event[entity.health] to min &added &event[entity.max-health]
 

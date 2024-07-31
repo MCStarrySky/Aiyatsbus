@@ -20,8 +20,8 @@ limitations:
 
 display:
   description:
-    general: "射出的箭矢爆头时造成的伤害提高"
-    specific: "&7射出的箭矢爆头时造成伤害提高&a{增幅}"
+    general: "射出的箭矢命中目标头部时造成的伤害提高"
+    specific: "&7射出的箭矢命中目标头部时造成的伤害提高&a{增幅}"
 
 variables:
   leveled:

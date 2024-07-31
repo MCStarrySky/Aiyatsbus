@@ -4,33 +4,34 @@
 
 
 basic:
-  id: diurnal
-  name: 昼行
-  max_level: 4
+  id: end_infusion
+  name: 尽头
+  max_level: 5
 
 rarity: 精良
 
 targets:
   - 剑
+  - 弓
+  - 弩
 
-limitations:
-  - "CONFLICT_ENCHANT:夜伏"
+limitations: [ ]
 
 display:
   description:
-    general: "白天时造成的伤害提高"
-    specific: "&7白天时造成的伤害提高&a{增幅}"
+    general: "在末地维度时造成的伤害提高"
+    specific: "&7在末地维度时造成的伤害提高&a{增幅}"
 
 variables:
   leveled:
-    增幅: "%:5*{level}"
+    增幅: "%:8*{level}"
 
 mechanisms:
   listeners:
     on-damage:
       listen: "entity-damage-by-entity"
       handle: |-
-        if &event[entity.world.isDay] then {
+        if check &event[entity.world.environment] is THE_END then {
           set multiplier to type double &增幅
           set damage to &event[damage]
           set &event[damage] to calc "damage * ( 1 + multiplier / 100 )"
