@@ -31,4 +31,4 @@ mechanisms:
     on-trigger:
       interval: 20
       handle: |-
-        print 1
+# TODO 根据变量初始化interval

@@ -47,15 +47,15 @@ object Aiming {
         }
 
         var target: Mob? = (
-                // 优先寻找玩家所指向的实体
-                shooter.getTargetEntity(
-                    range.roundToInt() * 2
-                ) ?: shooter.getTargetBlockExact( // 如果没有，则根据距离找可用的实体
-                    range.roundToInt() * 2
-                )?.location?.getNearbyEntities(range, range, range)?.firstOrNull()
-                )?.let {
-                if (targetCriteria(it)) it as? Mob else null
-            } // 如果有预先瞄准则获取特定的目标并持续追踪
+            // 优先寻找玩家所指向的实体
+            shooter.getTargetEntity(
+                range.roundToInt() * 2
+            ) ?: shooter.getTargetBlockExact( // 如果没有，则根据距离找可用的实体
+                range.roundToInt() * 2
+            )?.location?.getNearbyEntities(range, range, range)?.firstOrNull()
+        )?.let {
+            if (targetCriteria(it)) it as? Mob else null
+        } // 如果有预先瞄准则获取特定的目标并持续追踪
 
 
         submit(delay = 1L, period = ticks) {
