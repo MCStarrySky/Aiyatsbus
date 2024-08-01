@@ -63,6 +63,7 @@ object PacketSystemChat {
 
             try {
                 // 弱者做法: 二次解析, 防止 GsonComponentSerializer 把单引号解析成 \u0027
+                // TODO: warning: Source: 'xxxxx'
                 json = Configuration.loadFromString(json, Type.FAST_JSON).saveToString()
             } catch (_: Throwable) {
                 return component
