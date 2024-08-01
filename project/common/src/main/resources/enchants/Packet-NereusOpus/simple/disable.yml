@@ -8,16 +8,17 @@ basic:
   name: "疲倦"
   max_level: 3
 
-rarity: 精良
+rarity: 罕见
 targets:
+  - 剑
   - 斧
 
 limitations: [ ]
 
 display:
   description:
-    general: "在攻击时有概率使目标获得挖掘疲劳效果"
-    specific: "&7在攻击时有&a{概率}&7的概率使目标获得&a{效果等级}&7的挖掘疲劳效果，持续&a{持续时间}"
+    general: "蓄力攻击有概率使目标获得挖掘疲劳效果"
+    specific: "&7蓄力攻击有&a{概率}&7的概率使目标获得&a{效果等级}&7的挖掘疲劳效果，持续&a{持续时间}"
 
 variables:
   leveled:

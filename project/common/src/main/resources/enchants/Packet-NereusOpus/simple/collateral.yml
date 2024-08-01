@@ -6,7 +6,7 @@
 basic:
   id: collateral
   name: 穿心
-  max_level: 1
+  max_level: 2
 
 rarity: 史诗
 
@@ -18,12 +18,12 @@ limitations:
 
 display:
   description:
-    general: "射出的箭矢伤害降低但能够穿透盾牌和生物"
-    specific: "&7射出的箭矢伤害降低&a{减少量}&7但能够无视盾牌并穿透生物&a{次数}"
+    general: "箭矢伤害降低，但能够穿透盾牌和生物"
+    specific: "&7箭矢伤害降低&a{减少量}&7，但能够无视盾牌并穿透生物&a{次数}"
 
 variables:
   leveled:
-    减少量: "%:50"
+    减少量: "%:20-5*{level}"
     次数: "次:{level}"
 
 mechanisms:
@@ -36,6 +36,6 @@ mechanisms:
     on-damage:
       listen: "entity-damage-by-entity"
       handle: |-
-        set multiplier to type double &增幅
+        set multiplier to type double &减少量
         set damage to &event[damage]
-        set &event[damage] to calc "damage * ( 1 - multiplier / 100 )"
+        set &event[damage] to math mul [ &damage math sub [ 1 math div [ &multiplier 100 ] ] ]

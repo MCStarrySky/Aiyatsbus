@@ -20,8 +20,8 @@ limitations:
 
 display:
   description:
-    general: "减少在水中受到的减速效果"
-    specific: "&7减少&a{抵消量}&7在水中受到的减速效果"
+    general: "无视部分在水中受到的减速效果"
+    specific: "&7无视&a{抵消量}&7在水中受到的减速效果"
 
 # 原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:

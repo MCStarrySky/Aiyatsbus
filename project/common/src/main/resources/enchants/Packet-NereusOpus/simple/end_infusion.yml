@@ -6,9 +6,9 @@
 basic:
   id: end_infusion
   name: 尽头
-  max_level: 5
+  max_level: 4
 
-rarity: 精良
+rarity: 罕见
 
 targets:
   - 剑
@@ -24,7 +24,7 @@ display:
 
 variables:
   leveled:
-    增幅: "%:8*{level}"
+    增幅: "%:6*{level}"
 
 mechanisms:
   listeners:

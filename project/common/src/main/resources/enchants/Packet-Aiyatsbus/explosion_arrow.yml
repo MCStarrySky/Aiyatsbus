@@ -8,7 +8,6 @@ basic:
   disable_worlds: [ ]
   id: explosion_arrow
   name: "炸弹"
-  # 经测试该附魔伤害较为超模，故降低最大等级
   max_level: 3
 
 rarity: 稀世

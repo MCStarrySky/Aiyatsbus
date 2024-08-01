@@ -17,7 +17,7 @@ targets:
 
 display:
   description:
-    general: "提高三叉戟对水生生物的伤害"
+    general: "提高三叉戟对水生生物的基础伤害"
     specific: "&7对水生生物的基础伤害提高&a{伤害提高}"
 
 # 原版附魔机制本插件不提供修改，因此此处改了也没有效果

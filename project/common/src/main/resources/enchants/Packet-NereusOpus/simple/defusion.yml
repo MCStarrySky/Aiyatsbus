@@ -30,12 +30,12 @@ limitations:
 
 display:
   description:
-    general: "对爬行者的伤害提高"
-    specific: "&7对爬行者的伤害提高&a{增幅}"
+    general: "对苦力怕的伤害提高"
+    specific: "&7对苦力怕的伤害提高&a{增幅}"
 
 variables:
   leveled:
-    增幅: "%:50*{level}"
+    增幅: "%:18*{level}"
 
 mechanisms:
   listeners:

@@ -8,7 +8,7 @@ basic:
   name: "终末"
   max_level: 4
 
-rarity: 普通
+rarity: 罕见
 targets:
   - 剑
   - 斧
@@ -26,8 +26,7 @@ display:
 
 variables:
   leveled:
-    # 因为作用范围包含末影龙boss，故削弱数值
-    增幅: "%:20*{level}"
+    增幅: "%:8*{level}"
 
 mechanisms:
   listeners:

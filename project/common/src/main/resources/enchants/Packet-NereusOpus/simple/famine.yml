@@ -16,16 +16,16 @@ limitations: [ ]
 
 display:
   description:
-    general: "攻击时有概率使目标获得饥饿效果"
-    specific: "&7攻击时有&a{概率}&7的概率使对手获得&a{效果等级}&7的饥饿效果，持续&a{持续时间}"
+    general: "蓄力攻击有概率使目标获得饥饿效果"
+    specific: "&7蓄力攻击有&a{概率}&7的概率使目标获得&a{效果等级}&7的饥饿效果，持续&a{持续时间}"
 
 variables:
   leveled:
     # 你也可以改成刻为单位, 但是记得要改下面脚本, 不要乘 20
     # 那默认的参数就是: "刻:40*{level}", 1 秒等于 20 刻
-    持续时间: "秒:2*{level}"
+    持续时间: "秒:5*{level}"
     概率: "%:3*{level}"
-    效果等级: "级:0.5+{level}/2"
+    效果等级: "级:0.5+{level}*0.75"
   ordinary:
     require-full-charge: true
 

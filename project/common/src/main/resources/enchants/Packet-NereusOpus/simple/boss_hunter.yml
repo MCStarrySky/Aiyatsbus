@@ -8,7 +8,7 @@ basic:
   name: "破魔"
   max_level: 4
 
-rarity: 罕见
+rarity: 精良
 targets:
   - 弓
   - 弩
@@ -25,12 +25,12 @@ limitations:
 
 display:
   description:
-    general: "对BOSS类生物的伤害提高"
-    specific: "&7对BOSS类生物的伤害提高&a{增幅}"
+    general: "箭矢对BOSS类生物的伤害提高"
+    specific: "&7箭矢对BOSS类生物的伤害提高&a{增幅}"
 
 variables:
   leveled:
-    增幅: "%:25*{level}"
+    增幅: "%:6*{level}"
 
 mechanisms:
   listeners:

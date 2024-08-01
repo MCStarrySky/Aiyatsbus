@@ -17,13 +17,13 @@ limitations: [ ]
 
 display:
   description:
-    general: "射出的箭矢有概率使目标装备耐久度降低"
-    specific: "&7射出的箭矢有&a{概率}&7的概率使目标装备耐久度降低{耐久}"
+    general: "箭矢有概率损坏目标盔甲"
+    specific: "&7箭矢有&a{概率}&7的概率使目标装备耐久度降低{耐久}"
 
 variables:
   leveled:
     耐久: "点:{level}"
-    概率: "%:5*{level}"
+    概率: "%:6+8*{level}"
 
 mechanisms:
   listeners:

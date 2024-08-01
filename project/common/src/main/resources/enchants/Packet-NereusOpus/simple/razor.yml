@@ -26,7 +26,7 @@ display:
 
 variables:
   leveled:
-    增幅: "%:10*{level}"
+    增幅: "%:18*{level}"
   ordinary:
     disable-on-players: false
     decrease-if-cooldown: true

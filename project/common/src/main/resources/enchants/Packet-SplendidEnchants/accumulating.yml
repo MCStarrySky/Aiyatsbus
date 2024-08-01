@@ -8,7 +8,7 @@ basic:
   disable_worlds: [ ]
   id: accumulating
   name: "蓄能"
-  max_level: 2
+  max_level: 3
 
 rarity: 史诗
 targets:
@@ -27,7 +27,7 @@ display:
 variables:
   leveled:
     击杀: "只:4-{level}"
-    增幅: "%:15.0*{level}"
+    增幅: "%:16.0*{level}"
   modifiable:
     当前累计: test_current_total=0
     是否充能完毕: can_discharge=充能中

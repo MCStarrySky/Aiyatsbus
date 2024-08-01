@@ -21,8 +21,8 @@ limitations:
 
 display:
   description:
-    general: "使所到之处附近的水结冰"
-    specific: "&7使所到之处&a{结冰半径}&7内的水结冰"
+    general: "在地面上时使周围的水结冰"
+    specific: "&7在地面上时使&a{结冰半径}&7内的水结冰"
 
 # 原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:

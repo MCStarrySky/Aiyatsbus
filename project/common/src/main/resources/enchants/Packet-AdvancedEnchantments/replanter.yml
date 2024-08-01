@@ -6,7 +6,6 @@
 basic:
   id: replanter
   name: "再植"
-  # 让这个附魔更有用一点，3级即可不踩坏耕地
   max_level: 3
 
 rarity: 罕见

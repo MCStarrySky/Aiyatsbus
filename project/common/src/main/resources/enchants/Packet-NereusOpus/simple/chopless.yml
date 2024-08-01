@@ -24,7 +24,7 @@ display:
 
 variables:
   leveled:
-    减少量: "%:5*{level}"
+    减少量: "%:4*{level}"
 
 mechanisms:
   listeners:

@@ -8,7 +8,7 @@ basic:
   disable_worlds: [ ]
   id: accumulation
   name: "蓄力"
-  max_level: 8
+  max_level: 4
 
 rarity: 精良
 targets:
@@ -25,8 +25,8 @@ display:
 
 variables:
   leveled:
-    时间: "秒:8-0.5*{level}"
-    增幅: "%:5*{level}"
+    时间: "秒:10-{level}"
+    增幅: "%:12*{level}"
 
 mechanisms:
   listeners:

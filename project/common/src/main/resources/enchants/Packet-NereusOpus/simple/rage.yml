@@ -17,8 +17,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "射出的箭矢造成伤害时有概率号召附近的怪物攻击目标"
-    specific: "&7射出的箭矢造成伤害时有&a{概率}&7的概率号召附近&a{范围}&7内的怪物攻击目标"
+    general: "箭矢造成伤害时有概率号召附近的怪物攻击目标"
+    specific: "&7箭矢造成伤害时有&a{概率}&7的概率号召附近&a{范围}&7内的怪物攻击目标"
 
 variables:
   leveled:

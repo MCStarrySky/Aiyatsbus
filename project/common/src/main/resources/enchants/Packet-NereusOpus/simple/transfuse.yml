@@ -8,7 +8,6 @@ basic:
   name: 洗炼
   max_level: 3
 
-# 自己服务器试了试，搭配立方有点超模，故提升稀有度
 rarity: 传奇
 
 targets:
@@ -20,8 +19,8 @@ limitations:
 
 display:
   description:
-    general: "在挖掘石头时有概率掉落随机矿物"
-    specific: "&7在挖掘石头时有&a{概率}&7的概率掉落随机矿物"
+    general: "挖掘石头时有概率掉落随机矿物"
+    specific: "&7挖掘石头时有&a{概率}&7的概率掉落随机矿物"
 
 variables:
   leveled:

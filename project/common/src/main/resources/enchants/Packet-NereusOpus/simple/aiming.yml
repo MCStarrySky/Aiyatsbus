@@ -16,8 +16,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "射出的箭矢将自动追踪目标"
-    specific: "&7射出的箭矢将自动追踪&a{范围}&7范围内目标"
+    general: "箭矢会自动追踪目标"
+    specific: "&7箭矢会自动追踪&a{范围}&7内目标的头部"
 
 variables:
   leveled:
@@ -26,7 +26,7 @@ variables:
   ordinary:
     require-full-charge: false
     color: "RED"
-    black-list: allay,villager,wandering_trader,wolf,cat,bat,enderman,horse,skeleton_horse,zombie_horse
+    black-list: allay,villager,wandering_trader,wolf,cat,bat,enderman,horse,skeleton_horse,zombie_horse,pig,cow,horse,sheep,camel,chicken,cod,dolphin,donkey,fox,frog,goat,iron_golem,llama,mule,ocelot,panda,parrot,polar_bear,pufferfish,rabbit,salmon,sniffer,snow_golem,trader_llama,tropical_fish,turtle,wandering_trader,villager
 
 mechanisms:
   listeners:
