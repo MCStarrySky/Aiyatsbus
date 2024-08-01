@@ -31,7 +31,7 @@ class EventMapping @JvmOverloads constructor(
     val eventPriorities: List<EventPriority> = (if (root.isList("priorities")) root.getStringList("priorities")
         .mapNotNull { it.enumOf<EventPriority>() } else listOfNotNull(
         root.getString("priorities").enumOf<EventPriority>()
-    )).ifEmpty { listOf(EventPriority.HIGHEST) }
+    )).ifEmpty { listOf(EventPriority.HIGHEST) } // TODO: 除 HIGHEST 其他无法注册问题
 ) {
 
     operator fun component1() = clazz
