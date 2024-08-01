@@ -3,6 +3,7 @@ package com.mcstarrysky.aiyatsbus.core.data.trigger
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.data.trigger.event.EventExecutor
+import com.mcstarrysky.aiyatsbus.core.util.coerceInt
 import taboolib.library.configuration.ConfigurationSection
 import java.util.concurrent.ConcurrentHashMap
 
@@ -13,7 +14,14 @@ import java.util.concurrent.ConcurrentHashMap
  * @author mical
  * @since 2024/3/9 18:36
  */
-data class Trigger(private val section: ConfigurationSection?, private val enchant: AiyatsbusEnchantment) {
+data class Trigger(
+    private val section: ConfigurationSection?,
+    private val enchant: AiyatsbusEnchantment,
+    val tickerPriority: Int = (section?.getString("tickerPriority")
+        ?: section?.getString("ticker-priority")).coerceInt(0),
+    val listenerPriority: Int = (section?.getString("listenerPriority")
+        ?: section?.getString("listener-priority")).coerceInt(0),
+) {
 
     val listeners: ConcurrentHashMap<String, EventExecutor> = ConcurrentHashMap()
     val tickers: ConcurrentHashMap<String, Ticker> = ConcurrentHashMap()
@@ -26,9 +34,10 @@ data class Trigger(private val section: ConfigurationSection?, private val encha
         section?.getConfigurationSection("tickers")?.let { tickersSection ->
             tickers += tickersSection.getKeys(false)
                 .associateWith { Ticker(tickersSection.getConfigurationSection(it)!!, enchant) }
-                .mapKeys { "${enchant.basicData.id}.$it" }
-                .also {
-                    it.entries.forEach { (id, ticker) -> Aiyatsbus.api().getTickHandler().getRoutine().put(enchant, id, ticker.interval) }
+                .mapKeys { "${enchant.basicData.id}.$it" }.also {
+                    it.entries.forEach { (id, ticker) ->
+                        Aiyatsbus.api().getTickHandler().getRoutine().put(enchant, id, ticker.interval)
+                    }
                 }
         }
     }

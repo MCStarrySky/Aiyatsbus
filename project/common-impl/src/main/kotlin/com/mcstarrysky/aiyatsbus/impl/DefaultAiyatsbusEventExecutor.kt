@@ -182,13 +182,18 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
     }
 
     private fun ItemStack.triggerEts(listen: String, event: Event, eventPriority: EventPriority, entity: LivingEntity, slot: EquipmentSlot?, ignoreSlot: Boolean = false) {
-        for (enchantPair in fixedEnchants) {
+
+        val enchants = fixedEnchants.entries.sortedBy { it.key.trigger.listenerPriority }
+
+        for (enchantPair in enchants) {
             val enchant = enchantPair.key
 
             if (!enchant.limitations.checkAvailable(CheckType.USE, this, entity, slot, ignoreSlot).first) continue
 
             enchant.trigger.listeners
                 .filterValues { it.listen == listen }
+                .entries
+                .sortedBy { it.value.priority }
                 .forEach { (_, executor) ->
                     val vars = mutableMapOf(
                         "triggerSlot" to slot?.name,
