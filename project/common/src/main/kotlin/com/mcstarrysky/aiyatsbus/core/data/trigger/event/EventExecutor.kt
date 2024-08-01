@@ -18,7 +18,8 @@ data class EventExecutor @JvmOverloads constructor(
     private val root: ConfigurationSection,
     private val enchant: AiyatsbusEnchantment,
     val listen: String = root.getString("listen")!!,
-    val handle: String = root.getString("handle") ?: ""
+    val handle: String = root.getString("handle") ?: "",
+    val priority: Int = root.getInt("priority", 0)
 ) {
 
     init {
