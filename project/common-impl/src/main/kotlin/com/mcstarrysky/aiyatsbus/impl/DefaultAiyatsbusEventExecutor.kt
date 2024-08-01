@@ -60,6 +60,8 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
     private val listeners: Table<String, EventPriority, ProxyListener> = HashBasedTable.create()
 
+    private val cachedClasses = ConcurrentHashMap<String, Class<*>>()
+
     init {
         resolvers += PlayerEvent::class.java to EventResolver<PlayerEvent>({ event, _ -> event.player })
         resolvers += PlayerMoveEvent::class.java to EventResolver<PlayerMoveEvent>(
@@ -101,12 +103,12 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
     }
 
     override fun registerListener(listen: String, eventMapping: EventMapping) {
-        val (clazz, _, _, _, eventPriorities) = eventMapping
-        eventPriorities.forEach { priority ->
-            listeners.put(listen, priority, registerBukkitListener(Class.forName(clazz), priority, true) {
-                processEvent(listen, it as? Event ?: return@registerBukkitListener, eventMapping, priority)
-            })
-        }
+        val (className, _, _, _, priority, ignoreCancelled) = eventMapping
+        // 缓存
+        val clazz = cachedClasses.computeIfAbsent(className) { Class.forName(className) }
+        listeners.put(listen, priority, registerBukkitListener(clazz, priority, ignoreCancelled) {
+            processEvent(listen, it as? Event ?: return@registerBukkitListener, eventMapping, priority)
+        })
     }
 
     override fun registerListeners() {
@@ -150,6 +152,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
     }
 
     private fun processEvent(listen: String, event: Event, eventMapping: EventMapping, eventPriority: EventPriority) {
+//        println("我是 $listen, 我的优先级是 ${eventPriority.name}")
         val resolver = getResolver(event) ?: return
         /* 特殊事件处理 */
         resolver.eventResolver.apply(event)
@@ -185,7 +188,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
             if (!enchant.limitations.checkAvailable(CheckType.USE, this, entity, slot, ignoreSlot).first) continue
 
             enchant.trigger.listeners
-                .filterValues { it.priority == eventPriority && it.listen == listen }
+                .filterValues { it.listen == listen }
                 .forEach { (_, executor) ->
                     val vars = mutableMapOf(
                         "triggerSlot" to slot?.name,
