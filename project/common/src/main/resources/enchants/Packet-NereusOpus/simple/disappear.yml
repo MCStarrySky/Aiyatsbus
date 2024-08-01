@@ -24,7 +24,7 @@ display:
 
 variables:
   leveled:
-    阈值: "%:0.05*{level}"
+    阈值: "%:5*{level}"
 
 mechanisms:
   tickers:
@@ -32,7 +32,7 @@ mechanisms:
       interval: 100
       handle: |-
         if any [ check player gamemode is SURVIVAL check player gamemode is ADVENTURE ] then {
-          if check math div [ player health player max health ] <= type double &阈值 then [
-            add-potion-effect INVISIBILITY on &event[entity] duration 100 amplifier 0
-          ]
+          if check math div [ player health player max health ] <= type double math div [ type double &阈值 100 ] then {
+            add-potion-effect INVISIBILITY on &player duration 100 amplifier 0
+          }
         }
