@@ -55,7 +55,7 @@ object EnchantSearchUI {
             rows(shape.rows)
             val slots = shape["EnchantSearch:enchant"].toList()
             slots(slots)
-            elements { Aiyatsbus.api().getEnchantmentFilter().filter(player.filters) }
+            elements { Aiyatsbus.api().getEnchantmentFilter().filter(player.filters).filter { it.basicData.enable } }
 
             load(
                 shape, templates, player,

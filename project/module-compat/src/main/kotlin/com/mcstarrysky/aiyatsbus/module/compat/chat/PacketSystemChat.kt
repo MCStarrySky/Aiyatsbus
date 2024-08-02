@@ -6,6 +6,7 @@ import com.google.gson.JsonObject
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.toDisplayMode
 import com.mcstarrysky.aiyatsbus.core.util.JSON_PARSER
+import com.mcstarrysky.aiyatsbus.core.util.isValidJson
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import org.bukkit.entity.Player
@@ -60,6 +61,9 @@ object PacketSystemChat {
     fun modify(component: Component, player: Player): Component {
         try {
             var json = gson.serialize(component)
+
+            // 尝试修复 Source: '' 的警告
+            if (!json.isValidJson()) return component
 
             try {
                 // 弱者做法: 二次解析, 防止 GsonComponentSerializer 把单引号解析成 \u0027

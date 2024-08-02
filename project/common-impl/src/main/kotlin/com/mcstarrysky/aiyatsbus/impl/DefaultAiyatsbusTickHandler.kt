@@ -55,7 +55,9 @@ class DefaultAiyatsbusTickHandler : AiyatsbusTickHandler {
 
     private fun onTick() {
         counter++
-        routine.cellSet().filter { counter % it.value == 0L }.forEach {
+        routine.cellSet().filter { counter % it.value == 0L }
+            .sortedBy { it.rowKey.trigger.tickerPriority }
+            .forEach {
             val ench = it.rowKey
             val id = it.columnKey
             val slots = ench.targets.flatMap { it.activeSlots }.toSet()
