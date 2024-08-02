@@ -12,6 +12,7 @@ import com.google.gson.Gson
 val GSON = Gson()
 
 fun String.isValidJson(): Boolean {
+    if (trim().isEmpty() || !startsWith("{")) return false
     return kotlin.runCatching {
         GSON.fromJson(this, Any::class.java)
     }.isSuccess
