@@ -6,7 +6,7 @@
 basic:
   id: wings
   name: "反重力"
-  max_level: 1
+  max_level: 2
 
 rarity: 传奇
 targets:
@@ -38,7 +38,7 @@ mechanisms:
             player allow flight to true
           }
           if all [
-            check math div [ &item[dura] &item[max-dura] ] <= 0.1
+            check math div [ type double &item[dura] &item[max-dura] ] <= 0.1
             player flying
           ] then {
             player flying to false
