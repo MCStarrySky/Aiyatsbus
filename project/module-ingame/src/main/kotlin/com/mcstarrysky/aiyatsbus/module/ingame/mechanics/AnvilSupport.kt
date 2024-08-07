@@ -234,16 +234,18 @@ object AnvilSupport {
                 tempLeftItem.addEt(rightEnchant, level)
                 outEnchants += rightEnchant to level
             }
-
-            // 上标记
-            if (!mergedEnchants) mergedEnchants = true
         }
 
-        // 向结果物品中增加附魔, 同时计算经验等级
-        for ((outEnchant, level) in outEnchants) {
-            result?.addEt(outEnchant, level)
-            val previousLevel = leftEnchants[outEnchant] ?: 0
-            experience += enchantCostPerLevel.calcToDouble("max_level" to outEnchant.basicData.maxLevel) * (level - previousLevel)
+        if (leftEnchants != outEnchants) {
+            // 上标记
+            mergedEnchants = true
+
+            // 向结果物品中增加附魔, 同时计算经验等级
+            for ((outEnchant, level) in outEnchants) {
+                result?.addEt(outEnchant, level)
+                val previousLevel = leftEnchants[outEnchant] ?: 0
+                experience += enchantCostPerLevel.calcToDouble("max_level" to outEnchant.basicData.maxLevel) * (level - previousLevel)
+            }
         }
 
         // 如果最后产出的物品跟原来的一模一样, 且没有合并附魔, 就是压根没改
