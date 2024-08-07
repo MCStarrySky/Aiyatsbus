@@ -31,7 +31,7 @@ limitations:
 display:
   description:
     general: "对动物的伤害提高"
-    specific: "&7对动物的伤害提高&a{伤害}"
+    specific: "&7对动物的伤害提高&a{增幅}"
 
 variables:
   leveled:
