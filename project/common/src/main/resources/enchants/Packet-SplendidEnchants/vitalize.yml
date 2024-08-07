@@ -16,32 +16,34 @@ limitations: [ ]
 
 display:
   description:
-    general: "受到攻击时若血量较低则恢复自身血量 &7(冷却:&a{冷却时间}秒&7)"
-    specific: "&7受到攻击时若血量不超过&a{阈值}&7则恢复&a{恢复}&7最大生命值 (&7冷却:&a{冷却}&7)"
+    general: "受到攻击时如果血量较低则恢复自身血量 &7(冷却:&a{冷却时间}秒&7)"
+    specific: "&7受到攻击时如果血量小于&a{阈值}&7则恢复&a{恢复量}&7血量 (&7冷却:&a{冷却时间}&7)"
 
 alternative:
   is_tradeable: false
 
 variables:
   leveled:
-    阈值: "%:5*{level}"
-    恢复: "%:40+15*{level}"
-    冷却: "秒:105-15*{level}"
+    阈值: "点:4*{level}"
+    恢复量: "点:6*{level}"
+    冷却时间: "秒:105-15*{level}"
 
 mechanisms:
   listeners:
     on-damage:
       listen: 'entity-damage'
       handle: |-
-        set max-health to type double &event[entity.max-health]
-        set health to type double &event[entity.health]
-        set threshold to type double &阈值
-        if check health <= calc "threshold * max-health" then {
+        if check &event[entity.health] <= type double &阈值 then {
           set cd to a-cd check &enchant &player type double &冷却时间 false
           if &cd then {
-            set multiplier to type double &恢复
-            set &event[entity.health] to calc "health * (1 + multiplier)"
+            set health to type double &event[entity.health]
+            set increase to type double &恢复量
+            set result to math add [ &health &increase ]
+            if check &result > 20 then {
+              set result to 20
+            }
+            set &event[entity.health] to &result
             a-cd add &enchant &player
-            send-lang enchant-vitalize-recovered to &event[entity] with array [ &恢复 ]
+            send-lang enchant-vitalize-recovered to &event[entity] with array [ &恢复量 ]
           }
         }
