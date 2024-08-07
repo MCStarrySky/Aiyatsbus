@@ -6,7 +6,7 @@
 basic:
   id: feather_falling
   name: "摔落保护"
-  max_level: 5
+  max_level: 4
 
 alternative:
   is_vanilla: true

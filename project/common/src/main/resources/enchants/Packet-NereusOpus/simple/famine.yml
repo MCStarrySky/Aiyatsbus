@@ -16,8 +16,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "蓄力攻击有概率使目标获得饥饿效果"
-    specific: "&7蓄力攻击有&a{概率}&7的概率使目标获得&a{效果等级}&7的饥饿效果，持续&a{持续时间}"
+    general: "攻击时有概率使对手获得饥饿效果"
+    specific: "&7攻击时有&a{概率}&7的概率使对手获得&a{时间}&7的饥饿效果"
 
 variables:
   leveled:

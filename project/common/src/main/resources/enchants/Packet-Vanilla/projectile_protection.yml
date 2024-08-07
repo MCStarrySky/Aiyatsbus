@@ -6,7 +6,7 @@
 basic:
   id: projectile_protection
   name: "弹射物保护"
-  max_level: 5
+  max_level: 4
 
 alternative:
   is_vanilla: true

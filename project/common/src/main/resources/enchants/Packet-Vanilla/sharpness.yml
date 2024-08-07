@@ -22,7 +22,7 @@ limitations:
 display:
   description:
     general: "提高近战攻击伤害"
-    specific: "近战攻击伤害提高&a{伤害提高}"
+    specific: "&7近战攻击伤害提高&a{伤害提高}"
 
 # 原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:

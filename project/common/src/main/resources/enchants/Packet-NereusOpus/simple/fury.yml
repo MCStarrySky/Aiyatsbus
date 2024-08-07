@@ -17,8 +17,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "攻击时有概率号召附近的生物攻击目标"
-    specific: "&7攻击时有&a{概率}&7的概率号召附近&a{范围}&7内的生物攻击目标"
+    general: "攻击时有概率号召附近的怪物攻击目标"
+    specific: "&7攻击时有&a{概率}&7的概率号召附近&a{范围}&7内的怪物攻击目标"
 
 variables:
   leveled:

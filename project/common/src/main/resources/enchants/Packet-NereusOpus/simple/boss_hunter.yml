@@ -25,8 +25,8 @@ limitations:
 
 display:
   description:
-    general: "箭矢对BOSS类生物的伤害提高"
-    specific: "&7箭矢对BOSS类生物的伤害提高&a{增幅}"
+    general: "箭矢对BOSS的伤害提高"
+    specific: "&7箭矢对BOSS的伤害提高&a{增幅}"
 
 variables:
   leveled:

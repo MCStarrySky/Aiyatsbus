@@ -19,8 +19,8 @@ limitations:
 
 display:
   description:
-    general: "三叉戟的伤害大幅提高"
-    specific: "&7三叉戟的伤害提高&a{增幅}"
+    general: "三叉戟造成的伤害提高"
+    specific: "&7三叉戟造成的伤害提高&a{增幅}"
 
 variables:
   leveled:

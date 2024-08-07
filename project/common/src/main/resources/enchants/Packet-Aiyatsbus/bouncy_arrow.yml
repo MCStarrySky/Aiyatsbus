@@ -17,8 +17,8 @@ targets:
 
 display:
   description:
-    general: "射出的箭矢撞到方块上可以反弹"
-    specific: "&7射出的箭矢撞到方块上最多可以反弹&a{次数}"
+    general: "射出的箭撞到方块上可以反弹"
+    specific: "&7射出的箭撞到方块上最多可以反弹&a{次数}"
 
 variables:
   leveled:

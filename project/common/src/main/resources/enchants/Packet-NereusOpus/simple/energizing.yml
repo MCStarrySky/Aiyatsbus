@@ -19,8 +19,8 @@ limitations: [ ]
 
 display:
   description:
-    general: 成功破坏方块后获得急迫效果
-    specific: 成功破坏方块后获得&a{效果等级}&7的急迫效果，持续&a{持续时间}
+    general: "挖掘后获得急迫效果"
+    specific: "挖掘后获得急迫效果，持续&a{持续时间}"
 
 variables:
   leveled:

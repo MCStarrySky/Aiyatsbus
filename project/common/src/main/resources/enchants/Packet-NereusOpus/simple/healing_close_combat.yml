@@ -17,7 +17,7 @@ limitations: [ ]
 
 display:
   description:
-    general: "蓄力攻击不会对玩家造成伤害，并恢复被攻击玩家的生命值"
+    general: "使被攻击的玩家血量恢复"
     specific: "&7使被攻击的玩家恢复&a{恢复量}&7最大生命值"
 
 variables:

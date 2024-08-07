@@ -19,8 +19,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "在末地维度时伤害提高"
-    specific: "&7在末地维度时伤害提高&a{增幅}"
+    general: "在末地时伤害提高"
+    specific: "&7在末地时伤害提高&a{增幅}"
 
 variables:
   leveled:

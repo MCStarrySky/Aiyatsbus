@@ -18,7 +18,7 @@ limitations: [ ]
 display:
   description:
     general: "箭矢有概率致盲目标"
-    specific: "&7箭矢有&a{概率}&7的概率使目标陷入&a{效果等级}&7的失明状态，持续{持续时间}"
+    specific: "&7射出的箭矢有&a{概率}&7的概率致盲命中对象，持续{持续时间}"
 
 variables:
   leveled:

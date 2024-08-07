@@ -18,7 +18,7 @@ targets:
 display:
   description:
     general: "提高横扫攻击的伤害"
-    specific: "横扫攻击的伤害附加&a{比例}&7的武器基础伤害"
+    specific: "&7横扫攻击的伤害附加&a{比例}&7的武器基础伤害"
 
 # 原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:

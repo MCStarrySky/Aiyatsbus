@@ -18,8 +18,9 @@ targets:
 display:
   description:
     general: "减少水下氧气消耗速率"
-    specific: "每次消耗氧气值时有&a{概率}&7不消耗氧气或受到窒息伤害"
+    specific: "&7每次消耗氧气值时有&a{概率}&7不消耗氧气或受到窒息伤害"
 
+# 原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:
   leveled:
     概率: "%:{level}/{level}+1"

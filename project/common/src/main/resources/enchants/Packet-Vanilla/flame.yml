@@ -18,4 +18,4 @@ targets:
 display:
   description:
     general: "点燃射中的生物"
-    specific: "点燃射中的生物&a5秒"
+    specific: "&7点燃射中的生物&a5秒"

@@ -16,8 +16,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "受到攻击时若生命值较低则恢复生命值 &7(冷却:&a{冷却时间}秒&7)"
-    specific: "&7受到攻击时若生命值不超过&a{阈值}&7则恢复&a{恢复}&7最大生命值 (&7冷却:&a{冷却}&7)"
+    general: "受到攻击时若血量较低则恢复自身血量 &7(冷却:&a{冷却时间}秒&7)"
+    specific: "&7受到攻击时若血量不超过&a{阈值}&7则恢复&a{恢复}&7最大生命值 (&7冷却:&a{冷却}&7)"
 
 alternative:
   is_tradeable: false

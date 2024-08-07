@@ -17,8 +17,8 @@ targets:
 
 display:
   description:
-    general: "提高击退距离"
-    specific: "使横向击退距离提高&a{横向}&7"
+    general: "增加击退距离"
+    specific: "&7使横向击退距离增加&a{横向}&7"
 
 # 原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:

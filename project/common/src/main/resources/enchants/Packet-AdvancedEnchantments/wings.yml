@@ -18,7 +18,7 @@ limitations:
 display:
   description:
     general: "可进入飞行状态，飞行时持续消耗装备耐久"
-    specific: "可进入飞行状态，飞行时每&a1秒&7使装备耐久降低&a{消耗耐久}"
+    specific: "可进入飞行状态，飞行时每&a1秒&7消耗装备&a{消耗耐久}&7耐久"
 
 variables:
   leveled:

@@ -23,7 +23,7 @@ limitations:
 display:
   description:
     general: "提高玩家潜行时的移动速度"
-    specific: "潜行时的移动速度提高&a{速度}"
+    specific: "&7潜行时的移动速度提高&a{速度}"
 
 # 原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:

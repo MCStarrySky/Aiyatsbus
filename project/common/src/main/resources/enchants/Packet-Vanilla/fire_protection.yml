@@ -6,7 +6,7 @@
 basic:
   id: fire_protection
   name: "火焰保护"
-  max_level: 5
+  max_level: 4
 
 alternative:
   is_vanilla: true

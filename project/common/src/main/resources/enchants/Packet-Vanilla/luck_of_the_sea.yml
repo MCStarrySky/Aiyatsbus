@@ -18,8 +18,9 @@ targets:
 display:
   description:
     general: "提高钓鱼时获得宝藏的概率"
-    specific: "使钓鱼时获得宝藏的概率提高&a{概率}"
+    specific: "&7使钓鱼时获得宝藏的概率提高&a{概率}"
 
+# 原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:
   leveled:
     概率: "%:2.1*{level}"

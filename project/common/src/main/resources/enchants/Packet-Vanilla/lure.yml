@@ -18,8 +18,9 @@ targets:
 display:
   description:
     general: "减少上钩等待时间"
-    specific: "使上钩等待时间减少&a{时间}"
+    specific: "&7使上钩等待时间减少&a{时间}"
 
+# 原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:
   leveled: 
     时间: "秒:5*{level}"

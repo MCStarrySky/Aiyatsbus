@@ -19,8 +19,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "可以挖掘更大范围的方块"
-    specific: "&7可以挖掘&a{X范围}*{Y范围}*{Z范围}&7范围的方块（潜行时禁用）"
+    general: "每次可以挖掘立方范围的方块"
+    specific: "&7每次可以挖掘&a{X范围}*{Y范围}*{Z范围}&7范围的方块"
 
 variables:
   leveled:

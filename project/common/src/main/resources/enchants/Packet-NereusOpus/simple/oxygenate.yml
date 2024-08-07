@@ -20,8 +20,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "在水中破坏方块时恢复氧气值"
-    specific: "&7在水中破坏方块时恢复&a{氧气值}&7氧气值"
+    general: "在水中破坏方块时获得氧气值"
+    specific: "&7在水中破坏方块时获得&a{氧气值}&7氧气值"
 
 variables:
   leveled:

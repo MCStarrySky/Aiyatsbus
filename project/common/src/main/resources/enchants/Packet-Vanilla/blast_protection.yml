@@ -6,7 +6,7 @@
 basic:
   id: blast_protection
   name: "爆炸保护"
-  max_level: 5
+  max_level: 4
 
 alternative:
   is_vanilla: true

@@ -17,7 +17,7 @@ limitations: [ ]
 display:
   description:
     general: "箭矢会自动追踪目标"
-    specific: "&7箭矢会自动追踪&a{范围}&7内目标的头部"
+    specific: "&7箭矢会自动追踪&a{范围}&7内的目标"
 
 variables:
   leveled:

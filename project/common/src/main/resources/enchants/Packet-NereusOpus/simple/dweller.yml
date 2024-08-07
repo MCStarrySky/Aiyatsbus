@@ -17,8 +17,8 @@ limitations: [ ]
 
 display:
   description:
-    general: "对刌民的伤害提高"
-    specific: "&7对刌民的伤害提高&a{增幅}"
+    general: "对灾厄村民的伤害提高"
+    specific: "&7对灾厄村民的伤害提高&a{增幅}"
 
 variables:
   leveled:

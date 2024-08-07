@@ -18,7 +18,7 @@ limitations:
 
 display:
   description:
-    general: "箭矢造成的伤害大幅提高"
+    general: "箭矢造成的伤害提高"
     specific: "&7箭矢造成的伤害提高&a{增幅}"
 
 variables:

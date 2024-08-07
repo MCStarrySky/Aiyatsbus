@@ -6,7 +6,7 @@
 basic:
   id: piercing
   name: "穿透"
-  max_level: 5
+  max_level: 4
 
 alternative:
   is_vanilla: true
@@ -21,8 +21,9 @@ limitations:
 display:
   description:
     general: "使射出的箭可以穿过多个实体"
-    specific: "射出的箭可以穿过最多&a{数量}&7实体"
+    specific: "&7射出的箭可以穿过最多&a{数量}&7实体"
 
+# 原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:
   leveled: 
     数量: "个:1+{level}"
