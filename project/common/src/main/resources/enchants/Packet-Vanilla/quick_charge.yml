@@ -17,6 +17,10 @@ targets:
 
 display:
   description:
-    general: "减少弩填装箭矢的时间"
+    general: "减少弩的填装时间"
+    specific: "使弩的填装时间减少&a{时间}"
 
-# TODO 数据录入
+# 原版附魔机制本插件不提供修改，因此此处改了也没有效果
+variables:
+  leveled:
+    时间: "秒:0.25*{level}"

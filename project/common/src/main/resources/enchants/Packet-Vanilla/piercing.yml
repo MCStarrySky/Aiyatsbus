@@ -21,5 +21,8 @@ limitations:
 display:
   description:
     general: "使射出的箭可以穿过多个实体"
+    specific: "射出的箭可以穿过最多&a{数量}&7实体"
 
-# TODO 数据录入
+variables:
+  leveled: 
+    数量: "个:1+{level}"

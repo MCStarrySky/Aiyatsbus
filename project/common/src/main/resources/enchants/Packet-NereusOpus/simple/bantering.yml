@@ -1,0 +1,34 @@
+
+
+#         Powered by TabooLib 6.1         #
+
+
+basic:
+  id: bantering
+  name: "戏谑"
+  max_level: 4
+
+rarity: 精良
+targets:
+  - 剑
+  - 斧
+
+limitations: [ ]
+
+display:
+  description:
+    general: "周期性降低周围生物的伤害吸收值"
+    specific: "&7每&a{冷却}&7使周围&a{范围}&7的所有目标伤害吸收值降低&a{吸收值}"
+
+variables:
+  leveled:
+    冷却: "秒:10-{level}"
+    范围: "格:3+{level}"
+    吸收值: "点:{level}"
+
+mechanisms:
+  tickers:
+    on-trigger:
+      interval: 20
+      handle: |-
+# TODO 根据变量初始化interval

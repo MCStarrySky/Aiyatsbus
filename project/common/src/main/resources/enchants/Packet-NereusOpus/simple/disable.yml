@@ -8,22 +8,23 @@ basic:
   name: "疲倦"
   max_level: 3
 
-rarity: 精良
+rarity: 罕见
 targets:
+  - 剑
   - 斧
 
 limitations: [ ]
 
 display:
   description:
-    general: "在攻击时有概率使对手获得挖掘疲劳效果"
-    specific: "&7在攻击时有&a{概率}&7的概率使对手获得挖掘疲劳效果"
+    general: "蓄力攻击有概率使目标获得挖掘疲劳效果"
+    specific: "&7蓄力攻击有&a{概率}&7的概率使目标获得&a{效果等级}&7的挖掘疲劳效果，持续&a{持续时间}"
 
 variables:
   leveled:
     概率: "%:3*{level}"
-    持续时间: "刻:20*{level}"
-    效果倍率: "倍:{level}"
+    持续时间: "秒:{level}"
+    效果等级: "级:{level}"
   ordinary:
     require-full-charge: true
 
@@ -39,8 +40,8 @@ mechanisms:
           exit
         }
         if instance-of &event[entity] is org.bukkit.entity.LivingEntity then {
-          set duration to type int &持续时间
-          set amplifier to math sub [ type int &效果倍率 1 ]
+          set duration to math mul [ type int &持续时间 20 ]
+          set amplifier to math sub [ type int &效果等级 1 ]
           if not check random2 0 to 100 <= type double &概率 then {
             exit
           }

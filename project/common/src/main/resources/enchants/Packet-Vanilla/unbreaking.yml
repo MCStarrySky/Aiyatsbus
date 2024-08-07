@@ -19,4 +19,4 @@ display:
   description:
     general: "减少物品损耗耐久的概率"
 
-# TODO 数据录入
+# 盔甲和一般物品的生效方式有区别，不方便录入数据

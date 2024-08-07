@@ -6,7 +6,7 @@
 basic:
   id: economical
   name: "节能"
-  max_level: 4
+  max_level: 3
 
 rarity: 史诗
 targets:
@@ -21,7 +21,7 @@ display:
 
 variables:
   leveled:
-    概率: "%:12.5*{level}"
+    概率: "%:10+25*{level}"
 
 mechanisms:
   listeners:

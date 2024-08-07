@@ -25,7 +25,7 @@ alternative:
 
 display:
   description:
-    general: "使用被诅咒的武器击杀生物不会掉落任何物品与经验"
+    general: "击杀生物后不会产生掉落物与经验"
 
 mechanisms:
   listeners:

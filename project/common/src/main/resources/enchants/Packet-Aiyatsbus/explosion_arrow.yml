@@ -8,7 +8,7 @@ basic:
   disable_worlds: [ ]
   id: explosion_arrow
   name: "炸弹"
-  max_level: 4
+  max_level: 3
 
 rarity: 稀世
 targets:
@@ -30,4 +30,3 @@ mechanisms:
       listen: "projectile-hit"
       handle: |-
         create-explosion &event[entity.location] type float &当量 by &player fire false break false
-        

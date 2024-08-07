@@ -19,7 +19,7 @@ limitations: [ ]
 
 display:
   description:
-    general: "防止伤害自己的宠物"
+    general: "避免伤害自己的宠物"
 
 mechanisms:
   listeners:

@@ -20,4 +20,4 @@ limitations:
 
 display:
   description:
-    general: "在雨天召唤闪电攻击生物，仅在雷暴天气时生效"
+    general: "击中生物时召唤闪电（仅在雷暴天气时生效）"

@@ -20,14 +20,14 @@ limitations:
 
 display:
   description:
-    general: "攻击时有概率召唤雷电"
-    specific: "&7攻击时有&a{概率}&7的概率召唤雷电 (冷却:&a{冷却}&7)"
+    general: "攻击时有概率召唤闪电"
+    specific: "&7攻击时有&a{概率}&7的概率召唤闪电并造成&a{伤害}&7真实伤害 (冷却:&a{冷却}&7)"
 
 variables:
   leveled:
     概率: "%:8*{level}"
     冷却: "秒:6-0.5*{level}"
-    真实伤害: "点:2+{level}*0.5"
+    伤害: "点:2+{level}*0.5"
 
 mechanisms:
   listeners:
@@ -43,7 +43,7 @@ mechanisms:
             if &cd then {
               set cd to a-cd check &enchant &player type double &冷却 false
               strike-lightning &event[entity.location]
-              real-damage &event[entity] with type double &真实伤害
+              real-damage &event[entity] with type double &伤害
               a-cd add &enchant &player
               send-lang enchant-strike-damaged to &event[entity] with array [ entity-name &event[attacker] ]
               send-lang enchant-strike-attacker to &event[attacker] with array [ entity-name &event[entity] ]

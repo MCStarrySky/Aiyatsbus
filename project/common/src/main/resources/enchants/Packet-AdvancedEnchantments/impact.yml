@@ -19,13 +19,14 @@ limitations:
 
 display:
   description:
-    general: "远程攻击时有概率造成双倍伤害"
-    specific: "&7远程攻击时有&a{概率}&7的概率造成双倍伤害"
+    general: "射出的箭矢有概率额外造成伤害"
+    specific: "&7射出的箭矢有&a{概率}&7的概率额外造成&a{增幅}的伤害"
 
 variables:
   leveled:
     概率: "%:3*{level}"
     冷却: "秒:20-2.5*{level}"
+    增幅: "%:25*{level}"
 
 mechanisms:
   listeners:
@@ -36,8 +37,9 @@ mechanisms:
           if check random2 0 to 100 <= type double &概率 then {
             set cd to a-cd check &enchant &player type double &冷却 false
             if &cd then {
-              set od to &event[damage]
-              set &event[damage] to calc "od * 2"
+              set multiplier to type double &增幅
+              set damage to &event[damage]
+              set &event[damage] to math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]
               a-cd add &enchant &player
               send-lang enchant-impact-damaged to &event[entity] with array [ entity-name &event[attacker.shooter] ]
               send-lang enchant-impact-attacker to &event[attacker.shooter] with array [ entity-name &event[entity] ]

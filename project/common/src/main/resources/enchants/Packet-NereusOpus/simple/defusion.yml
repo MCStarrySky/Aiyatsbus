@@ -30,12 +30,12 @@ limitations:
 
 display:
   description:
-    general: "对爬行者的伤害提升"
-    specific: "&7对爬行者的伤害提升&a{伤害}"
+    general: "对苦力怕的伤害提高"
+    specific: "&7对苦力怕的伤害提高&a{增幅}"
 
 variables:
   leveled:
-    伤害: "倍:1+0.5*{level}"
+    增幅: "%:18*{level}"
 
 mechanisms:
   listeners:
@@ -43,5 +43,7 @@ mechanisms:
       listen: "entity-damage-by-entity"
       handle: |-
         if instance-of &event[entity] is org.bukkit.entity.Creeper then {
-          set &event[damage] to math mul [ &event[damage] type double &伤害 ]
+          set multiplier to type double &增幅
+          set damage to &event[damage]
+          set &event[damage] to math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]
         }

@@ -25,8 +25,8 @@ alternative:
 
 display:
   description:
-    general: "使用被诅咒的工具破坏方块时有概率失败"
-    specific: "&7使用被诅咒的工具破坏方块时有&a{概率}&7的概率失败"
+    general: "破坏方块时有概率失败"
+    specific: "&7破坏方块时有&a{概率}&7的概率失败"
 
 variables:
   leveled:

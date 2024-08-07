@@ -23,4 +23,4 @@ limitations:
 
 display:
   description:
-    general: "使破坏方块时掉落其本身"
+    general: "使破坏部分方块时掉落其本身"

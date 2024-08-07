@@ -22,7 +22,7 @@ alternative:
 
 display:
   description:
-    general: "使被诅咒的物品在铁砧中无法被修改"
+    general: "被诅咒的物品在铁砧中无法修改"
 
 mechanisms:
   listeners:

@@ -22,10 +22,10 @@ limitations:
 
 display:
   description:
-    general: "增加对亡灵生物的基础伤害"
-    specific: "&7对亡灵生物的基础伤害&a+{增加基础伤害}"
+    general: "提高对亡灵生物的基础伤害"
+    specific: "&7对亡灵生物的基础伤害提高&a{提高基础伤害}"
 
 # 原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:
   leveled:
-    增加基础伤害: "点:2.5*{level}"
+    提高基础伤害: "点:2.5*{level}"

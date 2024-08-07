@@ -6,7 +6,7 @@
 basic:
   id: force
   name: "魄力"
-  max_level: 3
+  max_level: 4
 
 rarity: 传奇
 targets:
@@ -18,12 +18,12 @@ limitations:
 
 display:
   description:
-    general: "射出的箭矢伤害提升"
-    specific: "&7射出的箭矢伤害提升&a{伤害}"
+    general: "箭矢造成的伤害大幅提高"
+    specific: "&7箭矢造成的伤害提高&a{增幅}"
 
 variables:
   leveled:
-    伤害: "点:1+0.1*{level}"
+    增幅: "%:8+12*{level}"
   ordinary:
     disable-on-players: false
 
@@ -39,5 +39,7 @@ mechanisms:
           ] then {
             exit
           }
-          set &event[damage] to math add [ &event[damage] type double &伤害 ]
+          set multiplier to type double &增幅
+          set damage to &event[damage]
+          set &event[damage] to math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]
         }

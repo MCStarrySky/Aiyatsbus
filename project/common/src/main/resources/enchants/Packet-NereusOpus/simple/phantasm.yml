@@ -23,12 +23,12 @@ limitations:
 
 display:
   description:
-    general: "对亡灵生物的伤害提升"
-    specific: "&7对亡灵生物的伤害提升&a{伤害}"
+    general: "对亡灵生物的伤害提高"
+    specific: "&7对亡灵生物的伤害提高&a{增幅}"
 
 variables:
   leveled:
-    伤害: "倍:1+0.5*{level}"
+    增幅: "%:12*{level}"
 
 mechanisms:
   listeners:
@@ -37,10 +37,13 @@ mechanisms:
       handle: |-
         if any [
           instance-of &event[entity] is org.bukkit.entity.Zombie
+          instance-of &event[entity] is org.bukkit.entity.Zoglin
           instance-of &event[entity] is org.bukkit.entity.Skeleton
           instance-of &event[entity] is org.bukkit.entity.Wither
           instance-of &event[entity] is org.bukkit.entity.Phantom
           instance-of &event[entity] is org.bukkit.entity.WitherSkeleton
+          instance-of &event[entity] is org.bukkit.entity.ZombieHorse
+          instance-of &event[entity] is org.bukkit.entity.SkeletonHorse
         ] then {
           set &event[damage] to math mul [ &event[damage] type double &伤害 ]
         }

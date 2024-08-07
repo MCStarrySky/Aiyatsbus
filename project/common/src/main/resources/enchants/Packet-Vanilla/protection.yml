@@ -6,12 +6,12 @@
 basic:
   id: protection
   name: "保护"
-  max_level: 5
+  max_level: 4
 
 alternative:
   is_vanilla: true
 
-rarity: 罕见
+rarity: 精良
 targets:
   - 头盔
   - 胸甲

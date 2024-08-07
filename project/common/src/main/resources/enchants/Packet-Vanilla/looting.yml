@@ -17,6 +17,10 @@ targets:
 
 display:
   description:
-    general: "增加击杀生物时物品的掉落数量或掉落概率"
+    general: "提高击杀生物时物品的掉落数量或掉落概率"
+    specific: "使大部分常见掉落物的数量上限提高&a{上限}&7，使稀有掉落物的掉落概率提高&a{概率}"
 
-# TODO 数据录入
+variables:
+  leveled:
+    上限: "个:{level}"
+    概率: "%:{level}"

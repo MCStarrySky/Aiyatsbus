@@ -17,6 +17,9 @@ targets:
 
 display:
   description:
-    general: "减少钓鱼所需的时间"
+    general: "减少上钩等待时间"
+    specific: "使上钩等待时间减少&a{时间}"
 
-# TODO 数据录入
+variables:
+  leveled: 
+    时间: "秒:5*{level}"

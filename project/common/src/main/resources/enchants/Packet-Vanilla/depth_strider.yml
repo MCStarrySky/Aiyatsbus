@@ -20,10 +20,14 @@ limitations:
 
 display:
   description:
-    general: "抵消在水中收到的减速效果"
-    specific: "&7减少&a{抵消减速百分比}&7在水中收到的减速效果"
+    general: "无视部分在水中受到的减速效果"
+    specific: "&7无视&a{抵消量}&7在水中受到的减速效果"
 
 # 原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:
   leveled:
-    抵消减速百分比: "%:33*{level}"
+    抵消量:
+      1: 33
+      2: 67
+      3: 100
+      unit: "%"
