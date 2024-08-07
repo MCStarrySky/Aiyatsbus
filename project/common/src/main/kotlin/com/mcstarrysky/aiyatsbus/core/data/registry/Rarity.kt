@@ -59,11 +59,9 @@ object RarityLoader {
 
     @Awake(LifeCycle.ENABLE)
     fun reload() {
-        registerLifeCycleTask(LifeCycle.ENABLE) {
-            config.onReload {
-                load()
-                onlinePlayers.forEach(Player::updateInventory) // 要刷新显示
-            }
+        config.onReload {
+            load()
+            onlinePlayers.forEach(Player::updateInventory) // 要刷新显示
         }
     }
 

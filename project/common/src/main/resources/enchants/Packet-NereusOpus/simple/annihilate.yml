@@ -20,8 +20,8 @@ limitations:
 
 display:
   description:
-    general: "攻击时产生数倍击退效果"
-    specific: "&7攻击时产生&a{倍数}&7击退效果"
+    general: "增强攻击时产生的击退效果"
+    specific: "&7攻击时造成&a{倍数}&7的击退效果"
 
 variables:
   leveled:

@@ -25,8 +25,8 @@ alternative:
 
 display:
   description:
-    general: "使被诅咒的装备被穿戴时会激怒周围的怪物"
-    specific: "&7使装备被穿戴时会激怒周围&a{范围}格&7内的怪物"
+    general: "穿戴被诅咒的装备时会激怒周围的生物"
+    specific: "&7穿戴被诅咒的装备时会激怒周围&a{范围}格&7内的生物"
 
 variables:
   ordinary:

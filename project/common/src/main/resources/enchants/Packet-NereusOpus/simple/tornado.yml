@@ -20,8 +20,8 @@ limitations:
 
 display:
   description:
-    general: "在攻击时将对手击向空中"
-    specific: "&7在攻击时以&a{力度}&7的力度将对手击向空中"
+    general: "攻击时将目标击向空中"
+    specific: "&7攻击时以&a{力度}&7的力度将目标击向空中"
 
 variables:
   leveled:

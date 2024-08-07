@@ -8,7 +8,7 @@ basic:
   name: "活力"
   max_level: 3
 
-rarity: 罕见
+rarity: 史诗
 targets:
   - 镐
   - 斧
@@ -19,18 +19,19 @@ limitations: [ ]
 
 display:
   description:
-    general: "挖掘后获得急迫效果"
+    general: 成功破坏方块后获得急迫效果
+    specific: 成功破坏方块后获得&a{效果等级}&7的急迫效果，持续&a{持续时间}
 
 variables:
   leveled:
-    持续时间: "刻:8*{level}"
-    效果倍率: "倍:{level}"
+    持续时间: "秒:0.4*{level}"
+    效果等级: "级:{level}"
 
 mechanisms:
   listeners:
     on-break:
       listen: "block-break"
       handle: |-
-        set duration to type int &持续时间
-        set amplifier to math sub [ type int &效果倍率 1 ]
+        set duration to math mul [ type int &持续时间 20 ]
+        set amplifier to math sub [ type int &效果等级 1 ]
         add-potion-effect FAST_DIGGING on &event[player] duration &duration amplifier &amplifier

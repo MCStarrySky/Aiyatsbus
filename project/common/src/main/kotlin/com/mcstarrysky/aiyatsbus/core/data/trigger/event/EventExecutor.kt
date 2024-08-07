@@ -3,7 +3,6 @@ package com.mcstarrysky.aiyatsbus.core.data.trigger.event
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
-import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.function.warning
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.library.kether.LocalizedException
@@ -20,7 +19,7 @@ data class EventExecutor @JvmOverloads constructor(
     private val enchant: AiyatsbusEnchantment,
     val listen: String = root.getString("listen")!!,
     val handle: String = root.getString("handle") ?: "",
-    val priority: EventPriority = EventPriority.valueOf(root.getString("priority") ?: "HIGHEST"),
+    val priority: Int = root.getInt("priority", 0)
 ) {
 
     init {

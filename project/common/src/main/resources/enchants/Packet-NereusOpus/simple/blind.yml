@@ -17,14 +17,14 @@ limitations: [ ]
 
 display:
   description:
-    general: "射出的箭矢有概率致盲命中对象"
-    specific: "&7射出的箭矢有&a{概率}&7的概率致盲命中对象"
+    general: "箭矢有概率致盲目标"
+    specific: "&7箭矢有&a{概率}&7的概率使目标陷入&a{效果等级}&7的失明状态，持续{持续时间}"
 
 variables:
   leveled:
     概率: "%:3*{level}"
-    持续时间: "刻:40*{level}"
-    效果倍率: "倍:{level}"
+    持续时间: "秒:2*{level}"
+    效果等级: "级:{level}"
 
 mechanisms:
   listeners:
@@ -32,8 +32,8 @@ mechanisms:
       listen: "entity-damage-by-entity"
       handle: |-
         if instance-of &event[entity] is org.bukkit.entity.LivingEntity then {
-          set duration to type int &持续时间
-          set amplifier to math sub [ type int &效果倍率 1 ]
+          set duration to math mul [ type int &持续时间 20 ]
+          set amplifier to math sub [ type int &效果等级 1 ]
           if not check random2 0 to 100 <= type double &概率 then {
             exit
           }

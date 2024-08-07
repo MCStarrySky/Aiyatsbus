@@ -18,5 +18,8 @@ targets:
 display:
   description:
     general: "减少水下氧气消耗速率"
+    specific: "每次消耗氧气值时有&a{概率}&7不消耗氧气或受到窒息伤害"
 
-# TODO 数据录入
+variables:
+  leveled:
+    概率: "%:{level}/{level}+1"
