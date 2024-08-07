@@ -17,10 +17,10 @@ targets:
 
 display:
   description:
-    general: "增加三叉戟对水生生物的投掷/近战伤害"
-    specific: "&7对水生生物造成的基础伤害 &a+{伤害增加}"
+    general: "提高三叉戟对水生生物的基础伤害"
+    specific: "&7对水生生物的基础伤害提高&a{伤害提高}"
 
 # 原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:
   leveled:
-    伤害增加: "点:2.5*{level}"
+    伤害提高: "点:2.5*{level}"

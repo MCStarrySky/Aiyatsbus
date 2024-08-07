@@ -6,9 +6,9 @@
 basic:
   id: end_infusion
   name: 尽头
-  max_level: 5
+  max_level: 4
 
-rarity: 精良
+rarity: 罕见
 
 targets:
   - 剑
@@ -19,12 +19,12 @@ limitations: [ ]
 
 display:
   description:
-    general: "在末地造成的伤害提升"
-    specific: "&7在末地时造成的伤害提升&a{倍数}"
+    general: "在末地维度时伤害提高"
+    specific: "&7在末地维度时伤害提高&a{增幅}"
 
 variables:
   leveled:
-    倍数: "倍:1+0.08*{level}"
+    增幅: "%:6*{level}"
 
 mechanisms:
   listeners:
@@ -32,5 +32,7 @@ mechanisms:
       listen: "entity-damage-by-entity"
       handle: |-
         if check &event[entity.world.environment] is THE_END then {
-          set &event[damage] to math mul [ &event[damage] type double &倍数 ]
+          set multiplier to type double &增幅
+          set damage to &event[damage]
+          set &event[damage] to math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]
         }

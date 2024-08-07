@@ -17,4 +17,4 @@ targets:
 
 display:
   description:
-    general: "提升在水下的挖掘速度"
+    general: "无视水下的挖掘速度降低效果"

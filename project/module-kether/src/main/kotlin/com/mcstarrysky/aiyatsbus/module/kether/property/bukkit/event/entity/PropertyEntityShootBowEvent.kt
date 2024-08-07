@@ -27,7 +27,6 @@ class PropertyEntityShootBowEvent : AiyatsbusGenericProperty<EntityShootBowEvent
             "force" -> instance.force
             "consumable" -> instance.consumable
             "shouldConsumeItem", "should-consume-item" -> instance.shouldConsumeItem()
-            "consumeArrow", "consume-arrow" -> instance.consumeArrow
             "projectile" -> instance.projectile
             else -> return OpenResult.failed()
         }
@@ -37,7 +36,6 @@ class PropertyEntityShootBowEvent : AiyatsbusGenericProperty<EntityShootBowEvent
     override fun writeProperty(instance: EntityShootBowEvent, key: String, value: Any?): OpenResult {
         when (key) {
             "shouldConsumeItem", "should-consume-item" -> instance.setConsumeItem(value?.coerceBoolean() ?: return OpenResult.successful())
-            "consumeArrow", "consume-arrow" -> instance.consumeArrow = value?.coerceBoolean() ?: return OpenResult.successful()
             "projectile" -> instance.projectile = value?.liveEntity ?: return OpenResult.successful()
             else -> return OpenResult.failed()
         }
