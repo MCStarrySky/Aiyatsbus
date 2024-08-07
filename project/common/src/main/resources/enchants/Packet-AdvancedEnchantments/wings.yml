@@ -17,12 +17,7 @@ limitations:
 
 display:
   description:
-    general: "可进入飞行状态，飞行时持续消耗装备耐久"
-    specific: "可进入飞行状态，飞行时每&a1秒&7使装备耐久降低&a{消耗耐久}"
-
-variables:
-  leveled:
-    消耗耐久: "点:3-{level}"
+    general: "可进入飞行状态，飞行时持续消耗靴子耐久"
 
 mechanisms:
   tickers:
@@ -45,8 +40,7 @@ mechanisms:
             exit
           }
           if player flying then {
-            set dura to type int &消耗耐久
-            item damage &item &dura by &player
+            item damage &item 2 by &player
           }
         }
       post-handle: |-

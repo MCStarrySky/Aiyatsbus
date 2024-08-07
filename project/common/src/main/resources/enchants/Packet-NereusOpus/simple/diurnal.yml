@@ -18,12 +18,12 @@ limitations:
 
 display:
   description:
-    general: "白天时伤害提高"
-    specific: "&7白天时伤害提高&a{增幅}"
+    general: "在白天时造成的伤害提升"
+    specific: "&7在白天时造成的伤害提升&a{倍数}"
 
 variables:
   leveled:
-    增幅: "%:6*{level}"
+    倍数: "倍:1+0.05*{level}"
 
 mechanisms:
   listeners:
@@ -31,7 +31,5 @@ mechanisms:
       listen: "entity-damage-by-entity"
       handle: |-
         if &event[entity.world.isDay] then {
-          set multiplier to type double &增幅
-          set damage to &event[damage]
-          set &event[damage] to math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]
+          set &event[damage] to math mul [ &event[damage] type double &倍数 ]
         }

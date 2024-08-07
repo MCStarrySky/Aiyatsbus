@@ -8,7 +8,7 @@ basic:
   name: "破魔"
   max_level: 4
 
-rarity: 精良
+rarity: 罕见
 targets:
   - 弓
   - 弩
@@ -25,12 +25,12 @@ limitations:
 
 display:
   description:
-    general: "箭矢对BOSS类生物的伤害提高"
-    specific: "&7箭矢对BOSS类生物的伤害提高&a{增幅}"
+    general: "对BOSS的伤害提升"
+    specific: "&7对BOSS的伤害提升&a{伤害}"
 
 variables:
   leveled:
-    增幅: "%:6*{level}"
+    伤害: "倍:1+0.25*{level}"
 
 mechanisms:
   listeners:
@@ -40,6 +40,4 @@ mechanisms:
         if not instance-of &event[entity] is org.bukkit.entity.Boss then {
           exit
         }
-        set multiplier to type double &增幅
-        set damage to &event[damage]
-        set &event[damage] to math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]
+        set &event[damage] to math mul [ &event[damage] type double &伤害 ]
