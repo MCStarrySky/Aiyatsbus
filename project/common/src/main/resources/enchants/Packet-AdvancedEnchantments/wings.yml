@@ -37,6 +37,13 @@ mechanisms:
           if not player allow flight then {
             player allow flight to true
           }
+          if all [
+            check math div [ &item[dura] &item[max-dura] ] <= 0.1
+            player flying
+          ] then {
+            player flying to false
+            exit
+          }
           if player flying then {
             set dura to type int &消耗耐久
             item damage &item &dura by &player
