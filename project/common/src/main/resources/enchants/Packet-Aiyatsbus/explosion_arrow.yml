@@ -29,5 +29,4 @@ mechanisms:
     on-kill:
       listen: "projectile-hit"
       handle: |-
-        create-explosion &event[entity.location] type float &当量 by &player fire false break true
-        
+        create-explosion &event[entity.location] type float &当量 by &player fire false break false

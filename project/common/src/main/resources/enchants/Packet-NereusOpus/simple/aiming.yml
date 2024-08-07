@@ -21,7 +21,7 @@ display:
 
 variables:
   leveled:
-    生效周期: "刻:10-{level}"
+    生效周期: "刻:6-{level}"
     范围: "格:4+{level}"
   ordinary:
     require-full-charge: false

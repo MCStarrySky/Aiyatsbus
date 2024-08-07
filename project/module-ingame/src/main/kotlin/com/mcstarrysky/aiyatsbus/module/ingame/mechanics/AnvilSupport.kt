@@ -67,6 +67,9 @@ object AnvilSupport {
     @ConfigNode("repair_cost")
     var repairCost = 5
 
+    @ConfigNode("combine_repair_cost")
+    var combineRepairCost = 2
+
     @ConfigNode("repair_combine_value")
     var repairCombineValue = "{right}+{max}*0.12"
 
@@ -98,7 +101,7 @@ object AnvilSupport {
             return
         }
 
-        if (useReworkPenalty) result.item?.repairCost = reworkPenalty.calcToInt("repairCost" to (result.item?.repairCost ?: 0))
+        if (useReworkPenalty && !result.onlyEditName) result.item?.repairCost = reworkPenalty.calcToInt("repairCost" to (result.item?.repairCost ?: 0))
         e.inventory.repairCost = result.experience
         e.inventory.repairCostAmount = result.costItemAmount
         e.result = result.item
@@ -134,7 +137,7 @@ object AnvilSupport {
         if (right == null || right.isAir) {
             // 如果没改名, 改名框内的名字和原物品是一样的
             if (left.name?.colored() == renameText?.colored()) return AnvilResult.Failed
-            return AnvilResult.Successful(result, experience.cint, 0)
+            return AnvilResult.Successful(result, experience.cint, 0, true)
         }
 
         // 如果右面物品存在, 就是物品合成 or 物品修补
@@ -177,10 +180,10 @@ object AnvilSupport {
         // 两个同样的物品间进行修复
         // 附魔书既是 EnchantmentStorageMeta 也是 Damageable(CraftMetaItem) 但显然附魔书不能用来修复物品, 要进行特判
         if (left.itemMeta is Damageable && right.itemMeta is Damageable && costItemAmount == 0 && right.itemMeta !is EnchantmentStorageMeta) {
-            result?.damage =
-                (left.damage - ceil(repairCombineValue.calcToDouble("right" to right.damage, "max" to left.type.maxDurability)).cint)
+            result?.dura =
+                (left.dura + ceil(repairCombineValue.calcToDouble("right" to right.dura, "max" to left.type.maxDurability)).cint)
                     .coerceAtLeast(0)
-            experience += repairCost
+            experience += combineRepairCost
         }
 
         // 剩下的情况就是两边物品一样, 等待合并的情况, 或者右面是附魔书的情况, 或者是不同材质合并的情况了, 这些情况可以集中统一处理
@@ -231,22 +234,24 @@ object AnvilSupport {
                 tempLeftItem.addEt(rightEnchant, level)
                 outEnchants += rightEnchant to level
             }
-
-            // 上标记
-            if (!mergedEnchants) mergedEnchants = true
         }
 
-        // 向结果物品中增加附魔, 同时计算经验等级
-        for ((outEnchant, level) in outEnchants) {
-            result?.addEt(outEnchant, level)
-            val previousLevel = leftEnchants[outEnchant] ?: 0
-            experience += enchantCostPerLevel.calcToDouble("max_level" to outEnchant.basicData.maxLevel) * (level - previousLevel)
+        if (leftEnchants != outEnchants) {
+            // 上标记
+            mergedEnchants = true
+
+            // 向结果物品中增加附魔, 同时计算经验等级
+            for ((outEnchant, level) in outEnchants) {
+                result?.addEt(outEnchant, level)
+                val previousLevel = leftEnchants[outEnchant] ?: 0
+                experience += enchantCostPerLevel.calcToDouble("max_level" to outEnchant.basicData.maxLevel) * (level - previousLevel)
+            }
         }
 
         // 如果最后产出的物品跟原来的一模一样, 且没有合并附魔, 就是压根没改
         if (left == result && !mergedEnchants) return AnvilResult.Failed
 
-        return AnvilResult.Successful(result, finalCost(experience, player), costItemAmount)
+        return AnvilResult.Successful(result, finalCost(experience, player), costItemAmount, false)
     }
 
     private fun finalCost(origin: Double, player: Player): Int = privilege.minOf { (perm, expression) ->
@@ -255,9 +260,9 @@ object AnvilSupport {
     }.coerceAtMost(maxCost).coerceAtLeast(1)
 }
 
-sealed class AnvilResult(val item: ItemStack?, val experience: Int, val costItemAmount: Int) {
+sealed class AnvilResult(val item: ItemStack?, val experience: Int, val costItemAmount: Int, val onlyEditName: Boolean) {
 
-    class Successful(item: ItemStack?, experience: Int, costItemAmount: Int) : AnvilResult(item, experience, costItemAmount)
+    class Successful(item: ItemStack?, experience: Int, costItemAmount: Int, onlyEditName: Boolean) : AnvilResult(item, experience, costItemAmount, onlyEditName)
 
-    object Failed : AnvilResult(null, 0, 0)
+    object Failed : AnvilResult(null, 0, 0, false)
 }

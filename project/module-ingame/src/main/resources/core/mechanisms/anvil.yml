@@ -32,6 +32,8 @@ max_cost: 100
 rename_cost: 3
 # 每次修复的消费等级
 repair_cost: 5
+# 合并时若修复物品则花费的等级
+combine_repair_cost: 2
 # 合并物品时修复目标物品, 耐久公式
 # 默认公式来自 Minecraft Wiki: 目标物品将被修复，获得牺牲物的耐久度并额外获得12%的最大耐久度
 repair_combine_value: "{right}+{max}*0.12"
