@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.game
 
+import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
 import com.mcstarrysky.aiyatsbus.core.asLang
@@ -10,7 +11,6 @@ import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusParser
 import com.mcstarrysky.aiyatsbus.module.kether.aiyatsbus
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.module.chat.component
-import taboolib.module.nms.sendRawActionBar
 
 /**
  * Aiyatsbus
@@ -37,7 +37,7 @@ object ActionCooldown {
                             val message = player.asLang("messages-misc-cool_down", it.second to "second")
                                 .component().buildColored()
                             if (actionBar.coerceBoolean(AiyatsbusSettings.coolDownInActionBar)) {
-                                player.sendRawActionBar(message.toRawMessage())
+                                Aiyatsbus.api().getMinecraftAPI().sendRawActionBar(player, message.toRawMessage())
                             } else {
                                 message.sendTo(adaptPlayer(player))
                             }

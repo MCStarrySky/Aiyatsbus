@@ -8,6 +8,8 @@ import io.papermc.paper.adventure.PaperAdventure
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import net.kyori.adventure.util.Codec
+import net.md_5.bungee.api.ChatMessageType
+import net.md_5.bungee.chat.ComponentSerializer
 import net.minecraft.network.chat.IChatBaseComponent
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -16,8 +18,9 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.library.reflex.Reflex.Companion.getProperty
+import taboolib.library.reflex.Reflex.Companion.setProperty
 import taboolib.module.nms.MinecraftVersion
-import taboolib.module.nms.NMSItem
+import taboolib.module.nms.sendPacket
 import java.io.IOException
 
 /**
@@ -42,9 +45,9 @@ class DefaultAiyatsbusMinecraftAPI : AiyatsbusMinecraftAPI {
             if (MinecraftVersion.majorLegacy >= 12005) {
                 NMS12005.instance.getRepairCost(item)
             } else {
-                (NMSItem.asNMSCopy(item) as NMSItemStack).baseRepairCost
+                (asNMSCopy(item) as NMSItemStack).baseRepairCost
             }
-        } else (NMSItem.asNMSCopy(item) as NMS16ItemStack).repairCost
+        } else (asNMSCopy(item) as NMS16ItemStack).repairCost
     }
 
     override fun setRepairCost(item: ItemStack, cost: Int) {
@@ -52,9 +55,9 @@ class DefaultAiyatsbusMinecraftAPI : AiyatsbusMinecraftAPI {
             if (MinecraftVersion.majorLegacy >= 12005) {
                 NMS12005.instance.setRepairCost(item, cost)
             } else {
-                (NMSItem.asNMSCopy(item) as NMSItemStack).setRepairCost(cost)
+                (asNMSCopy(item) as NMSItemStack).setRepairCost(cost)
             }
-        } else (NMSItem.asNMSCopy(item) as NMS16ItemStack).repairCost = cost
+        } else (asNMSCopy(item) as NMS16ItemStack).repairCost = cost
     }
 
     override fun createItemStack(material: String, tag: String?): ItemStack {
@@ -67,7 +70,7 @@ class DefaultAiyatsbusMinecraftAPI : AiyatsbusMinecraftAPI {
                 if (tag.isNullOrEmpty()) {
                     bkItem
                 } else {
-                    val nmsItem = NMSItem.asNMSCopy(bkItem)
+                    val nmsItem = asNMSCopy(bkItem)
                     if (MinecraftVersion.isUniversal) {
                         val nbt = NBT_CODEC.decode(tag) as NMSNBTTagCompound
                         (nmsItem as NMSItemStack).tag = nbt
@@ -75,7 +78,7 @@ class DefaultAiyatsbusMinecraftAPI : AiyatsbusMinecraftAPI {
                         val nbt = NBT_CODEC.decode(tag) as NMS16NBTTagCompound
                         (nmsItem as NMS16ItemStack).tag = nbt
                     }
-                    NMSItem.asBukkitCopy(nmsItem)
+                    asBukkitCopy(nmsItem)
                 }
             }
         } catch (t: Throwable) {
@@ -86,9 +89,9 @@ class DefaultAiyatsbusMinecraftAPI : AiyatsbusMinecraftAPI {
     override fun adaptMerchantRecipe(merchantRecipeList: Any, player: Player): Any {
 
         fun adapt(item: Any, player: Player): Any {
-            val bkItem = NMSItem.asBukkitCopy(item)
+            val bkItem = asBukkitCopy(item)
             if (bkItem.isNull) return item
-            return NMSItem.asNMSCopy(bkItem.toDisplayMode(player))
+            return asNMSCopy(bkItem.toDisplayMode(player))
         }
 
         return when (MinecraftVersion.major) {
@@ -221,6 +224,33 @@ class DefaultAiyatsbusMinecraftAPI : AiyatsbusMinecraftAPI {
             nmsStack.damage(amount, (entity as CraftLivingEntity16).handle) { entityLiving ->
                 (enumItemSlot as? NMS16EnumItemSlot)?.let { entityLiving.broadcastItemBreak(it) }
             }
+        }
+    }
+
+    override fun asNMSCopy(item: ItemStack): Any {
+        return if (MinecraftVersion.isUniversal) {
+            CraftItemStack20.asNMSCopy(item)
+        } else {
+            CraftItemStack16.asNMSCopy(item)
+        }
+    }
+
+    override fun asBukkitCopy(item: Any): ItemStack {
+        return if (MinecraftVersion.isUniversal) {
+            CraftItemStack20.asBukkitCopy(item as NMSItemStack)
+        } else {
+            CraftItemStack16.asBukkitCopy(item as NMS16ItemStack)
+        }
+    }
+
+    override fun sendRawActionBar(player: Player, action: String) {
+        try {
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, *ComponentSerializer.parse(action))
+        } catch (ex: NoSuchMethodError) {
+            player.sendPacket(NMSPacketPlayOutChat16().also {
+                it.setProperty("b", 2.toByte())
+                it.setProperty("components", ComponentSerializer.parse(action))
+            })
         }
     }
 }

@@ -19,15 +19,39 @@ subprojects {
     // TabooLib 配置
     taboolib {
         env {
-            install(CHAT, CONFIGURATION, LANG, BUKKIT_ALL, NMS, NMS_UTIL, KETHER, UI, EFFECT, METRICS)
+//            install(CHAT, CONFIGURATION, LANG, BUKKIT_ALL, NMS, NMS_UTIL, KETHER, UI, EFFECT, METRICS)
+            install(
+                "minecraft-chat",
+                "basic-configuration",
+                "minecraft-i18n",
+                "bukkit-hook",
+                "bukkit-util",
+                "bukkit-xseries",
+                "bukkit-xseries-item",
+                "bukkit-xseries-skull",
+                "platform-bukkit",
+                "platform-bukkit-impl",
+                "nms",
+                "nms-util-tag",
+                "nms-util-tag-12005",
+                "nms-util-tag-legacy",
+                "minecraft-kether",
+                "bukkit-ui",
+                "minecraft-effect",
+                "minecraft-metrics"
+            )
+            repoTabooLib = "http://mcstarrysky.com:8081/repository/releases/"
         }
         version {
-            taboolib = "6.1.2-beta11"
+            taboolib = "6.2.0-beta6-dev"
         }
     }
 
     // 全局仓库
     repositories {
+        maven("http://mcstarrysky.com:8081/repository/releases/") {
+            isAllowInsecureProtocol = true
+        }
         mavenLocal()
         mavenCentral()
         maven("https://repo.papermc.io/repository/maven-public/")

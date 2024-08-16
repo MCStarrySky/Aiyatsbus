@@ -47,4 +47,13 @@ interface AiyatsbusMinecraftAPI {
 
     /** 取代高版本 ItemStack#damage */
     fun damageItemStack(item: ItemStack, amount: Int, entity: LivingEntity): ItemStack
+
+    /** 兼容 1.21 */
+    fun asNMSCopy(item: ItemStack): Any
+
+    /** 兼容 1.21 */
+    fun asBukkitCopy(item: Any): ItemStack
+
+    /** 兼容 1.21 */
+    fun sendRawActionBar(player: Player, action: String)
 }

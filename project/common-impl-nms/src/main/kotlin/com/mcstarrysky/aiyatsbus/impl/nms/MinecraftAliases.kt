@@ -26,6 +26,8 @@ typealias CraftLivingEntity16 = org.bukkit.craftbukkit.v1_16_R3.entity.CraftLivi
 
 typealias CraftItemStack16 = org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack
 
+typealias NMSPacketPlayOutChat16 = net.minecraft.server.v1_16_R3.PacketPlayOutChat
+
 // Universal
 typealias NMSItemStack = net.minecraft.world.item.ItemStack
 

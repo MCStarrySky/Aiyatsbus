@@ -1,11 +1,11 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.mechanics.display
 
+import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.toDisplayMode
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.module.nms.MinecraftVersion
-import taboolib.module.nms.NMSItem
 import taboolib.module.nms.PacketSendEvent
 
 /**
@@ -27,9 +27,9 @@ object PacketSetSlot {
                     else -> error("Unsupported version.") // Unsupported
                 }
                 val origin = e.packet.read<Any>(field, false)!!
-                val bkItem = NMSItem.asBukkitCopy(origin)
+                val bkItem = Aiyatsbus.api().getMinecraftAPI().asBukkitCopy(origin)
                 if (bkItem.isNull) return
-                val adapted = NMSItem.asNMSCopy(bkItem.toDisplayMode(e.player))
+                val adapted = Aiyatsbus.api().getMinecraftAPI().asNMSCopy(bkItem.toDisplayMode(e.player))
                 e.packet.write(field, adapted)
             }.onFailure { it.printStackTrace() }
         }

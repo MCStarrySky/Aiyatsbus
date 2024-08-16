@@ -1,17 +1,13 @@
 package com.mcstarrysky.aiyatsbus.module.kether.property.bukkit.inventory
 
 import com.mcstarrysky.aiyatsbus.core.belongedTargets
-import com.mcstarrysky.aiyatsbus.core.util.coerceBoolean
-import com.mcstarrysky.aiyatsbus.core.util.coerceInt
-import com.mcstarrysky.aiyatsbus.core.util.dura
-import com.mcstarrysky.aiyatsbus.core.util.maxDurability
+import com.mcstarrysky.aiyatsbus.core.util.*
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusGenericProperty
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusProperty
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import taboolib.common.OpenResult
-import taboolib.module.nms.getI18nName
 
 /**
  * Vulpecula
