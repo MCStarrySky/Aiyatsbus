@@ -19,14 +19,10 @@ object PacketSetSlot {
 
     @SubscribeEvent(priority = EventPriority.MONITOR)
     fun e(e: PacketSendEvent) {
-        if (e.packet.name == "PacketPlayOutSetSlot") {
+        if (e.packet.name == "PacketPlayOutSetSlot" || e.packet.name == "ClientboundContainerSetSlotPacket") {
             runCatching {
-                val field = when (MinecraftVersion.major) {
-                    8 -> "c" // 1.16 -> b
-                    in 9..12 -> "f" // 1.17, 1.18, 1.19, 1.20 -> c
-                    else -> error("Unsupported version.") // Unsupported
-                }
-                val origin = e.packet.read<Any>(field, false)!!
+                val field = if (MinecraftVersion.isUniversal) "itemStack" else "c"
+                val origin = e.packet.read<Any>(field)!!
                 val bkItem = Aiyatsbus.api().getMinecraftAPI().asBukkitCopy(origin)
                 if (bkItem.isNull) return
                 val adapted = Aiyatsbus.api().getMinecraftAPI().asNMSCopy(bkItem.toDisplayMode(e.player))

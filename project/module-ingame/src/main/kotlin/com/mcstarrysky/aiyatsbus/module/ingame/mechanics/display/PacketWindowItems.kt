@@ -19,14 +19,10 @@ object PacketWindowItems {
 
     @SubscribeEvent(priority = EventPriority.MONITOR)
     fun e(e: PacketSendEvent) {
-        if (e.packet.name == "PacketPlayOutWindowItems") {
+        if (e.packet.name == "PacketPlayOutWindowItems" || e.packet.name == "ClientboundContainerSetContentPacket") {
             runCatching {
-                val field = when (MinecraftVersion.major) {
-                    8 -> "b" // 1.16 -> b
-                    in 9..12 -> "c" // 1.17, 1.18, 1.19, 1.20 -> c
-                    else -> error("Unsupported version.") // Unsupported
-                }
-                val slots = e.packet.read<List<Any>>(field, false)!!.toMutableList()
+                val field = if (MinecraftVersion.isUniversal) "items" else "b"
+                val slots = e.packet.read<List<Any>>(field)!!.toMutableList()
                 for (i in slots.indices) {
                     val bkItem = Aiyatsbus.api().getMinecraftAPI().asBukkitCopy(slots[i])
                     if (bkItem.isNull) continue
@@ -35,12 +31,12 @@ object PacketWindowItems {
                 }
                 e.packet.write(field, slots)
 
-                if (MinecraftVersion.major in 9..12) {
-                    val cursor = e.packet.read<Any>("d", false)!!
+                if (MinecraftVersion.major >= 9) {
+                    val cursor = e.packet.read<Any>("carriedItem")!! // carriedItem
                     val bkItem = Aiyatsbus.api().getMinecraftAPI().asBukkitCopy(cursor)
                     if (bkItem.isNull) return
                     val nmsItem = Aiyatsbus.api().getMinecraftAPI().asNMSCopy(bkItem.toDisplayMode(e.player))
-                    e.packet.write("d", nmsItem)
+                    e.packet.write("carriedItem", nmsItem)
                 }
             }.onFailure { it.printStackTrace() }
         }

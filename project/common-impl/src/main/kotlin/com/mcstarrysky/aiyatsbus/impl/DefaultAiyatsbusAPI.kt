@@ -112,17 +112,15 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
     companion object {
 
-        @Awake(LifeCycle.INIT)
+        @Awake(LifeCycle.CONST)
         fun init() {
-            registerLifeCycleTask(LifeCycle.LOAD, Int.MAX_VALUE) {
-                if (MinecraftVersion.majorLegacy >= 12003) {
-                    val reg = if (MinecraftVersion.majorLegacy >= 12100) {
-                        nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12100_nms.DefaultModernEnchantmentRegisterer")
-                    } else {
-                        nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
-                    }
-                    reg.replaceRegistry()
+            if (MinecraftVersion.majorLegacy >= 12003) {
+                val reg = if (MinecraftVersion.majorLegacy >= 12100) {
+                    nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12100_nms.DefaultModernEnchantmentRegisterer")
+                } else {
+                    nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
                 }
+                reg.replaceRegistry()
             }
         }
 

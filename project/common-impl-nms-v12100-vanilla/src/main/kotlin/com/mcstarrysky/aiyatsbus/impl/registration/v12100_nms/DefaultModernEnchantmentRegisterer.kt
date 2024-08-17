@@ -8,7 +8,6 @@ import com.mcstarrysky.aiyatsbus.impl.registration.v12100_paper.EnchantmentHelpe
 import net.minecraft.core.*
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.MinecraftKey
-import net.minecraft.server.MinecraftServer
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.craftbukkit.v1_21_R1.CraftRegistry
@@ -28,7 +27,6 @@ import java.util.function.BiFunction
  */
 class DefaultModernEnchantmentRegisterer : ModernEnchantmentRegisterer {
 
-    // TabooLib NMSProxy 已知问题: 调用对象中「仅在父类」声明的方法或字段无法被 TabooLib NMSProxy 重定向
     private val enchantmentRegistry = ((Bukkit.getServer() as CraftServer).server
         .registryAccess() as IRegistryCustom)
         .registryOrThrow(Registries.ENCHANTMENT)

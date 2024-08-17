@@ -43,7 +43,7 @@ subprojects {
             repoTabooLib = "http://mcstarrysky.com:8081/repository/releases/"
         }
         version {
-            taboolib = "6.2.0-beta8-dev"
+            taboolib = "6.2.0-beta14-dev"
         }
     }
 

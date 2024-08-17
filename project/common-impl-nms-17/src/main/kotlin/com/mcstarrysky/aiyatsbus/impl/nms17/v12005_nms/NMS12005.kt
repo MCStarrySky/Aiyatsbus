@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.impl.nms17.v12005_nms
 
+import net.kyori.adventure.text.Component
 import org.bukkit.inventory.ItemStack
 import taboolib.common.util.unsafeLazy
 import taboolib.module.nms.nmsProxy
@@ -16,6 +17,12 @@ abstract class NMS12005 {
     abstract fun getRepairCost(item: ItemStack): Int
 
     abstract fun setRepairCost(item: ItemStack, cost: Int)
+
+    /** 又改 */
+    abstract fun componentToIChatBaseComponent(component: Component): Any?
+
+    /** 又改 */
+    abstract fun iChatBaseComponentToComponent(iChatBaseComponent: Any): Component
 
     companion object {
 
