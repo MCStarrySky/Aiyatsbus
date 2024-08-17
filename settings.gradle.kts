@@ -5,12 +5,16 @@ include("project:common")
 // 实现
 include("project:common-impl")
 // nms 实现
-include("project:common-impl-nms")
+include("project:common-impl-nms-16")
+include("project:common-impl-nms-17")
 // 1.20.4 自定义附魔注册器
 include("project:common-impl-nms-v12004-paper")
 include("project:common-impl-nms-v12004-vanilla")
 // 1.20.5 NMS 实现
 include("project:common-impl-nms-v12005")
+// 1.21 自定义附魔注册器
+include("project:common-impl-nms-v12100-paper")
+include("project:common-impl-nms-v12100-vanilla")
 // 运行平台
 include("project:module-bukkit")
 // 与其他插件兼容模块

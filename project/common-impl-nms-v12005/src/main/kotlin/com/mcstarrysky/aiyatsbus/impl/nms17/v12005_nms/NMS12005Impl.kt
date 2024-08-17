@@ -1,5 +1,6 @@
-package com.mcstarrysky.aiyatsbus.impl.nms.v12005_nms
+package com.mcstarrysky.aiyatsbus.impl.nms17.v12005_nms
 
+import com.mcstarrysky.aiyatsbus.impl.nms17.v12005_nms.NMS12005
 import net.minecraft.core.component.DataComponents
 import org.bukkit.craftbukkit.v1_20_R4.inventory.CraftItemStack
 import org.bukkit.inventory.ItemStack

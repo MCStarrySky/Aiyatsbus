@@ -8,6 +8,7 @@ import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
 import taboolib.common.platform.function.info
+import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.nmsProxy
 import java.util.concurrent.CompletableFuture
@@ -34,7 +35,9 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
     private val enchantmentRegisterer0: AiyatsbusEnchantmentRegisterer by lazy {
         if (MinecraftVersion.majorLegacy <= 12002) {
             DefaultLegacyEnchantmentRegisterer
-        } else run {
+        } else if (MinecraftVersion.majorLegacy >= 12100) {
+            proxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12100_nms.DefaultModernEnchantmentRegisterer")
+        } else {
             proxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
         }
     }
@@ -44,7 +47,11 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
     private val ketherHandler = PlatformFactory.getAPI<AiyatsbusKetherHandler>()
 
     private val minecraftAPI0 by lazy {
-        proxy<AiyatsbusMinecraftAPI>("com.mcstarrysky.aiyatsbus.impl.nms.DefaultAiyatsbusMinecraftAPI")
+        if (MinecraftVersion.isUniversal) {
+            proxy<AiyatsbusMinecraftAPI>("com.mcstarrysky.aiyatsbus.impl.nms17.DefaultAiyatsbusMinecraftAPI17")
+        } else {
+            proxy<AiyatsbusMinecraftAPI>("com.mcstarrysky.aiyatsbus.impl.nms16.DefaultAiyatsbusMinecraftAPI16")
+        }
     }
 
     private val tickHandler = PlatformFactory.getAPI<AiyatsbusTickHandler>()
@@ -105,11 +112,24 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
     companion object {
 
-        @Awake(LifeCycle.CONST)
+        @Awake(LifeCycle.INIT)
         fun init() {
-            if (MinecraftVersion.majorLegacy >= 12003) {
-                val reg = nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
-                reg.replaceRegistry()
+            registerLifeCycleTask(LifeCycle.LOAD, Int.MAX_VALUE) {
+                if (MinecraftVersion.majorLegacy >= 12003) {
+                    val reg = if (MinecraftVersion.majorLegacy >= 12100) {
+                        nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12100_nms.DefaultModernEnchantmentRegisterer")
+                    } else {
+                        nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
+                    }
+                    reg.replaceRegistry()
+                }
+            }
+        }
+
+        @Awake(LifeCycle.ACTIVE)
+        fun active() {
+            if (MinecraftVersion.majorLegacy >= 12100) {
+                nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12100_nms.DefaultModernEnchantmentRegisterer").replaceRegistry()
             }
         }
     }

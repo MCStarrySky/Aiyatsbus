@@ -43,7 +43,7 @@ subprojects {
             repoTabooLib = "http://mcstarrysky.com:8081/repository/releases/"
         }
         version {
-            taboolib = "6.2.0-beta7-dev"
+            taboolib = "6.2.0-beta8-dev"
         }
     }
 
@@ -65,8 +65,8 @@ subprojects {
     // 编译配置
     java {
         withSourcesJar()
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_HIGHER
+        targetCompatibility = JavaVersion.VERSION_HIGHER
     }
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
