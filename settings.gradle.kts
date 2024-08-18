@@ -5,12 +5,12 @@ include("project:common")
 // 实现
 include("project:common-impl")
 // nms 实现
-include("project:common-impl-nms")
+include("project:module-nms:nms-common")
+include("project:module-nms:nms-v12005")
 // 1.20.4 自定义附魔注册器
 include("project:common-impl-nms-v12004-paper")
 include("project:common-impl-nms-v12004-vanilla")
 // 1.20.5 NMS 实现
-include("project:common-impl-nms-v12005")
 // 1.21 自定义附魔注册器
 include("project:common-impl-nms-v12100-paper")
 include("project:common-impl-nms-v12100-vanilla")
