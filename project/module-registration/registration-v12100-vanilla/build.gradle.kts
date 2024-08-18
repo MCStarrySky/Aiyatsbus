@@ -1,6 +1,5 @@
 dependencies {
-    compileOnly(project(":project:common"))
-    compileOnly(project(":project:common-impl-nms-v12100-paper"))
+    compileOnly(project(":project:module-registration:registration-v12100-paper"))
     compileOnly("ink.ptms.core:v12101:12101:mapped")
 }
 

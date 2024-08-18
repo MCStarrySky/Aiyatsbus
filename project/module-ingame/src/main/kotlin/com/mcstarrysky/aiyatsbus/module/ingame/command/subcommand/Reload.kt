@@ -10,7 +10,6 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.subCommand
 import taboolib.module.lang.Language
-import taboolib.module.nms.MinecraftVersion
 import taboolib.platform.util.onlinePlayers
 
 /**
@@ -23,9 +22,7 @@ import taboolib.platform.util.onlinePlayers
 val reloadSubCommand = subCommand {
     execute<CommandSender> { sender, _, _ ->
         val time = System.currentTimeMillis()
-        if (MinecraftVersion.majorLegacy >= 12003) {
-            (Aiyatsbus.api().getEnchantmentRegisterer() as ModernEnchantmentRegisterer).replaceRegistry()
-        }
+        (Aiyatsbus.api().getEnchantmentRegisterer() as? ModernEnchantmentRegisterer)?.replaceRegistry()
         Language.reload()
         AiyatsbusSettings.conf.reload()
         Reloadables.execute()
