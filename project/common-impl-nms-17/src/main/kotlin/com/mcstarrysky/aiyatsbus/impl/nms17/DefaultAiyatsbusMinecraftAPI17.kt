@@ -12,18 +12,18 @@ import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import net.kyori.adventure.util.Codec
 import net.md_5.bungee.api.ChatMessageType
 import net.md_5.bungee.chat.ComponentSerializer
-import net.minecraft.network.chat.IChatBaseComponent
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Block
-import org.bukkit.craftbukkit.v1_20_R3.util.CraftChatMessage
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import taboolib.library.reflex.Reflex.Companion.getProperty
+import taboolib.library.reflex.Reflex.Companion.setProperty
 import taboolib.module.nms.MinecraftVersion
+import taboolib.module.nms.sendPacket
 import java.io.IOException
 
 /**
@@ -46,18 +46,24 @@ class DefaultAiyatsbusMinecraftAPI17 : AiyatsbusMinecraftAPI {
     private val NBT_CODEC: Codec<Any, String, IOException, IOException> = PaperAdventure::class.java.getProperty("NBT_CODEC", isStatic = true)!!
 
     override fun getRepairCost(item: ItemStack): Int {
-        return if (MinecraftVersion.majorLegacy >= 12005) {
-            NMS12005.instance.getRepairCost(item)
-        } else {
-            (asNMSCopy(item) as NMSItemStack).baseRepairCost
-        }
+        return if (MinecraftVersion.isUniversal) {
+            if (MinecraftVersion.majorLegacy >= 12005) {
+                NMS12005.instance.getRepairCost(item)
+            } else {
+                (asNMSCopy(item) as NMSItemStack).baseRepairCost
+            }
+        } else (asNMSCopy(item) as NMS16ItemStack).repairCost
     }
 
     override fun setRepairCost(item: ItemStack, cost: Int) {
-        if (MinecraftVersion.majorLegacy >= 12005) {
-            NMS12005.instance.setRepairCost(item, cost)
+        if (MinecraftVersion.isUniversal) {
+            if (MinecraftVersion.majorLegacy >= 12005) {
+                NMS12005.instance.setRepairCost(item, cost)
+            } else {
+                (asNMSCopy(item) as NMSItemStack).setRepairCost(cost)
+            }
         } else {
-            (asNMSCopy(item) as NMSItemStack).setRepairCost(cost)
+            (asNMSCopy(item) as NMS16ItemStack).repairCost = cost
         }
     }
 
@@ -72,8 +78,13 @@ class DefaultAiyatsbusMinecraftAPI17 : AiyatsbusMinecraftAPI {
                     bkItem
                 } else {
                     val nmsItem = asNMSCopy(bkItem)
-                    val nbt = NBT_CODEC.decode(tag) as NMSNBTTagCompound
-                    (nmsItem as NMSItemStack).tag = nbt
+                    if (MinecraftVersion.isUniversal) {
+                        val nbt = NBT_CODEC.decode(tag) as NMSNBTTagCompound
+                        (nmsItem as NMSItemStack).tag = nbt
+                    } else {
+                        val nbt = NBT_CODEC.decode(tag) as NMS16NBTTagCompound
+                        (nmsItem as NMS16ItemStack).tag = nbt
+                    }
                     asBukkitCopy(nmsItem)
                 }
             }
@@ -94,53 +105,92 @@ class DefaultAiyatsbusMinecraftAPI17 : AiyatsbusMinecraftAPI {
             return asNMSCopy(bkItem.toDisplayMode(player))
         }
 
-        val previous = merchantRecipeList as NMSMerchantRecipeList
-        val adapt = NMSMerchantRecipeList()
-        for (i in 0 until previous.size) {
-            val recipe = previous[i]!!
-            adapt += NMSMerchantRecipe(
-                adapt(recipe.baseCostA, player) as NMSItemStack,
-                adapt(recipe.costB, player) as NMSItemStack,
-                adapt(recipe.result, player) as NMSItemStack,
-                recipe.uses,
-                recipe.maxUses,
-                recipe.xp,
-                recipe.priceMultiplier,
-                recipe.demand
-            )
+        if (MinecraftVersion.isUniversal) {
+            val previous = merchantRecipeList as NMSMerchantRecipeList
+            val adapt = NMSMerchantRecipeList()
+            for (i in 0 until previous.size) {
+                val recipe = previous[i]!!
+                adapt += NMSMerchantRecipe(
+                    adapt(recipe.baseCostA, player) as NMSItemStack,
+                    adapt(recipe.costB, player) as NMSItemStack,
+                    adapt(recipe.result, player) as NMSItemStack,
+                    recipe.uses,
+                    recipe.maxUses,
+                    recipe.xp,
+                    recipe.priceMultiplier,
+                    recipe.demand
+                )
+            }
+            return adapt
+        } else {
+            val previous = merchantRecipeList as NMS16MerchantRecipeList
+            val adapt = NMS16MerchantRecipeList()
+            for (i in 0 until previous.size) {
+                val recipe = previous[i]!!
+                adapt += NMS16MerchantRecipe(
+                    adapt(recipe.buyingItem1, player) as NMS16ItemStack,
+                    adapt(recipe.buyingItem2, player) as NMS16ItemStack,
+                    adapt(recipe.sellingItem, player) as NMS16ItemStack,
+                    recipe.uses,
+                    recipe.maxUses,
+                    recipe.xp,
+                    recipe.priceMultiplier,
+                    recipe.demand
+                )
+            }
+            return adapt
         }
-        return adapt
     }
 
     override fun componentToIChatBaseComponent(component: Component): Any? {
-//        return if (MinecraftVersion.majorLegacy >= 12005) {
-//            NMS12005.instance.componentToIChatBaseComponent(component)
-//        } else IChatBaseComponent.ChatSerializer.fromJson(gsonComponentSerializer.serialize(component))
-        return CraftChatMessage.fromJSON(gsonComponentSerializer.serialize(component))
+        return if (MinecraftVersion.isUniversal) {
+            CraftChatMessage20.fromJSON(gsonComponentSerializer.serialize(component))
+        } else {
+            CraftChatMessage16.fromJSON(gsonComponentSerializer.serialize(component))
+        }
     }
 
     override fun iChatBaseComponentToComponent(iChatBaseComponent: Any): Component {
-//        return if (MinecraftVersion.majorLegacy >= 12005) {
-//            NMS12005.instance.iChatBaseComponentToComponent(iChatBaseComponent)
-//        } else gsonComponentSerializer.deserialize(IChatBaseComponent.ChatSerializer.toJson(iChatBaseComponent as IChatBaseComponent))
-        return gsonComponentSerializer.deserialize(CraftChatMessage.toJSON(iChatBaseComponent as IChatBaseComponent))
+        return if (MinecraftVersion.isUniversal) {
+            gsonComponentSerializer.deserialize(CraftChatMessage20.toJSON(iChatBaseComponent as NMSIChatBaseComponent))
+        } else {
+            gsonComponentSerializer.deserialize(CraftChatMessage16.toJSON(iChatBaseComponent as NMS16IChatBaseComponent))
+        }
     }
 
     override fun breakBlock(player: Player, block: Block): Boolean {
-        return (player as CraftPlayer20).handle.gameMode.destroyBlock(NMSBlockPosition(block.x, block.y, block.z))
+        return if (MinecraftVersion.isUniversal) {
+            (player as CraftPlayer20).handle.gameMode.destroyBlock(NMSBlockPosition(block.x, block.y, block.z))
+        } else {
+            (player as CraftPlayer16).handle.playerInteractManager.breakBlock(NMS16BlockPosition(block.x, block.y, block.z))
+        }
     }
 
     override fun damageItemStack(item: ItemStack, amount: Int, entity: LivingEntity): ItemStack {
         var stack = item
-        val nmsStack = if (stack is CraftItemStack20) {
-            val handle = stack.getProperty<NMSItemStack>("handle")
-            if (handle == null || handle.isEmpty) {
-                return stack
+        val nmsStack: Any = if (MinecraftVersion.isUniversal) {
+            if (stack is CraftItemStack20) {
+                val handle = stack.getProperty<NMSItemStack>("handle")
+                if (handle == null || handle.isEmpty) {
+                    return stack
+                }
+                handle
+            } else {
+                CraftItemStack20.asNMSCopy(stack).also {
+                    stack = CraftItemStack20.asCraftMirror(it)
+                }
             }
-            handle
         } else {
-            CraftItemStack20.asNMSCopy(stack).also {
-                stack = CraftItemStack20.asCraftMirror(it)
+            if (stack is CraftItemStack16) {
+                val handle = stack.getProperty<NMS16ItemStack>("handle")
+                if (handle == null || handle.isEmpty) {
+                    return stack
+                }
+                handle
+            } else {
+                CraftItemStack16.asNMSCopy(stack).also {
+                    stack = CraftItemStack16.asCraftMirror(it)
+                }
             }
         }
         damageItemStack(nmsStack, amount, null, entity)
@@ -167,9 +217,16 @@ class DefaultAiyatsbusMinecraftAPI17 : AiyatsbusMinecraftAPI {
      * CraftLivingEntity#damageItemStack0
      */
     private fun damageItemStack(nmsStack: Any, amount: Int, enumItemSlot: Any?, entity: LivingEntity) {
-        nmsStack as NMSItemStack
-        nmsStack.hurtAndBreak(amount, (entity as CraftLivingEntity20).handle) { entityLiving ->
-            (enumItemSlot as? NMSEnumItemSlot)?.let { entityLiving.broadcastBreakEvent(it) }
+        if (MinecraftVersion.isUniversal) {
+            nmsStack as NMSItemStack
+            nmsStack.hurtAndBreak(amount, (entity as CraftLivingEntity20).handle) { entityLiving ->
+                (enumItemSlot as? NMSEnumItemSlot)?.let { entityLiving.broadcastBreakEvent(it) }
+            }
+        } else {
+            nmsStack as NMS16ItemStack
+            nmsStack.damage(amount, (entity as CraftLivingEntity16).handle) { entityLiving ->
+                (enumItemSlot as? NMS16EnumItemSlot)?.let { entityLiving.broadcastItemBreak(it) }
+            }
         }
     }
 
@@ -196,14 +253,29 @@ class DefaultAiyatsbusMinecraftAPI17 : AiyatsbusMinecraftAPI {
     }
 
     override fun asNMSCopy(item: ItemStack): Any {
-        return CraftItemStack20.asNMSCopy(item)
+        return if (MinecraftVersion.isUniversal) {
+            CraftItemStack20.asNMSCopy(item)
+        } else {
+            CraftItemStack16.asNMSCopy(item)
+        }
     }
 
     override fun asBukkitCopy(item: Any): ItemStack {
-        return CraftItemStack20.asBukkitCopy(item as NMSItemStack)
+        return if (MinecraftVersion.isUniversal) {
+            CraftItemStack20.asBukkitCopy(item as NMSItemStack)
+        } else {
+            CraftItemStack16.asBukkitCopy(item as NMS16ItemStack)
+        }
     }
 
     override fun sendRawActionBar(player: Player, action: String) {
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, *ComponentSerializer.parse(action))
+        try {
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, *ComponentSerializer.parse(action))
+        } catch (ex: NoSuchMethodError) {
+            player.sendPacket(NMSPacketPlayOutChat16().also {
+                it.setProperty("b", 2.toByte())
+                it.setProperty("components", ComponentSerializer.parse(action))
+            })
+        }
     }
 }

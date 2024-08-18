@@ -13,7 +13,7 @@ import taboolib.module.nms.MinecraftVersion
  */
 class Dependencies(
     val root: ConfigurationSection?,
-    supportsRangeStr: String = root?.getString("supports", "11600")!!,
+    supportsRangeStr: String = root?.getString("supports", "11600") ?: "11600",
     supportsLowest: Int = if ('-' in supportsRangeStr) supportsRangeStr.split('-')[0].toInt() else supportsRangeStr.toInt(),
     supportsHighest: Int = if ('-' in supportsRangeStr) supportsRangeStr.split('-')[1].toInt() else Int.MAX_VALUE,
     val datapacks: List<String> = root?.getStringList("datapacks") ?: emptyList(),

@@ -3,13 +3,11 @@ package com.mcstarrysky.aiyatsbus.impl.registration.v12100_paper
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantmentBase
 import com.mcstarrysky.aiyatsbus.core.util.legacyToAdventure
-import io.papermc.paper.enchantments.EnchantmentRarity
 import net.kyori.adventure.text.Component
 import net.minecraft.world.item.enchantment.Enchantment
 import org.bukkit.craftbukkit.enchantments.CraftEnchantment
 import org.bukkit.enchantments.EnchantmentTarget
 import org.bukkit.entity.EntityCategory
-import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 
 /**
@@ -80,13 +78,7 @@ class AiyatsbusCraftEnchantment(
         return 0
     }
 
-    override fun getRarity(): EnchantmentRarity {
-        return EnchantmentRarity.RARE
-    }
-
     override fun getDamageIncrease(level: Int, entityCategory: EntityCategory): Float = 0.0f
-
-    override fun getActiveSlots(): MutableSet<EquipmentSlot> = mutableSetOf()
 
     override fun equals(other: Any?): Boolean {
         return other is AiyatsbusEnchantment && this.enchantmentKey == other.enchantmentKey
@@ -98,17 +90,5 @@ class AiyatsbusCraftEnchantment(
 
     override fun toString(): String {
         return "AiyatsbusCraftEnchantment(key=$key)"
-    }
-
-    /**
-     * 2024-4-7 22:18:
-     * 傻逼 Paper 你今天突然更新一个这个函数让我实现,
-     * 实现了还告诉我这个方法被标记为移除了,
-     * 你妈死了吧, 你他妈了逼的
-     *
-     * 你改你妈个🥚，我爱说实话
-     */
-    override fun getTranslationKey(): String {
-        return "aiyatsbus:enchantments.id"
     }
 }

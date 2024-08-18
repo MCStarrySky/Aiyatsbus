@@ -1,7 +1,7 @@
 dependencies {
-    compileOnly(project(":project:common"))
-    compileOnly("paper:v12101:12101:core")
     compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
+    compileOnly("paper:v12101:12101:core")
+    compileOnly(project(":project:common"))
 }
 
 // 子模块
