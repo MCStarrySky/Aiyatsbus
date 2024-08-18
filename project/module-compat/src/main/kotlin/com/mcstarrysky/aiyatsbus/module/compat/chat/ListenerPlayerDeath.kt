@@ -15,6 +15,6 @@ object ListenerPlayerDeath {
     @SubscribeEvent
     fun e(e: PlayerDeathEvent) {
         // 支持死亡界面显示那个物品
-        e.deathMessage(PacketSystemChat.modify(e.deathMessage() ?: return, e.entity))
+        e.deathMessage(DisplayReplacer.inst.apply(e.deathMessage() ?: return, e.entity))
     }
 }

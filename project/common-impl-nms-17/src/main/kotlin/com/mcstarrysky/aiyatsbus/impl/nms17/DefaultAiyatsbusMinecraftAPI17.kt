@@ -14,6 +14,7 @@ import net.minecraft.network.chat.IChatBaseComponent
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Block
+import org.bukkit.craftbukkit.v1_20_R3.util.CraftChatMessage
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -104,15 +105,17 @@ class DefaultAiyatsbusMinecraftAPI17 : AiyatsbusMinecraftAPI {
     }
 
     override fun componentToIChatBaseComponent(component: Component): Any? {
-        return if (MinecraftVersion.majorLegacy >= 12005) {
-            NMS12005.instance.componentToIChatBaseComponent(component)
-        } else IChatBaseComponent.ChatSerializer.fromJson(gsonComponentSerializer.serialize(component))
+//        return if (MinecraftVersion.majorLegacy >= 12005) {
+//            NMS12005.instance.componentToIChatBaseComponent(component)
+//        } else IChatBaseComponent.ChatSerializer.fromJson(gsonComponentSerializer.serialize(component))
+        return CraftChatMessage.fromJSON(gsonComponentSerializer.serialize(component))
     }
 
     override fun iChatBaseComponentToComponent(iChatBaseComponent: Any): Component {
-        return if (MinecraftVersion.majorLegacy >= 12005) {
-            NMS12005.instance.iChatBaseComponentToComponent(iChatBaseComponent)
-        } else gsonComponentSerializer.deserialize(IChatBaseComponent.ChatSerializer.toJson(iChatBaseComponent as IChatBaseComponent))
+//        return if (MinecraftVersion.majorLegacy >= 12005) {
+//            NMS12005.instance.iChatBaseComponentToComponent(iChatBaseComponent)
+//        } else gsonComponentSerializer.deserialize(IChatBaseComponent.ChatSerializer.toJson(iChatBaseComponent as IChatBaseComponent))
+        return gsonComponentSerializer.deserialize(CraftChatMessage.toJSON(iChatBaseComponent as IChatBaseComponent))
     }
 
     override fun breakBlock(player: Player, block: Block): Boolean {
