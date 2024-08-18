@@ -99,4 +99,8 @@ class AiyatsbusCraftEnchantment(
     override fun toString(): String {
         return "AiyatsbusCraftEnchantment(key=$key)"
     }
+
+    override fun getTranslationKey(): String {
+        return "aiyatsbus:enchantment.$id"
+    }
 }

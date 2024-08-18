@@ -1,11 +1,11 @@
 @file:Suppress("DEPRECATION")
 
-package com.mcstarrysky.aiyatsbus.impl.nms17
+package com.mcstarrysky.aiyatsbus.impl.nms
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusMinecraftAPI
 import com.mcstarrysky.aiyatsbus.core.toDisplayMode
 import com.mcstarrysky.aiyatsbus.core.util.isNull
-import com.mcstarrysky.aiyatsbus.impl.nms17.v12005_nms.NMS12005
+import com.mcstarrysky.aiyatsbus.impl.nms.v12005_nms.NMS12005
 import io.papermc.paper.adventure.PaperAdventure
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
@@ -33,7 +33,7 @@ import java.io.IOException
  * @author mical
  * @since 2024/2/18 00:21
  */
-class DefaultAiyatsbusMinecraftAPI17 : AiyatsbusMinecraftAPI {
+class DefaultAiyatsbusMinecraftAPI : AiyatsbusMinecraftAPI {
 
     init {
         // 预热

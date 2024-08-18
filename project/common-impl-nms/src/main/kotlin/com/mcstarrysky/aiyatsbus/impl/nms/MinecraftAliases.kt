@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.impl.nms17
+package com.mcstarrysky.aiyatsbus.impl.nms
 
 /**
  * Aiyatsbus

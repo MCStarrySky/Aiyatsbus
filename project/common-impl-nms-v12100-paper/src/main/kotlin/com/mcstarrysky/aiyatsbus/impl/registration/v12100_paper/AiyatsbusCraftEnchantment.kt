@@ -1,3 +1,5 @@
+@file:Suppress("NO_CAST_NEEDED")
+
 package com.mcstarrysky.aiyatsbus.impl.registration.v12100_paper
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
@@ -5,6 +7,7 @@ import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantmentBase
 import com.mcstarrysky.aiyatsbus.core.util.legacyToAdventure
 import net.kyori.adventure.text.Component
 import net.minecraft.world.item.enchantment.Enchantment
+import org.bukkit.NamespacedKey
 import org.bukkit.craftbukkit.enchantments.CraftEnchantment
 import org.bukkit.enchantments.EnchantmentTarget
 import org.bukkit.entity.EntityCategory
@@ -81,11 +84,13 @@ class AiyatsbusCraftEnchantment(
     override fun getDamageIncrease(level: Int, entityCategory: EntityCategory): Float = 0.0f
 
     override fun equals(other: Any?): Boolean {
-        return other is AiyatsbusEnchantment && this.enchantmentKey == other.enchantmentKey
+        // 不这样转换过不了编译, 项目依赖配置有问题
+        return other is AiyatsbusEnchantment && (this.enchantmentKey as NamespacedKey) == other.enchantmentKey
     }
 
     override fun hashCode(): Int {
-        return this.enchantmentKey.hashCode()
+        // 不这样转换过不了编译, 项目依赖配置有问题
+        return (this.enchantmentKey as NamespacedKey).hashCode()
     }
 
     override fun toString(): String {

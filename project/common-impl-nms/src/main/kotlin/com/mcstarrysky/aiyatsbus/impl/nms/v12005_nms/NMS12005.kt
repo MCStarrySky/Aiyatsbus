@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.impl.nms17.v12005_nms
+package com.mcstarrysky.aiyatsbus.impl.nms.v12005_nms
 
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack

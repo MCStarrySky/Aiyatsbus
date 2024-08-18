@@ -5,8 +5,7 @@ include("project:common")
 // 实现
 include("project:common-impl")
 // nms 实现
-include("project:common-impl-nms-16")
-include("project:common-impl-nms-17")
+include("project:common-impl-nms")
 // 1.20.4 自定义附魔注册器
 include("project:common-impl-nms-v12004-paper")
 include("project:common-impl-nms-v12004-vanilla")

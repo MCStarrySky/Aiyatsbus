@@ -47,11 +47,7 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
     private val ketherHandler = PlatformFactory.getAPI<AiyatsbusKetherHandler>()
 
     private val minecraftAPI0 by lazy {
-        if (MinecraftVersion.isUniversal) {
-            proxy<AiyatsbusMinecraftAPI>("com.mcstarrysky.aiyatsbus.impl.nms17.DefaultAiyatsbusMinecraftAPI17")
-        } else {
-            proxy<AiyatsbusMinecraftAPI>("com.mcstarrysky.aiyatsbus.impl.nms16.DefaultAiyatsbusMinecraftAPI16")
-        }
+        proxy<AiyatsbusMinecraftAPI>("com.mcstarrysky.aiyatsbus.impl.nms.DefaultAiyatsbusMinecraftAPI17")
     }
 
     private val tickHandler = PlatformFactory.getAPI<AiyatsbusTickHandler>()

@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.impl.nms17.v12005_nms
+package com.mcstarrysky.aiyatsbus.impl.nms.v12005_nms
 
 import com.mcstarrysky.aiyatsbus.core.toDisplayMode
 import com.mcstarrysky.aiyatsbus.core.util.isNull
