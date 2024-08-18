@@ -5,6 +5,7 @@ import com.mcstarrysky.aiyatsbus.core.registration.AiyatsbusEnchantmentRegistere
 import com.mcstarrysky.aiyatsbus.core.registration.modern.ModernEnchantmentRegisterer
 import com.mcstarrysky.aiyatsbus.impl.registration.legacy.DefaultLegacyEnchantmentRegisterer
 import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
 import taboolib.common.platform.function.info
 import taboolib.common.platform.function.registerLifeCycleTask
@@ -102,8 +103,20 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
         CompletableFuture.runAsync {
             enchantmentRegisterer0
             minecraftAPI0
-        }.thenRun {
-            val registerer = Aiyatsbus.api().getEnchantmentRegisterer() as? ModernEnchantmentRegisterer ?: return@thenRun
+        }
+    }
+
+    companion object {
+
+        @Awake(LifeCycle.CONST)
+        fun init() {
+            val registerer = if (MinecraftVersion.majorLegacy >= 12100) {
+                nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12100_nms.DefaultModernEnchantmentRegisterer")
+            } else if (MinecraftVersion.majorLegacy >= 12003) {
+                nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
+            } else {
+                return
+            }
             registerer.replaceRegistry()
             registerLifeCycleTask(LifeCycle.ACTIVE) {
                 registerer.replaceRegistry()
