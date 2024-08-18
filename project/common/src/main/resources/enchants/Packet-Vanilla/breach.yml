@@ -10,15 +10,14 @@ basic:
 
 alternative:
   is_vanilla: true
-  # 暂时无法获得
-  is_treasure: true
-  is_discoverable: false
-  is_tradeable: false
 
 dependencies:
-  supports: 12005
-  datapacks:
-    - update_1_21
+  supports: 12100
+
+limitations:
+  - "CONFLICT_GROUP:原版增伤类附魔"
+  - "CONFLICT_ENCHANT:致密"
+  - "CONFLICT_ENCHANT:穿刺"
 
 rarity: 普通
 targets:

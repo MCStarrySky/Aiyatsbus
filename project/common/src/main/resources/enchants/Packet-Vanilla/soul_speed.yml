@@ -12,6 +12,7 @@ alternative:
   is_vanilla: true
   is_treasure: true
   is_tradeable: false
+  is_discoverable: false
 
 rarity: 罕见
 targets:

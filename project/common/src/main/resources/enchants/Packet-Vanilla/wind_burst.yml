@@ -10,25 +10,20 @@ basic:
 
 alternative:
   is_vanilla: true
-  # 暂时无法获得
   is_treasure: true
-  is_discoverable: false
   is_tradeable: false
+  is_cursed: false
+  is_discoverable: false
 
 dependencies:
-  supports: 12005
-  datapacks:
-    - update_1_21
+  supports: 12100
 
 rarity: 普通
 targets:
   - 重锤
-  - 剑
-  - 镐
-  - 斧
-  - 铲
-  - 锄
 
 display:
   description:
     general: "攻击时产生风弹爆炸"
+
+# TODO 数据录入

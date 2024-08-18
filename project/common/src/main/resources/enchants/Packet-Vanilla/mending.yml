@@ -18,7 +18,6 @@ targets:
 
 limitations:
   - "CONFLICT_ENCHANT:无限"
-  - "CONFLICT_ENCHANT:反重力"
 
 display:
   description:

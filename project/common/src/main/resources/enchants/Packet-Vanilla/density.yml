@@ -10,15 +10,14 @@ basic:
 
 alternative:
   is_vanilla: true
-  # 暂时无法获得
-  is_treasure: true
-  is_discoverable: false
-  is_tradeable: false
 
 dependencies:
-  supports: 12005
-  datapacks:
-    - update_1_21
+  supports: 12100
+
+limitations:
+  - "CONFLICT_GROUP:原版增伤类附魔"
+  - "CONFLICT_ENCHANT:破甲"
+  - "CONFLICT_ENCHANT:穿刺"
 
 rarity: 普通
 targets:
@@ -27,9 +26,9 @@ targets:
 display:
   description:
     general: "摔落高度越高，重锤造成的伤害越高"
-    specific: "&7摔落高度每提高&a1格&7时使重锤额外造成&a{伤害}&7伤害"
+    specific: "&7每摔落&a1格&7时重锤造成的伤害增加&a{伤害}"
 
 # 原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:
   leveled:
-    伤害: "点:{level}"
+    伤害: "点:0.5*{level}"

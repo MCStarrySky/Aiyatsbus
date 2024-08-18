@@ -15,6 +15,7 @@ rarity: 普通
 targets:
   - 剑
   - 斧
+  - 重锤
 
 limitations:
   - "CONFLICT_GROUP:原版增伤类附魔"

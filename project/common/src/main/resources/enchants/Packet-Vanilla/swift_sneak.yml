@@ -10,8 +10,10 @@ basic:
 
 alternative:
   is_vanilla: true
+  is_cursed: false
   is_treasure: true
   is_tradeable: false
+  is_discoverable: false
 
 rarity: 精良
 targets:

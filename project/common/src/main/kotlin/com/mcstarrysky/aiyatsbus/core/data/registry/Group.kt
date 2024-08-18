@@ -22,11 +22,12 @@ import java.util.concurrent.ConcurrentHashMap
 data class Group @JvmOverloads constructor(
     private val root: ConfigurationSection,
     val name: String = root.name,
+    val exclude: List<AiyatsbusEnchantment> = root.getStringList("exclude").mapNotNull(::aiyatsbusEt),
     val enchantments: List<AiyatsbusEnchantment> = root.getStringList("enchants").mapNotNull(::aiyatsbusEt)
         .toMutableList().also {
             it += root.getStringList("rarities")
                 .map { aiyatsbusRarity(it)?.let { r -> aiyatsbusEts(r) } ?: listOf() }.flatten()
-        },
+        }.filter { it !in exclude },
     val skull: String = root.getString(
         "skull",
         "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzRiODlhZDA2ZDMxOGYwYWUxZWVhZjY2MGZlYTc4YzM0ZWI1NWQwNWYwMWUxY2Y5OTlmMzMxZmIzMmQzODk0MiJ9fX0="
