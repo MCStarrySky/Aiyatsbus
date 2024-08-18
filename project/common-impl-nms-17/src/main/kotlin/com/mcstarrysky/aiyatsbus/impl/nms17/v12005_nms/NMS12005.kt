@@ -1,6 +1,8 @@
 package com.mcstarrysky.aiyatsbus.impl.nms17.v12005_nms
 
+import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
 import taboolib.common.util.unsafeLazy
 import taboolib.module.nms.nmsProxy
 
@@ -16,6 +18,17 @@ abstract class NMS12005 {
     abstract fun getRepairCost(item: ItemStack): Int
 
     abstract fun setRepairCost(item: ItemStack, cost: Int)
+
+    abstract fun adaptMerchantRecipe(merchantRecipeList: Any, player: Player): Any
+
+    /** 隐藏书本附魔 */
+    abstract fun hideBookEnchants(item: ItemMeta)
+
+    /** 是否已经隐藏书本附魔 */
+    abstract fun isBookEnchantsHidden(item: ItemMeta): Boolean
+
+    /** 显示书本附魔 */
+    abstract fun removeBookEnchantsHidden(item: ItemMeta)
 
     companion object {
 

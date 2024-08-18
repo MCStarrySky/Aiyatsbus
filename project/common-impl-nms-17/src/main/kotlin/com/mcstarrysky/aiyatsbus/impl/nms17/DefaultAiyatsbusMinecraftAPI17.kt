@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.mcstarrysky.aiyatsbus.impl.nms17
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusMinecraftAPI
@@ -17,7 +19,9 @@ import org.bukkit.block.Block
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftChatMessage
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.module.nms.MinecraftVersion
 import java.io.IOException
@@ -79,6 +83,10 @@ class DefaultAiyatsbusMinecraftAPI17 : AiyatsbusMinecraftAPI {
     }
 
     override fun adaptMerchantRecipe(merchantRecipeList: Any, player: Player): Any {
+
+        if (MinecraftVersion.majorLegacy >= 12005) {
+            return NMS12005.instance.adaptMerchantRecipe(merchantRecipeList, player)
+        }
 
         fun adapt(item: Any, player: Player): Any {
             val bkItem = asBukkitCopy(item)
@@ -162,6 +170,28 @@ class DefaultAiyatsbusMinecraftAPI17 : AiyatsbusMinecraftAPI {
         nmsStack as NMSItemStack
         nmsStack.hurtAndBreak(amount, (entity as CraftLivingEntity20).handle) { entityLiving ->
             (enumItemSlot as? NMSEnumItemSlot)?.let { entityLiving.broadcastBreakEvent(it) }
+        }
+    }
+
+    override fun hideBookEnchants(item: ItemMeta) {
+        if (MinecraftVersion.majorLegacy >= 12005) {
+            NMS12005.instance.hideBookEnchants(item)
+        } else {
+            item.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS)
+        }
+    }
+
+    override fun isBookEnchantsHidden(item: ItemMeta): Boolean {
+        return if (MinecraftVersion.majorLegacy >= 12005) {
+            NMS12005.instance.isBookEnchantsHidden(item)
+        } else item.hasItemFlag(ItemFlag.HIDE_POTION_EFFECTS)
+    }
+
+    override fun removeBookEnchantsHidden(item: ItemMeta) {
+        if (MinecraftVersion.majorLegacy >= 12005) {
+            NMS12005.instance.removeBookEnchantsHidden(item)
+        } else {
+            item.removeItemFlags(ItemFlag.HIDE_POTION_EFFECTS)
         }
     }
 

@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.mcstarrysky.aiyatsbus.impl.nms16
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusMinecraftAPI
@@ -14,7 +16,9 @@ import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.library.reflex.Reflex.Companion.setProperty
 import taboolib.module.nms.MinecraftVersion
@@ -141,6 +145,18 @@ class DefaultAiyatsbusMinecraftAPI16 : AiyatsbusMinecraftAPI {
         nmsStack.damage(amount, (entity as CraftLivingEntity16).handle) { entityLiving ->
             (enumItemSlot as? NMS16EnumItemSlot)?.let { entityLiving.broadcastItemBreak(it) }
         }
+    }
+
+    override fun hideBookEnchants(item: ItemMeta) {
+        item.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS)
+    }
+
+    override fun isBookEnchantsHidden(item: ItemMeta): Boolean {
+        return item.hasItemFlag(ItemFlag.HIDE_POTION_EFFECTS)
+    }
+
+    override fun removeBookEnchantsHidden(item: ItemMeta) {
+        item.removeItemFlags(ItemFlag.HIDE_POTION_EFFECTS)
     }
 
     override fun asNMSCopy(item: ItemStack): Any {

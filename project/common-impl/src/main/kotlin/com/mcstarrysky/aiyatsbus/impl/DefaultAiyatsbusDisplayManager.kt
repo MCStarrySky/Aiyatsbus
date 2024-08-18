@@ -108,10 +108,9 @@ class DefaultAiyatsbusDisplayManager : AiyatsbusDisplayManager {
                 return@modifyMeta
             }
             // 注意, 附魔书对应的隐藏附魔 flag 是 HIDE POTION EFFECTS 而不是 HIDE ENCHANTS (1.18- 是这样, 1.19+ 未知)
-            // FIXME: 1.20.5+ 更改了 HIDE_POTION_EFFECTS
             if (item.isEnchantedBook)
-                if (hasItemFlag(ItemFlag.HIDE_ENCHANTS) || hasItemFlag(ItemFlag.HIDE_POTION_EFFECTS)) return@modifyMeta
-                else addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS)
+                if (Aiyatsbus.api().getMinecraftAPI().isBookEnchantsHidden(this)) return@modifyMeta
+                else Aiyatsbus.api().getMinecraftAPI().hideBookEnchants(this)
             else
                 if (hasItemFlag(ItemFlag.HIDE_ENCHANTS)) return@modifyMeta
                 else addItemFlags(ItemFlag.HIDE_ENCHANTS)
@@ -169,7 +168,7 @@ class DefaultAiyatsbusDisplayManager : AiyatsbusDisplayManager {
                 return@modifyMeta
             }
             removeItemFlags(ItemFlag.HIDE_ENCHANTS)
-            if (item.isEnchantedBook) removeItemFlags(ItemFlag.HIDE_POTION_EFFECTS)
+            if (item.isEnchantedBook) Aiyatsbus.api().getMinecraftAPI().removeBookEnchantsHidden(this)
 
             // 创造模式的额外处理，需要重新给物品附魔
             // 这是因为创造模式下客户端会重新设置背包物品，而重新设置的物品中非原版附魔会消失

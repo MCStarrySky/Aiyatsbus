@@ -5,6 +5,7 @@ import org.bukkit.block.Block
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
 import kotlin.jvm.Throws
 
 /**
@@ -47,6 +48,15 @@ interface AiyatsbusMinecraftAPI {
 
     /** 取代高版本 ItemStack#damage */
     fun damageItemStack(item: ItemStack, amount: Int, entity: LivingEntity): ItemStack
+
+    /** 隐藏书本附魔 */
+    fun hideBookEnchants(item: ItemMeta)
+
+    /** 是否已经隐藏书本附魔 */
+    fun isBookEnchantsHidden(item: ItemMeta): Boolean
+
+    /** 显示书本附魔 */
+    fun removeBookEnchantsHidden(item: ItemMeta)
 
     /** 兼容 1.21 */
     fun asNMSCopy(item: ItemStack): Any
