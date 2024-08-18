@@ -24,5 +24,3 @@ include("project:module-ingame")
 include("project:module-kether")
 // 语言系统
 include("project:module-language")
-// 迁移工具
-include("project:module-migrate")

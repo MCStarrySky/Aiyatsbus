@@ -1,6 +1,5 @@
 @file:Suppress("PropertyName", "SpellCheckingInspection")
 
-import io.izzel.taboolib.gradle.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
