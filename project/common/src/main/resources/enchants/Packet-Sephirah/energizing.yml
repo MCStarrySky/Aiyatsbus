@@ -20,7 +20,7 @@ limitations: [ ]
 display:
   description:
     general: "挖掘后获得急迫效果"
-    specific: "挖掘后获得急迫效果，持续&a{持续时间}"
+    specific: "&7挖掘后获得急迫效果，持续&a{持续时间}"
 
 variables:
   leveled:

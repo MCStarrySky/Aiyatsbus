@@ -127,3 +127,10 @@ mappings:
     class: 'com.destroystokyo.paper.event.player.PlayerElytraBoostEvent'
     slots:
       - CHEST
+
+  # 玩家捡起经验球事件
+  player-pickup-experience:
+    class: 'com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent'
+    slots:
+      - HAND
+      - OFF_HAND

@@ -37,7 +37,7 @@ object ActionItemPotion : ActionItem.Resolver {
                         argument("icon", "i", then = bool(true))
                     ) { item, _type, duration, level, ambient, particles, icon ->
                         val meta = item.itemMeta as? PotionMeta ?: return@combine item
-                        val type = _type.asPotionEffectType() ?: PotionEffectType.SLOW
+                        val type = _type.asPotionEffectType() ?: return@combine item
                         val origin = meta.customEffects.firstOrNull { it.type == type }
                         if (origin != null) {
                             // 移除原有属性
@@ -68,7 +68,7 @@ object ActionItemPotion : ActionItem.Resolver {
                         argument("icon", "i", then = bool(true))
                     ) { item, _type, duration, level, ambient, particles, icon ->
                         val meta = item.itemMeta as? PotionMeta ?: return@combine item
-                        val type = _type.asPotionEffectType() ?: PotionEffectType.SLOW
+                        val type = _type.asPotionEffectType() ?: return@combine item
                         val origin = meta.customEffects.firstOrNull { it.type == type }
                         if (origin != null) {
                             // 移除原有属性
@@ -99,7 +99,7 @@ object ActionItemPotion : ActionItem.Resolver {
                         argument("icon", "i", then = bool(true), def = true)
                     ) { item, _type, duration, level, ambient, particles, icon ->
                         val meta = item.itemMeta as? PotionMeta ?: return@combine item
-                        val type = _type.asPotionEffectType() ?: PotionEffectType.SLOW
+                        val type = _type.asPotionEffectType() ?: return@combine item
                         if (meta.hasCustomEffect(type)) {
                             // 移除原有属性
                             meta.removeCustomEffect(type)
