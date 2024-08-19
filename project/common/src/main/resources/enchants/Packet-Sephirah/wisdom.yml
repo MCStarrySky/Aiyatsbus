@@ -19,8 +19,7 @@ targets:
   - 弩
   - 三叉戟
 
-limitations:
-  - "CONFLICT_ENCHANT:经验修补"
+limitations: [ ]
 
 display:
   description:

@@ -1,5 +1,7 @@
 package com.mcstarrysky.aiyatsbus.core.data.registry
 
+import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
+import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.sendLang
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
@@ -7,6 +9,8 @@ import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.console
 import taboolib.common.platform.function.registerLifeCycleTask
+import taboolib.common.platform.function.warning
+import taboolib.library.kether.LocalizedException
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
 import java.util.concurrent.ConcurrentHashMap
@@ -21,7 +25,18 @@ import java.util.concurrent.ConcurrentHashMap
 data class InternalTrigger(
     val id: String,
     val script: String
-)
+) {
+
+    init {
+        if (AiyatsbusSettings.enableKetherPreheat) {
+            try {
+                Aiyatsbus.api().getKetherHandler().preheat(script)
+            } catch (ex: LocalizedException) {
+                warning("Unable to preheat the internal trigger $id: $ex")
+            }
+        }
+    }
+}
 
 object InternalTriggerLoader {
 
