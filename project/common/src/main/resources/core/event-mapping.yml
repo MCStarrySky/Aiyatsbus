@@ -64,16 +64,16 @@ mappings:
       - FEET
 
   # 实体受到其他实体攻击事件
-  entity-damaged-by-other:
-    class: 'org.bukkit.event.entity.EntityDamageByEntityEvent'
-    slots:
-      - HAND
-      - OFF_HAND
-      - HEAD
-      - CHEST
-      - LEGS
-      - FEET
-    player: 'entity'
+#  entity-damaged-by-other:
+#    class: 'org.bukkit.event.entity.EntityDamageByEntityEvent'
+#    slots:
+#      - HAND
+#      - OFF_HAND
+#      - HEAD
+#      - CHEST
+#      - LEGS
+#      - FEET
+#    player: 'entity'
 
   # 实体死亡事件
   entity-death:
