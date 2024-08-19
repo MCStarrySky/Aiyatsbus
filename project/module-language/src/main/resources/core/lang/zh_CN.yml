@@ -7,6 +7,7 @@ prefix: '&8\[&{#D8D8FA}Aiyatsbus&8\]'
 
 loading-rarities: '{prefix} &a良好 &8| &a{0} &3个附魔品质已加载 &8({1} ms)'
 loading-targets: '{prefix} &a良好 &8| &a{0} &3个附魔对象已加载 &8({1} ms)'
+loading-internal-triggers: '{prefix} &a良好 &8| &a{0} &3个内置触发器已加载 &8({1} ms)'
 loading-enchantments: '{prefix} &a良好 &8| &a{0} &3个附魔已加载 &8({1} ms)'
 loading-groups: '{prefix} &a良好 &8| &a{0} &3个附魔组已加载 &8({1} ms)'
 
