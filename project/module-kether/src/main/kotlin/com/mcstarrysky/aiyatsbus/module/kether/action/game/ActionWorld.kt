@@ -1,6 +1,8 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.game
 
+import com.mcstarrysky.aiyatsbus.core.util.BlockUtils
 import org.bukkit.Location
+import org.bukkit.block.Block
 import org.bukkit.entity.Entity
 import org.bukkit.inventory.ItemStack
 import taboolib.module.kether.KetherParser
@@ -15,6 +17,13 @@ import taboolib.module.kether.combinationParser
  * @since 2024/7/14 12:42
  */
 object ActionWorld {
+
+    @KetherParser(["get-vein"], shared = true)
+    fun getVeinParser() = combinationParser {
+        it.group(type<Block>(), command("max", then = int()).option()).apply(it) { block, amount ->
+            now { BlockUtils.getVein(block, amount) }
+        }
+    }
 
     @KetherParser(["strike-lightning", "lightning"], shared = true)
     fun strikeLightningParser() = combinationParser {

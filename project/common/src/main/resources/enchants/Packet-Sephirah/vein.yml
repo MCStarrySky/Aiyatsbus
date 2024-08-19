@@ -1,0 +1,51 @@
+
+
+#         Powered by TabooLib 6.2         #
+
+
+basic:
+  id: vein
+  name: "脉络"
+  max_level: 4
+
+rarity: 史诗
+targets:
+  - 镐
+
+limitations:
+  - "CONFLICT_ENCHANT:立方"
+
+display:
+  description:
+    general: "挖掘矿物时连锁破坏其周围同种矿物"
+    specific: "&7挖掘矿物时连锁破坏其周围&a{数量}&7同种矿物"
+
+variables:
+  leveled:
+    数量: "个:2*{level}"
+  ordinary:
+    per-tick: 12
+    disable-on-sneaking: true
+    ores: DEEPSLATE_COAL_ORE,DEEPSLATE_IRON_ORE,DEEPSLATE_GOLD_ORE,DEEPSLATE_DIAMOND_ORE,DEEPSLATE_EMERALD_ORE,DEEPSLATE_REDSTONE_ORE,DEEPSLATE_LAPIS_ORE,COPPER_ORE,DEEPSLATE_COPPER_ORE,COAL_ORE,IRON_ORE,GOLD_ORE,ANCIENT_DEBRIS,LAPIS_ORE,DIAMOND_ORE,EMERALD_ORE,REDSTONE_ORE,NETHER_QUARTZ_ORE,GILDED_BLACKSTONE,NETHER_GOLD_ORE,GLOWSTONE
+
+mechanisms:
+  listeners:
+    on-break:
+      listen: "block-break"
+      handle: |-
+        if hasMark block-ignored on &event[block] then {
+          set &mirror[isCancelled] to true
+          exit
+        }
+        if all [ type boolean &disable-on-sneaking player sneaking ] then {
+          exit
+        }
+        
+        set targets to split &ores by ","
+        if not check &event[block.type] in &ores then {
+          exit
+        }
+
+        set breaks to get-vein &event[block] max type int &数量
+
+        operation fast-multi-break args array [ &player &breaks &per-tick ]
