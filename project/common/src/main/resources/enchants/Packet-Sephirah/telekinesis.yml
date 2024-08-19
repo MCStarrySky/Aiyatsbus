@@ -1,0 +1,60 @@
+
+
+#         Powered by TabooLib 6.2         #
+
+
+basic:
+  id: telekinesis
+  name: "吸星"
+  max_level: 1
+
+rarity: 精良
+targets:
+  - 剑
+  - 斧
+  - 镐
+  - 铲
+  - 锄
+  - 弓
+  - 弩
+
+limitations: [ ]
+
+display:
+  description:
+    general: "使经验和掉落物直接进入背包"
+    specific: "&7使经验和&a{范围}&7内的掉落物直接进入背包"
+
+variables:
+  leveled:
+    范围: "格:2"
+    检测时间: "刻:1"
+  ordinary:
+    disable-on-players: true
+
+mechanisms:
+  listeners:
+    on-kill:
+      listen: 'entity-death'
+      handle: |-
+        if instance-of &event[entity.lastDamageCause] is org.bukkit.event.entity.EntityDamageByEntityEvent then {
+          if all [
+            type boolean &disable-on-players
+            instance-of &event[entity] is org.bukkit.entity.Player
+          ] then {
+            exit
+          }
+          set dead to &event[entity.location]
+          if instance-of &event[killer] is org.bukkit.entity.Player then {
+            operation pick-near-items args array [ &event[killer] &dead type int &范围 type long &检测时间 ]
+            give-exp &event[droppedExp] to &event[killer]
+            set &event[droppedExp] to 0
+          }
+        }
+
+    on-break:
+      listen: 'block-break'
+      handle: |-
+        give-exp &event[expToDrop] to &event[player]
+        set &event[expToDrop] to 0
+        operation pick-near-items args array [ &event[player] &event[block.location] type int &范围 type long &检测时间 ]

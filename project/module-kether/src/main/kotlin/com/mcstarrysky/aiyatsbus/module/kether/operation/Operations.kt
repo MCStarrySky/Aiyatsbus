@@ -1,8 +1,8 @@
 package com.mcstarrysky.aiyatsbus.module.kether.operation
 
-import com.mcstarrysky.aiyatsbus.core.util.Registry
 import com.mcstarrysky.aiyatsbus.module.kether.operation.operation.Aiming
 import com.mcstarrysky.aiyatsbus.module.kether.operation.operation.FastMultiBreak
+import com.mcstarrysky.aiyatsbus.module.kether.operation.operation.PickNearItems
 import com.mcstarrysky.aiyatsbus.module.kether.operation.operation.Plant
 import org.bukkit.Location
 import org.bukkit.entity.*
@@ -29,6 +29,9 @@ object Operations {
     init {
         register("aiming") { Aiming.shootBow(it) }
         register("plant") { Plant.plant(it) }
+        listOf("pickNearItems", "pick-near-items").forEach { name ->
+            register(name) { PickNearItems.pickNearItems(it) }
+        }
         listOf("fast-multi-break", "fastMultiBreak").forEach { name ->
             register(name) { FastMultiBreak.fastMultiBreak(it) }
         }
