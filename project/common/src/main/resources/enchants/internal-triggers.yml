@@ -1,0 +1,57 @@
+mine_block: |-
+  call-trigger mine_block
+  if hasMark block-ignored on &event[block] then {
+    set &mirror[isCancelled] to true
+    exit
+  }
+  if all [ type boolean &disable-on-sneaking player sneaking ] then {
+    exit
+  }
+
+  set breaks to array [ ]
+
+  set tX to type int &X范围
+  set tY to type int &Y范围
+  set tZ to type int &Z范围
+
+  set rangeX to calc "(tX - level) / 2 + level"
+  set rangeY to calc "(tY - level) / 2 + level"
+  set rangeZ to calc "(tZ - level) / 2 + level"
+
+  set world to &event[block.world]
+  set x to type int &event[block.x]
+  set y to type int &event[block.y]
+  set z to type int &event[block.z]
+
+  set hardness-check to split &hardness-check by ","
+  set blacklist to split &blacklist by ","
+
+  set tx to math -1 * &rangeX + 1
+  set ty to math -1 * &rangeY + 1
+  set tz to math -1 * &rangeZ + 1
+
+  set tx1 to math sub [ &rangeX 1 ]
+  set ty1 to math sub [ &rangeY 1 ]
+  set tz1 to math sub [ &rangeZ 1 ]
+
+  for ox in range &tx to &tx1 then {
+    for oy in range &ty to &ty1 then {
+      for oz in range &tz to &tz1 then {
+        if any [ not check &ox is 0 not check &oy is 0 not check &oz is 0 ] then {
+
+          set bx to math &x + &ox
+          set by to math &y + &oy
+          set bz to math &z + &oz
+
+          set loc to location &world &bx &by &bz
+          set type to &loc[block.type]
+
+          if all [ not check &type is AIR not check &type in &blacklist not check &type in &hardness-check ] then {
+            arr-add &loc to &breaks
+          }
+        }
+      }
+    }
+  }
+
+  operation fast-multi-break args array [ &player &breaks &per-tick ]
