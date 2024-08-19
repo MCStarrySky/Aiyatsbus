@@ -1,0 +1,39 @@
+
+
+#         Powered by TabooLib 6.2         #
+
+
+basic:
+  id: stamina
+  name: "耐性"
+  max_level: 4
+
+rarity: 罕见
+targets:
+  - 靴子
+
+limitations: [ ]
+
+display:
+  description:
+    general: "奔跑时饱食损失降低"
+
+variables:
+  leveled:
+    概率: "%:12.5*{level}"
+
+mechanisms:
+  listeners:
+    on-kill:
+      listen: 'food-level-change'
+      handle: |-
+        if instance-of &event[entity] is org.bukkit.entity.Player then {
+          if not player sprinting then {
+            exit
+          }
+          if check &event[food-level] < &event[entity.food-level] then {
+            if check random2 0 to 100 <= type double &概率 then {
+              set &event[isCancelled] to true
+            }
+          }
+        }

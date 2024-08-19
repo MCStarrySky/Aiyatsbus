@@ -34,7 +34,7 @@ variables:
 mechanisms:
   listeners:
     on-damage:
-      listen: "entity-damage-by-entity"
+      listen: "entity-damage-other"
       handle: |-
         set multiplier to type double &增幅
         set damage to &event[damage]

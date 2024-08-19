@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.kether.property.bukkit.entity
 
+import com.mcstarrysky.aiyatsbus.core.util.coerceBoolean
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusGenericProperty
 import com.mcstarrysky.aiyatsbus.module.kether.AiyatsbusProperty
 import org.bukkit.Location
@@ -44,6 +45,7 @@ class PropertyPlayer : AiyatsbusGenericProperty<Player>("player") {
             "playerTime", "time" -> instance.playerTime
             "playerTimeOffset", "time-offset" -> instance.playerTimeOffset
             "isPlayerTimeRelative", "time-relative" -> instance.isPlayerTimeRelative
+            "isSprinting", "is-sprinting", "sprinting" -> instance.isSprinting
 
             "playerWeather", "weather" -> instance.playerWeather
 
@@ -66,6 +68,7 @@ class PropertyPlayer : AiyatsbusGenericProperty<Player>("player") {
             "playerListHeader", "player-list-header" -> instance.playerListHeader = value?.toString() ?: return OpenResult.successful()
             "playerTime", "time" -> instance.setPlayerTime(value?.clong ?: return OpenResult.successful(), false)
             "playerWeather", "weather" -> instance.setPlayerWeather(value?.toString()?.let{WeatherType.valueOf(it)} ?: return OpenResult.successful())
+            "isSprinting", "is-sprinting", "sprinting" -> instance.isSprinting = value?.coerceBoolean() ?: return OpenResult.successful()
             else -> return OpenResult.failed()
         }
         return OpenResult.successful()

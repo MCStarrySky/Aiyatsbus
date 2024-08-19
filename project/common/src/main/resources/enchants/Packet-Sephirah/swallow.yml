@@ -1,0 +1,37 @@
+
+
+#         Powered by TabooLib 6.2         #
+
+
+basic:
+  id: swallow
+  name: "吞噬"
+  max_level: 3
+
+rarity: 罕见
+targets:
+  - 剑
+  - 斧
+  - 弓
+  - 弩
+  - 三叉戟
+
+limitations: [ ]
+
+display:
+  description:
+    general: "击杀敌人时回复饱食度"
+    specific: "&7击杀敌人时获得&a{饱食度}&7饱食度"
+
+variables:
+  leveled:
+    饱食度: "点:4*{level}"
+
+mechanisms:
+  listeners:
+    on-kill:
+      listen: 'entity-death'
+      handle: |-
+        if instance-of &event[killer] is org.bukkit.entity.Player then {
+          set &event[killer.food-level] to math add [ &event[killer.food-level] type int &饱食度 ]
+        }

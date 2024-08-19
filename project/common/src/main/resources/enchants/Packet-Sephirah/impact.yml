@@ -30,7 +30,7 @@ variables:
 mechanisms:
   listeners:
     on-damage:
-      listen: "entity-damage-by-entity"
+      listen: "entity-damage-other"
       handle: |-
         if check &event[cause] is PROJECTILE then {
           if check random2 0 to 100 <= type double &概率 then {

@@ -30,7 +30,7 @@ variables:
 mechanisms:
   listeners:
     on-damage:
-      listen: "entity-damage-by-entity"
+      listen: "entity-damage-other"
       handle: |-
         if all [
           instance-of &event[damager] is Arrow

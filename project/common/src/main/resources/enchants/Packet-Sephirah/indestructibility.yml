@@ -1,0 +1,33 @@
+
+
+#         Powered by TabooLib 6.2         #
+
+
+basic:
+  id: indestructibility
+  name: "重铸"
+  max_level: 3
+
+rarity: 传奇
+targets:
+  - 所有物品
+
+limitations:
+  - "CONFLICT_ENCHANT:耐久"
+
+display:
+  description:
+    general: "其物品耐久得到大幅度提升"
+
+variables:
+  leveled:
+    概率: "%:20*{level}"
+
+mechanisms:
+  listeners:
+    on-item-damage:
+      listen: 'player-item-damage'
+      handle: |-
+        if check random2 0 to 100 <= type double &概率 then {
+          set &event[isCancelled] to true
+        }

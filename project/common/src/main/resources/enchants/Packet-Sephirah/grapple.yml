@@ -30,7 +30,7 @@ variables:
 mechanisms:
   listeners:
     on-damage:
-      listen: "entity-damage-by-entity"
+      listen: "entity-damage-other"
       handle: |-
         if not instance-of &event[attacker] is org.bukkit.entity.LivingEntity then {
           exit

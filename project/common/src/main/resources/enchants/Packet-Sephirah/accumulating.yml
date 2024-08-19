@@ -35,7 +35,7 @@ variables:
 mechanisms:
   listeners:
     on-damage:
-      listen: "entity-damage-by-entity"
+      listen: "entity-damage-other"
       handle: |-
         set total to type int modifiable-var &enchant &item 当前累计
         set multiplier to type double &伤害增加百分比

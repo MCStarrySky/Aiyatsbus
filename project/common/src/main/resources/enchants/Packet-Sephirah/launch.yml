@@ -1,0 +1,40 @@
+
+
+#         Powered by TabooLib 6.2         #
+
+
+basic:
+  id: launch
+  name: "能源"
+  max_level: 4
+
+rarity: 史诗
+targets:
+  - 鞘翅
+
+limitations:
+  - "CONFLICT_ENCHANT:制动"
+
+display:
+  description:
+    general: "使用烟花火箭加速时获得的加速度提升"
+    specific: "&7使用烟花火箭加速时获得的加速度提升&a{增幅}"
+
+variables:
+  leveled:
+    增幅: "%:15*{level}"
+
+mechanisms:
+  listeners:
+    on-elytra-boost:
+      listen: "elytra-boost"
+      handle: |-
+        set velocity to &player[velocity]
+        set multiplier to math add [ 1 math div [ type double &增幅 100 ] ]
+        set &velocity[x] to math mul [ &velocity[x] &multiplier ]
+        set &velocity[y] to math mul [ &velocity[y] &multiplier ]
+        set &velocity[z] to math mul [ &velocity[z] &multiplier ]
+        
+        delay 0.05s
+        a-vec-add &velocity on &player safety true
+        
