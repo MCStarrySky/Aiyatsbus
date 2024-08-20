@@ -18,7 +18,7 @@ limitations:
 display:
   description:
     general: "可进入飞行状态，飞行时持续消耗装备耐久"
-    specific: "&7可进入飞行状态，飞行时每&a1秒&7消耗装备&a{消耗耐久}&7耐久"
+    specific: "&7可进入飞行状态，飞行时每&a2秒&7消耗装备&a{消耗耐久}&7耐久"
 
 variables:
   leveled:
@@ -27,7 +27,7 @@ variables:
 mechanisms:
   tickers:
     durability:
-      interval: 20
+      interval: 40
       pre-handle: |-
         if any [ check player gamemode is SURVIVAL check player gamemode is ADVENTURE ] then {
           player allow flight to true
