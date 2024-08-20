@@ -45,6 +45,12 @@ object AiyatsbusSettings {
     var mainMenuBack = "cd"
 
     /**
+     * 命令别称, 方便迁移
+     */
+    @ConfigNode("Settings.command-aliases")
+    var commandAliases = listOf("spe", "splendidenchants", "nerous", "nos", "nereusopus")
+
+    /**
      * 是否开启自动修改玩家背包内非法物品
      */
     @ConfigNode("Settings.anti-illegal-item.enable")

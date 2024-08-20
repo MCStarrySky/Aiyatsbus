@@ -24,7 +24,7 @@ import taboolib.module.nms.MinecraftVersion
  * @author mical
  * @since 2024/2/17 21:02
  */
-@CommandHeader(name = "aiyatsbus", permission = "aiyatsbus.command", aliases = ["se", "spe", "splendidenchants", "nereus", "nos", "nereusopus"])
+@CommandHeader(name = "aiyatsbus", permission = "aiyatsbus.command")
 object AiyatsbusCommand {
 
     val enchantNamesAndIds = mutableListOf<String>()
@@ -61,6 +61,19 @@ object AiyatsbusCommand {
             // 生成 TabList
             enchantNamesAndIds.clear()
             enchantNamesAndIds.addAll(Aiyatsbus.api().getEnchantmentManager().getEnchants().values.map { listOf(it.basicData.id, it.basicData.name) }.flatten())
+        }
+    }
+}
+
+@Awake(LifeCycle.ENABLE)
+private fun commandAliases() {
+    if (AiyatsbusSettings.commandAliases.isNotEmpty()) {
+        command(
+            name = AiyatsbusSettings.commandAliases.first(),
+            aliases = AiyatsbusSettings.commandAliases.drop(1)
+        ) {
+            // FIXME
+            AiyatsbusCommand.main
         }
     }
 }

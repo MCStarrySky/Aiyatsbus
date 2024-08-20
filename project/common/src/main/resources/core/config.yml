@@ -12,6 +12,18 @@ Settings:
   default-rarity: common
   # 如果为附魔主菜单设置了返回按钮, 则点击返回按钮时执行这个命令
   main-menu-back: cd
+  # 是否启用命令别称? 启用后将开启 /nereusopus, /nos, /nerous 等命令
+  # 这样可以方便从旧插件迁移到新插件, 因为可能有的菜单里打开附魔菜单是调用 /nereusopus menu 这个命令
+  # 如果不需要, 将该项设为空集, 例如:
+  # command-aliases: [ ]
+  # 注: 更改后重启生效
+  command-aliases:
+#    - se # 该命令别称可能会引起和 CMI 的冲突, 所以默认关闭
+    - spe
+    - splendidenchants
+    - nerous
+    - nos
+    - nereusopus
   # 自动检测非法附魔
   anti-illegal-item:
     enable: false

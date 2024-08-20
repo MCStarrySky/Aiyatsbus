@@ -83,6 +83,9 @@ object EnchantingTableSupport {
         val cost = event.whichButton() + 1
         val bonus = shelfAmount[event.enchantBlock.location.serialized] ?: 1
 
+        // 书附魔完变成附魔书
+        if (item.type == Material.BOOK) item.type = Material.ENCHANTED_BOOK
+
         // 首先获取附魔悬停信息上显示的附魔和等级, 并向物品添加, 因为这是必得的附魔
         val enchantmentHintLevel = event.enchantsToAdd[event.enchantmentHint]!!
         item.addEt(event.enchantmentHint.aiyatsbusEt, enchantmentHintLevel)
@@ -117,9 +120,6 @@ object EnchantingTableSupport {
     ): Pair<Map<AiyatsbusEnchantment, Int>, ItemStack> {
         val enchantsToAdd = mutableMapOf<AiyatsbusEnchantment, Int>()
         val result = item.clone()
-
-        // 书附魔完变成附魔书
-        if (item.type == Material.BOOK) result.type = Material.ENCHANTED_BOOK
 
         // 额外出的货的数量
         val amount = calculateAmount(player, cost)
