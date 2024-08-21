@@ -2,6 +2,7 @@ package com.mcstarrysky.aiyatsbus.impl
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.compat.EnchantRegistrationHooks
+import com.mcstarrysky.aiyatsbus.core.enchant.InternalAiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.isProcessingByWatcher
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.unwatch
@@ -54,7 +55,7 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
     }
 
     override fun unregister(enchantment: AiyatsbusEnchantment) {
-        enchantment.trigger.onDisable()
+        enchantment.trigger?.onDisable()
         Aiyatsbus.api().getEnchantmentRegisterer().unregister(enchantment)
         values -= enchantment.enchantmentKey
     }
@@ -91,12 +92,12 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
         val id = config["basic.id"].toString()
         val key = NamespacedKey.minecraft(id)
 
-        val enchant = AiyatsbusEnchantmentBase(id, file, config)
+        val enchant = InternalAiyatsbusEnchantment(id, file, config)
         if (!enchant.dependencies.checkAvailable()) return
 
         register(enchant)
 
-        file.watch { f ->
+         file.watch { f ->
             if (f.isProcessingByWatcher) {
                 f.isProcessingByWatcher = false
                 return@watch
@@ -112,10 +113,10 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
             val time = System.currentTimeMillis()
 
             val ench = getEnchant(key)!!
-            ench.trigger.onDisable()
+            ench.trigger?.onDisable()
             unregister(ench)
 
-            val newEnchant = AiyatsbusEnchantmentBase(id, f, Configuration.loadFromFile(f))
+            val newEnchant = InternalAiyatsbusEnchantment(id, f, Configuration.loadFromFile(f))
             if (!newEnchant.dependencies.checkAvailable()) return@watch
             register(newEnchant)
 

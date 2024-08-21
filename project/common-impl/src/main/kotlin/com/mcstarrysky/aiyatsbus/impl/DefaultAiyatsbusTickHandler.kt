@@ -55,8 +55,9 @@ class DefaultAiyatsbusTickHandler : AiyatsbusTickHandler {
 
     private fun onTick() {
         counter++
-        routine.cellSet().filter { counter % it.value == 0L }
-            .sortedBy { it.rowKey.trigger.tickerPriority }
+        routine.cellSet() // 无需判断这里 trigger 是否为 null, 因为只有 Trigger 初始化时才会往这里扔 enchant
+            .filter { counter % it.value == 0L }
+            .sortedBy { it.rowKey.trigger!!.tickerPriority }
             .forEach {
             val ench = it.rowKey
             val id = it.columnKey
@@ -66,8 +67,8 @@ class DefaultAiyatsbusTickHandler : AiyatsbusTickHandler {
                 var flag = false
                 val record = recorder.computeIfAbsent(player.uniqueId) { mutableSetOf() }
 
-                // 一般能存在 routine 里的, tickers 必不为 null
-                val ticker = ench.trigger.tickers[id] ?: error("Unknown ticker $id for enchantment ${ench.basicData.id}")
+                // 一般能存在 routine 里的, trigger 和 tickers 必不为 null
+                val ticker = ench.trigger!!.tickers[id] ?: error("Unknown ticker $id for enchantment ${ench.basicData.id}")
 
                 val variables = mutableMapOf(
                     "player" to player,

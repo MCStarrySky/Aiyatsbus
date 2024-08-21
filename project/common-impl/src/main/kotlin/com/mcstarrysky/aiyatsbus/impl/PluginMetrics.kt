@@ -31,7 +31,9 @@ object PluginMetrics {
 
         // kether_triggers
         metrics.addCustomChart(SingleLineChart("kether_triggers") {
-            Aiyatsbus.api().getEnchantmentManager().getEnchants().values.map { it.trigger.listeners.values }.flatten().size
+            Aiyatsbus.api().getEnchantmentManager().getEnchants().values
+                .filter { it.trigger != null }
+                .map { it.trigger!!.listeners.values }.flatten().size
         })
     }
 }

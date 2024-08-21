@@ -91,7 +91,7 @@ interface AiyatsbusEnchantment {
     /**
      * 附魔的触发器
      */
-    val trigger: Trigger
+    val trigger: Trigger?
 
     fun conflictsWith(other: Enchantment): Boolean {
         return limitations.conflictsWith(other)

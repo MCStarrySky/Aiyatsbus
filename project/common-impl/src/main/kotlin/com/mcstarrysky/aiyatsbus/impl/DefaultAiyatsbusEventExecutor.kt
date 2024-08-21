@@ -34,7 +34,6 @@ import taboolib.common.platform.PlatformFactory
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.ProxyListener
 import taboolib.common.platform.function.registerBukkitListener
-import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.common.platform.function.unregisterListener
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.library.reflex.Reflex.Companion.getProperty
@@ -183,14 +182,16 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
     private fun ItemStack.triggerEts(listen: String, event: Event, eventPriority: EventPriority, entity: LivingEntity, slot: EquipmentSlot?, ignoreSlot: Boolean = false) {
 
-        val enchants = fixedEnchants.entries.sortedBy { it.key.trigger.listenerPriority }
+        val enchants = fixedEnchants.entries
+            .filter { it.key.trigger != null }
+            .sortedBy { it.key.trigger!!.listenerPriority }
 
         for (enchantPair in enchants) {
             val enchant = enchantPair.key
 
             if (!enchant.limitations.checkAvailable(CheckType.USE, this, entity, slot, ignoreSlot).first) continue
 
-            enchant.trigger.listeners
+            enchant.trigger!!.listeners
                 .filterValues { it.listen == listen }
                 .entries
                 .sortedBy { it.value.priority }
