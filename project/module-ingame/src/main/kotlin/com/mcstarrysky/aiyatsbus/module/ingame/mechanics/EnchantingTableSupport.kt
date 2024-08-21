@@ -87,7 +87,9 @@ object EnchantingTableSupport {
         if (item.type == Material.BOOK) item.type = Material.ENCHANTED_BOOK
 
         // 首先获取附魔悬停信息上显示的附魔和等级, 并向物品添加, 因为这是必得的附魔
-        val enchantmentHintLevel = event.enchantsToAdd[event.enchantmentHint]!!
+        val enchantmentHintLevel = if (player.hasPermission(fullLevelPrivilege)) {
+            event.enchantmentHint.maxLevel
+        } else event.enchantsToAdd[event.enchantmentHint]!!
         item.addEt(event.enchantmentHint.aiyatsbusEt, enchantmentHintLevel)
 
         // 附魔
