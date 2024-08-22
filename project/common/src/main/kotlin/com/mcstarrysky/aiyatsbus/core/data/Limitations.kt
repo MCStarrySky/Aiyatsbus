@@ -30,11 +30,17 @@ data class Limitations(
     private val lines: List<String>
 ) {
 
+    var conflictsWithEverything: Boolean = false
+
     val limitations = lines.mapNotNull {
         val type = LimitType.valueOf(it.split(":")[0])
         val value = it.split(":").drop(1).joinToString(":")
         if (type == CONFLICT_ENCHANT) {
-            conflicts[belonging.basicData.name] = value
+            if (value == "*") {
+                conflictsWithEverything = true
+            } else {
+                conflicts[belonging.basicData.name] = value
+            }
             null
         } else type to value
     }.toMutableList()
@@ -103,7 +109,7 @@ data class Limitations(
     }
 
     fun conflictsWith(other: Enchantment): Boolean {
-        return limitations.filter { it.first == CONFLICT_ENCHANT || it.first == CONFLICT_GROUP }
+        return (conflictsWithEverything || other.aiyatsbusEt.limitations.conflictsWithEverything) || limitations.filter { it.first == CONFLICT_ENCHANT || it.first == CONFLICT_GROUP }
             .map {
                 when (it.first) {
                     CONFLICT_ENCHANT -> other.key == aiyatsbusEt(it.second)?.enchantmentKey

@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.core.data
 
+import com.mcstarrysky.aiyatsbus.core.util.MathUtils.preheatExpression
 import com.mcstarrysky.aiyatsbus.core.util.calculate
 import com.mcstarrysky.aiyatsbus.core.util.get
 import com.mcstarrysky.aiyatsbus.core.util.set
@@ -111,7 +112,7 @@ class Variables(
                             leveled[variable] = any.getString("unit", "单位")!! to map
                         } else {
                             val (unit, formula) = any.toString().split(":", limit = 2)
-                            leveled[variable] = unit to linkedMapOf(1 to formula)
+                            leveled[variable] = unit to linkedMapOf(1 to formula.preheatExpression())
                         }
                         variables[variable] = VariableType.LEVELED
                     }

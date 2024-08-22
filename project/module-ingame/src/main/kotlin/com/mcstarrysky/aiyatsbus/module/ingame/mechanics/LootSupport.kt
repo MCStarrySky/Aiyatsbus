@@ -72,7 +72,7 @@ object LootSupport {
         if (item.type == Material.BOOK) result.type = Material.ENCHANTED_BOOK
 
         val amount = enchantAmount(player, cost)
-        val pool = result.etsAvailable(checkType, player).filter { it.alternativeData.isDiscoverable }
+        val pool = result.etsAvailable(checkType, player).filter { !it.alternativeData.isTreasure }
 
         repeat(amount) {
             val enchant = pool.drawEt() ?: return@repeat

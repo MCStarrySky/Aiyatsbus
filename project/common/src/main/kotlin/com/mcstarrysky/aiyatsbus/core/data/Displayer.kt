@@ -28,7 +28,7 @@ data class Displayer(
     val specificDescription: String = root.getString("description.specific", generalDescription)!!
 ) {
 
-    val displayManagerSettings = Aiyatsbus.api().getDisplayManager().getSettings()
+    private val displayManagerSettings = Aiyatsbus.api().getDisplayManager().getSettings()
 
     /**
      * 是否是在 display.yml 中设置的默认配置格式

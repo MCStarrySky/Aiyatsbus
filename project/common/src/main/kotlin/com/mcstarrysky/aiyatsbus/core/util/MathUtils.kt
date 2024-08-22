@@ -1,8 +1,13 @@
 package com.mcstarrysky.aiyatsbus.core.util
 
-import taboolib.common5.cdouble
-import java.math.BigDecimal
-import java.util.*
+import redempt.crunch.CompiledExpression
+import redempt.crunch.Crunch
+import redempt.crunch.functional.EvaluationEnvironment
+import redempt.crunch.functional.Function
+import taboolib.common.env.RuntimeDependency
+import taboolib.common.util.random
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Aiyatsbus
@@ -37,92 +42,74 @@ fun Double.isInteger(): Boolean {
     return this == toInt().toDouble()
 }
 
+@RuntimeDependency(
+    value = "com.github.Redempt:Crunch:1.0",
+    test = "redempt.crunch.CompiledExpression",
+    repository = "http://mcstarrysky.com:8081/repository/releases/"
+)
 object MathUtils {
 
+    private val min = Function("min", 2) {
+        min(it[0], it[1])
+    }
+
+    private val max = Function("max", 2) {
+        max(it[0], it[1])
+    }
+
+    private val rand = Function("random", 2) {
+        random(it[0], it[1])
+    }
+
+    private val cache = mutableMapOf<String, CompiledExpression?>()
+
+    fun String.preheatExpression(): String {
+        val expression = replaceVariable()
+        val variables = extractVariableNames()
+
+        val env = EvaluationEnvironment()
+        env.setVariableNames(*variables.toTypedArray())
+        env.addFunctions(rand, min, max)
+        val compiled = Crunch.compileExpression(expression, env)
+
+        cache[expression] = compiled
+
+        return this
+    }
+
+    fun String.calculate(holders: List<Pair<String, Any>>): Double {
+        val time = System.currentTimeMillis()
+        val expression = replaceVariable()
+        val variables = extractVariableNames()
+
+        val pairMap = holders.toMap()
+        val values = variables.map { pairMap[it] }
+            .map { it.toString().toDoubleOrNull() ?: 0.0 }
+            .toDoubleArray()
+
+        val compiled = cache.getOrPut(expression) {
+            val env = EvaluationEnvironment()
+            env.setVariableNames(*variables.toTypedArray())
+            env.addFunctions(rand, min, max)
+            Crunch.compileExpression(expression, env)
+        }
+
+        val result = runCatching { compiled?.evaluate(*values) }.getOrNull() ?: 0.0
+        println(System.currentTimeMillis() - time)
+        return result
+    }
+
+    private val variableRegex = "\\{([^}]+)}".toRegex()
+
     /**
-     * 计算数字
+     * 提取出公式里的变量
      */
-    private fun calculateToDouble(a1: BigDecimal, a2: BigDecimal, operator: Char): Double {
-        return when (operator) {
-            '+' -> a1 + a2
-            '-' -> a1 - a2
-            '*' -> a1 * a2
-            '/' -> a1 / a2
-            else -> throw IllegalArgumentException("Unknown operator: $operator")
-        }.toDouble()
+    private fun String.extractVariableNames(): List<String> {
+        return (variableRegex.findAll(this).map { it.groupValues[1] }.toList())
     }
 
     /**
-     * 获取优先级
-     * 小学问题, 先乘除后加减, 我弟都会
+     * 去掉变量两边的大括号
      */
-    private fun getPriority(symbol: String?): Int {
-        return when (symbol) {
-            null -> 0
-            "(" -> 1
-            "+", "-" -> 2
-            "*", "/" -> 3
-            else -> throw IllegalArgumentException("Unknown symbol: $symbol")
-        }
-    }
-
-    /**
-     * 将中缀表达式转化为后缀表达式(逆波兰表达式)
-     */
-    private fun toRpnExpr(expr: String): String {
-        val buffer = StringBuffer()
-        val operator = Stack<String>()
-        operator.push(null)
-
-        val pattern = "(?<!\\d)-?\\d+(\\.\\d+)?|[+\\-*/()]".toPattern()
-        val matcher = pattern.matcher(expr)
-
-        while (matcher.find()) {
-            val symbol = matcher.group()
-            if (symbol.matches("[+\\-*/()]".toRegex())) {
-                if (symbol.equals("(")) {
-                    operator.push(symbol)
-                } else if (symbol.equals(")")) {
-                    while (operator.peek() != "(") {
-                        buffer.append(operator.pop()).append(" ")
-                    }
-                    operator.pop()
-                } else {
-                    while (getPriority(operator.peek()) >= getPriority(symbol)) {
-                        buffer.append(operator.pop()).append(" ")
-                    }
-                    operator.push(symbol)
-                }
-            } else {
-                buffer.append(symbol).append(" ")
-            }
-        }
-
-        while (operator.peek() != null) {
-            buffer.append(operator.pop()).append(" ")
-        }
-        return buffer.toString()
-    }
-
-    /**
-     * 计算表达式
-     */
-    fun calculate(expr: String): Double {
-        val rpnExpr = toRpnExpr(expr)
-        val pattern = "-?\\d+(\\.\\d+)?|[+\\-*/]".toPattern()
-        val matcher = pattern.matcher(rpnExpr)
-        val stack = Stack<Double>()
-
-        while (matcher.find()) {
-            val symbol = matcher.group()
-            if (symbol.matches("[+\\-*/]".toRegex())) {
-                val a2 = stack.pop()
-                val a1 = stack.pop()
-                stack.push(calculateToDouble(a1.toBigDecimal(), a2.toBigDecimal(), symbol[0]))
-            } else {
-                stack.push(symbol.cdouble)
-            }
-        }
-        return stack.pop()
-    }
+    private fun String.replaceVariable(): String = replace(variableRegex, "\$1")
 }

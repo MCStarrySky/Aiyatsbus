@@ -1,3 +1,5 @@
+@file:Suppress("LeakingThis")
+
 package com.mcstarrysky.aiyatsbus.core
 
 import com.mcstarrysky.aiyatsbus.core.data.*
@@ -38,14 +40,10 @@ abstract class AiyatsbusEnchantmentBase(
 
     override val variables: Variables = Variables.load(config.getConfigurationSection("variables"))
 
-    override val displayer: Displayer by unsafeLazy {
-        Displayer(config.getConfigurationSection("display")!!, this)
-    }
-
     override val targets: List<Target>
         get() = config.getStringList("targets").mapNotNull(::aiyatsbusTarget)
 
-    override val limitations: Limitations by unsafeLazy {
-        Limitations(this, config.getStringList("limitations"))
-    }
+    override val displayer: Displayer = Displayer(config.getConfigurationSection("display")!!, this)
+
+    override val limitations: Limitations = Limitations(this, config.getStringList("limitations"))
 }
