@@ -127,7 +127,7 @@ fun Enchantment.book(level: Int = maxLevel) = (this as AiyatsbusEnchantment).boo
 fun ItemStack.etsAvailable(
     checkType: CheckType = CheckType.ANVIL,
     player: Player? = null
-): List<AiyatsbusEnchantment> = Aiyatsbus.api().getEnchantmentManager().getEnchants().values.filter { it.limitations.checkAvailable(checkType, this, player).first }
+): List<AiyatsbusEnchantment> = Aiyatsbus.api().getEnchantmentManager().getEnchants().values.filter { it.limitations.checkAvailable(checkType, this, player).isSuccess }
 
 /**
  * 从特定品质中根据附魔权重抽取一个附魔

@@ -189,7 +189,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
         for (enchantPair in enchants) {
             val enchant = enchantPair.key
 
-            if (!enchant.limitations.checkAvailable(CheckType.USE, this, entity, slot, ignoreSlot).first) continue
+            if (enchant.limitations.checkAvailable(CheckType.USE, this, entity, slot, ignoreSlot).isFailure) continue
 
             enchant.trigger!!.listeners
                 .filterValues { it.listen == listen }
@@ -207,7 +207,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                         "mirror" to Mirror.MirrorStatus()
                     )
 
-                    vars += enchant.variables.variables(enchantPair.value, entity, this, false)
+                    vars += enchant.variables.variables(enchantPair.value, this, false)
 
                     if (AiyatsbusSettings.enablePerformanceTool) {
                         mirrorNow("Enchantment:Listener:Kether" + if (AiyatsbusSettings.showPerformanceDetails) ":${enchant.basicData.id}" else "") {

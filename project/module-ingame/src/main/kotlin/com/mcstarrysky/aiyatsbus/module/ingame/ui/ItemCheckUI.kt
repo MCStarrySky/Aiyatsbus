@@ -14,8 +14,8 @@ import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunc
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variable
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variables
+import com.mcstarrysky.aiyatsbus.core.util.variable
+import com.mcstarrysky.aiyatsbus.core.util.variables
 import taboolib.module.chat.component
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration

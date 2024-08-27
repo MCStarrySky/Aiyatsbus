@@ -1,6 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config
 
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.VariableReaders
+import com.mcstarrysky.aiyatsbus.core.util.VariableReaders
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.oneOf
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.advance.KeywordConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.advance.ShapeConfiguration

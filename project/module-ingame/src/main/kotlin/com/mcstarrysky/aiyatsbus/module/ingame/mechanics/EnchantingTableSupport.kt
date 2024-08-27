@@ -141,7 +141,7 @@ object EnchantingTableSupport {
             ).coerceIn(1, maxLevel)
 
             // 如果不与现有附魔冲突就添加
-            if (enchant.limitations.checkAvailable(CheckType.ATTAIN, result, player).first) {
+            if (enchant.limitations.checkAvailable(CheckType.ATTAIN, result, player).isSuccess) {
                 result.addEt(enchant)
                 enchantsToAdd[enchant] = level
             }

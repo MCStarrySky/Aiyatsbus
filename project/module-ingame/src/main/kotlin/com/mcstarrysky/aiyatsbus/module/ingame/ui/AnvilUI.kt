@@ -8,7 +8,7 @@ import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.MenuComponent
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variables
+import com.mcstarrysky.aiyatsbus.core.util.variables
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.load
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.setSlots
 import org.bukkit.Material
@@ -21,7 +21,7 @@ import taboolib.module.ui.openMenu
 import taboolib.module.ui.type.Chest
 import com.mcstarrysky.aiyatsbus.module.ingame.mechanics.AnvilSupport
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.UIType
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variable
+import com.mcstarrysky.aiyatsbus.core.util.variable
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.record
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
@@ -73,7 +73,7 @@ object AnvilUI {
                 } else {
                     val bugs = b.fixedEnchants.mapNotNull { (enchant, _) ->
                         val check = enchant.limitations.checkAvailable(CheckType.ANVIL, a, player)
-                        if (!check.first) check.second
+                        if (check.isFailure) check.reason
                         else null
                     }
                     info["allowed"] = player.asLang("ui-anvil-info-disallow")

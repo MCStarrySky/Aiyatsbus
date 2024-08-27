@@ -38,7 +38,7 @@ abstract class AiyatsbusEnchantmentBase(
     override val rarity: Rarity
         get() = aiyatsbusRarity(config["rarity"].toString()) ?: aiyatsbusRarity(AiyatsbusSettings.defaultRarity) ?: error("Enchantment $id has an unknown rarity")
 
-    override val variables: Variables = Variables.load(config.getConfigurationSection("variables"))
+    override val variables: Variables = Variables(config.getConfigurationSection("variables"))
 
     override val targets: List<Target>
         get() = config.getStringList("targets").mapNotNull(::aiyatsbusTarget)

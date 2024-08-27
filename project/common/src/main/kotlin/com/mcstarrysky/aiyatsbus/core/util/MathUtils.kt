@@ -6,6 +6,7 @@ import redempt.crunch.functional.EvaluationEnvironment
 import redempt.crunch.functional.Function
 import taboolib.common.env.RuntimeDependency
 import taboolib.common.util.random
+import java.math.BigDecimal
 import kotlin.math.max
 import kotlin.math.min
 
@@ -78,7 +79,6 @@ object MathUtils {
     }
 
     fun String.calculate(holders: List<Pair<String, Any>>): Double {
-        val time = System.currentTimeMillis()
         val expression = replaceVariable()
         val variables = extractVariableNames()
 
@@ -91,12 +91,10 @@ object MathUtils {
             val env = EvaluationEnvironment()
             env.setVariableNames(*variables.toTypedArray())
             env.addFunctions(rand, min, max)
-            Crunch.compileExpression(expression, env)
+            runCatching { Crunch.compileExpression(expression, env) }.getOrNull()
         }
 
-        val result = runCatching { compiled?.evaluate(*values) }.getOrNull() ?: 0.0
-        println(System.currentTimeMillis() - time)
-        return result
+        return runCatching { compiled?.evaluate(*values) }.getOrNull() ?: 0.0
     }
 
     private val variableRegex = "\\{([^}]+)}".toRegex()

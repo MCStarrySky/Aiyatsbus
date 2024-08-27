@@ -7,8 +7,8 @@ import com.mcstarrysky.aiyatsbus.core.util.toBuiltComponent
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.*
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variable
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variables
+import com.mcstarrysky.aiyatsbus.core.util.variable
+import com.mcstarrysky.aiyatsbus.core.util.variables
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import taboolib.common.platform.function.submit
@@ -65,7 +65,12 @@ object EnchantSearchUI {
             pages(shape, templates)
 
             val template = templates.require("EnchantSearch:enchant")
-            onGenerate(async = true) { _, element, index, slot -> template(slot, index) { this["enchant"] = element } }
+            onGenerate(async = true) { _, element, index, slot ->
+                template(slot, index) {
+                    this["enchant"] = element
+                    this["player"] = player
+                }
+            }
             onClick { event, element -> templates[event.rawSlot]?.handle(this, event, "element" to element) }
 
             FilterType.values().forEach {
@@ -81,7 +86,8 @@ object EnchantSearchUI {
     private val enchant = MenuFunctionBuilder {
         onBuild { (_, _, _, _, icon, args) ->
             val enchant = args["enchant"] as AiyatsbusEnchantment
-            val holders = enchant.displayer.holders(enchant.basicData.maxLevel)
+            val player = args["player"] as Player
+            val holders = enchant.displayer.holders(enchant.basicData.maxLevel, player, enchant.book())
             icon.variables { variable -> listOf(holders[variable] ?: "") }
                 .modifyMeta<ItemMeta> { lore = lore.toBuiltComponent().map(Source::toLegacyText) }
                 .skull(enchant.rarity.skull)

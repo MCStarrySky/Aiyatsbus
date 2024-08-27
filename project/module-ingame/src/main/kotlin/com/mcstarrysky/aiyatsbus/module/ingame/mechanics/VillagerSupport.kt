@@ -48,7 +48,7 @@ object VillagerSupport {
         result.clearEts()
         repeat(amount) {
             result.addEt((aiyatsbusGroups[tradeGroup]?.enchantments ?: listOf<AiyatsbusEnchantment>()).filter {
-                it.limitations.checkAvailable(CheckType.ATTAIN, result).first && it.alternativeData.isTradeable
+                it.limitations.checkAvailable(CheckType.MERCHANT, result).isSuccess && it.alternativeData.isTradeable
             }.drawEt() ?: return@repeat)
         }
         if (result.fixedEnchants.isEmpty())

@@ -22,8 +22,6 @@ import org.bukkit.inventory.ItemStack
  */
 fun Player.placeBlock(placedBlock: Block, itemInHand: ItemStack = this.itemInHand): Boolean {
     val blockAgainst = placedBlock.getRelative(0, 1, 0)
-
-
     val event = BlockPlaceEvent(placedBlock, placedBlock.state, blockAgainst, itemInHand, this, true)
     return event.callEvent()
 }

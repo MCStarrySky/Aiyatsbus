@@ -2,7 +2,7 @@ package com.mcstarrysky.aiyatsbus.module.ingame.command
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.module.ingame.command.subcommand.*
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variable
+import com.mcstarrysky.aiyatsbus.core.util.variable
 import org.bukkit.command.CommandSender
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake

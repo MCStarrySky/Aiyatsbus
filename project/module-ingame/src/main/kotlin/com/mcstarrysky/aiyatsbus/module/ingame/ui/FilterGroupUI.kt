@@ -8,7 +8,7 @@ import com.mcstarrysky.aiyatsbus.core.data.registry.Group
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.MenuComponent
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variables
+import com.mcstarrysky.aiyatsbus.core.util.variables
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.load
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.pages
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.skull

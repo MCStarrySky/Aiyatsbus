@@ -5,7 +5,7 @@ import com.mcstarrysky.aiyatsbus.core.util.Reloadable
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.*
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variable
+import com.mcstarrysky.aiyatsbus.core.util.variable
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.registry.MenuFunctions
 import org.bukkit.entity.Player
 import taboolib.module.configuration.Config

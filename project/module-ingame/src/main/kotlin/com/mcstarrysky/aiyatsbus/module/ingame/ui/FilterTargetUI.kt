@@ -11,7 +11,7 @@ import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunc
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variables
+import com.mcstarrysky.aiyatsbus.core.util.variables
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.load
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.pages
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.skull

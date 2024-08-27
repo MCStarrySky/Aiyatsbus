@@ -225,7 +225,7 @@ object AnvilSupport {
                 // 首先判断是否超过了允许的最多的附魔数量, 可以减少判断
                 if (enchantLimit != -1 && outEnchants.size >= enchantLimit) break
                 // 其次判断该附魔是否与已有附魔冲突
-                if (!rightEnchant.limitations.checkAvailable(CheckType.ANVIL, tempLeftItem, player).first) {
+                if (rightEnchant.limitations.checkAvailable(CheckType.ANVIL, tempLeftItem, player).isFailure) {
                     continue
                 }
                 // 新增附魔, 有额外消费

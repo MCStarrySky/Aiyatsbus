@@ -33,14 +33,6 @@ object ActionVariables {
     }
 
     /**
-     * player-related-var &enchant name &player
-     */
-    @AiyatsbusParser(["player-related-var"])
-    fun playerRelatedVar() = aiyatsbus {
-        combine(any(), text(), player()) { ench, name, player -> (ench as AiyatsbusEnchantment).variables.playerRelated(name, player) }
-    }
-
-    /**
      * modifiable-var &enchant $item name
      */
     @AiyatsbusParser(["modifiable-var"])

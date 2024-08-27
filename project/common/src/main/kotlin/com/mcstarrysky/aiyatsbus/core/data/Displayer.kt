@@ -3,6 +3,7 @@ package com.mcstarrysky.aiyatsbus.core.data
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.util.replace
+import com.mcstarrysky.aiyatsbus.core.util.replacePlaceholder
 import com.mcstarrysky.aiyatsbus.core.util.roman
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -38,7 +39,7 @@ data class Displayer(
     /**
      * 生成本附魔在当前状态下的显示, 在非合并模式下
      */
-    fun display(level: Int?, player: Player?, item: ItemStack?) = display(holders(level, player, item))
+    fun display(level: Int, player: Player?, item: ItemStack?) = display(holders(level, player, item))
 
     /**
      * 生成本附魔在当前状态下的显示, 在非合并模式下
@@ -53,7 +54,7 @@ data class Displayer(
      * 生成本附魔在当前状态下的显示, 在合并模式下
      */
     fun displays(
-        level: Int? = null,
+        level: Int,
         player: Player? = null,
         item: ItemStack? = null,
         index: Int? = null
@@ -61,8 +62,10 @@ data class Displayer(
         val suffix = index?.let { "_$it" } ?: ""
         val holders = holders(level, player, item)
         return mapOf(
-            "previous$suffix" to previous.replace("{default_previous}", displayManagerSettings.defaultPrevious).replace(holders).colored(),
-            "subsequent$suffix" to subsequent.replace("{default_subsequent}", displayManagerSettings.defaultSubsequent).replace(holders).colored()
+            "previous$suffix" to previous.replace("{default_previous}", displayManagerSettings.defaultPrevious)
+                .replace(holders).colored(),
+            "subsequent$suffix" to subsequent.replace("{default_subsequent}", displayManagerSettings.defaultSubsequent)
+                .replace(holders).colored()
         )
     }
 
@@ -70,11 +73,12 @@ data class Displayer(
      * 生成本附魔在当前状态下的变量替换 Map
      */
     fun holders(
-        level: Int? = null,
+        level: Int,
         player: Player? = null,
         item: ItemStack? = null
     ): Map<String, String> {
-        val tmp = enchant.variables.variables(level, player, item, true).toMutableMap()
+        val tmp = enchant.variables.variables(level, item, true)
+            .mapValues { it.value.toString() }.toMutableMap() // 因为是显示, 这里的变量可以直接转为字符串
         val lv = level ?: enchant.basicData.maxLevel
         tmp["id"] = enchant.basicData.id
         tmp["name"] = enchant.basicData.name
@@ -86,8 +90,8 @@ data class Displayer(
         tmp["rarity_display"] = enchant.rarity.displayName()
         tmp["enchant_display"] = enchant.displayName()
         tmp["enchant_display_roman"] = enchant.displayName(lv)
-        tmp["enchant_display_lore"] = display(tmp)
-        tmp["description"] = specificDescription.replace(tmp).colored()
+        tmp["enchant_display_lore"] = display(tmp).replacePlaceholder(player)
+        tmp["description"] = specificDescription.replace(tmp).colored().replacePlaceholder(player)
         return tmp
     }
 }

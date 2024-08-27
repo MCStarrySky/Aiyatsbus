@@ -82,7 +82,7 @@ object LootSupport {
                 .coerceAtLeast(1)
                 .coerceAtMost(maxLevel)
 
-            if (enchant.limitations.checkAvailable(checkType, result, player).first) {
+            if (enchant.limitations.checkAvailable(checkType, result, player).isSuccess) {
                 result.addEt(enchant)
                 enchantsToAdd[enchant] = level
             }

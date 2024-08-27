@@ -101,7 +101,7 @@ interface AiyatsbusEnchantment {
      * 支持了粘液的附魔机
      */
     fun canEnchantItem(item: ItemStack): Boolean {
-        return limitations.checkAvailable(CheckType.ANVIL, item).first
+        return limitations.checkAvailable(CheckType.ANVIL, item).isSuccess
     }
 
     /**

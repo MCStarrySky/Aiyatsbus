@@ -3,7 +3,7 @@ package com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.MenuFeature
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.data.ActionContext
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.registry.VariableProviders
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.VariableReaders
+import com.mcstarrysky.aiyatsbus.core.util.VariableReaders
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.asList
 
 @Suppress("unused")

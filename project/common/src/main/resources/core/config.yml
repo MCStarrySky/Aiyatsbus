@@ -50,6 +50,18 @@ Settings:
   anti-grief-ignore-op: true
   # 若没有特殊设置, 将冷却消息显示在动作栏而不是聊天框
   cool-down-in-actionbar: false
+  # 参数数值保留小数点后几位数字
+  variable-rounding-scale: 2
+  # 参数数值的舍位模式
+  # UP 向远离零的方向舍入 (1.2 -> 2, -1.2 -> -2)
+  # DOWN 向零的方向舍入 (1.8 -> 1, -1.8 -> -1)
+  # CEILING 向正无穷方向舍入 (1.2 -> 2, -1.2 -> -1)
+  # FLOOR 向负无穷方向舍入 (1.8 -> 1, -1.2 -> -2)
+  # HALF_UP 四舍五入
+  # HALF_DOWN 五舍六入
+  # HALF_EVEN 整数位若为奇数则四舍五入, 若为偶数则五舍六入
+  # UNNECESSARY 不舍入, 但超出表示范围会报错, 不建议使用
+  variable-rounding-mode: HALF_UP
   # 自动更新
   updater:
     # 是否启用平衡性自动更新的功能

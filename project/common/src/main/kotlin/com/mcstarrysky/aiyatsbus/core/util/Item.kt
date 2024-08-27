@@ -1,5 +1,6 @@
-package com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function
+package com.mcstarrysky.aiyatsbus.core.util
 
+import com.mcstarrysky.aiyatsbus.core.util.*
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import taboolib.common.util.VariableReader
@@ -23,10 +24,6 @@ fun ItemStack.variables(reader: VariableReader = VariableReaders.BRACES, func: V
     }
 }
 
-fun ItemStack.transform(reader: VariableReader = VariableReaders.BRACES, builder: VariableTransformerBuilder.() -> Unit): ItemStack {
-    return variables(reader, VariableTransformerBuilder(builder))
-}
-
 fun ItemStack.variable(key: String, value: Collection<String>, reader: VariableReader = VariableReaders.BRACES): ItemStack {
     return variables(reader) { if (it == key) value else null }
 }
@@ -37,14 +34,4 @@ fun ItemStack.singletons(reader: VariableReader = VariableReaders.BRACES, func: 
 
 fun ItemStack.singleton(key: String, value: String, reader: VariableReader = VariableReaders.BRACES): ItemStack {
     return singletons(reader) { if (it == key) value else null }
-}
-
-fun ItemStack.areas(filter: AreaFilter): ItemStack {
-    return modifyMeta<ItemMeta> {
-        lore = lore?.areas(filter)?.colored()
-    }
-}
-
-fun ItemStack.areas(builder: AreaFilterBuilder.() -> Unit): ItemStack {
-    return areas(AreaFilterBuilder(builder))
 }

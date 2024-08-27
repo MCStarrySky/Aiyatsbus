@@ -90,7 +90,7 @@ class DefaultAiyatsbusTickHandler : AiyatsbusTickHandler {
                     val level = item.etLevel(ench)
 
                     if (level > 0) {
-                        if (!ench.limitations.checkAvailable(CheckType.USE, item, player, slot).first) return@slot
+                        if (ench.limitations.checkAvailable(CheckType.USE, item, player, slot).isFailure) return@slot
                         flag = true
 
                         val vars = variables.toMutableMap()
@@ -101,7 +101,7 @@ class DefaultAiyatsbusTickHandler : AiyatsbusTickHandler {
                             "level" to level,
                         )
 
-                        vars += ench.variables.variables(level, player, item, false)
+                        vars += ench.variables.variables(level, item, false)
 
                         if (!record.contains(id)) {
                             record += id

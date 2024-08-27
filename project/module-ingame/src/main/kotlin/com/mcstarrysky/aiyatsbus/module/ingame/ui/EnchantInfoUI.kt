@@ -11,8 +11,8 @@ import com.mcstarrysky.aiyatsbus.module.ingame.mechanics.VillagerSupport
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.*
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variable
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.variables
+import com.mcstarrysky.aiyatsbus.core.util.variable
+import com.mcstarrysky.aiyatsbus.core.util.variables
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -204,7 +204,8 @@ object EnchantInfoUI {
     private val basic = MenuFunctionBuilder {
         onBuild { (_, _, _, _, icon, args) ->
             val enchant = args["enchant"] as AiyatsbusEnchantment
-            val holders = enchant.displayer.holders(enchant.basicData.maxLevel)
+            val player = args["player"] as Player
+            val holders = enchant.displayer.holders(enchant.basicData.maxLevel, player, enchant.book())
             icon.variables { variable -> listOf(holders[variable] ?: "") }
                 .modifyMeta<ItemMeta> {
                     lore = lore.toBuiltComponent().map(Source::toLegacyText)
@@ -295,8 +296,8 @@ object EnchantInfoUI {
             val result = enchant.limitations.checkAvailable(CheckType.ANVIL, checked, player)
             val state = if (level > 0)
                 player.asLang("ui-enchant-info-available-installed", player.asLang("ui-enchant-info-available-installed-can-upgrade-${level < enchant.basicData.maxLevel}") to "upgrade")
-            else player.asLang("ui-enchant-info-available-can-install-${result.first}")
-            val reasons = result.second.ifEmpty { player.asLang("ui-enchant-info-available-reasons-empty") }
+            else player.asLang("ui-enchant-info-available-can-install-${result.isSuccess}")
+            val reasons = result.reason.ifEmpty { player.asLang("ui-enchant-info-available-reasons-empty") }
 
             icon.variables {
                 listOf(
@@ -315,6 +316,7 @@ object EnchantInfoUI {
     private val element = MenuFunctionBuilder {
         onBuild { (_, extra, _, _, icon, args) ->
             val element = args["element"].toString()
+            val player = args["player"] as Player
             val parts = element.split(":")
             val type = parts[0].lowercase()
             val lore = extra[type + "_lore"] as List<String>
@@ -340,7 +342,7 @@ object EnchantInfoUI {
                     }
                     "enchant" -> {
                         val enchant = aiyatsbusEt(parts[1])!!
-                        val holders = enchant.displayer.holders(enchant.basicData.maxLevel)
+                        val holders = enchant.displayer.holders(enchant.basicData.maxLevel, player, enchant.book())
                         item.skull(enchant.rarity.skull).variables { variable -> listOf(holders[variable] ?: "") }
                     }
                     else -> item

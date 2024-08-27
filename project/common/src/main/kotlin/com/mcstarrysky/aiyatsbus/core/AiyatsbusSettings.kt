@@ -5,6 +5,7 @@ import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.conversion
+import java.math.RoundingMode
 
 /**
  * Aiyatsbus
@@ -105,6 +106,18 @@ object AiyatsbusSettings {
      */
     @ConfigNode("Settings.cool-down-in-actionbar")
     var coolDownInActionBar = false
+
+    /**
+     * 参数数值保留小数点后几位数字
+     */
+    @ConfigNode("Settings.variable-rounding-scale")
+    var variableRoundingScale = 2
+
+    /**
+     * 参数数值的舍位模式
+     */
+    @delegate:ConfigNode("Settings.variable-rounding-mode")
+    val variableRoundingMode by conversion<String, RoundingMode> { RoundingMode.valueOf(this) }
 
     /**
      * 是否启用平衡性自动更新的功能

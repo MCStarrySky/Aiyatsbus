@@ -38,14 +38,14 @@ object AntiIllegalItem {
                             val level = enchants[j].second
                             tmp.removeEt(et)
                             val result = et.limitations.checkAvailable(AiyatsbusSettings.antiIllegalItemCheckList, tmp)
-                            if (!result.first) {
+                            if (result.isFailure) {
                                 enchants.removeAt(j)
                                 player.giveItem(et.book(level))
                                 item.removeEt(et)
                                 player.sendLang(
                                     "info-illegal_item",
                                     item.getI18nName() to "item",
-                                    result.second to "reason",
+                                    result.reason to "reason",
                                     et.displayName() to "enchant"
                                 )
                             }

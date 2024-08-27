@@ -1,8 +1,11 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.mcstarrysky.aiyatsbus.core.data
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.LimitType.*
 import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.coerceBoolean
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
@@ -17,8 +20,6 @@ import taboolib.module.kether.compileToJexl
 import taboolib.platform.compat.replacePlaceholder
 
 /**
- * TODO: 写得比较乱也比较烂, 后面可能会重写这套系统
- *
  * Aiyatsbus
  * com.mcstarrysky.aiyatsbus.core.data.Limitations
  *
@@ -30,6 +31,7 @@ data class Limitations(
     private val lines: List<String>
 ) {
 
+    // 与任何附魔都冲突
     var conflictsWithEverything: Boolean = false
 
     val limitations = lines.mapNotNull {
@@ -58,38 +60,49 @@ data class Limitations(
      *
      * @param ignoreSlot 像烙印诅咒这些，不需要检查装备槽
      */
-    fun checkAvailable(checkType: CheckType, item: ItemStack, creature: LivingEntity? = null, slot: EquipmentSlot? = null, ignoreSlot: Boolean = false): Pair<Boolean, String> {
-        return checkAvailable(checkType.limitTypes.toList(), item, creature, slot, checkType == CheckType.USE, ignoreSlot)
-    }
-
     fun checkAvailable(
-        limits: List<LimitType>,
+        checkType: CheckType,
         item: ItemStack,
         creature: LivingEntity? = null,
         slot: EquipmentSlot? = null,
-        use: Boolean = false,
         ignoreSlot: Boolean = false
-    ): Pair<Boolean, String> {
+    ): CheckResult {
+        return checkAvailable(checkType.limitTypes, item, checkType == CheckType.USE, creature, slot, ignoreSlot)
+    }
+
+    fun checkAvailable(
+        limits: Collection<LimitType>,
+        item: ItemStack,
+        use: Boolean = false,
+        creature: LivingEntity? = null,
+        slot: EquipmentSlot? = null,
+        ignoreSlot: Boolean = false
+    ): CheckResult {
+        // 获取语言
         val sender = creature as? Player ?: Bukkit.getConsoleSender()
 
-        if (!belonging.basicData.enable)
-            return false to sender.asLang("limitations-not-enable")
-
-        limitations.filter { limits.contains(it.first) }.forEach { (type, value) ->
-            when (type) {
-                PAPI_EXPRESSION ->
-                    if (creature is Player) value.replacePlaceholder(creature).compileToJexl().eval() as Boolean
-                    else true
-
-                PERMISSION -> (creature?.hasPermission(value) ?: true)
-                DISABLE_WORLD -> !belonging.basicData.disableWorlds.contains(creature?.world?.name)
-                TARGET, MAX_CAPABILITY, SLOT,
-                CONFLICT_ENCHANT, CONFLICT_GROUP,
-                DEPENDENCE_ENCHANT, DEPENDENCE_GROUP -> checkItem(type, item, value, slot, use, ignoreSlot)
-            }.run { if (!this) return false to sender.asLang("limitations-check-failed", sender.asLang("limitations-typename-${type.name.lowercase()}") to "typename") }
+        if (!belonging.basicData.enable) {
+            return CheckResult.Failed(sender.asLang("limitations-not-enable"))
         }
 
-        return true to ""
+        limitations.filter { it.first in limits }.forEach { (type, value) ->
+            val result = when (type) {
+                PAPI_EXPRESSION -> if (creature !is Player) true else value.replacePlaceholder(creature).compileToJexl().eval().coerceBoolean()
+                PERMISSION -> creature?.hasPermission(value) ?: true
+                DISABLE_WORLD -> creature?.world?.name !in belonging.basicData.disableWorlds
+                else -> checkItem(type, item, value, slot, use, ignoreSlot)
+            }
+            if (!result) {
+                return CheckResult.Failed(
+                    sender.asLang(
+                        "limitations-check-failed",
+                        sender.asLang("limitations-typename-${type.name.lowercase()}") to "typename"
+                    )
+                )
+            }
+        }
+
+        return CheckResult.Successful
     }
 
     private fun checkItem(type: LimitType, item: ItemStack, value: String, slot: EquipmentSlot?, use: Boolean, ignoreSlot: Boolean): Boolean {
@@ -149,6 +162,15 @@ data class Limitations(
     }
 }
 
+sealed class CheckResult(val isSuccess: Boolean, val reason: String) {
+
+    val isFailure: Boolean = !isSuccess
+
+    object Successful : CheckResult(true, "")
+
+    class Failed(reason: String) : CheckResult(false, reason)
+}
+
 enum class CheckType(vararg types: LimitType) {
 
     ATTAIN(
@@ -183,9 +205,7 @@ enum class CheckType(vararg types: LimitType) {
         SLOT
     ); // 使用物品上的附魔时
 
-    val limitTypes = mutableSetOf(*types)
-
-    fun has(limitType: LimitType): Boolean = limitTypes.contains(limitType)
+    val limitTypes = setOf(*types)
 }
 
 enum class LimitType {

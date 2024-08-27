@@ -37,8 +37,10 @@ subprojects {
                 "minecraft-kether",
                 "bukkit-ui",
                 "minecraft-effect",
-                "minecraft-metrics"
+                "minecraft-metrics",
+                "script-javascript"
             )
+            forceDownloadInDev = false
             repoTabooLib = "http://mcstarrysky.com:8081/repository/releases/"
         }
         version {
