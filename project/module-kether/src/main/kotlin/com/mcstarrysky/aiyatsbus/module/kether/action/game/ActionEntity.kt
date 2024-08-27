@@ -1,6 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.kether.action.game
 
-import com.mcstarrysky.aiyatsbus.core.util.VectorUtils
+import com.mcstarrysky.aiyatsbus.core.util.Vectors
 import com.mcstarrysky.aiyatsbus.core.util.getI18nName
 import com.mcstarrysky.aiyatsbus.core.util.isBehind
 import com.mcstarrysky.aiyatsbus.core.util.realDamage
@@ -13,7 +13,6 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.util.Vector
 import taboolib.module.kether.KetherParser
-import taboolib.module.kether.ParserHolder.option
 import taboolib.module.kether.combinationParser
 import taboolib.module.kether.player
 
@@ -102,7 +101,7 @@ object ActionEntity {
                     return@now
                 }
                 if (safety == true) {
-                    VectorUtils.addVelocity(target, vector, checkKnockback ?: false)
+                    Vectors.addVelocity(target, vector, checkKnockback ?: false)
                 } else {
                     target.velocity = vector
                 }

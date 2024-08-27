@@ -1,7 +1,8 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.ui
 
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
-import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.*
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.MenuConfiguration
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.MenuFunctionBuilder
@@ -69,7 +70,7 @@ object MainMenuUI {
     }
 
     @Reloadable
-    @Awake(LifeCycle.CONST)
+    @AwakePriority(LifeCycle.ENABLE, StandardPriorities.MENU)
     fun initialize() {
         registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.MENU) {
             MenuFunctions.unregister("Back")

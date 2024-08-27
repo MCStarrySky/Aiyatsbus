@@ -117,7 +117,11 @@ object EnchantInfoUI {
             pages(shape, templates)
 
             val template = templates.require("EnchantInfo:element")
-            onGenerate(async = true) { _, element, index, slot -> template(slot, index) { this["element"] = element;this["category"] = category } }
+            onGenerate(async = true) { _, element, index, slot -> template(slot, index) {
+                this["element"] = element
+                this["category"] = category
+                this["player"] = player
+            } }
             onClick { event, element -> templates[event.rawSlot]?.handle(this, event, "element" to element) }
 
             val params = arrayOf(

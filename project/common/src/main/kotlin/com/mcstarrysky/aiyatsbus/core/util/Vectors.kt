@@ -13,7 +13,7 @@ import kotlin.math.max
  * @author mical
  * @since 2024/4/3 00:20
  */
-object VectorUtils {
+object Vectors {
 
     private fun isUnsafeVelocity(vector: Vector): Boolean {
         val x = vector.blockX.toDouble()

@@ -2,13 +2,14 @@ package com.mcstarrysky.aiyatsbus.impl
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.compat.EnchantRegistrationHooks
-import com.mcstarrysky.aiyatsbus.core.enchant.InternalAiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.isProcessingByWatcher
-import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.unwatch
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.watch
 import com.mcstarrysky.aiyatsbus.core.util.YamlUpdater
 import com.mcstarrysky.aiyatsbus.core.util.deepRead
+import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
+import com.mcstarrysky.aiyatsbus.impl.enchant.InternalAiyatsbusEnchantment
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
@@ -147,11 +148,9 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
         }
 
         @Reloadable
-        @Awake(LifeCycle.CONST)
-        fun load() {
-            registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.ENCHANTMENT) {
-                Aiyatsbus.api().getEnchantmentManager().loadEnchantments()
-            }
+        @AwakePriority(LifeCycle.ENABLE, StandardPriorities.ENCHANTMENT)
+        fun onEnable() {
+            Aiyatsbus.api().getEnchantmentManager().loadEnchantments()
         }
     }
 }

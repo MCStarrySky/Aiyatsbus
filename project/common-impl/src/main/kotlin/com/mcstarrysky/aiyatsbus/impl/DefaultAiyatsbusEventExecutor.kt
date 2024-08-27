@@ -8,7 +8,7 @@ import com.mcstarrysky.aiyatsbus.core.data.trigger.event.EventMapping
 import com.mcstarrysky.aiyatsbus.core.data.trigger.event.EventResolver
 import com.mcstarrysky.aiyatsbus.core.event.AiyatsbusPrepareAnvilEvent
 import com.mcstarrysky.aiyatsbus.core.util.Mirror
-import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.core.util.mirrorNow

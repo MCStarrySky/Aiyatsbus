@@ -2,7 +2,8 @@ package com.mcstarrysky.aiyatsbus.core.data.registry
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.Dependencies
-import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.console
@@ -45,11 +46,9 @@ object GroupLoader {
     val registered: ConcurrentHashMap<String, Group> = ConcurrentHashMap()
 
     @Reloadable
-    @Awake(LifeCycle.CONST)
+    @AwakePriority(LifeCycle.ENABLE, StandardPriorities.GROUP)
     fun init() {
-        registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.GROUP) {
-            load()
-        }
+        load()
     }
 
     @Awake(LifeCycle.ENABLE)

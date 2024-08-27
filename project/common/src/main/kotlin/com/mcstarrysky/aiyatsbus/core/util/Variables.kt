@@ -24,40 +24,37 @@ fun interface SingleVariableFunction : VariableFunction {
     override fun transfer(name: String): Collection<String>? = replace(name)?.let(::listOf)
 }
 
-fun String.variables(reader: VariableReader = VariableReaders.BRACES, func: VariableFunction): String {
-    val queued = HashMap<String, Queue<String>>()
-    reader.replaceNested(this) scan@{
-        queued[this] = LinkedList(func.transfer(this) ?: return@scan this)
-        this
-    }
-
-    if (queued.isEmpty()) {
-        return this
-    }
-
-    val result = StringBuilder(this)
-    while (queued.any { (_, queue) -> queue.isNotEmpty() }) {
-        result.replace(0, result.length, reader.replaceNested(result.toString()) {
-            if (this in queued) {
-                queued[this]!!.poll() ?: ""
-            } else {
-                this
-            }
-        })
-    }
-    return result.toString()
-}
-
 fun Collection<String>.variables(reader: VariableReader = VariableReaders.BRACES, func: VariableFunction): List<String> {
-    return map { it.variables(reader, func) }
+    return flatMap { context ->
+        val result = ArrayList<String>()
+        val queued = HashMap<String, Queue<String>>()
+        reader.replaceNested(context) scan@{
+            queued[this] = LinkedList(func.transfer(this) ?: return@scan this)
+            this
+        }
+        if (queued.isEmpty()) {
+            return@flatMap listOf(context)
+        }
+
+        while (queued.any { (_, queue) -> queue.isNotEmpty() }) {
+            result += reader.replaceNested(context) {
+                if (this in queued) {
+                    queued[this]!!.poll() ?: ""
+                } else {
+                    this
+                }
+            }
+        }
+        result
+    }
 }
 
 fun Collection<String>.variable(key: String, value: Collection<String>, reader: VariableReader = VariableReaders.BRACES): List<String> {
     return variables(reader) { if (it == key) value else null }
 }
 
-fun String.singletons(reader: VariableReader = VariableReaders.BRACES, func: SingleVariableFunction): String {
-    return variables(reader, func)
+fun String.singletons(reader: VariableReader = VariableReaders.BRACES, func: Function2<String, String>): String {
+    return reader.replaceNested(this) { func.apply(this) }
 }
 
 fun Collection<String>.singletons(reader: VariableReader = VariableReaders.BRACES, func: SingleVariableFunction): List<String> {

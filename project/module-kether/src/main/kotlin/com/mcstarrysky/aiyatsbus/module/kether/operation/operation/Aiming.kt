@@ -46,9 +46,9 @@ object Aiming {
             val arrow = event.projectile as AbstractArrow
             if (minEntity != null) {
 
-                TeamColorUtils.getTeamByColor(color)?.addEntry(arrow.uniqueId.toString())
+//                TeamColorUtils.getTeamByColor(color)?.addEntry(arrow.uniqueId.toString())
                 arrow.isGlowing = true
-                TeamColorUtils.getTeamByColor(color)?.addEntry(minEntity.uniqueId.toString())
+//                TeamColorUtils.getTeamByColor(color)?.addEntry(minEntity.uniqueId.toString())
                 minEntity.isGlowing = true
 
                 submit(delay = 1L, period = ticks) {

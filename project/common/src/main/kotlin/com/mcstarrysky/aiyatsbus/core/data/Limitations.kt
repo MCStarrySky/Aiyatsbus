@@ -4,8 +4,9 @@ package com.mcstarrysky.aiyatsbus.core.data
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.LimitType.*
-import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.coerceBoolean
+import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
@@ -14,8 +15,6 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import taboolib.common.LifeCycle
-import taboolib.common.platform.Awake
-import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.module.kether.compileToJexl
 import taboolib.platform.compat.replacePlaceholder
 
@@ -145,19 +144,17 @@ data class Limitations(
          * 防止服主只写了单项
          */
         @Reloadable
-        @Awake(LifeCycle.CONST)
-        fun init() {
-            registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.LIMITATIONS) {
-                conflicts.forEach { (a, b) ->
-                    val etA = aiyatsbusEt(a) ?: return@forEach
-                    val etB = aiyatsbusEt(b) ?: return@forEach
-                    val conflictA = CONFLICT_ENCHANT to b
-                    val conflictB = CONFLICT_ENCHANT to a
-                    etA.limitations.limitations.add(conflictA)
-                    etB.limitations.limitations.add(conflictB)
-                }
-                conflicts.clear()
+        @AwakePriority(LifeCycle.ENABLE, StandardPriorities.LIMITATIONS)
+        fun onEnable() {
+            conflicts.forEach { (a, b) ->
+                val etA = aiyatsbusEt(a) ?: return@forEach
+                val etB = aiyatsbusEt(b) ?: return@forEach
+                val conflictA = CONFLICT_ENCHANT to b
+                val conflictB = CONFLICT_ENCHANT to a
+                etA.limitations.limitations.add(conflictA)
+                etB.limitations.limitations.add(conflictB)
             }
+            conflicts.clear()
         }
     }
 }

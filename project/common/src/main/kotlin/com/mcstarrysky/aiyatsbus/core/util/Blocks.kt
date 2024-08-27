@@ -2,15 +2,15 @@ package com.mcstarrysky.aiyatsbus.core.util
 
 import org.bukkit.Location
 import org.bukkit.block.Block
-import java.util.LinkedList
+import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 
 /**
  * Aiyatsbus
- * com.mcstarrysky.aiyatsbus.core.util.BlockUtils
+ * com.mcstarrysky.aiyatsbus.core.util.inject.Blocks
  *
  * @author mical
- * @since 2024/8/19 16:01
+ * @date 2024/8/27 17:35
  */
 object BlockUtils {
 

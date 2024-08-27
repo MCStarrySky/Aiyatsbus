@@ -3,7 +3,8 @@ package com.mcstarrysky.aiyatsbus.core.data.registry
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.data.Dependencies
 import com.mcstarrysky.aiyatsbus.core.sendLang
-import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
+import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadable
 import org.bukkit.Material
 import org.bukkit.inventory.EquipmentSlot
 import taboolib.common.LifeCycle
@@ -44,11 +45,9 @@ object TargetLoader {
     val registered: ConcurrentHashMap<String, Target> = ConcurrentHashMap()
 
     @Reloadable
-    @Awake(LifeCycle.CONST)
+    @AwakePriority(LifeCycle.ENABLE, StandardPriorities.TARGET)
     fun init() {
-        registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.TARGET) {
-            load()
-        }
+        load()
     }
 
     @Awake(LifeCycle.ENABLE)

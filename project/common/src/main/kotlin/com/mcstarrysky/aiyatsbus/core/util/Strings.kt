@@ -30,5 +30,7 @@ fun String.calculate(vararg holders: Pair<String, Any>): String {
     val result = calcToDouble(*holders)
     return if (result.isInteger()) result.toInt().toString() else result.toString()
 }
+
 fun String.calcToDouble(vararg holders: Pair<String, Any>): Double = calculate(holders.toList())
+
 fun String.calcToInt(vararg holders: Pair<String, Any>): Int = calcToDouble(*holders).roundToInt()

@@ -1,7 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.ui.internal
 
 import com.mcstarrysky.aiyatsbus.core.util.calcToInt
-import com.mcstarrysky.aiyatsbus.core.util.get
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import org.bukkit.entity.Player
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.config.advance.ShapeConfiguration
@@ -26,7 +25,7 @@ fun Chest.setSlots(
             val parts = it.value.toString().split("=")
             when (parts[0]) {
                 "expression" -> parts[1].calcToInt("tot" to "$tot")
-                "element" -> elements[parts[1, 0]?.calcToInt("tot" to "$tot") ?: tot, 0]
+                "element" -> elements.getOrNull(parts.getOrNull(1)?.calcToInt("tot" to "$tot") ?: tot)
                 else -> it.value
             }
         }

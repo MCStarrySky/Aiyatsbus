@@ -3,13 +3,13 @@ package com.mcstarrysky.aiyatsbus.core.data.registry
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.data.Dependencies
 import com.mcstarrysky.aiyatsbus.core.sendLang
-import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
 import com.mcstarrysky.aiyatsbus.core.util.replace
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.console
-import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.chat.component
 import taboolib.module.configuration.Config
@@ -50,11 +50,9 @@ object RarityLoader {
     val registered: ConcurrentHashMap<String, Rarity> = ConcurrentHashMap()
 
     @Reloadable
-    @Awake(LifeCycle.CONST)
+    @AwakePriority(LifeCycle.ENABLE, StandardPriorities.RARITY)
     fun init() {
-        registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.RARITY) {
-            load()
-        }
+        load()
     }
 
     @Awake(LifeCycle.ENABLE)

@@ -3,7 +3,7 @@ package com.mcstarrysky.aiyatsbus.module.ingame.command.subcommand
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.compat.EnchantRegistrationHooks
 import com.mcstarrysky.aiyatsbus.core.registration.modern.ModernEnchantmentRegisterer
-import com.mcstarrysky.aiyatsbus.core.util.Reloadables
+import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadables
 import com.mcstarrysky.aiyatsbus.module.ingame.command.AiyatsbusCommand
 import com.mcstarrysky.aiyatsbus.module.ingame.mechanics.*
 import org.bukkit.command.CommandSender

@@ -53,7 +53,7 @@ class Variables(
             } else {
                 val (unit, formula) = section.toString().split(":", limit = 2)
                 // 只存 1 级, 任何等级都能获取到
-                leveled[variable] = unit to mapOf(1 to formula.preheatExpression())
+                leveled[variable] = unit to mapOf(1 to formula)
             }
             // 存储该变量的类型
             variables[variable] = VariableType.LEVELED
@@ -80,9 +80,13 @@ class Variables(
             .filter { it.key <= level } // 过滤掉等级高于当前等级的参数
             .minBy { level - it.key }.value // 取当前变量与该变量的差的最小值的变量, 当然也就是最高的那个等级配置
             .singletons(VariableReaders.DOUBLE_BRACES) { leveled(it, level, false).toString() } // 尝试解析其中的嵌套变量(双括号)
+            .also { println(it) }
             .calcToDouble("level" to level)
-            .toBigDecimal()
-            .setScale(AiyatsbusSettings.variableRoundingScale, AiyatsbusSettings.variableRoundingMode).toDouble()
+            .let {
+                // 如果是小数形式的整数则只保留整数位
+                if (it.isInteger()) it.toInt() else it.toBigDecimal()
+                    .setScale(AiyatsbusSettings.variableRoundingScale, AiyatsbusSettings.variableRoundingMode).toDouble()
+            }
             .let { if (withUnit) it.toString() + v.first else it }
     }
 

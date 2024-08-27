@@ -4,7 +4,8 @@ import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.sendLang
-import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.console
@@ -47,11 +48,9 @@ object InternalTriggerLoader {
     val registered: ConcurrentHashMap<String, InternalTrigger> = ConcurrentHashMap()
 
     @Reloadable
-    @Awake(LifeCycle.CONST)
+    @AwakePriority(LifeCycle.ENABLE, StandardPriorities.INTERNAL_TRIGGERS)
     fun init() {
-        registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.INTERNAL_TRIGGERS) {
-            load()
-        }
+        load()
     }
 
     @Awake(LifeCycle.ENABLE)

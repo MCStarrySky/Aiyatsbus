@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.core.util
+package com.mcstarrysky.aiyatsbus.core.util.inject
 
 import com.google.common.collect.HashMultimap
 import com.google.common.collect.Multimap

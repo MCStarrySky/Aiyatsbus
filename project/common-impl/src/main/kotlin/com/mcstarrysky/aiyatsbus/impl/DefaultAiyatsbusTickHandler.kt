@@ -5,14 +5,14 @@ import com.google.common.collect.Table
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.util.Mirror
-import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.core.util.mirrorNow
 import org.bukkit.inventory.ItemStack
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
-import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.common.platform.function.submit
 import taboolib.common.platform.service.PlatformExecutor
 import taboolib.platform.util.onlinePlayers
@@ -148,16 +148,14 @@ class DefaultAiyatsbusTickHandler : AiyatsbusTickHandler {
         }
 
         @Reloadable
-        @Awake(LifeCycle.CONST)
-        fun load() {
-            registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.TICKERS) {
-                Aiyatsbus.api().getTickHandler().reset()
-                Aiyatsbus.api().getTickHandler().start()
-            }
+        @AwakePriority(LifeCycle.ENABLE, StandardPriorities.TICKERS)
+        fun onEnable() {
+            Aiyatsbus.api().getTickHandler().reset()
+            Aiyatsbus.api().getTickHandler().start()
         }
 
         @Awake(LifeCycle.DISABLE)
-        fun unload() {
+        fun onDisable() {
             Aiyatsbus.api().getTickHandler().reset()
         }
     }

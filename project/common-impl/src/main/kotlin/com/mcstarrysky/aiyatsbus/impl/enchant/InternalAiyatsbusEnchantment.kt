@@ -1,4 +1,4 @@
-package com.mcstarrysky.aiyatsbus.core.enchant
+package com.mcstarrysky.aiyatsbus.impl.enchant
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantmentBase
 import com.mcstarrysky.aiyatsbus.core.data.trigger.Trigger

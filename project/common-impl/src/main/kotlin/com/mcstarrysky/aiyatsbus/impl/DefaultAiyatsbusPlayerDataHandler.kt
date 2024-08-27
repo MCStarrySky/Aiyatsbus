@@ -4,8 +4,9 @@ import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusPlayerDataHandler
 import com.mcstarrysky.aiyatsbus.core.StandardPriorities
 import com.mcstarrysky.aiyatsbus.core.data.PlayerData
-import com.mcstarrysky.aiyatsbus.core.util.Reloadable
+import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.get
+import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
 import com.mcstarrysky.aiyatsbus.core.util.set
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerJoinEvent
@@ -17,7 +18,6 @@ import taboolib.common.platform.PlatformFactory
 import taboolib.common.platform.Schedule
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.platform.util.onlinePlayers
 import java.util.*
 
@@ -52,12 +52,9 @@ class DefaultAiyatsbusPlayerDataHandler : AiyatsbusPlayerDataHandler {
         }
 
         @Reloadable
-        @Awake(LifeCycle.CONST)
+        @AwakePriority(LifeCycle.ENABLE, StandardPriorities.PLAYER_DATA)
         fun load() {
-            registerLifeCycleTask(LifeCycle.ENABLE, StandardPriorities.PLAYER_DATA) {
-                val api = PlatformFactory.getAPI<AiyatsbusPlayerDataHandler>()
-                onlinePlayers.forEach(api::load)
-            }
+            onlinePlayers.forEach(PlatformFactory.getAPI<AiyatsbusPlayerDataHandler>()::load)
         }
 
         @Schedule(period = 600L)
