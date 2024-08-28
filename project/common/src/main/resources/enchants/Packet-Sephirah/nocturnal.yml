@@ -19,7 +19,7 @@ limitations:
 display:
   description:
     general: "夜晚时伤害提高"
-    specific: "&7夜晚时伤害提高&a{倍数}"
+    specific: "&7夜晚时伤害提高&a{增幅}"
 
 variables:
   leveled:

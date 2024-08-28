@@ -12,7 +12,12 @@ dependencies {
     compileOnly("net.essentialsx:EssentialsX:2.19.7") // EssentialsX
     compileOnly("public:QuickShop-Hikari:6.2.0.6") // QuickShop-Hikari
     compileOnly("public:QuickShop-Reremake:5.1.2.5") // QuickShop-Reremake
+
+    taboo("ink.ptms:um:1.0.9")
 }
 
 // 子模块
-taboolib { subproject = true }
+taboolib {
+    subproject = true
+    relocate("ink.ptms.um", "com.mcstarrysky.aiyatsbus.module.compat.library.um")
+}
