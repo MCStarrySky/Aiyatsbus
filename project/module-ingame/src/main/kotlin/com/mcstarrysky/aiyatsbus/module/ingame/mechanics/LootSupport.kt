@@ -6,7 +6,9 @@ import com.mcstarrysky.aiyatsbus.core.util.MathUtils.preheatExpression
 import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
 import com.mcstarrysky.aiyatsbus.core.util.calcToInt
 import org.bukkit.Material
+import org.bukkit.entity.Item
 import org.bukkit.entity.Player
+import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.event.world.LootGenerateEvent
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.EventPriority
@@ -62,6 +64,13 @@ object LootSupport {
                 else item
             }
         } ?: event.loot.removeIf { it.fixedEnchants.isNotEmpty() }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    fun onFishing(event: PlayerFishEvent) {
+        if (event.state != PlayerFishEvent.State.CAUGHT_FISH || event.caught !is Item) return;
+        val item: Item = event.caught as Item
+        item.itemStack = enchant(event.player, ItemStack(item.itemStack.type)).second
     }
 
     private fun enchant(
