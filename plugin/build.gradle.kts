@@ -23,6 +23,12 @@ taboolib {
         load("STARTUP")
         bukkitApi("1.16")
     }
+
+    relocate("ink", "com.mcstarrysky.aiyatsbus.module.compat.library.um")
+}
+
+dependencies {
+    taboo("ink.ptms:um:1.0.9")
 }
 
 tasks {
