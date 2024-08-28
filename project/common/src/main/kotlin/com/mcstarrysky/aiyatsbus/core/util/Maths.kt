@@ -5,6 +5,7 @@ import redempt.crunch.Crunch
 import redempt.crunch.functional.EvaluationEnvironment
 import redempt.crunch.functional.Function
 import taboolib.common.env.RuntimeDependency
+import taboolib.common.platform.function.warning
 import taboolib.common.util.random
 import kotlin.math.max
 import kotlin.math.min
@@ -43,7 +44,7 @@ fun Double.isInteger(): Boolean {
 }
 
 @RuntimeDependency(
-    value = "com.github.Redempt:Crunch:1.0",
+    value = "com.github.Redempt:Crunch:1.0.7",
     test = "redempt.crunch.CompiledExpression",
     repository = "http://mcstarrysky.com:8081/repository/releases/"
 )
@@ -70,9 +71,14 @@ object MathUtils {
         val env = EvaluationEnvironment()
         env.setVariableNames(*variables.toTypedArray())
         env.addFunctions(rand, min, max)
-        val compiled = Crunch.compileExpression(expression, env)
+        val compiled = runCatching { Crunch.compileExpression(expression, env) }.getOrElse {
+            error("compiling", this, variables, doubleArrayOf(), it)
+            null
+        }
 
-        cache[expression] = compiled
+        if (compiled != null) {
+            cache[expression] = compiled
+        }
 
         return this
     }
@@ -90,10 +96,24 @@ object MathUtils {
             val env = EvaluationEnvironment()
             env.setVariableNames(*variables.toTypedArray())
             env.addFunctions(rand, min, max)
-            runCatching { Crunch.compileExpression(expression, env) }.getOrNull()
+            runCatching { Crunch.compileExpression(expression, env) }.getOrElse {
+                error("compiling", this, variables, values, it)
+                null
+            }
         }
 
-        return runCatching { compiled?.evaluate(*values) }.getOrNull() ?: 0.0
+        return runCatching { compiled?.evaluate(*values) }.getOrElse {
+            error("evaluating", this, variables, values, it)
+            0.0
+        } ?: 0.0
+    }
+
+    private fun error(action: String, expression: String, variables: List<String>, values: DoubleArray, error: Throwable) {
+        warning("Error occurred while $action expression!")
+        warning("|- Expression: $expression")
+        warning("|- Variables: $variables")
+        warning("|- Values: ${values.toList()}")
+        warning("|- Error: $error")
     }
 
     private val variableRegex = "\\{([^}]+)}".toRegex()

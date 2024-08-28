@@ -4,16 +4,16 @@ enable: true
 cost: 3 # 按照点击附魔台第三个按钮的计算权重来计算
 bonus: 16 # 按照16(最高)书架等级附魔台的权重来计算
 # 一次性附魔得到的附魔个数对应的概率
-# 可用变量：{cost}
+# 可用变量：{button}
 more_enchant_chance:
-  - "0.2*{cost}" # 一次性出俩附魔的概率
-  - "0.15*{cost}" # 在一次出俩附魔的基础上出第三个附魔的概率
-  - "0.1*{cost}" # 同理，第四个在出三个基础上的概率
+  - "0.2*{button}" # 一次性出俩附魔的概率
+  - "0.15*{button}" # 在一次出俩附魔的基础上出第三个附魔的概率
+  - "0.1*{button}" # 同理，第四个在出三个基础上的概率
 # 计算出货的等级，最小为1，可用变量：
-# {cost} {max_level} {bonus} {random}
+# {button} {max_level} {bonus}
 # 不是特别想改，就请勿改动
 # 因为你永远也不知道自己调出来的公式是什么妖魔鬼怪
-level_formula: "{max_level}*{cost}/3.0*({bonus}+1.0)/17.0-{random}"
+level_formula: "{max_level}*{button}/3.0*({bonus}+1.0)/17.0-rand(1)"
 privilege:
   chance:
     - "aiyatsbus.privilege.loot.vip:{chance}*1.2"

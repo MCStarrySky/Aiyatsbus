@@ -182,7 +182,7 @@ object AnvilSupport {
         if (left.itemMeta is Damageable && right.itemMeta is Damageable && costItemAmount == 0 && right.itemMeta !is EnchantmentStorageMeta) {
             result?.dura =
                 (left.dura + ceil(repairCombineValue.calcToDouble("right" to right.dura, "max" to left.type.maxDurability)).cint)
-                    .coerceAtLeast(0)
+                    .coerceAtLeast(0).coerceAtMost(left.type.maxDurability.toInt())
             experience += combineRepairCost
         }
 

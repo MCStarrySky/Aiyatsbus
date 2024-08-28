@@ -2,9 +2,9 @@ package com.mcstarrysky.aiyatsbus.module.ingame.mechanics
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
+import com.mcstarrysky.aiyatsbus.core.util.MathUtils.preheatExpression
 import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
 import com.mcstarrysky.aiyatsbus.core.util.calcToInt
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.round
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.world.LootGenerateEvent
@@ -33,10 +33,14 @@ object LootSupport {
 
     @ConfigNode("enable")
     var enable = true
-    @ConfigNode("more_enchant_chance")
-    var moreEnchantChance = listOf("0.2*{cost}", "0.15*{cost}", "0.1*{cost}")
-    @ConfigNode("level_formula")
-    var levelFormula = "{cost}/3*{max_level}+{cost}*({random}-{random})"
+    @delegate:ConfigNode("more_enchant_chance")
+    val moreEnchantChance by conversion<List<String>, List<String>> {
+        this.onEach { it.preheatExpression() }
+    }
+    @delegate:ConfigNode("level_formula")
+    val levelFormula by conversion<String, String> {
+        preheatExpression()
+    }
     @ConfigNode("privilege.full_level")
     var fullLevelPrivilege = "aiyatsbus.privilege.table.full"
     @ConfigNode("cost")
@@ -78,7 +82,7 @@ object LootSupport {
             val enchant = pool.drawEt() ?: return@repeat
             val maxLevel = enchant.basicData.maxLevel
             val level = if (player.hasPermission(fullLevelPrivilege)) maxLevel
-            else levelFormula.calcToInt("bonus" to bonus, "max_level" to maxLevel, "cost" to cost, "random" to Math.random().round(3))
+            else levelFormula.calcToInt("bonus" to bonus, "max_level" to maxLevel, "button" to cost)
                 .coerceAtLeast(1)
                 .coerceAtMost(maxLevel)
 
@@ -92,7 +96,7 @@ object LootSupport {
     }
 
     private fun enchantAmount(player: Player, cost: Int) = moreEnchantChance.count {
-        Math.random() <= finalChance(it.calcToDouble("cost" to cost), player)
+        Math.random() <= finalChance(it.calcToDouble("button" to cost), player)
     }.coerceAtLeast(1)
 
     private fun finalChance(origin: Double, player: Player) = moreEnchantPrivilege.maxOf { (perm, expression) ->

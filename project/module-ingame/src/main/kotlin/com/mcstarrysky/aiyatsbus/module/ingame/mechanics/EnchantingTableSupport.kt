@@ -2,10 +2,10 @@ package com.mcstarrysky.aiyatsbus.module.ingame.mechanics
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
+import com.mcstarrysky.aiyatsbus.core.util.MathUtils.preheatExpression
 import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
 import com.mcstarrysky.aiyatsbus.core.util.calcToInt
 import com.mcstarrysky.aiyatsbus.core.util.serialized
-import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.function.round
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
@@ -42,14 +42,18 @@ object EnchantingTableSupport {
     /**
      * 出货数量概率
      */
-    @ConfigNode("more_enchant_chance")
-    var moreEnchantChance = listOf("0.2*{cost}", "0.15*{cost}", "0.1*{cost}")
+    @delegate:ConfigNode("more_enchant_chance")
+    val moreEnchantChance by conversion<List<String>, List<String>> {
+        this.onEach { it.preheatExpression() }
+    }
 
     /**
      * 出货等级公示
      */
-    @ConfigNode("level_formula")
-    var levelFormula = "{cost}/3*{max_level}+{cost}*({random}-{random})"
+    @delegate:ConfigNode("level_formula")
+    val levelFormula by conversion<String, String> {
+        preheatExpression()
+    }
 
     /**
      * 有此权限的玩家附魔必出满级附魔
@@ -136,8 +140,7 @@ object EnchantingTableSupport {
             val level = if (player.hasPermission(fullLevelPrivilege)) maxLevel else levelFormula.calcToInt(
                 "bonus" to bonus,
                 "max_level" to maxLevel,
-                "cost" to cost,
-                "random" to Math.random().round(3)
+                "button" to cost
             ).coerceIn(1, maxLevel)
 
             // 如果不与现有附魔冲突就添加
@@ -157,7 +160,7 @@ object EnchantingTableSupport {
     private fun calculateAmount(player: Player, cost: Int): Int {
         var count = 0
         for (formula in moreEnchantChance) {
-            if (randomDouble() <= calculateChance(formula.calcToDouble("cost" to cost), player)) {
+            if (randomDouble() <= calculateChance(formula.calcToDouble("button" to cost), player)) {
                 count++
             } else {
                 break

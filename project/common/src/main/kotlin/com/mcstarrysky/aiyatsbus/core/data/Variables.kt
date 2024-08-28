@@ -2,7 +2,6 @@ package com.mcstarrysky.aiyatsbus.core.data
 
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
 import com.mcstarrysky.aiyatsbus.core.util.*
-import com.mcstarrysky.aiyatsbus.core.util.MathUtils.preheatExpression
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataType
@@ -80,7 +79,6 @@ class Variables(
             .filter { it.key <= level } // 过滤掉等级高于当前等级的参数
             .minBy { level - it.key }.value // 取当前变量与该变量的差的最小值的变量, 当然也就是最高的那个等级配置
             .singletons(VariableReaders.DOUBLE_BRACES) { leveled(it, level, false).toString() } // 尝试解析其中的嵌套变量(双括号)
-            .also { println(it) }
             .calcToDouble("level" to level)
             .let {
                 // 如果是小数形式的整数则只保留整数位
