@@ -1,6 +1,10 @@
 package com.mcstarrysky.aiyatsbus.module.kether
 
+import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
 import taboolib.common.OpenResult
+import taboolib.library.reflex.Reflex.Companion.getProperty
+import taboolib.library.reflex.Reflex.Companion.invokeMethod
+import taboolib.library.reflex.Reflex.Companion.setProperty
 import taboolib.module.kether.ScriptProperty
 import taboolib.module.kether.action.ActionProperty
 
@@ -111,6 +115,17 @@ abstract class AiyatsbusGenericProperty<T : Any>(
                 it.read(instance, key)
             }
             if (result.isSuccessful) return result
+
+            if (AiyatsbusSettings.useReflection) {
+                try {
+                    return OpenResult.successful(instance.invokeMethod(key))
+                } catch (_: Throwable) {
+                    try {
+                        return OpenResult.successful(instance.getProperty(key))
+                    } catch (_: Throwable) {
+                    }
+                }
+            }
         }
         return OpenResult.failed()
     }
@@ -133,6 +148,17 @@ abstract class AiyatsbusGenericProperty<T : Any>(
                 it.write(instance, key, value)
             }
             if (result.isSuccessful) return result
+
+            if (AiyatsbusSettings.useReflection) {
+                try {
+                    return OpenResult.successful(instance.invokeMethod(key, value))
+                } catch (_: Throwable) {
+                    try {
+                        return OpenResult.successful(instance.setProperty(key, value))
+                    } catch (_: Throwable) {
+                    }
+                }
+            }
         }
         return OpenResult.failed()
     }

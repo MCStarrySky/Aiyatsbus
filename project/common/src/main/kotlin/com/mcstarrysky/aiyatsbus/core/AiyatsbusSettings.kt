@@ -46,6 +46,12 @@ object AiyatsbusSettings {
     var mainMenuBack = "cd"
 
     /**
+     * 是否使用反射去获取第三方事件的内容
+     */
+    @ConfigNode("Settings.use-reflection")
+    var useReflection = false
+
+    /**
      * 命令别称, 方便迁移
      */
     @ConfigNode("Settings.command-aliases")

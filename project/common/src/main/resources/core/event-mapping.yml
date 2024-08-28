@@ -9,7 +9,6 @@
 
 # 槽位映射
 # HAND 主手, OFFHAND 副手, HEAD 头盔, CHEST 胸甲, LEGS 护腿, FEET 靴子
-
 mappings:
   # 破坏方块事件
   block-break:
