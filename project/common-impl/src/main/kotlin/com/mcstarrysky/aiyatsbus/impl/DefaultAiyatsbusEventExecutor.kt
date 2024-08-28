@@ -36,7 +36,7 @@ import taboolib.common.platform.event.ProxyListener
 import taboolib.common.platform.function.registerBukkitListener
 import taboolib.common.platform.function.unregisterListener
 import taboolib.library.configuration.ConfigurationSection
-import taboolib.library.reflex.Reflex.Companion.getProperty
+import taboolib.library.reflex.Reflex.Companion.invokeMethod
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
@@ -95,7 +95,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                     "left" -> event.left
                     "right" -> event.right
                     "result" -> event.result
-                    else -> event.getProperty(itemReference ?: return@EventResolver null, false) as? ItemStack ?: return@EventResolver null
+                    else -> null
                 }
             }
         )
@@ -156,7 +156,11 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
         /* 特殊事件处理 */
         resolver.eventResolver.apply(event)
 
-        val entity = resolver.entityResolver.apply(event, eventMapping.playerReference) ?: return
+        var entity = resolver.entityResolver.apply(event, eventMapping.playerReference)
+
+        if (entity == null) {
+            entity = event.invokeMethod<LivingEntity>(eventMapping.playerReference ?: return) ?: return
+        }
 
         if (eventMapping.slots.isNotEmpty()) {
             eventMapping.slots.forEach { slot ->
@@ -174,8 +178,10 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                 item!!.triggerEts(listen, event, eventPriority, entity, slot, false)
             }
         } else {
-            val item = resolver.itemResolver.apply(event, eventMapping.itemReference, entity)
-            if (item.isNull) return
+            var item = resolver.itemResolver.apply(event, eventMapping.itemReference, entity)
+            if (item.isNull) {
+                item = event.invokeMethod(eventMapping.itemReference ?: return) as? ItemStack ?: return
+            }
             item!!.triggerEts(listen, event, eventPriority, entity, null, true)
         }
     }
