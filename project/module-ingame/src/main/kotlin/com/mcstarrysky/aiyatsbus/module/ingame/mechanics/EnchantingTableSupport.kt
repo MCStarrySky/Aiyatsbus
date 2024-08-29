@@ -1,3 +1,5 @@
+@file:Suppress("DuplicatedCode")
+
 package com.mcstarrysky.aiyatsbus.module.ingame.mechanics
 
 import com.mcstarrysky.aiyatsbus.core.*

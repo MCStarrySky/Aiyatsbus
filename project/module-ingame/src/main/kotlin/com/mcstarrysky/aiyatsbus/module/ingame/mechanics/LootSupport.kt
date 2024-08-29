@@ -1,3 +1,5 @@
+@file:Suppress("DuplicatedCode")
+
 package com.mcstarrysky.aiyatsbus.module.ingame.mechanics
 
 import com.mcstarrysky.aiyatsbus.core.*
@@ -5,7 +7,6 @@ import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.util.MathUtils.preheatExpression
 import com.mcstarrysky.aiyatsbus.core.util.calcToDouble
 import com.mcstarrysky.aiyatsbus.core.util.calcToInt
-import org.bukkit.Material
 import org.bukkit.entity.Item
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerFishEvent
@@ -13,11 +14,11 @@ import org.bukkit.event.world.LootGenerateEvent
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.util.randomDouble
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.conversion
-import kotlin.math.roundToInt
 
 /**
  * Aiyatsbus
@@ -60,7 +61,7 @@ object LootSupport {
         if (!enable) return
         (event.entity as? Player)?.let {
             event.loot.replaceAll { item ->
-                if (item.fixedEnchants.isNotEmpty()) enchant(it, ItemStack(item.type)).second
+                if (item.fixedEnchants.isNotEmpty()) doEnchant(it, item).second
                 else item
             }
         } ?: event.loot.removeIf { it.fixedEnchants.isNotEmpty() }
@@ -69,33 +70,42 @@ object LootSupport {
     @SubscribeEvent(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onPlayerFish(event: PlayerFishEvent) {
         if (event.state != PlayerFishEvent.State.CAUGHT_FISH || event.caught !is Item) return
-        val item: Item = event.caught as Item
-        item.itemStack = enchant(event.player, ItemStack(item.itemStack.type)).second
+        val item = event.caught as Item
+        if (item.itemStack.fixedEnchants.isNotEmpty()) {
+            item.itemStack = doEnchant(event.player, item.itemStack).second
+        }
     }
 
-    private fun enchant(
+    /**
+     * 对物品进行附魔, 并返回新增的附魔列表和结果物品
+     */
+    private fun doEnchant(
         player: Player,
         item: ItemStack,
         cost: Int = this.cost,
-        bonus: Int = this.bonus,
-        checkType: CheckType = CheckType.ATTAIN
+        bonus: Int = this.bonus
     ): Pair<Map<AiyatsbusEnchantment, Int>, ItemStack> {
         val enchantsToAdd = mutableMapOf<AiyatsbusEnchantment, Int>()
         val result = item.clone()
-        if (item.type == Material.BOOK) result.type = Material.ENCHANTED_BOOK
 
-        val amount = enchantAmount(player, cost)
-        val pool = result.etsAvailable(checkType, player).filter { !it.alternativeData.isTreasure }
+        // 额外出的货的数量
+        val amount = calculateAmount(player, cost)
+        // 选取的附魔范围
+        val pool = result.etsAvailable(CheckType.ATTAIN, player).filterNot { it.alternativeData.isTreasure }
 
         repeat(amount) {
+            // 从特定附魔列表中根据品质和附魔的权重抽取一个附魔
             val enchant = pool.drawEt() ?: return@repeat
             val maxLevel = enchant.basicData.maxLevel
-            val level = if (player.hasPermission(fullLevelPrivilege)) maxLevel
-            else levelFormula.calcToInt("bonus" to bonus, "max_level" to maxLevel, "button" to cost)
-                .coerceAtLeast(1)
-                .coerceAtMost(maxLevel)
 
-            if (enchant.limitations.checkAvailable(checkType, result, player).isSuccess) {
+            val level = if (player.hasPermission(fullLevelPrivilege)) maxLevel else levelFormula.calcToInt(
+                "bonus" to bonus,
+                "max_level" to maxLevel,
+                "button" to cost
+            ).coerceIn(1, maxLevel)
+
+            // 如果不与现有附魔冲突就添加
+            if (enchant.limitations.checkAvailable(CheckType.ATTAIN, result, player).isSuccess) {
                 result.addEt(enchant)
                 enchantsToAdd[enchant] = level
             }
@@ -104,12 +114,26 @@ object LootSupport {
         return enchantsToAdd to result
     }
 
-    private fun enchantAmount(player: Player, cost: Int) = moreEnchantChance.count {
-        Math.random() <= finalChance(it.calcToDouble("button" to cost), player)
-    }.coerceAtLeast(1)
+    /**
+     * 计算额外出的货的数量
+     * 附魔台逻辑: 保留原本玩家悬停在附魔按钮上显示的附魔 + enchantAmount(player, cost) 个额外附魔
+     */
+    private fun calculateAmount(player: Player, cost: Int): Int {
+        var count = 0
+        for (formula in moreEnchantChance) {
+            if (randomDouble() <= calculateChance(formula.calcToDouble("button" to cost), player)) {
+                count++
+            } else {
+                break
+            }
+        }
+        return count
+    }
 
-    private fun finalChance(origin: Double, player: Player) = moreEnchantPrivilege.maxOf { (perm, expression) ->
-        if (player.hasPermission(perm)) expression.calcToInt("chance" to origin)
-        else origin.roundToInt()
-    }.coerceAtLeast(0)
+    /**
+     * 计算出货数量的概率, 应用特权
+     */
+    private fun calculateChance(origin: Double, player: Player) = moreEnchantPrivilege.maxOf { (perm, expression) ->
+        if (player.hasPermission(perm)) expression.calcToDouble("chance" to origin) else origin
+    }.coerceAtLeast(0.0)
 }

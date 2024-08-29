@@ -21,10 +21,10 @@ enchantment-reload-failed:
   - '{prefix} &b信息 &8| &3若您确实有附魔参数调整需求, 请前往 config.yml 关闭该功能'
 
 thanks:
-  - '{prefix} &7欢迎使用 Aiyatsbus v{0}! 作者: 南外丶仓鼠(白熊)'
+  - '{prefix} &7欢迎使用 Aiyatsbus v{0}! 作者: Mical & 南外丶仓鼠(白熊)'
   - '{prefix} &7|- 感谢 次元互联 对本项目的支持 售前服务群: 1064601581'
   - '{prefix} &7|- 感谢 YiMiner 对本项目的支持 强力宝石插件交流群: 777905589'
-  - '{prefix} &7|- 感谢以下服务器的所有玩家对本项目的帮助: &bStarLight&3繁星工坊 &eHAPPYLAND'
+  - '{prefix} &7|- 感谢以下服务器的所有玩家对本项目的帮助: &bStarLight&3繁星工坊 &eHAPPYLAND &aStarrySky'
   - '{prefix} &7|- 该信息只有拥有权限 aiyatsbus.thanks 的玩家能看到, 可在配置文件中关闭'
 
 limitations-not-enabled: '附魔未启用'

@@ -21,10 +21,10 @@ enchantment-reload-failed:
   - '{prefix} &bINFO &8| &3If you do have enchantment parameter adjustment requirements, please go to config.yml to turn off this feature'
 
 thanks:
-  - '{prefix} &7Successfully loaded Aiyatsbus v{0}! Author: 南外丶仓鼠(白熊) (IceBear003)'
+  - '{prefix} &7Successfully loaded Aiyatsbus v{0}! Author: Mical & 南外丶仓鼠(白熊) (IceBear003)'
   - '{prefix} &7|- Thanks Dimensions Cloud for supporting this project! QQ Group: 1064601581'
   - '{prefix} &7|- Thanks YiMiner for supporting this project! QQ Group of MagicGem: 777905589'
-  - '{prefix} &7|- Thanks all players of following servers for helping us: &bStarLight&3繁星工坊 &eHAPPYLAND'
+  - '{prefix} &7|- Thanks all players of following servers for helping us: &bStarLight&3繁星工坊 &eHAPPYLAND &aStarrySky'
   - '{prefix} &7|- Only players who have permission aiyatsbus.thanks can see this message, you can disable it in config.yml'
 
 limitations-not-enabled: 'Enchantment is not enabled'
