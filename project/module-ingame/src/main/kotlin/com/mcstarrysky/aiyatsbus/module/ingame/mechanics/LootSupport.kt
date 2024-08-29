@@ -91,7 +91,7 @@ object LootSupport {
         // 额外出的货的数量
         val amount = calculateAmount(player, cost)
         // 选取的附魔范围
-        val pool = result.etsAvailable(CheckType.ATTAIN, player).filterNot { it.alternativeData.isTreasure }
+        val pool = result.etsAvailable(CheckType.ATTAIN, player).filterNot { it.alternativeData.isDiscoverable }
 
         repeat(amount) {
             // 从特定附魔列表中根据品质和附魔的权重抽取一个附魔

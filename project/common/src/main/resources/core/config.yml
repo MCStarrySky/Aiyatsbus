@@ -12,9 +12,6 @@ Settings:
   default-rarity: common
   # 如果为附魔主菜单设置了返回按钮, 则点击返回按钮时执行这个命令
   main-menu-back: cd
-  # 是否使用反射去获取第三方事件的内容
-  # 开启后会有一些性能损耗, 优先推荐 JS, 该选项默认关闭
-  use-reflection: false
   # 是否启用命令别称? 启用后将开启 /nereusopus, /nos, /nerous 等命令
   # 这样可以方便从旧插件迁移到新插件, 因为可能有的菜单里打开附魔菜单是调用 /nereusopus menu 这个命令
   # 如果不需要, 将该项设为空集, 例如:

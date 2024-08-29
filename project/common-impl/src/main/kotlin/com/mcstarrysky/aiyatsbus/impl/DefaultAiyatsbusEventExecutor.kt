@@ -10,6 +10,7 @@ import com.mcstarrysky.aiyatsbus.core.event.AiyatsbusPrepareAnvilEvent
 import com.mcstarrysky.aiyatsbus.core.util.Mirror
 import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
+import com.mcstarrysky.aiyatsbus.core.util.invokeMethodDeep
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.core.util.mirrorNow
 import org.bukkit.entity.LivingEntity
@@ -36,7 +37,6 @@ import taboolib.common.platform.event.ProxyListener
 import taboolib.common.platform.function.registerBukkitListener
 import taboolib.common.platform.function.unregisterListener
 import taboolib.library.configuration.ConfigurationSection
-import taboolib.library.reflex.Reflex.Companion.invokeMethod
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
@@ -62,6 +62,10 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
     private val cachedClasses = ConcurrentHashMap<String, Class<*>>()
 
     init {
+        resolvers += Event::class.java to EventResolver<Event>(
+            entityResolver = { event, playerReference -> event.invokeMethodDeep(playerReference ?: return@EventResolver null) },
+            itemResolver = { event, itemReference, _ -> event.invokeMethodDeep(itemReference ?: return@EventResolver null) }
+        )
         resolvers += PlayerEvent::class.java to EventResolver<PlayerEvent>({ event, _ -> event.player })
         resolvers += PlayerMoveEvent::class.java to EventResolver<PlayerMoveEvent>(
             entityResolver = { event, _ -> event.player },
@@ -159,7 +163,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
         var entity = resolver.entityResolver.apply(event, eventMapping.playerReference)
 
         if (entity == null) {
-            entity = event.invokeMethod<LivingEntity>(eventMapping.playerReference ?: return) ?: return
+            entity = event.invokeMethodDeep<LivingEntity>(eventMapping.playerReference ?: return) ?: return
         }
 
         if (eventMapping.slots.isNotEmpty()) {
@@ -180,7 +184,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
         } else {
             var item = resolver.itemResolver.apply(event, eventMapping.itemReference, entity)
             if (item.isNull) {
-                item = event.invokeMethod(eventMapping.itemReference ?: return) as? ItemStack ?: return
+                item = event.invokeMethodDeep(eventMapping.itemReference ?: return) as? ItemStack ?: return
             }
             item!!.triggerEts(listen, event, eventPriority, entity, null, true)
         }

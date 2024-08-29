@@ -2,6 +2,7 @@ package com.mcstarrysky.aiyatsbus.core.util
 
 import com.google.common.base.Enums
 import com.google.gson.Gson
+import taboolib.library.reflex.Reflex.Companion.invokeMethod
 import taboolib.library.reflex.UnsafeAccess
 import java.lang.reflect.Field
 
@@ -16,6 +17,15 @@ val GSON = Gson()
 
 inline fun <reified T : Enum<T>> String?.enumOf(transfer: (String) -> String = { it.uppercase() }): T? {
     return if (this == null) null else Enums.getIfPresent(T::class.java, transfer(this)).orNull()
+}
+
+@Suppress("UNCHECKED_CAST")
+fun <T> Any?.invokeMethodDeep(name: String): T? {
+    var result: Any? = this
+    for (method in name.split('/')) {
+        result = result?.invokeMethod(method)
+    }
+    return result as? T
 }
 
 fun String.isValidJson(): Boolean {
