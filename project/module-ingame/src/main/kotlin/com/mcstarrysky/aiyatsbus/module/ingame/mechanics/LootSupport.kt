@@ -70,7 +70,7 @@ object LootSupport {
     fun onPlayerFish(event: PlayerFishEvent) {
         if (event.state != PlayerFishEvent.State.CAUGHT_FISH || event.caught !is Item) return
         val item: Item = event.caught as Item
-        item.itemStack = enchant(event.player, ItemStack(item.itemStack.type)).second
+        if (item.itemStack.fixedEnchants.isNotEmpty()) item.itemStack = enchant(event.player, ItemStack(item.itemStack.type)).second
     }
 
     private fun enchant(
