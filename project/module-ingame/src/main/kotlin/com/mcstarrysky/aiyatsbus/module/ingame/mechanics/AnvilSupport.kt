@@ -255,7 +255,7 @@ object AnvilSupport {
     }
 
     private fun finalCost(origin: Double, player: Player): Int = privilege.minOf { (perm, expression) ->
-        if (player.hasPermission(perm)) expression.calcToInt("cost" to origin)
+        if (player.hasPermission(perm)) expression.calcToInt("expCost" to origin)
         else origin.roundToInt()
     }.coerceAtMost(maxCost).coerceAtLeast(1)
 }

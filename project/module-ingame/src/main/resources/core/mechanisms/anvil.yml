@@ -51,5 +51,5 @@ allow_different_material: false
 
 # vip权限的玩家，可以节省经验等级
 privilege:
-  - "aiyatsbus.privilege.anvil.vip:{cost}-1"
-  - "aiyatsbus.privilege.anvil.svip:{cost}-2"
+  - "aiyatsbus.privilege.anvil.vip:{expCost}-1"
+  - "aiyatsbus.privilege.anvil.svip:{expCost}-2"
