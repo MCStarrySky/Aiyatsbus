@@ -72,6 +72,7 @@ object LootSupport {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onPlayerFish(event: PlayerFishEvent) {
+        if (!enable) return
         if (event.state != PlayerFishEvent.State.CAUGHT_FISH || event.caught !is Item) return
         val item = event.caught as Item
         if (item.itemStack.fixedEnchants.isNotEmpty()) {
