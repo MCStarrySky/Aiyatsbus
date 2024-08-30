@@ -80,6 +80,9 @@ object EnchantingTableSupport {
         mapOf(*map { it.split(":")[0] to it.split(":")[1] }.toTypedArray())
     }
 
+    @ConfigNode("max_level_limit")
+    var maxLevelLimit = -1
+
     @SubscribeEvent(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun prepareEnchant(event: PrepareItemEnchantEvent) {
         if (vanillaTable)
@@ -155,12 +158,13 @@ object EnchantingTableSupport {
             // 从特定附魔列表中根据品质和附魔的权重抽取一个附魔
             val enchant = pool.drawEt() ?: return@repeat
             val maxLevel = enchant.basicData.maxLevel
+            val limit = enchant.alternativeData.getEnchantMaxLevelLimit(maxLevel, maxLevelLimit)
 
             val level = if (player.hasPermission(fullLevelPrivilege)) maxLevel else levelFormula.calcToInt(
                 "bonus" to bonus,
-                "max_level" to maxLevel,
+                "max_level" to limit,
                 "button" to cost
-            ).coerceIn(1, maxLevel)
+            ).coerceIn(1, limit)
 
             // 如果不与现有附魔冲突就添加
             if (enchant.limitations.checkAvailable(CheckType.ATTAIN, result, player).isSuccess) {

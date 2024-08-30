@@ -18,6 +18,22 @@ data class AlternativeData(
     val isCursed: Boolean = root?.getBoolean("is_cursed", false).coerceBoolean(false),
     val isTradeable: Boolean = root?.getBoolean("is_tradeable", true).coerceBoolean(true),
     val isDiscoverable: Boolean = root?.getBoolean("is_discoverable", true).coerceBoolean(true),
+    val tradeMaxLevel: Int = root?.getInt("trade_max_level", -1).coerceInt(-1),
+    val enchantMaxLevel: Int = root?.getInt("enchant_max_level", -1).coerceInt(-1),
+    val lootMaxLevel: Int = root?.getInt("loot_max_level", -1).coerceInt(-1),
     /** 3.0 的检测原版附魔的方法有点弱智, 把检测原版放到这里其实是更好的选择 */
     val isVanilla: Boolean = root?.getBoolean("is_vanilla", false).coerceBoolean(false)
-)
+) {
+
+    fun getTradeLevelLimit(maxLevel: Int, globalLimit: Int): Int {
+        return (if (tradeMaxLevel != -1) tradeMaxLevel else if (globalLimit != -1) globalLimit else maxLevel).coerceAtMost(maxLevel)
+    }
+
+    fun getEnchantMaxLevelLimit(maxLevel: Int, globalLimit: Int): Int {
+        return (if (enchantMaxLevel != -1) enchantMaxLevel else if (globalLimit != -1) globalLimit else maxLevel).coerceAtMost(maxLevel)
+    }
+
+    fun getLootMaxLevelLimit(maxLevel: Int, globalLimit: Int): Int {
+        return (if (lootMaxLevel != -1) lootMaxLevel else if (globalLimit != -1) globalLimit else maxLevel).coerceAtMost(maxLevel)
+    }
+}

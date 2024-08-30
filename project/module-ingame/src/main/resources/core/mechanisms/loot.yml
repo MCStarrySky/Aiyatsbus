@@ -11,9 +11,14 @@ more_enchant_chance:
   - "0.1*{button}" # 同理，第四个在出三个基础上的概率
 # 计算出货的等级，最小为1，可用变量：
 # {button} {max_level} {bonus}
+# 注意: 若配置了全局附魔出货最大等级设定, 或为对应附魔配置了出货最大等级限制
+# 则 max_level 为该限制值, 否则才是该附魔的最大等级
 # 不是特别想改，就请勿改动
 # 因为你永远也不知道自己调出来的公式是什么妖魔鬼怪
 level_formula: "{max_level}*{button}/3.0*({bonus}+1.0)/17.0-rand(1)"
+# 全局附魔出货项最大等级设定
+# -1 则为无限制 (但最高到该附魔的最高等级)
+max_level_limit: -1
 privilege:
   chance:
     - "aiyatsbus.privilege.loot.vip:{chance}*1.2"
