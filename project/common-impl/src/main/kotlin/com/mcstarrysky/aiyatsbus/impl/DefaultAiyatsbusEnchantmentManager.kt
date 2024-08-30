@@ -98,12 +98,12 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
 
         register(enchant)
 
-         file.watch { f ->
+        file.watch { f ->
             if (f.isProcessingByWatcher) {
                 f.isProcessingByWatcher = false
                 return@watch
             }
-            val resourceStream = javaClass.classLoader.getResourceAsStream(path)
+            val resourceStream = javaClass.classLoader.getResourceAsStream(path.replace('\\', '/')) // 真傻逼啊
             if (AiyatsbusSettings.enableUpdater && resourceStream != null) {
                 console().sendLang("enchantment-reload-failed", id)
                 f.isProcessingByWatcher = true

@@ -26,7 +26,7 @@ targets:
 display:
   description:
     general: "重锤攻击时无视目标部分护甲值"
-    specific: "&7攻击无视目标&a{百分比}的护甲值"
+    specific: "&7攻击无视目标&a{百分比}&7的护甲值"
 
 # 原版附魔机制本插件不提供修改，因此此处改了也没有效果
 variables:
