@@ -97,7 +97,7 @@ class Variables(
         val v = modifiable[variable]!!
         val usingNBT = v.first.startsWith("(NBT)")
         if (usingNBT) {
-            return item.getItemTag().getDeep(v.first.removePrefix("(NBT)")) ?: v.second
+            return item.getItemTag().getDeep(v.first.removePrefix("(NBT)"))?.unsafeData() ?: v.second
         }
         return item.itemMeta[v.first, PersistentDataType.STRING] ?: v.second
     }
