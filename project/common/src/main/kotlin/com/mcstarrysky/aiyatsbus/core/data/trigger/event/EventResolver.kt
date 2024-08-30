@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack
  * @author mical
  * @since 2024/7/18 00:58
  */
-class EventResolver<in T : Event>(
+data class EventResolver<in T : Event>(
     val entityResolver: Function3<T, String?, LivingEntity?>,
     val eventResolver: Function1<T> = Function1 { _ -> },
     val itemResolver: Function4<T, String?, LivingEntity, ItemStack?> = Function4 { _, _, _ -> null }

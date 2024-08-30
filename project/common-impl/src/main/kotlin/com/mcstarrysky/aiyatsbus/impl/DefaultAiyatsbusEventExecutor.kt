@@ -13,6 +13,7 @@ import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
 import com.mcstarrysky.aiyatsbus.core.util.invokeMethodDeep
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.core.util.mirrorNow
+import org.bukkit.Material
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
@@ -97,8 +98,8 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
             itemResolver = { event, itemReference, _ ->
                 when (itemReference) {
                     "left" -> event.left
-                    "right" -> event.right
-                    "result" -> event.result
+                    "right" -> event.right ?: ItemStack(Material.AIR, 0) // 要返回空气方块而不是 null, 避免二次返回
+                    "result" -> event.result ?: ItemStack(Material.AIR, 0)
                     else -> null
                 }
             }
@@ -182,10 +183,18 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                 item!!.triggerEts(listen, event, eventPriority, entity, slot, false)
             }
         } else {
+            // NOTICE 不要删除下面的调试信息, 关键时刻能救命
+//            println("我是 $listen")
+//            println("我的 EventResolver 是 $resolver")
             var item = resolver.itemResolver.apply(event, eventMapping.itemReference, entity)
-            if (item.isNull) {
+//            println("我尝试使用 resolver 获取物品, 结果是: $item")
+            // 此时判断是否为 null, 不包含空气方块判断
+            if (item == null) {
                 item = event.invokeMethodDeep(eventMapping.itemReference ?: return) as? ItemStack ?: return
+//                println("我用反射获取到了物品: $item")
             }
+            // 此时包含空气方块判断
+            if (item.isNull) return
             item!!.triggerEts(listen, event, eventPriority, entity, null, true)
         }
     }
