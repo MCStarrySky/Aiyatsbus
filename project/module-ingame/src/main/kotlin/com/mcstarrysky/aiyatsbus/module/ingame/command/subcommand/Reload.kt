@@ -25,6 +25,7 @@ val reloadSubCommand = subCommand {
         val time = System.currentTimeMillis()
         (Aiyatsbus.api().getEnchantmentRegisterer() as? ModernEnchantmentRegisterer)?.replaceRegistry()
         Language.reload()
+        AiyatsbusSettings.conf.reload()
         Reloadables.execute()
         Aiyatsbus.api().getDisplayManager().getSettings().conf.reload()
         AnvilSupport.conf.reload()
