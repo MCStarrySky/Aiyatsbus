@@ -45,10 +45,17 @@ object GroupLoader {
 
     val registered: ConcurrentHashMap<String, Group> = ConcurrentHashMap()
 
+    private var isLoaded = false
+
     @Reloadable
     @AwakePriority(LifeCycle.ENABLE, StandardPriorities.GROUP)
     fun init() {
+        if (isLoaded) {
+            config.reload()
+            return
+        }
         load()
+        isLoaded = true
     }
 
     @Awake(LifeCycle.ENABLE)

@@ -38,16 +38,23 @@ data class Target @JvmOverloads constructor(
 
 object TargetLoader {
 
-    @Config("enchants/target.yml")
+    @Config("enchants/target.yml", autoReload = true)
     lateinit var config: Configuration
         private set
 
     val registered: ConcurrentHashMap<String, Target> = ConcurrentHashMap()
 
+    private var isLoaded = false
+
     @Reloadable
     @AwakePriority(LifeCycle.ENABLE, StandardPriorities.TARGET)
     fun init() {
+        if (isLoaded) {
+            config.reload()
+            return
+        }
         load()
+        isLoaded = true
     }
 
     @Awake(LifeCycle.ENABLE)

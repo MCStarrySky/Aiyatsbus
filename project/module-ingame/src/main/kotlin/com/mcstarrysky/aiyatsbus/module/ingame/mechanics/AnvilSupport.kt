@@ -14,12 +14,10 @@ import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common5.cdouble
 import taboolib.common5.cint
-import taboolib.module.chat.colored
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.conversion
-import taboolib.platform.util.isAir
 import taboolib.platform.util.modifyMeta
 import kotlin.math.ceil
 import kotlin.math.max
@@ -115,6 +113,7 @@ object AnvilSupport {
         var renameText = name
         // 这是一个标记, 合并附魔有可能造成左面的物品和结果物品一样, 这里做个标记防止给拦了
         var mergedEnchants = false
+        var onlyEditName = true
 
         // 新增事件, 处理 烙印诅咒(Permanence Curse) 这样的附魔
         val event = AiyatsbusPrepareAnvilEvent(left, right, result, renameText, player)
@@ -134,15 +133,15 @@ object AnvilSupport {
         result?.name = name
 
         // 如果右面物品不存在, 就只是改名, 可以直接返回结果了
-        if (right == null || right.isAir) {
+        if (right.isNull) {
             // 如果没改名, 改名框内的名字和原物品是一样的
-            if (left.name?.colored() == renameText?.colored()) return AnvilResult.Failed
+            if (left.name == renameText) return AnvilResult.Failed
             return AnvilResult.Successful(result, experience.cint, 0, true)
         }
 
         // 如果右面物品存在, 就是物品合成 or 物品修补
         // 如果右面的物品和左面的物品不一样, 大概就是右面的是材料修复左面的物品
-        if (left.type != right.type) {
+        if (left.type != right!!.type) {
             // 如果左面的物品可以被损耗(有消耗耐久度这个属性)且可被右面的物品修复
             if (left.itemMeta is Damageable && right.canRepair(left)) {
                 // 原版的物品修复, 一个材料可以恢复物品的 1/4 耐久, 先计算这一个物品可以恢复多少耐久, 向上取整
@@ -164,6 +163,7 @@ object AnvilSupport {
                         damage -= per * costItemAmount
                     }
                     experience += repairCost
+                    onlyEditName = false
                 }
             } else {
                 // 右面的物品不可以修复左面的物品, 或者左面的物品没有耐久度这个属性, 那么分两种情况:
@@ -184,6 +184,7 @@ object AnvilSupport {
                 (left.dura + ceil(repairCombineValue.calcToDouble("right" to right.dura, "max" to left.type.maxDurability)).cint)
                     .coerceAtLeast(0).coerceAtMost(left.type.maxDurability.toInt())
             experience += combineRepairCost
+            onlyEditName = false
         }
 
         // 剩下的情况就是两边物品一样, 等待合并的情况, 或者右面是附魔书的情况, 或者是不同材质合并的情况了, 这些情况可以集中统一处理
@@ -239,6 +240,7 @@ object AnvilSupport {
         if (leftEnchants != outEnchants) {
             // 上标记
             mergedEnchants = true
+            onlyEditName = false
 
             // 向结果物品中增加附魔, 同时计算经验等级
             for ((outEnchant, level) in outEnchants) {
@@ -248,6 +250,8 @@ object AnvilSupport {
             }
         }
 
+        // 如果只改了名字就不让过, 因为只改名字的情况已经在前面返回了
+        if (onlyEditName) return AnvilResult.Failed
         // 如果最后产出的物品跟原来的一模一样, 且没有合并附魔, 就是压根没改
         if (left == result && !mergedEnchants) return AnvilResult.Failed
 

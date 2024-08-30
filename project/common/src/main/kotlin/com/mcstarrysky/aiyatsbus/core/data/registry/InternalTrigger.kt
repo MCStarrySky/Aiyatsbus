@@ -41,16 +41,23 @@ data class InternalTrigger(
 
 object InternalTriggerLoader {
 
-    @Config("enchants/internal-triggers.yml")
+    @Config("enchants/internal-triggers.yml", autoReload = true)
     lateinit var config: Configuration
         private set
 
     val registered: ConcurrentHashMap<String, InternalTrigger> = ConcurrentHashMap()
 
+    private var isLoaded = false
+
     @Reloadable
     @AwakePriority(LifeCycle.ENABLE, StandardPriorities.INTERNAL_TRIGGERS)
     fun init() {
+        if (isLoaded) {
+            config.reload()
+            return
+        }
         load()
+        isLoaded = true
     }
 
     @Awake(LifeCycle.ENABLE)

@@ -38,10 +38,7 @@ maces:
   types:
     - MACE
   dependencies:
-    supports: 12005
-    datapacks:
-      - update_1_21
-
+    supports: 12100
 pickaxes:
   max: 7
   name: 镐

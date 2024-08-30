@@ -2,6 +2,7 @@ package com.mcstarrysky.aiyatsbus.module.ingame.command.subcommand
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.compat.EnchantRegistrationHooks
+import com.mcstarrysky.aiyatsbus.core.data.registry.RarityLoader
 import com.mcstarrysky.aiyatsbus.core.registration.modern.ModernEnchantmentRegisterer
 import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadables
 import com.mcstarrysky.aiyatsbus.module.ingame.command.AiyatsbusCommand
@@ -24,7 +25,6 @@ val reloadSubCommand = subCommand {
         val time = System.currentTimeMillis()
         (Aiyatsbus.api().getEnchantmentRegisterer() as? ModernEnchantmentRegisterer)?.replaceRegistry()
         Language.reload()
-        AiyatsbusSettings.conf.reload()
         Reloadables.execute()
         Aiyatsbus.api().getDisplayManager().getSettings().conf.reload()
         AnvilSupport.conf.reload()

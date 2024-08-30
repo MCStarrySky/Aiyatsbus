@@ -49,10 +49,17 @@ object RarityLoader {
 
     val registered: ConcurrentHashMap<String, Rarity> = ConcurrentHashMap()
 
+    private var isLoaded = false
+
     @Reloadable
     @AwakePriority(LifeCycle.ENABLE, StandardPriorities.RARITY)
     fun init() {
+        if (isLoaded) {
+            config.reload()
+            return
+        }
         load()
+        isLoaded = true
     }
 
     @Awake(LifeCycle.ENABLE)

@@ -2,8 +2,6 @@
 
 package com.mcstarrysky.aiyatsbus.module.ingame.mechanics
 
-import com.google.common.collect.HashBasedTable
-import com.google.common.collect.Table
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.util.MathUtils.preheatExpression
@@ -38,7 +36,7 @@ object EnchantingTableSupport {
      * 记录附魔台三个选项的附魔
      * 位置 to whichButton to (Enchantment to level)
      */
-    private val enchantmentOffers: Table<String, Int, EnchantmentOffer?> = HashBasedTable.create()
+    private val enchantmentOffers = mutableMapOf<String, List<EnchantmentOffer?>>()
 
     @Config("core/mechanisms/enchanting_table.yml", autoReload = true)
     lateinit var conf: Configuration
@@ -92,7 +90,7 @@ object EnchantingTableSupport {
         shelfAmount[location] = event.enchantmentBonus.coerceAtMost(16)
         // 记录附魔台三个附魔选项
         for (i in 0..2) {
-            enchantmentOffers.put(location, i, event.offers[i])
+            enchantmentOffers[location] = event.offers.toList()
         }
     }
 
@@ -107,7 +105,7 @@ object EnchantingTableSupport {
         val item = event.item.clone()
         val cost = event.whichButton() + 1
         val bonus = shelfAmount[location] ?: 1
-        val enchantmentOfferHint = enchantmentOffers.get(location, event.whichButton()) ?: return
+        val enchantmentOfferHint = enchantmentOffers[location]?.get(event.whichButton()) ?: return
 
         // 书附魔完变成附魔书
         if (item.type == Material.BOOK) item.type = Material.ENCHANTED_BOOK
