@@ -2,6 +2,8 @@
 
 package com.mcstarrysky.aiyatsbus.module.ingame.mechanics
 
+import com.google.common.collect.HashBasedTable
+import com.google.common.collect.Table
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.util.MathUtils.preheatExpression
@@ -10,6 +12,7 @@ import com.mcstarrysky.aiyatsbus.core.util.calcToInt
 import com.mcstarrysky.aiyatsbus.core.util.serialized
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.enchantments.EnchantmentOffer
 import org.bukkit.entity.Player
 import org.bukkit.event.enchantment.EnchantItemEvent
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent
@@ -30,6 +33,12 @@ object EnchantingTableSupport {
      * 记录的等级 位置 to 等级
      */
     private val shelfAmount = mutableMapOf<String, Int>()
+
+    /**
+     * 记录附魔台三个选项的附魔
+     * 位置 to whichButton to (Enchantment to level)
+     */
+    private val enchantmentOffers: Table<String, Int, EnchantmentOffer?> = HashBasedTable.create()
 
     @Config("core/mechanisms/enchanting_table.yml", autoReload = true)
     lateinit var conf: Configuration
@@ -75,8 +84,13 @@ object EnchantingTableSupport {
     fun prepareEnchant(event: PrepareItemEnchantEvent) {
         if (vanillaTable)
             return
+        val location = event.enchantBlock.location.serialized
         // 记录附魔台的书架等级
-        shelfAmount[event.enchantBlock.location.serialized] = event.enchantmentBonus.coerceAtMost(16)
+        shelfAmount[location] = event.enchantmentBonus.coerceAtMost(16)
+        // 记录附魔台三个附魔选项
+        for (i in 0..2) {
+            enchantmentOffers.put(location, i, event.offers[i])
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -84,19 +98,22 @@ object EnchantingTableSupport {
         if (vanillaTable)
             return
 
+        val location = event.enchantBlock.location.serialized
+
         val player = event.enchanter
         val item = event.item.clone()
         val cost = event.whichButton() + 1
-        val bonus = shelfAmount[event.enchantBlock.location.serialized] ?: 1
+        val bonus = shelfAmount[location] ?: 1
+        val enchantmentOfferHint = enchantmentOffers.get(location, event.whichButton()) ?: return
 
         // 书附魔完变成附魔书
         if (item.type == Material.BOOK) item.type = Material.ENCHANTED_BOOK
 
         // 首先获取附魔悬停信息上显示的附魔和等级, 并向物品添加, 因为这是必得的附魔
         val enchantmentHintLevel = if (player.hasPermission(fullLevelPrivilege)) {
-            event.enchantmentHint.maxLevel
-        } else event.enchantsToAdd[event.enchantmentHint]!!
-        item.addEt(event.enchantmentHint.aiyatsbusEt, enchantmentHintLevel)
+            enchantmentOfferHint.enchantment.maxLevel
+        } else enchantmentOfferHint.enchantmentLevel
+        item.addEt(enchantmentOfferHint.enchantment.aiyatsbusEt, enchantmentHintLevel)
 
         // 附魔
         val result = doEnchant(player, item, cost, bonus)
@@ -104,7 +121,7 @@ object EnchantingTableSupport {
         // 清空附魔列表
         event.enchantsToAdd.clear()
         // 添加悬停信息上的附魔
-        event.enchantsToAdd += event.enchantmentHint to enchantmentHintLevel
+        event.enchantsToAdd += enchantmentOfferHint.enchantment to enchantmentHintLevel
         // 添加随机出来的附魔
         event.enchantsToAdd.putAll(result.first.mapKeys { it.key as Enchantment })
 
