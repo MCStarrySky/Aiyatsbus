@@ -1,5 +1,7 @@
 package com.mcstarrysky.aiyatsbus.core.util
 
+import kotlin.Pair
+
 /**
  * Aiyatsbus
  * com.mcstarrysky.aiyatsbus.core.util.Function3
@@ -17,12 +19,18 @@ fun interface Function2<in T, R> {
     fun apply(t: T): R
 }
 
-fun interface Function3<in T, in R, C> {
+fun interface Function3To2<in T, in R, in C, B, K> {
 
-    fun apply(t: T, r: R): C
+    /**
+     * FIXME: 暂时没考虑 java 兼容性
+     */
+    fun apply(t: T, r: R, c: C): Pair<B, K>
 }
 
-fun interface Function4<in T, in R, in C, K> {
+fun interface Function2To2<in T, in R, B, K> {
 
-    fun apply(t: T, r: R, c: C): K
+    /**
+     * FIXME: 暂时没考虑 java 兼容性
+     */
+    fun apply(t: T, r: R): Pair<B, K>
 }

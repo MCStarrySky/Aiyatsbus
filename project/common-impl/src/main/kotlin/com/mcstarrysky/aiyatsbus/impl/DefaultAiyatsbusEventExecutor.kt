@@ -13,7 +13,6 @@ import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
 import com.mcstarrysky.aiyatsbus.core.util.invokeMethodDeep
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.core.util.mirrorNow
-import org.bukkit.Material
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
@@ -42,6 +41,7 @@ import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.conversion
+import taboolib.platform.util.isAir
 import taboolib.platform.util.killer
 import java.util.concurrent.ConcurrentHashMap
 
@@ -64,43 +64,44 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
     init {
         resolvers += Event::class.java to EventResolver<Event>(
-            entityResolver = { event, playerReference -> event.invokeMethodDeep(playerReference ?: return@EventResolver null) },
-            itemResolver = { event, itemReference, _ -> event.invokeMethodDeep(itemReference ?: return@EventResolver null) }
+            // 最后面返回 true 是因为这是最后一步直接解析, 如果这都解析不到那就没必要再重复一次解析了
+            entityResolver = { event, playerReference -> event.invokeMethodDeep<LivingEntity?>(playerReference ?: return@EventResolver null to true) to true },
+            itemResolver = { event, itemReference, _ -> event.invokeMethodDeep<ItemStack?>(itemReference ?: return@EventResolver null to true) to true }
         )
-        resolvers += PlayerEvent::class.java to EventResolver<PlayerEvent>({ event, _ -> event.player })
+        resolvers += PlayerEvent::class.java to EventResolver<PlayerEvent>({ event, _ -> event.player to true })
         resolvers += PlayerMoveEvent::class.java to EventResolver<PlayerMoveEvent>(
-            entityResolver = { event, _ -> event.player },
+            entityResolver = { event, _ -> event.player to true },
             eventResolver = { event ->
                 /* 过滤视角转动 */
                 if (event.from.world == event.to.world && event.from.distance(event.to) < 1e-1) return@EventResolver
             }
         )
-        resolvers += BlockPlaceEvent::class.java to EventResolver<BlockPlaceEvent>({ event, _ -> event.player })
-        resolvers += BlockBreakEvent::class.java to EventResolver<BlockBreakEvent>({ event, _ -> event.player })
-        resolvers += ProjectileHitEvent::class.java to EventResolver<ProjectileHitEvent>({ event, _ -> event.entity.shooter as? LivingEntity })
+        resolvers += BlockPlaceEvent::class.java to EventResolver<BlockPlaceEvent>({ event, _ -> event.player to true })
+        resolvers += BlockBreakEvent::class.java to EventResolver<BlockBreakEvent>({ event, _ -> event.player to true })
+        resolvers += ProjectileHitEvent::class.java to EventResolver<ProjectileHitEvent>({ event, _ -> event.entity.shooter as? LivingEntity to true })
         resolvers += EntityDamageByEntityEvent::class.java to EventResolver<EntityDamageByEntityEvent>({ event, playerReference ->
             when (playerReference) {
                 "damager", null -> when (event.damager) {
                     is Player -> event.damager as? LivingEntity
                     is Projectile -> ((event.damager as Projectile).shooter as? LivingEntity)
                     else -> null
-                }
-                "entity" -> event.entity as? LivingEntity
-                else -> null
+                } to true
+                "entity" -> event.entity as? LivingEntity to true
+                else -> null to false
             }
         })
-        resolvers += EntityDeathEvent::class.java to EventResolver<EntityDeathEvent>({ event, _ -> event.killer })
-        resolvers += EntityEvent::class.java to EventResolver<EntityEvent>({ event, _ -> event.entity as? LivingEntity })
-        resolvers += InventoryClickEvent::class.java to EventResolver<InventoryClickEvent>({ event, _ -> event.whoClicked })
-        resolvers += InventoryEvent::class.java to EventResolver<InventoryEvent>({ event, _ -> event.view.player })
+        resolvers += EntityDeathEvent::class.java to EventResolver<EntityDeathEvent>({ event, _ -> event.killer to true })
+        resolvers += EntityEvent::class.java to EventResolver<EntityEvent>({ event, _ -> event.entity as? LivingEntity to true })
+        resolvers += InventoryClickEvent::class.java to EventResolver<InventoryClickEvent>({ event, _ -> event.whoClicked to true })
+        resolvers += InventoryEvent::class.java to EventResolver<InventoryEvent>({ event, _ -> event.view.player to true })
         resolvers += AiyatsbusPrepareAnvilEvent::class.java to EventResolver<AiyatsbusPrepareAnvilEvent>(
-            entityResolver = { event, _ -> event.player },
+            entityResolver = { event, _ -> event.player to true },
             itemResolver = { event, itemReference, _ ->
                 when (itemReference) {
-                    "left" -> event.left
-                    "right" -> event.right ?: ItemStack(Material.AIR, 0) // 要返回空气方块而不是 null, 避免二次返回
-                    "result" -> event.result ?: ItemStack(Material.AIR, 0)
-                    else -> null
+                    "left" -> event.left to true
+                    "right" -> event.right to true
+                    "result" -> event.result to true
+                    else -> null to false
                 }
             }
         )
@@ -161,11 +162,12 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
         /* 特殊事件处理 */
         resolver.eventResolver.apply(event)
 
-        var entity = resolver.entityResolver.apply(event, eventMapping.playerReference)
+        var (entity, entityResolved) = resolver.entityResolver.apply(event, eventMapping.playerReference)
 
-        if (entity == null) {
+        if (entity == null && !entityResolved) {
             entity = event.invokeMethodDeep<LivingEntity>(eventMapping.playerReference ?: return) ?: return
         }
+        if (entity == null) return
 
         if (eventMapping.slots.isNotEmpty()) {
             eventMapping.slots.forEach { slot ->
@@ -186,14 +188,12 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
             // NOTICE 不要删除下面的调试信息, 关键时刻能救命
 //            println("我是 $listen")
 //            println("我的 EventResolver 是 $resolver")
-            var item = resolver.itemResolver.apply(event, eventMapping.itemReference, entity)
+            var (item, itemResolved) = resolver.itemResolver.apply(event, eventMapping.itemReference, entity)
 //            println("我尝试使用 resolver 获取物品, 结果是: $item")
-            // 此时判断是否为 null, 不包含空气方块判断
-            if (item == null) {
+            if (item.isAir && !itemResolved) {
                 item = event.invokeMethodDeep(eventMapping.itemReference ?: return) as? ItemStack ?: return
 //                println("我用反射获取到了物品: $item")
             }
-            // 此时包含空气方块判断
             if (item.isNull) return
             item!!.triggerEts(listen, event, eventPriority, entity, null, true)
         }
