@@ -20,7 +20,7 @@ object PacketWindowItems {
     @SubscribeEvent(priority = EventPriority.MONITOR)
     fun e(e: PacketSendEvent) {
         if (e.packet.name == "PacketPlayOutWindowItems" || e.packet.name == "ClientboundContainerSetContentPacket") {
-            runCatching {
+            try {
                 val field = if (MinecraftVersion.isUniversal) "items" else "b"
                 val slots = e.packet.read<List<Any>>(field)!!.toMutableList()
                 for (i in slots.indices) {
@@ -38,7 +38,9 @@ object PacketWindowItems {
                     val nmsItem = Aiyatsbus.api().getMinecraftAPI().asNMSCopy(bkItem.toDisplayMode(e.player))
                     e.packet.write("carriedItem", nmsItem)
                 }
-            }.onFailure { it.printStackTrace() }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
         }
     }
 }

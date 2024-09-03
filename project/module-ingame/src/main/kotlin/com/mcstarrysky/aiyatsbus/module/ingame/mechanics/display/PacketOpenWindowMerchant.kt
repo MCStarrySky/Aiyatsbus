@@ -18,12 +18,14 @@ object PacketOpenWindowMerchant {
     @SubscribeEvent(priority = EventPriority.MONITOR)
     fun e(e: PacketSendEvent) {
         if (e.packet.name == "PacketPlayOutOpenWindowMerchant" || e.packet.name == "ClientboundMerchantOffersPacket") {
-            runCatching {
+            try {
                 // 1.16 - 1.20.4 全部版本都可以直接读 b, 1.20.5 改成 c
                 val field = if (MinecraftVersion.isUniversal) "offers" else "b"
                 val merchant = e.packet.read<Any>(field, MinecraftVersion.isUniversal)!!
                 e.packet.write(field, Aiyatsbus.api().getMinecraftAPI().adaptMerchantRecipe(merchant, e.player))
-            }.onFailure { it.printStackTrace() }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
         }
     }
 }

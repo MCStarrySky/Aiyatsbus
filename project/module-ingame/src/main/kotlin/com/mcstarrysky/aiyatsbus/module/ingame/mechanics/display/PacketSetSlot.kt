@@ -20,14 +20,16 @@ object PacketSetSlot {
     @SubscribeEvent(priority = EventPriority.MONITOR)
     fun e(e: PacketSendEvent) {
         if (e.packet.name == "PacketPlayOutSetSlot" || e.packet.name == "ClientboundContainerSetSlotPacket") {
-            runCatching {
+            try {
                 val field = if (MinecraftVersion.isUniversal) "itemStack" else "c"
                 val origin = e.packet.read<Any>(field)!!
                 val bkItem = Aiyatsbus.api().getMinecraftAPI().asBukkitCopy(origin)
                 if (bkItem.isNull) return
                 val adapted = Aiyatsbus.api().getMinecraftAPI().asNMSCopy(bkItem.toDisplayMode(e.player))
                 e.packet.write(field, adapted)
-            }.onFailure { it.printStackTrace() }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
         }
     }
 }

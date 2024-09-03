@@ -23,6 +23,8 @@ import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.conversion
+import taboolib.module.nms.MinecraftVersion
+import taboolib.module.nms.PacketSendEvent
 
 @ConfigNode(bind = "core/mechanisms/enchanting_table.yml")
 object EnchantingTableSupport {
@@ -43,10 +45,17 @@ object EnchantingTableSupport {
         private set
 
     /**
-     * 是否开启原版附魔台(无法从附魔台获得更多附魔)
+     * 是否开启从附魔台获得更多附魔
      */
-    @ConfigNode("vanilla_table")
-    var vanillaTable = false
+    @ConfigNode("enable")
+    var enable = true
+
+    /**
+     * 开启悬停显示, 必出悬停原版附魔
+     * 关闭时则关闭悬停显示, 一切附魔按权重随机
+     */
+    @ConfigNode("vanilla_mode")
+    var vanillaMode = false
 
     /**
      * 出货数量概率
@@ -81,9 +90,40 @@ object EnchantingTableSupport {
     @ConfigNode("max_level_limit")
     var maxLevelLimit = -1
 
+    @SubscribeEvent(priority = EventPriority.MONITOR)
+    fun e(e: PacketSendEvent) {
+        if (!enable || vanillaMode) return
+        /**
+         * Spigot.Deobf -> PacketPlayerOutWindowData
+         * Paper -> ClientboundContainerSetDataPacket
+         *
+         * id:
+         * 1.16 -> b
+         * 1.17 ~ 1.21.1 -> id (remap = true)
+         * paper (universal craftbukkit) -> id (remap = false)
+         *
+         * value:
+         * 1.16 -> c
+         * 1.17 ~ 1.21 -> value (remap = true)
+         * paper (universal craftbukkit) -> value (remap = false)
+         *
+         * https://wiki.vg/Protocol#Set_Container_Property
+         */
+        if (e.packet.name == "PacketPlayOutWindowData" || e.packet.name == "ClientboundContainerSetDataPacket") {
+            try {
+                val id = e.packet.read<Int>(if (MinecraftVersion.isUniversal) "id" else "value", MinecraftVersion.isUniversal)
+                if (id in 4..6) {
+                    e.packet.write(if (MinecraftVersion.isUniversal) "value" else "c", -1)
+                }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     @SubscribeEvent(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun prepareEnchant(event: PrepareItemEnchantEvent) {
-        if (vanillaTable)
+        if (!enable)
             return
         val location = event.enchantBlock.location.serialized
         // 记录附魔台的书架等级
@@ -96,7 +136,7 @@ object EnchantingTableSupport {
 
     @SubscribeEvent(priority = EventPriority.HIGH, ignoreCancelled = true)
     fun doEnchant(event: EnchantItemEvent) {
-        if (vanillaTable)
+        if (!enable)
             return
 
         val location = event.enchantBlock.location.serialized
@@ -114,7 +154,9 @@ object EnchantingTableSupport {
         val enchantmentHintLevel = if (player.hasPermission(fullLevelPrivilege)) {
             enchantmentOfferHint.enchantment.maxLevel
         } else enchantmentOfferHint.enchantmentLevel
-        item.addEt(enchantmentOfferHint.enchantment.aiyatsbusEt, enchantmentHintLevel)
+        if (vanillaMode) {
+            item.addEt(enchantmentOfferHint.enchantment.aiyatsbusEt, enchantmentHintLevel)
+        }
 
         // 附魔
         val result = doEnchant(player, item, cost, bonus)
@@ -122,7 +164,9 @@ object EnchantingTableSupport {
         // 清空附魔列表
         event.enchantsToAdd.clear()
         // 添加悬停信息上的附魔
-        event.enchantsToAdd += enchantmentOfferHint.enchantment to enchantmentHintLevel
+        if (vanillaMode) {
+            event.enchantsToAdd += enchantmentOfferHint.enchantment to enchantmentHintLevel
+        }
         // 添加随机出来的附魔
         event.enchantsToAdd.putAll(result.first.mapKeys { it.key as Enchantment })
 
@@ -176,7 +220,6 @@ object EnchantingTableSupport {
 
     /**
      * 计算额外出的货的数量
-     * 附魔台逻辑: 保留原本玩家悬停在附魔按钮上显示的附魔 + enchantAmount(player, cost) 个额外附魔
      */
     private fun calculateAmount(player: Player, cost: Int): Int {
         var count = 0
@@ -187,7 +230,7 @@ object EnchantingTableSupport {
                 break
             }
         }
-        return count
+        return count + if (vanillaMode) 0 else 1
     }
 
     /**

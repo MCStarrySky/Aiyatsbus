@@ -19,13 +19,15 @@ object PacketSetCreativeSlot {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     fun e(e: PacketReceiveEvent) {
         if (e.packet.name == "PacketPlayInSetCreativeSlot" || e.packet.name == "ServerboundSetCreativeModeSlotPacket") {
-            runCatching {
+            try {
                 val origin = e.packet.read<Any>("itemStack", true)!!
                 val bkItem = Aiyatsbus.api().getMinecraftAPI().asBukkitCopy(origin)
                 if (bkItem.isNull) return
                 val adapted = Aiyatsbus.api().getMinecraftAPI().asNMSCopy(bkItem.toRevertMode(e.player))
                 e.packet.write("itemStack", adapted)
-            }.onFailure { it.printStackTrace() }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
         }
     }
 }

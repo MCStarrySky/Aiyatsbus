@@ -36,6 +36,14 @@ object LootSupport {
 
     @ConfigNode("enable")
     var enable = true
+
+    /**
+     * 开启悬停显示, 必出悬停原版附魔
+     * 关闭时则关闭悬停显示, 一切附魔按权重随机
+     */
+    @ConfigNode("vanilla_mode")
+    var vanillaMode = false
+
     @delegate:ConfigNode("more_enchant_chance")
     val moreEnchantChance by conversion<List<String>, List<String>> {
         this.onEach { it.preheatExpression() }
@@ -85,10 +93,11 @@ object LootSupport {
      */
     private fun doEnchant(
         player: Player,
-        item: ItemStack,
+        originItem: ItemStack,
         cost: Int = this.cost,
         bonus: Int = this.bonus
     ): Pair<Map<AiyatsbusEnchantment, Int>, ItemStack> {
+        val item = if (vanillaMode) originItem else ItemStack(originItem.type)
         val enchantsToAdd = mutableMapOf<AiyatsbusEnchantment, Int>()
         val result = item.clone()
 
@@ -101,9 +110,9 @@ object LootSupport {
             // 从特定附魔列表中根据品质和附魔的权重抽取一个附魔
             val enchant = pool.drawEt() ?: return@repeat
             val maxLevel = enchant.basicData.maxLevel
-            val limit = enchant.alternativeData.getLootMaxLevelLimit(maxLevel, EnchantingTableSupport.maxLevelLimit)
+            val limit = enchant.alternativeData.getLootMaxLevelLimit(maxLevel, maxLevelLimit)
 
-            val level = if (player.hasPermission(EnchantingTableSupport.fullLevelPrivilege)) maxLevel else EnchantingTableSupport.levelFormula.calcToInt(
+            val level = if (player.hasPermission(fullLevelPrivilege)) maxLevel else levelFormula.calcToInt(
                 "bonus" to bonus,
                 "max_level" to limit,
                 "button" to cost
@@ -121,7 +130,6 @@ object LootSupport {
 
     /**
      * 计算额外出的货的数量
-     * 附魔台逻辑: 保留原本玩家悬停在附魔按钮上显示的附魔 + enchantAmount(player, cost) 个额外附魔
      */
     private fun calculateAmount(player: Player, cost: Int): Int {
         var count = 0
@@ -132,7 +140,7 @@ object LootSupport {
                 break
             }
         }
-        return count
+        return count + if (vanillaMode) 0 else 1
     }
 
     /**
