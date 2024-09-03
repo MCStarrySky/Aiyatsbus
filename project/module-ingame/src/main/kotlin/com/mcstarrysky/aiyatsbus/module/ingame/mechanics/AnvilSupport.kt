@@ -160,7 +160,8 @@ object AnvilSupport {
                         // 也就是说当物品满耐久的时候, 这个数其实是 0, 大概就是这个意思
                         // 所以要想恢复这个物品的耐久, 得用减法
                         // 需要消耗的右面物品的数量乘以右面每个物品可以恢复的耐久度, 得到的数即为所求
-                        damage -= per * costItemAmount
+                        val toDamage = damage - per * costItemAmount
+                        damage = toDamage.coerceIn(0..result.type.maxDurability.toInt())
                     }
                     experience += repairCost
                     onlyEditName = false
@@ -182,7 +183,7 @@ object AnvilSupport {
         if (left.itemMeta is Damageable && right.itemMeta is Damageable && costItemAmount == 0 && right.itemMeta !is EnchantmentStorageMeta) {
             result?.dura =
                 (left.dura + ceil(repairCombineValue.calcToDouble("right" to right.dura, "max" to left.type.maxDurability)).cint)
-                    .coerceAtLeast(0).coerceAtMost(left.type.maxDurability.toInt())
+                    .coerceIn(0..left.type.maxDurability.toInt())
             experience += combineRepairCost
             onlyEditName = false
         }
