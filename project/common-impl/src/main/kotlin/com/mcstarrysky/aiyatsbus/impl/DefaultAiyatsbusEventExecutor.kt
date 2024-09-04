@@ -7,12 +7,9 @@ import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.data.trigger.event.EventMapping
 import com.mcstarrysky.aiyatsbus.core.data.trigger.event.EventResolver
 import com.mcstarrysky.aiyatsbus.core.event.AiyatsbusPrepareAnvilEvent
-import com.mcstarrysky.aiyatsbus.core.util.Mirror
+import com.mcstarrysky.aiyatsbus.core.util.*
 import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
-import com.mcstarrysky.aiyatsbus.core.util.invokeMethodDeep
-import com.mcstarrysky.aiyatsbus.core.util.isNull
-import com.mcstarrysky.aiyatsbus.core.util.mirrorNow
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
@@ -62,40 +59,51 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
     private val cachedClasses = ConcurrentHashMap<String, Class<*>>()
 
+    private fun LivingEntity?.checkedIfIsNPC(): Pair<LivingEntity?, Boolean> {
+        if (checkIfIsNPC()) return this to false // 如果是 NPC 则不再进行处理事件
+        return this to true
+    }
+
     init {
         resolvers += Event::class.java to EventResolver<Event>(
             // 最后面返回 true 是因为这是最后一步直接解析, 如果这都解析不到那就没必要再重复一次解析了
-            entityResolver = { event, playerReference -> event.invokeMethodDeep<LivingEntity?>(playerReference ?: return@EventResolver null to true) to true },
+            entityResolver = { event, playerReference ->
+                event.invokeMethodDeep<LivingEntity?>(playerReference ?: return@EventResolver null to true).checkedIfIsNPC()
+            },
             itemResolver = { event, itemReference, _ -> event.invokeMethodDeep<ItemStack?>(itemReference ?: return@EventResolver null to true) to true }
         )
-        resolvers += PlayerEvent::class.java to EventResolver<PlayerEvent>({ event, _ -> event.player to true })
+        resolvers += PlayerEvent::class.java to EventResolver<PlayerEvent>({ event, _ -> event.player.checkedIfIsNPC() })
         resolvers += PlayerMoveEvent::class.java to EventResolver<PlayerMoveEvent>(
-            entityResolver = { event, _ -> event.player to true },
+            entityResolver = { event, _ -> event.player.checkedIfIsNPC() },
             eventResolver = { event ->
                 /* 过滤视角转动 */
                 if (event.from.world == event.to.world && event.from.distance(event.to) < 1e-1) return@EventResolver
             }
         )
-        resolvers += BlockPlaceEvent::class.java to EventResolver<BlockPlaceEvent>({ event, _ -> event.player to true })
-        resolvers += BlockBreakEvent::class.java to EventResolver<BlockBreakEvent>({ event, _ -> event.player to true })
-        resolvers += ProjectileHitEvent::class.java to EventResolver<ProjectileHitEvent>({ event, _ -> event.entity.shooter as? LivingEntity to true })
+        resolvers += BlockPlaceEvent::class.java to EventResolver<BlockPlaceEvent>({ event, _ -> event.player.checkedIfIsNPC() })
+        resolvers += BlockBreakEvent::class.java to EventResolver<BlockBreakEvent>({ event, _ -> event.player.checkedIfIsNPC() })
+        resolvers += ProjectileHitEvent::class.java to EventResolver<ProjectileHitEvent>({ event, _ -> (event.entity.shooter as? LivingEntity).checkedIfIsNPC() })
         resolvers += EntityDamageByEntityEvent::class.java to EventResolver<EntityDamageByEntityEvent>({ event, playerReference ->
+            // 攻击者和受害者有任何一方是 NPC 就都不应触发此事件
+            if (event.damager.checkIfIsNPC() || event.entity.checkIfIsNPC()) {
+                null to false
+            }
             when (playerReference) {
                 "damager", null -> when (event.damager) {
                     is Player -> event.damager as? LivingEntity
                     is Projectile -> ((event.damager as Projectile).shooter as? LivingEntity)
                     else -> null
-                } to true
-                "entity" -> event.entity as? LivingEntity to true
+                }.checkedIfIsNPC()
+                "entity" -> (event.entity as? LivingEntity).checkedIfIsNPC()
                 else -> null to false
             }
         })
-        resolvers += EntityDeathEvent::class.java to EventResolver<EntityDeathEvent>({ event, _ -> event.killer to true })
-        resolvers += EntityEvent::class.java to EventResolver<EntityEvent>({ event, _ -> event.entity as? LivingEntity to true })
-        resolvers += InventoryClickEvent::class.java to EventResolver<InventoryClickEvent>({ event, _ -> event.whoClicked to true })
-        resolvers += InventoryEvent::class.java to EventResolver<InventoryEvent>({ event, _ -> event.view.player to true })
+        resolvers += EntityDeathEvent::class.java to EventResolver<EntityDeathEvent>({ event, _ -> event.killer.checkedIfIsNPC() })
+        resolvers += EntityEvent::class.java to EventResolver<EntityEvent>({ event, _ -> (event.entity as? LivingEntity).checkedIfIsNPC() })
+        resolvers += InventoryClickEvent::class.java to EventResolver<InventoryClickEvent>({ event, _ -> (event.whoClicked).checkedIfIsNPC() })
+        resolvers += InventoryEvent::class.java to EventResolver<InventoryEvent>({ event, _ -> (event.view.player).checkedIfIsNPC() })
         resolvers += AiyatsbusPrepareAnvilEvent::class.java to EventResolver<AiyatsbusPrepareAnvilEvent>(
-            entityResolver = { event, _ -> event.player to true },
+            entityResolver = { event, _ -> event.player.checkedIfIsNPC() },
             itemResolver = { event, itemReference, _ ->
                 when (itemReference) {
                     "left" -> event.left to true
@@ -169,6 +177,8 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
         }
         if (entity == null) return
 
+        if (entity.checkIfIsNPC()) return
+
         if (eventMapping.slots.isNotEmpty()) {
             eventMapping.slots.forEach { slot ->
                 val item: ItemStack?
@@ -182,7 +192,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 
                 if (item.isNull) return@forEach
 
-                item!!.triggerEts(listen, event, eventPriority, entity, slot, false)
+                item!!.triggerEts(listen, event, entity, slot, false)
             }
         } else {
             // NOTICE 不要删除下面的调试信息, 关键时刻能救命
@@ -195,11 +205,11 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
 //                println("我用反射获取到了物品: $item")
             }
             if (item.isNull) return
-            item!!.triggerEts(listen, event, eventPriority, entity, null, true)
+            item!!.triggerEts(listen, event, entity, null, true)
         }
     }
 
-    private fun ItemStack.triggerEts(listen: String, event: Event, eventPriority: EventPriority, entity: LivingEntity, slot: EquipmentSlot?, ignoreSlot: Boolean = false) {
+    private fun ItemStack.triggerEts(listen: String, event: Event, entity: LivingEntity, slot: EquipmentSlot?, ignoreSlot: Boolean = false) {
 
         val enchants = fixedEnchants.entries
             .filter { it.key.trigger != null }

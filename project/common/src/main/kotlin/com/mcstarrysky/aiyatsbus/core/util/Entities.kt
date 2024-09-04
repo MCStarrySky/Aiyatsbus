@@ -32,8 +32,8 @@ fun Entity.getI18nName(player: Player? = null): String {
     return localeFile[localeKey] ?: localeKey
 }
 
-fun Entity.checkIfIsNPC(): Boolean {
-    return NPCChecker.checkIfIsNPC(this)
+fun Entity?.checkIfIsNPC(): Boolean {
+    return NPCChecker.checkIfIsNPC(this ?: return false)
 }
 
 fun LivingEntity.isBehind(entity: LivingEntity): Boolean {
