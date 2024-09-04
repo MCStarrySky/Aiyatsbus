@@ -2,6 +2,7 @@ package com.mcstarrysky.aiyatsbus.core.util
 
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusSettings
+import com.mcstarrysky.aiyatsbus.core.compat.NPCChecker
 import dev.lone.itemsadder.api.CustomBlock
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -29,6 +30,10 @@ fun Entity.getI18nName(player: Player? = null): String {
     val localeFile = player?.getLocaleFile() ?: LocaleI18n.getDefaultLocaleFile() ?: return "NO_LOCALE"
     val localeKey = type.translationKey()
     return localeFile[localeKey] ?: localeKey
+}
+
+fun Entity.checkIfIsNPC(): Boolean {
+    return NPCChecker.checkIfIsNPC(this)
 }
 
 fun LivingEntity.isBehind(entity: LivingEntity): Boolean {

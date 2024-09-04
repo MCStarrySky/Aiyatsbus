@@ -4,12 +4,10 @@ taboolib {
     description {
         name(rootProject.name)
         contributors {
-            name("米咔噜")
+            name("Mical")
             name("坏黑")
-            name("南外丶仓鼠")
+            name("白熊")
             name("xiaozhangup")
-            name("yanshiqwq")
-            name("Itz_Dr_Li")
         }
 
         dependencies {
@@ -17,6 +15,8 @@ taboolib {
             name("ItemsAdder").optional(true)
             name("BentoBox").optional(true)
             name("Residence").optional(true)
+            name("QuickShop").optional(true)
+            name("QuickShop-Hikari").optional(true)
         }
 
         desc("Aiyatsbus is a powerful enchantment framework for Paper servers.")
