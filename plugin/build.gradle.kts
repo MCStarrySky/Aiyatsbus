@@ -17,6 +17,7 @@ taboolib {
             name("Residence").optional(true)
             name("QuickShop").optional(true)
             name("QuickShop-Hikari").optional(true)
+            name("Citizens")
         }
 
         desc("Aiyatsbus is a powerful enchantment framework for Paper servers.")
