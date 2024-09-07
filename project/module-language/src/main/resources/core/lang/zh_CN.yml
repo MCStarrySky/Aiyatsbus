@@ -155,6 +155,9 @@ command-subCommands-book-sender: '{prefix} &7附魔书已经发送给 &e{name}'
 command-subCommands-book-receiver: '{prefix} &7你收到了附魔书 {enchantment}'
 command-subCommands-book-fail: '{prefix} &7控制台无法给予自己附魔书'
 
+command-subCommands-dev-description: '开发者调试命令'
+command-subCommands-dev-usage: ''
+
 command-subCommands-enchant-description: '为玩家手持物品增加/清除附魔'
 command-subCommands-enchant-usage: '&7\[&8附魔&7\] &7<&8等级\(0为清除\)&7> &7<&8玩家&7>'
 command-subCommands-enchant-empty: '{prefix} &7手持物品为空'

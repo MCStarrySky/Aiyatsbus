@@ -37,6 +37,9 @@ object AiyatsbusCommand {
     @CommandBody(permission = "aiyatsbus.command.book")
     val book = bookSubCommand
 
+    @CommandBody(permission = "aiyatsbus.command.dev")
+    val dev = devSubCommand
+
     @CommandBody(permission = "aiyatsbus.command.enchant")
     val enchant = enchantSubCommand
 
