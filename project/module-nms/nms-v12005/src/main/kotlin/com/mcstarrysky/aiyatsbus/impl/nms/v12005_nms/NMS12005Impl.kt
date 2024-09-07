@@ -5,7 +5,9 @@ import com.mcstarrysky.aiyatsbus.core.util.isNull
 import net.minecraft.core.component.DataComponents
 import net.minecraft.world.item.trading.MerchantRecipe
 import net.minecraft.world.item.trading.MerchantRecipeList
+import org.bukkit.craftbukkit.v1_20_R4.entity.CraftLivingEntity
 import org.bukkit.craftbukkit.v1_20_R4.inventory.CraftItemStack
+import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
@@ -57,6 +59,10 @@ class NMS12005Impl : NMS12005() {
             )
         }
         return adapt
+    }
+
+    override fun hurtAndBreak(nmsItem: Any, amount: Int, entity: LivingEntity) {
+        return (nmsItem as NMSItemStack).hurtAndBreak(amount, (entity as CraftLivingEntity).handle, null)
     }
 
     override fun hideBookEnchants(item: ItemMeta) {

@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.impl.nms.v12005_nms
 
+import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
@@ -20,6 +21,8 @@ abstract class NMS12005 {
     abstract fun setRepairCost(item: ItemStack, cost: Int)
 
     abstract fun adaptMerchantRecipe(merchantRecipeList: Any, player: Player): Any
+
+    abstract fun hurtAndBreak(nmsItem: Any, amount: Int, entity: LivingEntity)
 
     /** 隐藏书本附魔 */
     abstract fun hideBookEnchants(item: ItemMeta)

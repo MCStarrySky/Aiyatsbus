@@ -219,8 +219,14 @@ class DefaultAiyatsbusMinecraftAPI : AiyatsbusMinecraftAPI {
     private fun damageItemStack(nmsStack: Any, amount: Int, enumItemSlot: Any?, entity: LivingEntity) {
         if (MinecraftVersion.isUniversal) {
             nmsStack as NMSItemStack
-            nmsStack.hurtAndBreak(amount, (entity as CraftLivingEntity20).handle) { entityLiving ->
-                (enumItemSlot as? NMSEnumItemSlot)?.let { entityLiving.broadcastBreakEvent(it) }
+            // 1.20.4 -> hurtAndBreak(int, EntityLiving, Consumer<EntityLiving>)
+            // 1.20.5, 1.21 -> hurtAndBreak(int, EntityLiving, EnumItemSlot), 自动广播事件
+            if (MinecraftVersion.majorLegacy >= 12005) {
+                NMS12005.instance.hurtAndBreak(nmsStack, amount, entity)
+            } else {
+                nmsStack.hurtAndBreak(amount, (entity as CraftLivingEntity20).handle) { entityLiving ->
+                    (enumItemSlot as? NMSEnumItemSlot)?.let { entityLiving.broadcastBreakEvent(it) }
+                }
             }
         } else {
             nmsStack as NMS16ItemStack
