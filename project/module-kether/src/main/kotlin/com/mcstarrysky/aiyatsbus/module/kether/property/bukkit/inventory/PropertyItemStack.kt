@@ -8,6 +8,7 @@ import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import taboolib.common.OpenResult
+import taboolib.module.nms.getI18nName
 
 /**
  * Vulpecula

@@ -1,11 +1,10 @@
-@file:Suppress("PropertyName", "SpellCheckingInspection")
-
+import io.izzel.taboolib.gradle.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `maven-publish`
     java
-    id("io.izzel.taboolib") version "2.0.13"
+    id("io.izzel.taboolib") version "2.0.17"
     id("org.jetbrains.kotlin.jvm") version "1.8.22"
 }
 
@@ -19,27 +18,17 @@ subprojects {
     taboolib {
         env {
             install(
-                "minecraft-chat",
-                "basic-configuration",
-                "minecraft-i18n",
-                "bukkit-hook",
-                "bukkit-util",
-                "bukkit-xseries",
-                "bukkit-xseries-item",
-                "platform-bukkit",
-                "platform-bukkit-impl",
-                "bukkit-nms",
-                "bukkit-nms-stable",
-                "bukkit-nms-tag",
-                "bukkit-nms-tag-12005",
-                "bukkit-nms-tag-legacy",
-                "minecraft-kether",
-                "bukkit-ui",
-                "bukkit-ui-legacy",
-                "bukkit-ui-12100",
-                "minecraft-effect",
-                "minecraft-metrics",
-                "script-javascript"
+                Bukkit,
+                BukkitHook,
+                BukkitNMSItemTag,
+                BukkitUI,
+                BukkitUtil,
+                I18n,
+                JavaScript,
+                Kether,
+                MinecraftChat,
+                MinecraftEffect,
+                Metrics
             )
         }
         version {
