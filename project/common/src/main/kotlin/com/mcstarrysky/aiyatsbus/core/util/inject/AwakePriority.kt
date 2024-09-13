@@ -5,7 +5,7 @@ import taboolib.common.inject.ClassVisitor
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.registerLifeCycleTask
 import taboolib.library.reflex.ClassMethod
-import java.util.function.Supplier
+import taboolib.library.reflex.ReflexClass
 
 /**
  * Aiyatsbus
@@ -20,13 +20,14 @@ annotation class AwakePriority(val value: LifeCycle = LifeCycle.CONST, val prior
 @Awake
 class AwakePriorityLoader : ClassVisitor(0) {
 
-    override fun visit(method: ClassMethod, clazz: Class<*>, instance: Supplier<*>?) {
+    override fun visit(method: ClassMethod, owner: ReflexClass) {
         if (method.isAnnotationPresent(AwakePriority::class.java)) {
-            val lifeCycle = method.getAnnotation(AwakePriority::class.java).enum<LifeCycle>("value", LifeCycle.CONST)
+            val instance = findInstance(owner)
+            val lifeCycle = method.getAnnotation(AwakePriority::class.java).enum("value", LifeCycle.CONST)
             val priority = method.getAnnotation(AwakePriority::class.java).property("priority", 0)
             registerLifeCycleTask(lifeCycle, priority) {
                 if (instance != null) {
-                    method.invoke(instance.get())
+                    method.invoke(instance)
                 } else {
                     method.invokeStatic()
                 }

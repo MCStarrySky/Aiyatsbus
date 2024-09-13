@@ -8,9 +8,9 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.function.warning
 import taboolib.library.reflex.ClassField
 import taboolib.library.reflex.ClassMethod
+import taboolib.library.reflex.ReflexClass
 import taboolib.module.configuration.Configuration
 import java.util.function.Consumer
-import java.util.function.Supplier
 
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)
@@ -24,15 +24,15 @@ object Reloadables : ClassVisitor() {
 
     override fun getLifeCycle(): LifeCycle = LifeCycle.LOAD
 
-    override fun visit(method: ClassMethod, clazz: Class<*>, instance: Supplier<*>?) {
+    override fun visit(method: ClassMethod, owner: ReflexClass) {
         if (method.isAnnotationPresent(Reloadable::class.java)) {
-            registered.put(instance?.get() ?: return) { method.invoke(it) }
+            registered.put(findInstance(owner) ?: return) { method.invoke(it) }
         }
     }
 
-    override fun visit(field: ClassField, clazz: Class<*>, instance: Supplier<*>?) {
+    override fun visit(field: ClassField, owner: ReflexClass) {
         if (field.isAnnotationPresent(Reloadable::class.java)) {
-            val ins = instance?.get() ?: return
+            val ins = findInstance(owner) ?: return
             val type = field.fieldType
             when {
                 Configuration::class.java.isAssignableFrom(type) ->

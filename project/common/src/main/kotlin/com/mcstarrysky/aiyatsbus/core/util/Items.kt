@@ -1,32 +1,14 @@
 package com.mcstarrysky.aiyatsbus.core.util
 
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
-import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.EnchantmentStorageMeta
 import org.bukkit.inventory.meta.ItemMeta
-import org.jetbrains.annotations.ApiStatus.ScheduledForRemoval
 import taboolib.common.util.VariableReader
 import taboolib.module.chat.colored
-import taboolib.module.nms.LocaleI18n
-import taboolib.module.nms.getLocaleFile
 import taboolib.platform.util.isAir
 import taboolib.platform.util.modifyMeta
-
-/**
- * 兼容 1.21
- *
- * @author mical
- * @since 2024/8/17 00:55
- */
-@ScheduledForRemoval(inVersion = "1.0")
-@Deprecated("only made for 1.21 support")
-fun ItemStack.getI18nName(player: Player? = null): String {
-    val localeFile = player?.getLocaleFile() ?: LocaleI18n.getDefaultLocaleFile() ?: return "NO_LOCALE"
-    val localeKey = translationKey()
-    return localeFile[localeKey] ?: localeKey
-}
 
 /**
  * 物品在铁砧上的操作数

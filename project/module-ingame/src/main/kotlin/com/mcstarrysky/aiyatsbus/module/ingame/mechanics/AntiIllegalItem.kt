@@ -2,11 +2,11 @@ package com.mcstarrysky.aiyatsbus.module.ingame.mechanics
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadable
-import com.mcstarrysky.aiyatsbus.core.util.getI18nName
 import com.mcstarrysky.aiyatsbus.core.util.inject.AwakePriority
 import taboolib.common.LifeCycle
 import taboolib.common.platform.function.submit
 import taboolib.common.platform.service.PlatformExecutor
+import taboolib.module.nms.getI18nName
 import taboolib.platform.util.giveItem
 import taboolib.platform.util.onlinePlayers
 

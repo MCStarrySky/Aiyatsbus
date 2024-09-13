@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     `maven-publish`
     java
-    id("io.izzel.taboolib") version "2.0.11"
+    id("io.izzel.taboolib") version "2.0.13"
     id("org.jetbrains.kotlin.jvm") version "1.8.22"
 }
 
@@ -18,7 +18,6 @@ subprojects {
     // TabooLib 配置
     taboolib {
         env {
-//            install(CHAT, CONFIGURATION, LANG, BUKKIT_ALL, NMS, NMS_UTIL, KETHER, UI, EFFECT, METRICS)
             install(
                 "minecraft-chat",
                 "basic-configuration",
@@ -27,35 +26,35 @@ subprojects {
                 "bukkit-util",
                 "bukkit-xseries",
                 "bukkit-xseries-item",
-                "bukkit-xseries-skull",
                 "platform-bukkit",
                 "platform-bukkit-impl",
-                "nms",
-                "nms-util-tag",
-                "nms-util-tag-12005",
-                "nms-util-tag-legacy",
+                "bukkit-nms",
+                "bukkit-nms-stable",
+                "bukkit-nms-tag",
+                "bukkit-nms-tag-12005",
+                "bukkit-nms-tag-legacy",
                 "minecraft-kether",
                 "bukkit-ui",
+                "bukkit-ui-legacy",
+                "bukkit-ui-12100",
                 "minecraft-effect",
                 "minecraft-metrics",
                 "script-javascript"
             )
-            forceDownloadInDev = false
-            repoTabooLib = "http://mcstarrysky.com:8081/repository/releases/"
         }
         version {
-            taboolib = "6.2.0-beta20-dev"
+            taboolib = "6.2.0-beta2"
         }
     }
 
     // 全局仓库
     repositories {
-        maven("http://mcstarrysky.com:8081/repository/releases/") {
-            isAllowInsecureProtocol = true
-        }
         mavenLocal()
         mavenCentral()
         maven("https://repo.papermc.io/repository/maven-public/")
+        maven("http://mcstarrysky.com:8081/repository/releases/") {
+            isAllowInsecureProtocol = true
+        }
     }
     // 全局依赖
     dependencies {

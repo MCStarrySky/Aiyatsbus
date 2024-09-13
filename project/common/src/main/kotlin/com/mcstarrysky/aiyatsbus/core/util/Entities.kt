@@ -12,9 +12,6 @@ import org.bukkit.entity.Player
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
-import org.jetbrains.annotations.ApiStatus.ScheduledForRemoval
-import taboolib.module.nms.LocaleI18n
-import taboolib.module.nms.getLocaleFile
 import kotlin.math.PI
 
 /**
@@ -24,14 +21,6 @@ import kotlin.math.PI
  * @author mical
  * @since 2024/7/14 15:30
  */
-@ScheduledForRemoval(inVersion = "1.0")
-@Deprecated("only made for 1.21 support")
-fun Entity.getI18nName(player: Player? = null): String {
-    val localeFile = player?.getLocaleFile() ?: LocaleI18n.getDefaultLocaleFile() ?: return "NO_LOCALE"
-    val localeKey = type.translationKey()
-    return localeFile[localeKey] ?: localeKey
-}
-
 fun Entity?.checkIfIsNPC(): Boolean {
     return NPCChecker.checkIfIsNPC(this ?: return false)
 }
