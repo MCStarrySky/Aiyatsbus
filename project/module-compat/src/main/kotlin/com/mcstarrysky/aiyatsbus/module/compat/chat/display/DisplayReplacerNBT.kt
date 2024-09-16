@@ -3,9 +3,9 @@
 package com.mcstarrysky.aiyatsbus.module.compat.chat.display
 
 import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.toDisplayMode
-import com.mcstarrysky.aiyatsbus.core.util.JSON_PARSER
 import com.mcstarrysky.aiyatsbus.core.util.isValidJson
 import com.mcstarrysky.aiyatsbus.module.compat.chat.DisplayReplacer
 import net.kyori.adventure.text.Component
@@ -62,7 +62,7 @@ object DisplayReplacerNBT : DisplayReplacer {
     }
 
     private fun extractHoverEvents(jsonString: String): List<JsonObject> {
-        val jsonObject = JSON_PARSER.parse(jsonString).asJsonObject
+        val jsonObject = JsonParser.parseString(jsonString).asJsonObject
         val hoverEvents = mutableListOf<JsonObject>()
 
         findHoverEvents(jsonObject, hoverEvents)

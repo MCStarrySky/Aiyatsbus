@@ -1,5 +1,6 @@
 package com.mcstarrysky.aiyatsbus.module.compat.chat
 
+import com.mcstarrysky.aiyatsbus.module.compat.chat.display.DisplayReplacerDataComponents
 import com.mcstarrysky.aiyatsbus.module.compat.chat.display.DisplayReplacerNBT
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
@@ -23,8 +24,7 @@ interface DisplayReplacer {
 
         val inst by unsafeLazy {
             if (MinecraftVersion.majorLegacy >= 12005) {
-                // TODO: 1.20.5 及以上版本的替换器
-                DisplayReplacerNBT
+                DisplayReplacerDataComponents
             } else {
                 DisplayReplacerNBT
             }
