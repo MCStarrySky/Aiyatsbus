@@ -7,7 +7,6 @@ import com.mcstarrysky.aiyatsbus.core.toDisplayMode
 import com.mcstarrysky.aiyatsbus.core.util.isNull
 import com.mcstarrysky.aiyatsbus.impl.nms.v12005_nms.NMS12005
 import io.papermc.paper.adventure.PaperAdventure
-import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import net.kyori.adventure.util.Codec
 import net.md_5.bungee.api.ChatMessageType
@@ -142,20 +141,12 @@ class DefaultAiyatsbusMinecraftAPI : AiyatsbusMinecraftAPI {
         }
     }
 
-    override fun componentToIChatBaseComponent(component: Component): Any? {
-        return if (MinecraftVersion.isUniversal) {
-            CraftChatMessage20.fromJSON(gsonComponentSerializer.serialize(component))
-        } else {
-            CraftChatMessage16.fromJSON(gsonComponentSerializer.serialize(component))
-        }
+    override fun componentFromJson(json: String): Any {
+        return CraftChatMessage16.fromJSON(json)
     }
 
-    override fun iChatBaseComponentToComponent(iChatBaseComponent: Any): Component {
-        return if (MinecraftVersion.isUniversal) {
-            gsonComponentSerializer.deserialize(CraftChatMessage20.toJSON(iChatBaseComponent as NMSIChatBaseComponent))
-        } else {
-            gsonComponentSerializer.deserialize(CraftChatMessage16.toJSON(iChatBaseComponent as NMS16IChatBaseComponent))
-        }
+    override fun componentToJson(iChatBaseComponent: Any): String {
+        return CraftChatMessage16.toJSON(iChatBaseComponent as NMS16IChatBaseComponent)
     }
 
     override fun breakBlock(player: Player, block: Block): Boolean {

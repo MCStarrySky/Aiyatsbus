@@ -1,6 +1,5 @@
 package com.mcstarrysky.aiyatsbus.core
 
-import net.kyori.adventure.text.Component
 import org.bukkit.block.Block
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
@@ -37,11 +36,11 @@ interface AiyatsbusMinecraftAPI {
     /** 为原版的 MerchantRecipeList 的物品显示更多附魔 */
     fun adaptMerchantRecipe(merchantRecipeList: Any, player: Player): Any
 
-    /** 将 Adventure Component 转成 IChatBaseComponent */
-    fun componentToIChatBaseComponent(component: Component): Any?
+    /** 将 Json 转成 IChatBaseComponent */
+    fun componentFromJson(json: String): Any
 
-    /** 将 IChatBaseComponent 转成 Adventure Component */
-    fun iChatBaseComponentToComponent(iChatBaseComponent: Any): Component
+    /** 将 IChatBaseComponent 转成 Json */
+    fun componentToJson(iChatBaseComponent: Any): String
 
     /** 取代高版本 player.breakBlock 的函数, 会触发 BlockBreakEvent */
     fun breakBlock(player: Player, block: Block): Boolean

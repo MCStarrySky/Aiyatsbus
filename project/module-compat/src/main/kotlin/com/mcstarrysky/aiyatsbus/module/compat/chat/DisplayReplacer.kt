@@ -2,7 +2,6 @@ package com.mcstarrysky.aiyatsbus.module.compat.chat
 
 import com.mcstarrysky.aiyatsbus.module.compat.chat.display.DisplayReplacerDataComponents
 import com.mcstarrysky.aiyatsbus.module.compat.chat.display.DisplayReplacerNBT
-import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import taboolib.common.util.unsafeLazy
 import taboolib.module.nms.MinecraftVersion
@@ -16,9 +15,9 @@ import taboolib.module.nms.MinecraftVersion
 interface DisplayReplacer {
 
     /**
-     * 替换 Component 中的 HoverEvent
+     * 替换 IChatBaseComponent 或 Component 中的 HoverEvent
      */
-    fun apply(component: Component, player: Player): Component
+    fun apply(component: Any, player: Player): Any
 
     companion object {
 
