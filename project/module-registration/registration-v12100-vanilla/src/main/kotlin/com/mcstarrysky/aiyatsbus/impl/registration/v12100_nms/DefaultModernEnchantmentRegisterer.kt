@@ -3,6 +3,7 @@ package com.mcstarrysky.aiyatsbus.impl.registration.v12100_nms
 import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantmentBase
+import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantmentManager
 import com.mcstarrysky.aiyatsbus.core.registration.modern.ModernEnchantmentRegisterer
 import com.mcstarrysky.aiyatsbus.impl.registration.v12100_paper.EnchantmentHelper
 import net.minecraft.core.*
@@ -15,6 +16,7 @@ import org.bukkit.craftbukkit.v1_21_R1.CraftServer
 import org.bukkit.craftbukkit.v1_21_R1.enchantments.CraftEnchantment
 import org.bukkit.craftbukkit.v1_21_R1.util.CraftNamespacedKey
 import org.bukkit.enchantments.Enchantment
+import taboolib.common.platform.PlatformFactory
 import java.util.*
 import java.util.function.BiFunction
 
@@ -56,10 +58,12 @@ class DefaultModernEnchantmentRegisterer : ModernEnchantmentRegisterer {
         .apply { isAccessible = true }
 
     override fun replaceRegistry() {
+        val api = PlatformFactory.getAPI<AiyatsbusEnchantmentManager>()
+
         val newRegistryMTB =
             BiFunction<NamespacedKey, NMSEnchantment, Enchantment> { key, registry ->
                 val isVanilla = enchantmentRegistry.containsKey(CraftNamespacedKey.toMinecraft(key))
-                val aiyatsbus = Aiyatsbus.api().getEnchantmentManager().getEnchant(key)
+                val aiyatsbus = api.getEnchant(key)
 
                 if (isVanilla) {
                     CraftEnchantment(key, registry)

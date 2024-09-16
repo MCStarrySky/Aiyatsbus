@@ -6,14 +6,15 @@ import com.mcstarrysky.aiyatsbus.module.kether.util.hasNextToken
 import com.mcstarrysky.aiyatsbus.module.kether.util.nextPeek
 import com.mcstarrysky.aiyatsbus.module.kether.util.setVariable
 import taboolib.common.LifeCycle
+import taboolib.common.inject.ClassVisitor.findInstance
 import taboolib.common.platform.Awake
 import taboolib.common.util.Vector
 import taboolib.library.kether.QuestAction
 import taboolib.library.kether.QuestReader
+import taboolib.library.reflex.ReflexClass
 import taboolib.module.kether.ScriptActionParser
 import taboolib.module.kether.ScriptFrame
 import java.util.concurrent.CompletableFuture
-import java.util.function.Supplier
 
 /**
  * Vulpecula
@@ -99,7 +100,8 @@ class ActionVector : QuestAction<Any?>() {
     /*
     * 自动注册包下所有解析器 Resolver
     * */
-    @Awake(LifeCycle.LOAD)
+    @Suppress("DuplicatedCode")
+    @Awake(LifeCycle.INIT)
     companion object : ClassInjector() {
 
         private val registry = mutableMapOf<String, Resolver>()
@@ -112,18 +114,11 @@ class ActionVector : QuestAction<Any?>() {
             resolver.name.forEach { registry[it.lowercase()] = resolver }
         }
 
-        override fun visitStart(clazz: Class<*>, supplier: Supplier<*>?) {
-            if (!Resolver::class.java.isAssignableFrom(clazz)) return
+        override fun visitStart(owner: ReflexClass) {
+            val instance = findInstance(owner) ?: return
+            if (!Resolver::class.java.isAssignableFrom(instance.javaClass)) return
 
-            val resolver = let {
-                if (supplier?.get() != null) {
-                    supplier.get()
-                } else try {
-                    clazz.getDeclaredConstructor().newInstance()
-                } catch (e: Exception) {
-                    null
-                }
-            } as? Resolver ?: return
+            val resolver = instance as? Resolver ?: return
 
             registerResolver(resolver)
         }

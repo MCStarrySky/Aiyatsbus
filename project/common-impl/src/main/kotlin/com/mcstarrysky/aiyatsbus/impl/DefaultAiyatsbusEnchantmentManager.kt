@@ -2,6 +2,7 @@ package com.mcstarrysky.aiyatsbus.impl
 
 import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.compat.EnchantRegistrationHooks
+import com.mcstarrysky.aiyatsbus.core.registration.modern.ModernEnchantmentRegisterer
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.isProcessingByWatcher
 import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadable
 import com.mcstarrysky.aiyatsbus.core.util.FileWatcher.unwatch
@@ -19,6 +20,8 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
 import taboolib.common.platform.function.*
 import taboolib.module.configuration.Configuration
+import taboolib.module.nms.MinecraftVersion
+import taboolib.module.nms.nmsProxy
 import taboolib.platform.util.onlinePlayers
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
@@ -142,6 +145,17 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
         @Awake(LifeCycle.CONST)
         fun init() {
             PlatformFactory.registerAPI<AiyatsbusEnchantmentManager>(DefaultAiyatsbusEnchantmentManager())
+            val registerer = if (MinecraftVersion.majorLegacy >= 12100) {
+                nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12100_nms.DefaultModernEnchantmentRegisterer")
+            } else if (MinecraftVersion.majorLegacy >= 12003) {
+                nmsProxy<ModernEnchantmentRegisterer>("com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms.DefaultModernEnchantmentRegisterer")
+            } else {
+                return
+            }
+            registerer.replaceRegistry()
+            registerLifeCycleTask(LifeCycle.ACTIVE) {
+                registerer.replaceRegistry()
+            }
             registerLifeCycleTask(LifeCycle.DISABLE) {
                 Aiyatsbus.api().getEnchantmentManager().clearEnchantments()
             }

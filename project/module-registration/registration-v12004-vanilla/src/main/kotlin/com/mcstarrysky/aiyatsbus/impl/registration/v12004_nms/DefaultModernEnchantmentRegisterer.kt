@@ -1,8 +1,8 @@
 package com.mcstarrysky.aiyatsbus.impl.registration.v12004_nms
 
-import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantment
 import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantmentBase
+import com.mcstarrysky.aiyatsbus.core.AiyatsbusEnchantmentManager
 import com.mcstarrysky.aiyatsbus.core.registration.modern.ModernEnchantmentRegisterer
 import com.mcstarrysky.aiyatsbus.core.util.setStaticFinal
 import com.mcstarrysky.aiyatsbus.impl.registration.v12004_paper.AiyatsbusCraftEnchantment
@@ -21,6 +21,7 @@ import org.bukkit.craftbukkit.v1_20_R3.CraftServer
 import org.bukkit.craftbukkit.v1_20_R3.enchantments.CraftEnchantment
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftNamespacedKey
 import org.bukkit.enchantments.Enchantment
+import taboolib.common.platform.PlatformFactory
 import taboolib.common.util.unsafeLazy
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import java.util.*
@@ -60,6 +61,7 @@ class DefaultModernEnchantmentRegisterer : ModernEnchantmentRegisterer {
 
     override fun replaceRegistry() {
         val server = Bukkit.getServer() as CraftServer
+        val api = PlatformFactory.getAPI<AiyatsbusEnchantmentManager>()
 
         @Suppress("UNCHECKED_CAST")
         val registry = CraftRegistry(
@@ -68,7 +70,7 @@ class DefaultModernEnchantmentRegisterer : ModernEnchantmentRegisterer {
             ((server.handle.server as MinecraftServer).registryAccess() as IRegistryCustom).registryOrThrow(Registries.ENCHANTMENT)
         ) { key, registry ->
             val isVanilla = vanillaEnchantments.contains(key)
-            val aiyatsbus = Aiyatsbus.api().getEnchantmentManager().getEnchant(key)
+            val aiyatsbus = api.getEnchant(key)
 
             if (isVanilla) {
                 CraftEnchantment(key, registry)

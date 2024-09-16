@@ -1,6 +1,5 @@
 package com.mcstarrysky.aiyatsbus.module.ingame.ui.internal
 
-import com.mcstarrysky.aiyatsbus.core.util.assignableFrom
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.feature.util.*
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.registry.MenuFeatures
 import com.mcstarrysky.aiyatsbus.module.ingame.ui.internal.registry.MenuFunctions
@@ -27,13 +26,14 @@ internal object MenuComponentRegister : ClassVisitor() {
         val instance = findInstance(clazz) ?: return
 
         when {
-            MenuFeature::class.java.assignableFrom(clazz) -> MenuFeatures.register(instance as MenuFeature)
-            MenuFunction::class.java.assignableFrom(clazz) -> MenuFunctions.register(instance as MenuFunction)
-            MenuOpener::class.java.assignableFrom(clazz) -> MenuOpeners.register(instance as MenuOpener)
-            VariableProvider::class.java.assignableFrom(clazz) -> VariableProviders.register(instance as VariableProvider)
+            MenuFeature::class.java.isAssignableFrom(instance.javaClass) -> MenuFeatures.register(instance as MenuFeature)
+            MenuFunction::class.java.isAssignableFrom(instance.javaClass) -> MenuFunctions.register(instance as MenuFunction)
+            MenuOpener::class.java.isAssignableFrom(instance.javaClass) -> MenuOpeners.register(instance as MenuOpener)
+            VariableProvider::class.java.isAssignableFrom(instance.javaClass) -> VariableProviders.register(instance as VariableProvider)
         }
 
         cached.computeIfAbsent(clazz) compute@{
+            if (!clazz.hasAnnotation(MenuComponent::class.java)) return@compute ""
             val annotation = clazz.getAnnotation(MenuComponent::class.java)
             buildString {
                 append(annotation.property<String>("name")?.ifBlank(it::simpleName))

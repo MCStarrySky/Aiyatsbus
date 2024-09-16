@@ -30,9 +30,11 @@ subprojects {
                 MinecraftEffect,
                 Metrics
             )
+            forceDownloadInDev = false
         }
         version {
-            taboolib = "6.2.0-beta2"
+            coroutines = null
+            taboolib = "6.2.0-beta6"
         }
     }
 

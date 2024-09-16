@@ -7,13 +7,14 @@ import com.mcstarrysky.aiyatsbus.module.kether.util.nextPeek
 import com.mcstarrysky.aiyatsbus.module.kether.util.setVariable
 import org.bukkit.inventory.ItemStack
 import taboolib.common.LifeCycle
+import taboolib.common.inject.ClassVisitor.findInstance
 import taboolib.common.platform.Awake
 import taboolib.library.kether.QuestAction
 import taboolib.library.kether.QuestReader
+import taboolib.library.reflex.ReflexClass
 import taboolib.module.kether.ScriptActionParser
 import taboolib.module.kether.ScriptFrame
 import java.util.concurrent.CompletableFuture
-import java.util.function.Supplier
 
 /**
  * Vulpecula
@@ -100,18 +101,11 @@ class ActionItem : QuestAction<Any?>() {
             resolver.name.forEach { registry[it.lowercase()] = resolver }
         }
 
-        override fun visitStart(clazz: Class<*>, supplier: Supplier<*>?) {
-            if (!Resolver::class.java.isAssignableFrom(clazz)) return
+        override fun visitStart(owner: ReflexClass) {
+            val instance = findInstance(owner) ?: return
+            if (!Resolver::class.java.isAssignableFrom(instance.javaClass)) return
 
-            val resolver = let {
-                if (supplier?.get() != null) {
-                    supplier.get()
-                } else try {
-                    clazz.getDeclaredConstructor().newInstance()
-                } catch (e: Exception) {
-                    null
-                }
-            } as? Resolver ?: return
+            val resolver = instance as? Resolver ?: return
 
             registerResolver(resolver)
         }

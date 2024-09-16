@@ -29,8 +29,8 @@ fun <T> Any?.invokeMethodDeep(name: String): T? {
     return result as? T
 }
 
-fun Class<*>.assignableFrom(clazz: ReflexClass): Boolean {
-    return clazz.structure.interfaces.any { it.name == name }
+fun ReflexClass.packageName(): String? {
+    return name?.substringBeforeLast('.')
 }
 
 fun String.isValidJson(): Boolean {
