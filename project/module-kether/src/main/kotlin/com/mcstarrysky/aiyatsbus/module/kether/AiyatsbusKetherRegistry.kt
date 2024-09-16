@@ -6,7 +6,6 @@ import taboolib.library.reflex.ClassMethod
 import taboolib.library.reflex.ReflexClass
 import taboolib.module.kether.Kether
 import taboolib.module.kether.ScriptActionParser
-import kotlin.reflect.KClass
 
 /**
  * Aiyatsbus
@@ -92,7 +91,7 @@ object AiyatsbusKetherRegistry : ClassInjector() {
         }
 
         // 注册属性 私有
-        Kether.registeredScriptProperty.computeIfAbsent(annotation.property<KClass<*>>("bind")!!.java) { HashMap() }[property.id] = property
+        Kether.registeredScriptProperty.computeIfAbsent(annotation.type("bind").instance as Class<*>) { HashMap() }[property.id] = property
     }
 
     /**
