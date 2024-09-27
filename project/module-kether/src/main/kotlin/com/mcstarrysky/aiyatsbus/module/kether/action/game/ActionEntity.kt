@@ -4,13 +4,16 @@ import com.mcstarrysky.aiyatsbus.core.util.Vectors
 import com.mcstarrysky.aiyatsbus.core.util.isBehind
 import com.mcstarrysky.aiyatsbus.core.util.realDamage
 import org.bukkit.Location
+import org.bukkit.entity.Arrow
 import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import org.bukkit.projectiles.ProjectileSource
 import org.bukkit.util.Vector
+import taboolib.common.platform.function.submit
 import taboolib.module.kether.KetherParser
 import taboolib.module.kether.combinationParser
 import taboolib.module.kether.player
@@ -113,6 +116,17 @@ object ActionEntity {
     fun actionEntityIsBehind() = combinationParser {
         it.group(type<LivingEntity>(), type<LivingEntity>()).apply(it) { entity1, entity2 ->
             now { entity1.isBehind(entity2) }
+        }
+    }
+
+    @KetherParser(["launchArrow", "launch-arrow"], shared = true)
+    fun actionLaunchProjectile() = combinationParser {
+        it.group(type<ProjectileSource>(), command("with", then = type<Vector>()).option()).apply(it) { source, vector ->
+            now {
+                submit {
+                    source.launchProjectile(Arrow::class.java, vector)
+                }
+            }
         }
     }
 }

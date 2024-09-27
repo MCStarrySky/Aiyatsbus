@@ -150,3 +150,17 @@ mappings:
     class: 'org.bukkit.event.entity.FoodLevelChangeEvent'
     slots:
       - FEET
+
+  # 玩家弓蓄力准备事件
+  aiyatsbus-bow-charge-prepare:
+    class: 'com.mcstarrysky.aiyatsbus.core.event.AiyatsbusBowChargeEvent$Prepare'
+    slots:
+      - HAND
+      - OFF_HAND
+
+  # 玩家弓蓄力释放事件
+  aiyatsbus-bow-charge-released:
+    class: 'com.mcstarrysky.aiyatsbus.core.event.AiyatsbusBowChargeEvent$Released'
+    slots:
+      - HAND
+      - OFF_HAND

@@ -4,6 +4,7 @@ import com.mcstarrysky.aiyatsbus.module.kether.operation.operation.Aiming
 import com.mcstarrysky.aiyatsbus.module.kether.operation.operation.FastMultiBreak
 import com.mcstarrysky.aiyatsbus.module.kether.operation.operation.PickNearItems
 import com.mcstarrysky.aiyatsbus.module.kether.operation.operation.Plant
+import com.mcstarrysky.aiyatsbus.module.kether.operation.operation.charge.Charge
 import org.bukkit.Location
 import org.bukkit.entity.*
 import org.bukkit.event.entity.CreatureSpawnEvent
@@ -28,6 +29,7 @@ object Operations {
 
     init {
         register("aiming") { Aiming.shootBow(it) }
+        register("charge") { Charge.charge(it) }
         register("plant") { Plant.plant(it) }
         listOf("pickNearItems", "pick-near-items").forEach { name ->
             register(name) { PickNearItems.pickNearItems(it) }

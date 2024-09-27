@@ -1,0 +1,56 @@
+
+
+#         Powered by TabooLib 6.2         #
+
+
+basic:
+  id: determination
+  name: "决意"
+  max_level: 3
+
+rarity: 传奇
+targets:
+  - 弓
+  - 弩
+
+limitations:
+  - "CONFLICT_ENCHANT:无限"
+
+display:
+  description:
+    general: "背包内没有箭时将会消耗生命值来射出箭矢"
+    specific: "&7背包内没有箭时将会消耗&a{生命}&7生命值来射出箭矢"
+
+dependencies:
+  supports: 11600-12004
+  plugins:
+    - Adyeshach
+
+variables:
+  leveled:
+    生命:
+      1: 4
+      2: 3
+      3: 2
+      unit: "点"
+
+mechanisms:
+  listeners:
+    on-prepare:
+      listen: "aiyatsbus-bow-charge-prepare"
+      handle: |-
+        if check &event[hand] not &trigger-slot then {
+          exit
+        }
+        set health to type double &生命
+        operation charge args array [ &player &health &event ]
+
+    on-released:
+      listen: "aiyatsbus-bow-charge-released"
+      handle: |-
+        if check &event[hand] not &trigger-slot then {
+          exit
+        }
+        launch-arrow &player
+        set &item[damage] to math &item[damage] + 1
+        

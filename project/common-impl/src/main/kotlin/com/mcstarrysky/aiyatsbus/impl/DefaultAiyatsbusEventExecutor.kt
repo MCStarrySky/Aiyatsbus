@@ -6,6 +6,7 @@ import com.mcstarrysky.aiyatsbus.core.*
 import com.mcstarrysky.aiyatsbus.core.data.CheckType
 import com.mcstarrysky.aiyatsbus.core.data.trigger.event.EventMapping
 import com.mcstarrysky.aiyatsbus.core.data.trigger.event.EventResolver
+import com.mcstarrysky.aiyatsbus.core.event.AiyatsbusBowChargeEvent
 import com.mcstarrysky.aiyatsbus.core.event.AiyatsbusPrepareAnvilEvent
 import com.mcstarrysky.aiyatsbus.core.util.*
 import com.mcstarrysky.aiyatsbus.core.util.inject.Reloadable
@@ -113,6 +114,8 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                 }
             }
         )
+        resolvers += AiyatsbusBowChargeEvent.Prepare::class.java to EventResolver<AiyatsbusBowChargeEvent.Prepare>({ event, _ -> (event.player).checkedIfIsNPC() })
+        resolvers += AiyatsbusBowChargeEvent.Released::class.java to EventResolver<AiyatsbusBowChargeEvent.Released>({ event, _ -> (event.player).checkedIfIsNPC() })
     }
 
     override fun registerListener(listen: String, eventMapping: EventMapping) {
