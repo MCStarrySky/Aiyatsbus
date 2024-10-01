@@ -36,7 +36,7 @@ mechanisms:
           exit
         }
         
-        if instance-of &event[entity] is LivingEntity then {
+        if instance-of &event[entity] is org.bukkit.entity.LivingEntity then {
           set creature to &event[entity]
         
           if all [

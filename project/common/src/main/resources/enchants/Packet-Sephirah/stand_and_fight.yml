@@ -6,7 +6,7 @@
 basic:
   id: stand_and_fight
   name: "浴血"
-  max_level: 3
+  max_level: 2
 
 rarity: 史诗
 targets:
@@ -21,8 +21,8 @@ display:
 
 variables:
   leveled:
-    阈值: "%:{level}*20+30"
-    增幅: "%:{level}*0.85"
+    阈值: "%:{level}*5+35"
+    增幅: "%:{level}*0.5"
 
 mechanisms:
   listeners:

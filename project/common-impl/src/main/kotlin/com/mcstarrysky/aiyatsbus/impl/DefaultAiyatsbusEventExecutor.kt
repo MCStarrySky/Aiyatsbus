@@ -16,6 +16,7 @@ import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
 import org.bukkit.event.Event
 import org.bukkit.event.block.BlockBreakEvent
+import org.bukkit.event.block.BlockDamageEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDeathEvent
@@ -81,6 +82,7 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
                 if (event.from.world == event.to.world && event.from.distance(event.to) < 1e-1) return@EventResolver
             }
         )
+        resolvers += BlockDamageEvent::class.java to EventResolver<BlockDamageEvent>({ event, _ -> event.player.checkedIfIsNPC() })
         resolvers += BlockPlaceEvent::class.java to EventResolver<BlockPlaceEvent>({ event, _ -> event.player.checkedIfIsNPC() })
         resolvers += BlockBreakEvent::class.java to EventResolver<BlockBreakEvent>({ event, _ -> event.player.checkedIfIsNPC() })
         resolvers += ProjectileHitEvent::class.java to EventResolver<ProjectileHitEvent>({ event, _ -> (event.entity.shooter as? LivingEntity).checkedIfIsNPC() })

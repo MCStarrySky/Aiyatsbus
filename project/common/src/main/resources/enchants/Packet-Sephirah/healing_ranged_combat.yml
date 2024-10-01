@@ -18,19 +18,19 @@ limitations: [ ]
 
 display:
   description:
-    general: "使被射击的玩家血量恢复"
-    specific: "&7使被射击的玩家恢复&a{恢复量}&7最大生命值"
+    general: "使得被射中/抛掷中的血量降低的玩家血量恢复"
+    specific: "&7使得被射中/抛掷中的血量降低的玩家血量恢复&a{血量}"
 
 variables:
   leveled:
-    恢复量: "%:22.5+7.5*{level}"
+    血量: "点:3*{level}"
   ordinary:
     require-full-charge: true
 
 mechanisms:
   listeners:
     on-damage:
-      listen: "entity-damage-other"
+      listen: "entity-damage-by-entity"
       handle: |-
         if not instance-of &event[entity] is org.bukkit.entity.Player then {
           exit
@@ -41,8 +41,7 @@ mechanisms:
         ] then {
           exit
         }
-        set added to math add [ &event[entity.health] type double &恢复量 ]
-        set &event[is-cancelled] to true
+        set added to math add [ &event[entity.health] type double &血量 ]
+        set &event[damage] to 0
         add-potion-effect GLOWING on &event[entity] duration 3 amplifier 1
         set &event[entity.health] to min &added &event[entity.max-health]
-

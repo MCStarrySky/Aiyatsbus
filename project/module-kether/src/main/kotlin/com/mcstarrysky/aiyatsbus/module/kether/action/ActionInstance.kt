@@ -23,11 +23,13 @@ object ActionInstance {
         it.group(any(), command("is", then = text())).apply(it) { obj, cast ->
             now {
                 // 尝试避免 ClassNotFoundException
-                kotlin.runCatching {
+                try {
                     // 缓存
                     val clazz = cache.computeIfAbsent(cast) { Class.forName(cast) }
                     clazz.isInstance(obj)
-                }.getOrElse { false }
+                } catch (_: Throwable) {
+                    false
+                }
             }
         }
     }
@@ -40,11 +42,13 @@ object ActionInstance {
         it.group(any(), command("to", then = text())).apply(it) { obj, cast ->
             now {
                 // 尝试避免 ClassNotFoundException
-                kotlin.runCatching {
+                try {
                     // 缓存
                     val clazz = cache.computeIfAbsent(cast) { Class.forName(cast) }
                     clazz.cast(obj)
-                }.getOrElse { obj }
+                } catch (_: Throwable) {
+                    obj
+                }
             }
         }
     }

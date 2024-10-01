@@ -3,7 +3,6 @@
 #         Powered by TabooLib 6.2         #
 
 
-# Swalling Curse By Xcib
 basic:
   enable: true
   disable_worlds: [ ]
