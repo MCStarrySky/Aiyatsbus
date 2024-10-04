@@ -4,6 +4,7 @@
 
 
 basic:
+  enable: false
   id: determination
   name: "决意"
   max_level: 3

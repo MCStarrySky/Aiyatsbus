@@ -26,10 +26,12 @@ taboolib {
     }
 
     relocate("ink.ptms.um", "com.mcstarrysky.aiyatsbus.module.compat.library.um")
+    relocate("redempt", "com.mcstarrysky.aiyatsbus.library")
 }
 
 dependencies {
     taboo("ink.ptms:um:1.0.9")
+    taboo("com.github.Redempt:Crunch:1.0.7")
 }
 
 tasks {
