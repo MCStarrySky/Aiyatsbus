@@ -5,7 +5,7 @@
 
 basic:
   id: feather_falling
-  name: "摔落缓冲"
+  name: "摔落保护"
   max_level: 4
 
 alternative:
@@ -14,7 +14,7 @@ alternative:
 # 1.19.2 及以前, 该附魔名为摔落保护
 # 1.19.3 及以后, 该附魔名为摔落缓冲
 dependencies:
-  supports: 11903
+  supports: 11600-11902
 
 rarity: 罕见
 targets:

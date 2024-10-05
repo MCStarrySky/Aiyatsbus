@@ -38,13 +38,20 @@ object YamlUpdater {
             return Configuration.loadFromFile(releaseResourceFile(path))
         }
         val configFile = newFile(getDataFolder(), path)
+
+        // 如果没开启自动更新则直接加载
+        if (!autoUpdate) {
+            return Configuration.loadFromFile(configFile)
+        }
+
+        // 由 Bukkit Configuration 加载配置, 防止注释丢失
         val config = YamlConfiguration.loadConfiguration(configFile)
 
         // 读取 Jar 包内的对应配置文件
         val cachedFile = cache ?: Configuration.loadFromInputStream(javaClass.classLoader.getResourceAsStream(path.replace('\\', '/')) ?: return Configuration.loadFromOther(config))
 
         val updated = mutableListOf<String>()
-        read(cachedFile, config, updateNodes, updated, autoUpdate)
+        read(cachedFile, config, updateNodes, updated)
         if (updated.isNotEmpty()) {
             config.save(configFile)
         }
@@ -52,7 +59,7 @@ object YamlUpdater {
         return Configuration.loadFromOther(config)
     }
 
-    private fun read(cache: ConfigurationSection, to: org.bukkit.configuration.ConfigurationSection, updateNodes: List<String>, updated: MutableList<String>, autoUpdate: Boolean) {
+    private fun read(cache: ConfigurationSection, to: org.bukkit.configuration.ConfigurationSection, updateNodes: List<String>, updated: MutableList<String>) {
         for (key in cache.getKeys(true)) {
             val root = key.split(".").first()
             if (root !in updateNodes && key !in updateNodes) {
@@ -64,9 +71,6 @@ object YamlUpdater {
                 to[key] = cache[key]
                 continue
             }
-
-            // 是否不更新已存在配置, 只补全缺失项
-            if (!autoUpdate) continue
 
             if (cache[key] == null) {
                 updated += "$key (${to[key]} -> null)"

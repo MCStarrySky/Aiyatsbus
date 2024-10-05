@@ -36,4 +36,5 @@ mechanisms:
       listen: 'player-pickup-experience'
       handle: |-
         set multiplier to type double &增幅
-        set &event[experienceOrb.experience] to type int math mul [ &damage math add [ 1 math div [ &multiplier 100 ] ] ]
+        set damage to type double &event[experienceOrb.experience]
+        set &event[experienceOrb.experience] to type int math mul [ &damage math add [ 1 math div [ &multiplier 100.0 ] ] ]
