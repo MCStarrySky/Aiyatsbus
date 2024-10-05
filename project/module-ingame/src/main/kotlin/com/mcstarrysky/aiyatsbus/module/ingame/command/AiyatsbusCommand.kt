@@ -74,6 +74,9 @@ object AiyatsbusCommand {
     @CommandBody(permission = "aiyatsbus.command.report")
     val report = reportSubCommand
 
+    @CommandBody(permission = "aiyatsbus.command.script")
+    val script = CommandScript
+
     @Awake(LifeCycle.INIT)
     fun init() {
         registerLifeCycleTask(LifeCycle.ACTIVE, 999) {
@@ -111,67 +114,6 @@ private fun commandAliases() {
             register(AiyatsbusCommand.random, this)
             register(AiyatsbusCommand.reload, this)
             register(AiyatsbusCommand.report, this)
-        }
-    }
-}
-
-fun CommandComponent.createTabooLegacyHelper() {
-    execute<CommandSender> { sender, _, _ ->
-        val text = mutableListOf<String>()
-
-        for (command in children.filterIsInstance<CommandComponentLiteral>()) {
-            if (!sender.isOp) {
-                if (!sender.hasPermission(command.permission)) continue
-                else if (command.hidden) continue
-            }
-            val name = command.aliases[0]
-            var usage = sender.asLangOrNull("command-subCommands-$name-usage") ?: ""
-            if (usage.isNotEmpty()) usage += " "
-            val description = sender.asLangOrNull("command-subCommands-$name-description") ?: sender.asLang("command-no-desc")
-            text += sender.asLangList("command-sub", name to "name", description to "description", usage to "usage")
-        }
-
-        sender.asLangList(
-            "command-helper",
-            pluginVersion to "pluginVersion",
-            MinecraftVersion.minecraftVersion to "minecraftVersion"
-        ).variable("subCommands", text).forEach { it.component().buildColored().sendTo(adaptCommandSender(sender)) }
-    }
-
-    if (this is CommandBase) {
-        incorrectCommand { s, ctx, _, state ->
-            val sender = s.cast<CommandSender>()
-            val input = ctx.args().first()
-            val name = children.filterIsInstance<CommandComponentLiteral>()
-                .firstOrNull { it.aliases.contains(input) }?.aliases?.get(0) ?: input
-            var usage = sender.asLangOrNull("command-subCommands-$name-usage") ?: ""
-            if (usage.isNotEmpty()) usage += " "
-            val description = sender.asLangOrNull("command-subCommands-$name-description") ?: sender.asLang("command-no-desc")
-
-            when (state) {
-                // 缺参数
-                1 -> {
-                    sender.sendLang("command-argument-missing", name to "name", usage to "usage", description to "description")
-                }
-
-                // 参数错误
-                2 -> {
-                    if (ctx.args().size > 1) {
-                        sender.sendLang("command-argument-wrong", name to "name", usage to "usage", description to "description")
-                    } else {
-                        val similar = children.filterIsInstance<CommandComponentLiteral>()
-                            .filterNot { it.hidden }
-                            .filter { sender.hasPermission(it.permission) }
-                            .maxByOrNull { Strings.similarDegree(name, it.aliases[0]) }!!
-                            .aliases[0]
-                        sender.sendLang("command-argument-unknown", name to "name", similar to "similar")
-                    }
-                }
-            }
-        }
-
-        incorrectSender { sender, ctx ->
-            (sender.cast<CommandSender>()).sendLang("command-incorrect-sender", ctx.args().first() to "name")
         }
     }
 }

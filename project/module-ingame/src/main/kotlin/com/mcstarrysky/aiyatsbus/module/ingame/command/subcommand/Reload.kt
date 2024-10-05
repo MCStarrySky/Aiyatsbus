@@ -26,6 +26,7 @@ import com.mcstarrysky.aiyatsbus.module.ingame.mechanics.*
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.subCommand
+import taboolib.common.util.ResettableLazy
 import taboolib.module.lang.Language
 import taboolib.platform.util.onlinePlayers
 
@@ -51,6 +52,7 @@ val reloadSubCommand = subCommand {
         VillagerSupport.conf.reload()
         onlinePlayers.forEach(Player::updateInventory)
         AiyatsbusCommand.init() // 重新生成 TabList
+        ResettableLazy.reset()
         sender.sendLang("plugin-reload", System.currentTimeMillis() - time)
         EnchantRegistrationHooks.unregisterHooks()
         EnchantRegistrationHooks.registerHooks()

@@ -186,4 +186,61 @@ command-subCommands-random-fail: '{prefix} &7Console cannot accept random enchan
 command-subCommands-report-description: 'View performance report'
 command-subCommands-report-usage: ''
 
+command-subCommands-script-description: '脚本控制'
+command-subCommands-script-usage: ''
+
 command-no-desc: 'No description'
+
+command-script-helper:
+  - '&7'
+  - '  [&6Aiyatsbus](c=#D8D8FA;h=&7Aiyatsbus 附魔扩展插件) &f[{pluginVersion}](h=&7插件版本: &2{pluginVersion}<br>&7游戏版本: &b{minecraftVersion})'
+  - '&7'
+  - '  &7命令: [&f/aiyatsbusscript &8\[...\]](h=&f/aiyatsbusscript &8\[...\];suggest=/aiyatsbusscript )'
+  - '  &7参数:'
+  - '{subCommands}'
+  - '&7'
+command-script-sub:
+  - '    &8- [&f{name}](h=/aiyatsbusscript {name} {usage}&8- &7{description};suggest=/aiyatsbusscript {name})'
+  - '      &7{description}'
+command-script-argument-missing:
+  - '{prefix} &7指令 &f{name} &7参数不足'
+  - '{prefix} &7正确用法:'
+  - '{prefix} &7/aiyatsbusscript {name} {usage}&8- &7{description}'
+command-script-argument-wrong:
+  - '{prefix} &7指令 &f{name} &7参数有误'
+  - '{prefix} &7正确用法:'
+  - '{prefix} &7/aiyatsbusscript {name} {usage}&8- &7{description}'
+command-script-argument-unknown:
+  - '{prefix} &7指令 &f{name} &7不存在'
+  - '{prefix} &7你可能想要:'
+  - '{prefix} &f{similar}'
+command-script-subCommands-run-description: '运行脚本文件'
+command-script-subCommands-run-usage: '&7\[&8文件&7\] &7<&8执行者&7> &7<&8参数&7>'
+
+command-script-subCommands-stop-description: '停止运行脚本文件'
+command-script-subCommands-stop-usage: '&7\[&8文件&7\]'
+
+command-script-subCommands-list-description: '列出所有脚本'
+command-script-subCommands-list-usage: ''
+
+command-script-subCommands-reload-description: '重载脚本工作空间'
+command-script-subCommands-reload-usage: ''
+
+command-script-subCommands-debug-description: '调试命令'
+command-script-subCommands-debug-usage: ''
+
+command-script-subCommands-invoke-description: '执行语句'
+command-script-subCommands-invoke-usage: '&7\[&8语句&7\]'
+
+command-script-no-desc: '没有描述'
+
+command-script-error:
+  - ' &5&l‹ ›&f &7在运行脚本时发生了错误:'
+  - ' &5&l‹ ›&f &7{0}'
+command-script-not-found: ' &5&l‹ ›&f &7脚本不存在。'
+command-script-not-running: ' &5&l‹ ›&f &7脚本未在运行。'
+command-script-list-all:
+  - ' &5&l‹ ›&f &7所有脚本: &f{0}'
+  - ' &5&l‹ ›&f &7运行脚本: &f{1}'
+command-script-reload-all:
+  - ' &5&l‹ ›&f &7重载完成。'
