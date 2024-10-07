@@ -73,6 +73,9 @@ interface AiyatsbusMinecraftAPI {
     /** 显示书本附魔 */
     fun removeBookEnchantsHidden(item: ItemMeta)
 
+    /** 发送手部活动数据 */
+    fun setHandActive(player: Player, isHandActive: Boolean)
+
     /** 兼容 1.21 */
     fun asNMSCopy(item: ItemStack): Any
 

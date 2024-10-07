@@ -27,6 +27,10 @@ import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import net.kyori.adventure.util.Codec
 import net.md_5.bungee.api.ChatMessageType
 import net.md_5.bungee.chat.ComponentSerializer
+import net.minecraft.network.protocol.game.PacketPlayOutEntityMetadata
+import net.minecraft.network.syncher.DataWatcher
+import net.minecraft.network.syncher.DataWatcherObject
+import net.minecraft.network.syncher.DataWatcherRegistry
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -36,7 +40,10 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import taboolib.library.reflex.Reflex.Companion.getProperty
+import taboolib.library.reflex.Reflex.Companion.invokeConstructor
+import taboolib.library.reflex.Reflex.Companion.invokeMethod
 import taboolib.library.reflex.Reflex.Companion.setProperty
+import taboolib.library.reflex.Reflex.Companion.unsafeInstance
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.sendPacket
 import java.io.IOException
@@ -262,6 +269,41 @@ class DefaultAiyatsbusMinecraftAPI : AiyatsbusMinecraftAPI {
             NMS12005.instance.removeBookEnchantsHidden(item)
         } else {
             item.removeItemFlags(ItemFlag.HIDE_POTION_EFFECTS)
+        }
+    }
+
+    override fun setHandActive(player: Player, isHandActive: Boolean) {
+        val byte = (if (isHandActive) 0x01 else 0).toByte()
+        when {
+            MinecraftVersion.versionId >= 11903 -> {
+                player.sendPacket(
+                    PacketPlayOutEntityMetadata::class.java.invokeConstructor(
+                        player.entityId,
+                        listOf((createByteMeta(8, byte) as DataWatcher.Item<*>).invokeMethod<Any>("value"))
+                    )
+                )
+            }
+            MinecraftVersion.isUniversal -> {
+                player.sendPacket(PacketPlayOutEntityMetadata::class.java.unsafeInstance().apply {
+                    setProperty("id", player.entityId)
+                    setProperty("packedItems", listOf((createByteMeta(8, byte) as DataWatcher.Item<*>)))
+                })
+            }
+            else -> {
+                player.sendPacket(net.minecraft.server.v1_16_R3.PacketPlayOutEntityMetadata().apply {
+                    setProperty("a", player.entityId)
+                    setProperty("b", listOf((createByteMeta(8, byte) as DataWatcher.Item<*>)))
+                })
+            }
+        }
+    }
+
+    @Suppress("SameParameterValue")
+    private fun createByteMeta(index: Int, value: Byte): Any {
+        return when {
+            // 1.19+
+            MinecraftVersion.versionId >= 11900 -> DataWatcher.Item(DataWatcherObject(index, DataWatcherRegistry.BYTE), value)
+            else -> net.minecraft.server.v1_13_R2.DataWatcher.Item(net.minecraft.server.v1_13_R2.DataWatcherObject(index, net.minecraft.server.v1_13_R2.DataWatcherRegistry.a), value)
         }
     }
 

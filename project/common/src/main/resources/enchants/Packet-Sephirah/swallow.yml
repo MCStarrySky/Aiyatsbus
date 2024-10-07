@@ -33,5 +33,9 @@ mechanisms:
       listen: 'entity-death'
       handle: |-
         if instance-of &event[killer] is org.bukkit.entity.Player then {
-          set &event[killer.food-level] to math add [ &event[killer.food-level] type int &饱食度 ]
+          set foodLevel to math add [ &event[killer.food-level] type int &饱食度 ]
+          if check &foodLevel > 20 then {
+            set foodLevel to 20
+          }
+          set &event[killer.food-level] to &foodLevel
         }

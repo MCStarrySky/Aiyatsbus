@@ -4,7 +4,7 @@
 
 
 basic:
-  enable: false
+  enable: true
   id: determination
   name: "决意"
   max_level: 3
@@ -21,11 +21,6 @@ display:
   description:
     general: "背包内没有箭时将会消耗生命值来射出箭矢"
     specific: "&7背包内没有箭时将会消耗&a{生命}&7生命值来射出箭矢"
-
-dependencies:
-  supports: 11600-12004
-  plugins:
-    - Adyeshach
 
 variables:
   leveled:

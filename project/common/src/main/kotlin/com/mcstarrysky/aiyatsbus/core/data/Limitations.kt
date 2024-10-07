@@ -52,14 +52,21 @@ data class Limitations(
     val limitations = lines.mapNotNull {
         val type = LimitType.valueOf(it.split(":")[0])
         val value = it.split(":").drop(1).joinToString(":")
-        if (type == CONFLICT_ENCHANT) {
-            if (value == "*") {
-                conflictsWithEverything = true
-            } else {
-                conflicts[belonging.basicData.name] = value
+        when (type) {
+            CONFLICT_ENCHANT -> {
+                if (value == "*") {
+                    conflictsWithEverything = true
+                } else {
+                    conflicts[belonging.basicData.name] = value
+                }
+                return@mapNotNull null
             }
-            null
-        } else type to value
+            CONFLICT_GROUP -> {
+                conflictGroups.computeIfAbsent(belonging.basicData.name) { mutableListOf() } += value
+                type to value
+            }
+            else -> type to value
+        }
     }.toMutableList()
 
     init {
@@ -149,16 +156,12 @@ data class Limitations(
 
     companion object {
 
-        /**
-         * 记录单项 conflicts，然后自动挂双向
-         * 防止服主只写了单项
-         */
+        /** 记录单向附魔冲突, 开服后自动挂双向 */
         private val conflicts = mutableMapOf<String, String>()
 
-        /**
-         * 记录单项 conflicts，然后自动挂双向
-         * 防止服主只写了单项
-         */
+        /** 记录单向附魔组冲突, 开服后为附魔组的每一个此附魔添加此冲突附魔 */
+        private val conflictGroups = mutableMapOf<String, MutableList<String>>()
+
         @Reloadable
         @AwakePriority(LifeCycle.ENABLE, StandardPriorities.LIMITATIONS)
         fun onEnable() {
@@ -171,6 +174,14 @@ data class Limitations(
                 etB.limitations.limitations.add(conflictB)
             }
             conflicts.clear()
+
+            conflictGroups.forEach { (enchant, groups) ->
+                aiyatsbusEt(enchant) ?: return@forEach
+                groups.forEach group@{ group ->
+                    (aiyatsbusGroup(group) ?: return@group).enchantments.forEach { it.limitations.limitations.add(CONFLICT_ENCHANT to enchant) }
+                }
+            }
+            conflictGroups.clear()
         }
     }
 }

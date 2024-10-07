@@ -33,7 +33,7 @@ object ChargeListener {
      */
     @SubscribeEvent
     private fun onReceive(e: PacketReceiveEvent) {
-        when (e.packet.name) {
+        when (e.packet.nameInSpigot ?: e.packet.name) {
             // Prepare shoot
             "PacketPlayInUseItem", "PacketPlayInUseEntity", "PacketPlayInBlockPlace" -> {
                 // 手持弓

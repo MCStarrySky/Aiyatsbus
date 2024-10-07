@@ -16,9 +16,8 @@
  */
 package com.mcstarrysky.aiyatsbus.module.kether.operation.operation.charge
 
+import com.mcstarrysky.aiyatsbus.core.Aiyatsbus
 import com.mcstarrysky.aiyatsbus.core.event.AiyatsbusBowChargeEvent
-import ink.ptms.adyeshach.core.Adyeshach
-import ink.ptms.adyeshach.core.entity.type.AdyHuman
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.EquipmentSlot
@@ -92,13 +91,14 @@ object ChargeHandler {
      * @param isHandActive 是否激活手部状态
      */
     fun setHandActive(player: Player, isHandActive: Boolean) {
-        Adyeshach.api().getMinecraftAPI().getEntityOperator().updateEntityMetadata(
-            playersNearby(player),
-            player.entityId,
-            Adyeshach.api().getMinecraftAPI().getEntityMetadataHandler().buildMetadata(AdyHuman::class.java) {
-                it.isHandActive = isHandActive
-            }
-        )
+//        Adyeshach.api().getMinecraftAPI().getEntityOperator().updateEntityMetadata(
+//            playersNearby(player),
+//            player.entityId,
+//            Adyeshach.api().getMinecraftAPI().getEntityMetadataHandler().buildMetadata(AdyHuman::class.java) {
+//                it.isHandActive = isHandActive
+//            }
+//        )
+        Aiyatsbus.api().getMinecraftAPI().setHandActive(player, isHandActive)
     }
 
     /**
