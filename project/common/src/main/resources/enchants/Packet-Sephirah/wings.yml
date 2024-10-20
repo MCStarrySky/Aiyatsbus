@@ -25,23 +25,38 @@ variables:
     消耗耐久: "点:3-{level}"
 
 mechanisms:
+  listeners:
+    on-fall:
+      listen: 'entity-damage'
+      handle: |-
+        if all [ check &event[cause] is FALL has-mark fall-protect on &player ] then {
+          unmark fall-protect on &player
+          set &event[isCancelled] to true
+        }
   tickers:
     durability:
       interval: 40
       pre-handle: |-
-        if any [ check player gamemode is SURVIVAL check player gamemode is ADVENTURE ] then {
+        set damage to check math div [ type double &item[dura] &item[max-dura] ] <= 0.1
+        if all [ any [ check player gamemode is SURVIVAL check player gamemode is ADVENTURE ] not &damage ] then {
           player allow flight to true
         }
       handle: |-
+        set damage to check math div [ type double &item[dura] &item[max-dura] ] <= 0.1
         if any [ check player gamemode is SURVIVAL check player gamemode is ADVENTURE ] then {
-          if not player allow flight then {
+          if all [ player on ground has-mark fall-protect on &player ] then {
+            unmark fall-protect on &player
+          }
+          if all [ not player allow flight not &damage ] then {
             player allow flight to true
           }
           if all [
-            check math div [ type double &item[dura] &item[max-dura] ] <= 0.1
+            &damage
             player flying
           ] then {
             player flying to false
+            player allow flight to false
+            mark fall-protect on &player
             exit
           }
           if player flying then {
