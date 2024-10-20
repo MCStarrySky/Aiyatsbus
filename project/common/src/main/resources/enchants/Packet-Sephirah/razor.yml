@@ -44,7 +44,7 @@ mechanisms:
           type boolean &decrease-if-cooldown
         ] then {
           set cd to &event[damager.attackCooldown]
-          set multiplier to calc "(100 + multiplier) * cd - 100"
+          set multiplier to math mul [ &multiplier &cd ]
         }
         
         if all [
