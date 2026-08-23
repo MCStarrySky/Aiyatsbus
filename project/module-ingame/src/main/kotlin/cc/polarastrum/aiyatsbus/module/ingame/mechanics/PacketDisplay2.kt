@@ -10,6 +10,7 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent
 import com.github.retrooper.packetevents.event.PacketSendEvent
 import com.github.retrooper.packetevents.protocol.item.ItemStack
 import com.github.retrooper.packetevents.protocol.packettype.PacketType
+import com.github.retrooper.packetevents.protocol.player.User
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCreativeInventoryAction
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerMerchantOffers
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSetCursorItem
@@ -17,6 +18,7 @@ import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSe
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSetSlot
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerWindowItems
 import io.github.retrooper.packetevents.util.SpigotConversionUtil
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
@@ -37,8 +39,15 @@ class PacketDisplay2 : PacketListenerAbstract() {
         return true
     }
 
+    private fun checkUserOnline(user: User?): Boolean {
+        if (user == null) return false
+        if (user.uuid == null) return false
+        return Bukkit.getPlayer(user.uuid) != null
+    }
+
     override fun onPacketSend(e: PacketSendEvent) {
         if (!check()) return
+        if (!checkUserOnline(e.user)) return
         val player = e.getPlayer<Player>()
         when (e.packetType) {
             // PacketPlayOutOpenWindowMerchant, ClientboundMerchantOffersPacket
@@ -55,6 +64,8 @@ class PacketDisplay2 : PacketListenerAbstract() {
     }
 
     override fun onPacketReceive(e: PacketReceiveEvent) {
+        if (!check()) return
+        if (!checkUserOnline(e.user)) return
         val player = e.getPlayer<Player>()
         when (e.packetType) {
             // PacketPlayInSetCreativeSlot, ServerboundSetCreativeModeSlotPacket
