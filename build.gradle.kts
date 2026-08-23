@@ -45,7 +45,6 @@ subprojects {
             disableOnSkippedVersion = false
             disableWhenPrimitiveLoaderError = true
             enableLegacyDependencyResolver = true
-            debug = true
         }
         version {
             taboolib = "6.3.0-test2-20260822-13"
