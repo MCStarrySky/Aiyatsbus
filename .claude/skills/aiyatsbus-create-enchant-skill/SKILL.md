@@ -48,6 +48,7 @@ description: >
 - `ORDINARY` 和 `MODIFIABLE` 无法配置展示单位。变量表示有单位的数值时，`specific` 必须尽量补出单位，并让单位与变量保持同色，例如 `&7持续&a{test}秒&7才停止`。不要写成 `&a{test}&7秒`，也不要遗漏必要单位。`LEVELED` 已配置非空单位时不要重复手写单位。
 - 伤害、倍率、概率、持续时间、冷却、范围、半径、速度、数量和消耗等可调玩法数值，能做成附魔变量时必须尽量变量化，不要直接硬编码在 Java 或 Fluxon 效果中。数值变量默认优先使用 `LEVELED`；没有要求随等级变化时也使用固定表达式，例如 `伤害提升: "%:30"`，不因数值固定而改用 ORDINARY。
 - 只有需要写入物品 NBT/PDC、会在运行时变化的累计值或状态才使用 `MODIFIABLE`；布尔开关、字符串、枚举名、列表和其他非数值固定配置使用 `ORDINARY`。结构性字面量、坐标分量、集合索引、协议常量和机制 schema 自身要求的数字不强制变量化。
+- 附魔变量名跟随开发者所用的语言：当前请求使用中文，或附魔 `name`、描述等配置为中文时，`variables` 键、`{占位符}`、Fluxon `&引用` 和 Java `leveled(...)`/`modifiable(...)`/`ordinary(...)` 读取键统一使用中文，不要用 `damage`、`chance`、`kills` 等英文名。开发者以英文描述附魔时才使用英文变量名。同一变量在定义、描述占位符和效果读取三处必须完全一致。例外：`chance`/`概率` 是源码识别的概率保留名（中文语境用 `概率`）；Skill `cooldown.name` 指向的冷却变量名两侧一致即可；`MODIFIABLE` 的 PDC/NBT 存储键、Bukkit 枚举名和 API 常量等技术标识符不属于附魔变量命名，保持其原有写法。
 - 复制而来的旧网站文档与源码冲突时，以源码为准。权威源码入口见 `references/overview.md`。
 - 项目默认附魔 YAML 可能包含历史 Fluxon 写法，只能用于参考机制结构和业务逻辑。新脚本必须遵循 `references/fluxon-language.md` 和 `references/fluxon-bukkit-java-semantics.md`；冲突时不得照抄默认资源中的裸枚举、旧 getter 或旧成员链。
 

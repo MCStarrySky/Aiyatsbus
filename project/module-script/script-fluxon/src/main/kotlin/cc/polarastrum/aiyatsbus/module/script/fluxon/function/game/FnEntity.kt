@@ -1,5 +1,7 @@
 package cc.polarastrum.aiyatsbus.module.script.fluxon.function.game
 
+import cc.polarastrum.aiyatsbus.core.asLangOrNull
+import cc.polarastrum.aiyatsbus.core.sendLang
 import cc.polarastrum.aiyatsbus.core.util.Vectors
 import cc.polarastrum.aiyatsbus.core.util.checkIfIsNPC
 import cc.polarastrum.aiyatsbus.core.util.equippedItems
@@ -59,7 +61,48 @@ object FnEntity {
 
     @Export
     fun entityName(entity: Entity, @Optional player: Player?): String {
-        return if (entity is Player) entity.name else entity.customName ?: ""// TODO ?: entity.getI18nName(player)
+        return if (entity is Player) entity.name else entity.customName ?: entity.type.name// TODO ?: entity.getI18nName(player)
+    }
+
+    /**
+     * 向实体发送语言文件消息
+     *
+     * Entity 继承 CommandSender, 因此非玩家实体也可以作为接收者传入, 只是不会真正显示消息.
+     *
+     * @param entity 接收者
+     * @param node 语言节点
+     * @param args 替换参数, 可以是单个值或列表, 按顺序替换 {0}, {1} ...
+     */
+    @Export
+    fun sendLang(entity: Entity, node: String, @Optional args: Any?) {
+        entity.sendLang(node, args = normalizeLangArgs(args))
+    }
+
+    /**
+     * 获取实体对应的语言文件文本
+     *
+     * @param entity 接收者
+     * @param node 语言节点
+     * @param args 替换参数, 可以是单个值或列表, 按顺序替换 {0}, {1} ...
+     * @return 语言文本, 节点不存在时返回 null
+     */
+    @Export
+    fun asLang(entity: Entity, node: String, @Optional args: Any?): String? {
+        return entity.asLangOrNull(node, args = normalizeLangArgs(args))
+    }
+
+    /**
+     * 把脚本传入的替换参数规整成语言系统需要的数组
+     *
+     * 支持 null, 单个值, 数组和集合三种形式.
+     */
+    private fun normalizeLangArgs(args: Any?): Array<Any> {
+        return when (args) {
+            null -> emptyArray()
+            is Collection<*> -> args.filterNotNull().toTypedArray()
+            is Array<*> -> args.filterNotNull().toTypedArray()
+            else -> arrayOf(args)
+        }
     }
 
     @Export

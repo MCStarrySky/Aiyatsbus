@@ -1,0 +1,76 @@
+basic:
+  enable: true
+  disable-worlds: []
+  id: bash
+  name: "盾冲"
+  max-level: 3
+
+rarity: 稀世
+targets:
+  - 盾牌
+
+limitations: []
+
+display:
+  description:
+    general: "主手持盾时右键向前冲锋，击退并伤害沿途敌人"
+    specific: "&7主手持盾时右键冲锋&a{冲刺距离}&7，对命中敌人造成&a{伤害}&7并击退&a{击退力度}&7，冷却&a{冷却}&7"
+
+variables:
+  leveled:
+    冲刺距离: "格:3+1*{level}"
+    伤害: "点:6+3*{level}"
+    击退力度: "倍:1.5+0.5*{level}"
+    冷却: "秒:8-{level}"
+
+mechanisms:
+  skills:
+    dash:
+      action: RIGHT_CLICK
+      shift-needed: false
+      shift-ignored: false
+      cooldown:
+        name: 冷却
+        enable: true
+      sound: ENTITY_PLAYER_ATTACK_KNOCKBACK
+      particle:
+        type: CRIT
+        amount: 10
+      handle: |-
+        direction = &player::eyeLocation()::direction()
+        &direction::setY(0)
+        if &direction::lengthSquared() == 0 {
+            return
+        }
+        direction = &direction::normalize()
+        velocity = &direction::clone()::multiply(&冲刺距离 / 2.0)
+        &player::setVelocity(&velocity)
+        for target in &player::getNearbyEntities(&冲刺距离, &冲刺距离, &冲刺距离) {
+            if !entity::isLivingEntity(&target) {
+                continue
+            }
+            if &target == &player {
+                continue
+            }
+            if entity::isNPC(&target) {
+                continue
+            }
+            if !guard::canDamage(&player, &target) {
+                continue
+            }
+            offset = &target::location()::toVector()::subtract(&player::location()::toVector())
+            if &offset::lengthSquared() > &冲刺距离 * &冲刺距离 {
+                continue
+            }
+            if &offset::lengthSquared() == 0 {
+                continue
+            }
+            normalized = &offset::normalize()
+            if &normalized::dot(&direction) < 0.3 {
+                continue
+            }
+            entity::realDamage(&target, &伤害, &player)
+            knock = &direction::clone()::multiply(&击退力度)
+            &knock::setY(0.4)
+            entity::addSafetyVelocity(&target, &knock, true)
+        }

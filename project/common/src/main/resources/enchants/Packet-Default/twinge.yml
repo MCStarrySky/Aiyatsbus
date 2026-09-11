@@ -1,0 +1,78 @@
+
+
+#         Powered by TabooLib 6.3         #
+
+
+basic:
+  id: twinge
+  name: "扎刺"
+  max_level: 4
+
+rarity: 传奇
+targets:
+  - 三叉戟
+
+limitations:
+  - "CONFLICT_GROUP:持续类附魔"
+  - "CONFLICT_GROUP:概率类附魔"
+
+display:
+  description:
+    general: "近战攻击时有概率使对手流血"
+    specific: "&7近战攻击时有&a{概率}&7的概率使对手流血 (伤害:&a{每次伤害}&7/&a{间隔} &7持续&a{持续时间}&7)"
+
+variables:
+  leveled:
+    概率: "%:8*{level}"
+    冷却: "秒:30-2.5*{level}"
+    间隔: "秒:1-0.1*{level}"
+    每次伤害: "点:0.5*{level}"
+    持续时间: "秒:5-0.5*{level}"
+
+mechanisms:
+  listeners:
+    on-damage:
+      listen: "entity-damage-other"
+      handle: |-
+        victim = &event::entity()
+        attacker = &event::damager()
+
+        if !entity::isLivingEntity(&victim) || entity::isNPC(&victim) then {
+            return
+        }
+        if !entity::isPlayer(&attacker) then {
+            return
+        }
+        // 流血造成的真实伤害会重新进入本监听器, 用容器记录正在流血的目标以避免递归
+        uuid = &victim::uniqueId::toString()
+        if &container::containsKey(&uuid) then {
+            return
+        }
+        if &event::cause() != static org.bukkit.event.entity.EntityDamageEvent$DamageCause.ENTITY_ATTACK then {
+            return
+        }
+        if random(0, 100) > &概率 then {
+            return
+        }
+        if !cooldown::isReady(&player, &enchant, double(&冷却), true) then {
+            return
+        }
+        cooldown::addCooldown(&player, &enchant)
+
+        entity::sendLang(&victim, "enchant-twinge-damaged", entity::entityName(&attacker))
+        entity::sendLang(&attacker, "enchant-twinge-attacker", entity::entityName(&victim))
+
+        interval = long(round(double(&间隔) * 20.0))
+        times = int(double(&持续时间) / double(&间隔))
+        counter = 0
+
+        &container::put(&uuid, true)
+        submit()::delay(&interval)::period(&interval)::on(&victim)::run(|| {
+            if &counter >= &times || &victim::isDead() then {
+                &container::remove(&uuid)
+                &it::cancel()
+                return
+            }
+            entity::realDamage(&victim, double(&每次伤害), &attacker)
+            &counter += 1
+        })

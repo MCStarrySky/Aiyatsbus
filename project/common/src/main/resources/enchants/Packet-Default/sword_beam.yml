@@ -1,0 +1,83 @@
+
+
+#         Powered by TabooLib 6.3         #
+
+
+basic:
+  enable: true
+  disable-worlds: []
+  id: sword_beam
+  name: "剑气"
+  max-level: 3
+
+rarity: 史诗
+targets:
+  - 剑
+
+limitations: []
+
+display:
+  description:
+    general: "右键释放剑气，穿透路径上的敌人"
+    specific: "&7右键释放剑气，对路径上的敌人造成&a{伤害}&7伤害，冷却&a{冷却}&7"
+
+variables:
+  leveled:
+    伤害: "点:8+4*{level}"
+    射程: "格:8+2*{level}"
+    冷却: "秒:120-20*{level}"
+
+mechanisms:
+  skills:
+    beam:
+      action: RIGHT_CLICK
+      shift-needed: false
+      shift-ignored: false
+      cooldown:
+        name: 冷却
+        enable: true
+      sound: ENTITY_PLAYER_ATTACK_SWEEP
+      particle:
+        type: ENCHANT
+        amount: 8
+      handle: |-
+        origin = &player::eyeLocation()
+        direction = &origin::direction()::normalize()
+        originVector = &origin::toVector()
+        range = double(&射程)
+
+        // 剑气沿视线铺一条粒子线
+        beamParticle = particle("SWEEP_ATTACK")
+        point = &origin::clone()
+        step = &direction::clone()::multiply(0.5)
+        samples = int(&range * 2.0)
+        for i in 0..&samples then {
+            &point::add(&step)
+            &player::world()::spawnParticle(&beamParticle, &point, 1)
+        }
+
+        // 剑气会穿透路径上的所有敌人
+        for target in &player::getNearbyEntities(&range, &range, &range) {
+            if !(&target is org.bukkit.entity.LivingEntity) {
+                continue
+            }
+            if &target == &player {
+                continue
+            }
+            if entity::isNPC(&target) {
+                continue
+            }
+            if !guard::canDamage(&player, &target) {
+                continue
+            }
+            offset = &target::eyeLocation()::toVector()::subtract(&originVector)
+            forward = &offset::dot(&direction)
+            if &forward <= 0.0 || &forward > &range {
+                continue
+            }
+            // 与视线的横向距离, 形成一道细长的剑气
+            if &offset::subtract(&direction::clone()::multiply(&forward))::length() > 1.0 {
+                continue
+            }
+            entity::realDamage(&target, &伤害, &player)
+        }

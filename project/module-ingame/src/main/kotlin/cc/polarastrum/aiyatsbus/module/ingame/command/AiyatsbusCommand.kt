@@ -52,6 +52,9 @@ object AiyatsbusCommand {
     @CommandBody(permission = "aiyatsbus.command.mode")
     val mode = modeSubCommand
 
+    @CommandBody(permission = "aiyatsbus.command.patch")
+    val patch = patchSubCommand
+
     @CommandBody(permission = "aiyatsbus.command.random")
     val random = randomSubCommand
 
@@ -94,6 +97,7 @@ private fun commandAliases() {
             register(AiyatsbusCommand.enchant, this)
             register(AiyatsbusCommand.menu, this)
             register(AiyatsbusCommand.mode, this)
+            register(AiyatsbusCommand.patch, this)
             register(AiyatsbusCommand.random, this)
             register(AiyatsbusCommand.reload, this)
         }

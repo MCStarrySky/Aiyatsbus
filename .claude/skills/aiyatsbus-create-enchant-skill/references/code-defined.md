@@ -67,6 +67,8 @@ public final class CustomEnchantPlugin extends JavaPlugin {
 
 ## Java 变量
 
+变量名跟随开发者所用的语言：附魔以中文命名和描述时，`addVariable(...)` 的变量名、`{占位符}` 和 `leveled(...)` 读取键统一使用中文，例如下方的 `伤害提升`；开发者以英文描述附魔时才使用英文变量名。同一变量在 `addVariable`、描述占位符和 `getVariables()` 读取三处必须完全一致。命名语言的完整规则和例外见 `enchantment-fields.md`。
+
 伤害、倍率、概率、持续时间、冷却、范围、速度、数量和消耗等可调玩法数值必须尽量通过 `addVariable(...)` 暴露，不要直接硬编码在 `EventFunctions` 回调中。数值默认使用 `VariableType.LEVELED`；没有等级成长需求时也使用固定表达式：
 
 ```java
@@ -87,7 +89,7 @@ public final class CustomEnchantPlugin extends JavaPlugin {
 ```java
 .addVariable(
     VariableType.LEVELED,
-    "damage",
+    "伤害",
     "15.0*{level}"
 )
 ```
@@ -97,7 +99,7 @@ public final class CustomEnchantPlugin extends JavaPlugin {
 ```java
 .addVariable(
     VariableType.LEVELED,
-    "damage",
+    "伤害",
     "15.0*{level}",
     "点"
 )
@@ -106,14 +108,14 @@ public final class CustomEnchantPlugin extends JavaPlugin {
 对于 `LEVELED` 变量，3 参数重载和 4 参数重载传入空字符串时都表示没有指定单位：
 
 ```java
-.addVariable(VariableType.LEVELED, "test", "{level}*10")
-.addVariable(VariableType.LEVELED, "test", "{level}*10", "")
+.addVariable(VariableType.LEVELED, "数量", "{level}*10")
+.addVariable(VariableType.LEVELED, "数量", "{level}*10", "")
 ```
 
 只有传入非空字符串时才表示指定单位：
 
 ```java
-.addVariable(VariableType.LEVELED, "test", "{level}*10", "个")
+.addVariable(VariableType.LEVELED, "数量", "{level}*10", "个")
 ```
 
 `addVariable(...)` 接受 `VariableType`。只有 `LEVELED` 的非空单位会自动进入描述展示值。ORDINARY 和 MODIFIABLE 无法配置展示单位；它们表示有单位数值时，应在 `specificDescription` 的占位符后手写单位，并让单位与变量保持同色，例如 `&7持续&a{test}秒&7才停止`。`generalDescription` 默认使用不含变量的自然语言概括，除非开发者明确要求，不要把具体变量放入 general。

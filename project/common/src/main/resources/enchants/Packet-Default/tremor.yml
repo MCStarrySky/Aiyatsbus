@@ -29,6 +29,9 @@ variables:
     冷却: "秒:5"
   ordinary:
     最大深度: 25.0
+    # 不参与效果判定的生物类型名称列表
+    过滤生物类型:
+      - ARMOR_STAND
 
 mechanisms:
   listeners:
@@ -109,6 +112,9 @@ mechanisms:
               if entity::isNPC(&oe) then {
                   continue
               }
+              if &过滤生物类型::contains(&oe::type()::name()) then {
+                  continue
+              }
               if &oe is org.bukkit.entity.Player then {
                   &viewers::add(&oe)
               }
@@ -147,6 +153,9 @@ mechanisms:
                             continue
                         }
                         if entity::isNPC(&oe) then {
+                            continue
+                        }
+                        if &过滤生物类型::contains(&oe::type()::name()) then {
                             continue
                         }
                         if &oe::boundingBox::overlaps(&area) then {

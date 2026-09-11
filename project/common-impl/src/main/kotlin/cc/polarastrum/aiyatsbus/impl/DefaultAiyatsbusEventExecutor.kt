@@ -210,6 +210,12 @@ class DefaultAiyatsbusEventExecutor : AiyatsbusEventExecutor {
         return null
     }
 
+    override fun reloadEventMappings() {
+        conf.reload()
+        destroyListeners()
+        registerListeners()
+    }
+
     private fun processEvent(listen: String, event: Event, eventMapping: EventMapping, eventPriority: EventPriority) {
         // NOTICE 不要删除下面的调试信息, 关键时刻能救命
 //        println("我是 $listen, 我的优先级是 ${eventPriority.name}")

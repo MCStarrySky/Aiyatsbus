@@ -30,6 +30,8 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
     private val language = PlatformFactory.getAPI<AiyatsbusLanguage>()
 
+    private val patchManager = PlatformFactory.getAPI<AiyatsbusPatchManager>()
+
     private val playerDataHandler = PlatformFactory.getAPI<AiyatsbusPlayerDataHandler>()
 
     private val scriptHandler = PlatformFactory.getAPI<AiyatsbusScriptHandler>()
@@ -76,6 +78,10 @@ class DefaultAiyatsbusAPI : AiyatsbusAPI {
 
     override fun getPlayerDataHandler(): AiyatsbusPlayerDataHandler {
         return playerDataHandler
+    }
+
+    override fun getPatchManager(): AiyatsbusPatchManager {
+        return patchManager
     }
 
     override fun getScriptHandler(): AiyatsbusScriptHandler {

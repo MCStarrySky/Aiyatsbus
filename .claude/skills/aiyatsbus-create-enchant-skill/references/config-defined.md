@@ -106,6 +106,8 @@ variables:
 
 不要因为数值固定就放入 ordinary，更不要直接写死在 Fluxon 或 Java 效果中。只有需要物品 NBT/PDC 持久化并在运行时修改的数据才使用 modifiable；布尔、字符串、枚举名、列表等非数值配置使用 ordinary。完整选择规则见 `enchantment-fields.md`。
 
+变量名跟随附魔所用的语言。上例附魔为中文，`leveled` 键使用 `伤害提升`、`持续时间` 等中文名；对应的 `{占位符}` 和 Fluxon `&引用` 必须使用同一名称。不要在中文附魔里用 `damage`、`duration` 等英文变量名。命名语言的完整规则和例外（`chance`/`概率` 保留名、`MODIFIABLE` 存储键等）见 `enchantment-fields.md`。
+
 当前唯一脚本系统是 Fluxon，Listener、Ticker 和 Skill 通常省略 `type`，不要主动生成 `type: FLUXON`。生成脚本前必须阅读 `fluxon-language.md`。调用 Bukkit 或其他 Java API 时还必须阅读 `fluxon-bukkit-java-semantics.md`。需要内置函数、扩展函数、JVM 互操作或模块时，再按需阅读 `fluxon-stdlib.md`、`fluxon-jvm-interop.md` 和 `fluxon-modules.md`。Fluxon 只能直接嵌入机制的 YAML 脚本块，不能保存为独立 `.fs` 文件。
 
 项目默认附魔 YAML 中存在部分历史 Fluxon 写法。它们只用于参考附魔结构和业务逻辑；新脚本必须以 `fluxon-language.md` 和 `fluxon-bukkit-java-semantics.md` 为准，不要从默认资源复制与严格语义冲突的裸枚举或 getter 写法。

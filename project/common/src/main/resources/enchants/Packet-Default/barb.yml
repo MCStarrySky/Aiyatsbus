@@ -1,0 +1,41 @@
+basic:
+  enable: true
+  disable-worlds: []
+  id: barb
+  name: "棘盾"
+  max-level: 3
+
+rarity: 史诗
+targets:
+  - 盾牌
+
+limitations: []
+
+display:
+  description:
+    general: "举盾格挡近战攻击时反弹伤害给攻击者"
+    specific: "&7举盾格挡近战攻击时反弹&a{反弹伤害}&7给攻击者"
+
+variables:
+  leveled:
+    反弹伤害: "点:2+1*{level}"
+
+mechanisms:
+  listeners:
+    on-damaged:
+      listen: "entity-damaged-by-other"
+      handle: |-
+        if !&player::isBlocking() {
+            return
+        }
+        attacker = &event::damager()
+        if !entity::isLivingEntity(&attacker) {
+            return
+        }
+        if entity::isNPC(&attacker) {
+            return
+        }
+        if entity::isPlayer(&player) && !guard::canDamage(&player, &attacker) {
+            return
+        }
+        entity::realDamage(&attacker, &反弹伤害, &player)

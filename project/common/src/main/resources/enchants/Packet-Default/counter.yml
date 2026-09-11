@@ -1,0 +1,55 @@
+basic:
+  enable: true
+  disable-worlds: []
+  id: counter
+  name: "反击"
+  max-level: 3
+
+rarity: 传奇
+targets:
+  - 盾牌
+
+limitations: []
+
+display:
+  description:
+    general: "举盾格挡时记录伤害，短时间内下一次攻击造成额外伤害"
+    specific: "&7举盾格挡时记录伤害，&a{蓄力窗口}&7内下一次攻击额外造成&a{反击倍率}&7倍伤害"
+
+variables:
+  leveled:
+    蓄力窗口: "秒:3+1*{level}"
+    反击倍率: "倍:0.5+0.5*{level}"
+
+mechanisms:
+  listeners:
+    on-block:
+      listen: "entity-damaged-by-other"
+      handle: |-
+        if !&player::isBlocking() {
+            return
+        }
+        uuid = &player::uniqueId()::toString()
+        &container::put(&uuid, [damage: &event::damage(), time: now()])
+    on-attack:
+      listen: "entity-damage-other"
+      handle: |-
+        uuid = &player::uniqueId()::toString()
+        stored = &container::get(&uuid)
+        if &stored == null {
+            return
+        }
+        if long(&stored::get("time")) + long(&蓄力窗口) * 1000L < now() {
+            &container::remove(&uuid)
+            return
+        }
+        target = &event::entity()
+        if !entity::isLivingEntity(&target) || entity::isNPC(&target) {
+            &container::remove(&uuid)
+            return
+        }
+        if !guard::canDamage(&player, &target) {
+            return
+        }
+        &event::setDamage(&event::damage() + double(&stored::get("damage")) * &反击倍率)
+        &container::remove(&uuid)

@@ -13,7 +13,6 @@ import cc.polarastrum.aiyatsbus.core.util.libreforgeEnabled
 import cc.polarastrum.aiyatsbus.core.util.reloadable
 import cc.polarastrum.aiyatsbus.core.util.safeguard
 import cc.polarastrum.aiyatsbus.impl.DefaultAiyatsbusAPI.Companion.proxy
-import cc.polarastrum.aiyatsbus.impl.registration.legacy.DefaultLegacyEnchantmentRegisterer
 import cc.polarastrum.aiyatsbus.module.compat.libreforge.enchant.LibreforgeAiyatsbusEnchantment
 import cc.polarastrum.aiyatsbus.module.compat.libreforge.enchant.LibreforgeEnchants
 import cc.polarastrum.aiyatsbus.module.compat.libreforge.enchant.impl.HardcodedLibreforgeAiyatsbusEnchantment
@@ -306,12 +305,16 @@ class DefaultAiyatsbusEnchantmentManager : AiyatsbusEnchantmentManager {
                 versionId >= 12104 -> modern(12104)
                 versionId >= 12102 -> modern(12103)
                 versionId >= 12100 -> modern(12100)
-                versionId >= 12005 -> error("""
-                    Aiyatsbus 不支持 Minecraft 1.20.5 或 1.20.6。
-                    Aiyatsbus doesn't support Minecraft 1.20.5 or 1.20.6.
+                else -> error("""
+                    Aiyatsbus 不支持 Minecraft 1.20.x 及以下版本。
+                    Aiyatsbus does not support Minecraft versions 1.20.x and below.
                 """.t())
-                versionId >= 12003 -> modern(12004)
-                else -> DefaultLegacyEnchantmentRegisterer
+//                versionId >= 12005 -> error("""
+//                    Aiyatsbus 不支持 Minecraft 1.20.5 或 1.20.6。
+//                    Aiyatsbus doesn't support Minecraft 1.20.5 or 1.20.6.
+//                """.t())
+//                versionId >= 12003 -> modern(12004)
+//                else -> DefaultLegacyEnchantmentRegisterer
             }
             DefaultAiyatsbusAPI.registerer = registerer
 

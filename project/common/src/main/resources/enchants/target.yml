@@ -138,7 +138,7 @@ trident:
   active-slots:
     - HAND
   types:
-    - TRIDENT
+    - TRIDENT^1
 helmets:
   max: 8
   name: 头盔
@@ -275,7 +275,7 @@ damageable:
     - BRUSH
     - FLINT_AND_STEEL
     - FISHING_ROD
-    - SHIELD
+    - SHIELD^1
     - SHEARS
     - ELYTRA
     - DIAMOND_BOOTS
@@ -303,7 +303,7 @@ damageable:
     - NETHERITE_HELMET
     - CHAINMAIL_HELMET
     - TURTLE_HELMET
-    - TRIDENT
+    - TRIDENT^1
     - CROSSBOW
     - BOW
     - DIAMOND_HOE
@@ -374,7 +374,7 @@ all:
     - CARROT_ON_A_STICK
     - FLINT_AND_STEEL
     - FISHING_ROD
-    - SHIELD
+    - SHIELD^1
     - SHEARS
     - ELYTRA
     - DIAMOND_BOOTS
@@ -402,7 +402,7 @@ all:
     - NETHERITE_HELMET
     - CHAINMAIL_HELMET
     - TURTLE_HELMET
-    - TRIDENT
+    - TRIDENT^1
     - CROSSBOW
     - BOW
     - DIAMOND_HOE

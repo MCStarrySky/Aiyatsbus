@@ -23,30 +23,40 @@ import taboolib.platform.util.onlinePlayers
  */
 val reloadSubCommand = subCommand {
     execute<CommandSender> { sender, _, _ ->
-        Aiyatsbus.isRestarting = true
-        val time = System.currentTimeMillis()
-        (Aiyatsbus.api().getEnchantmentRegisterer() as? ModernEnchantmentRegisterer)?.unfreezeRegistry()
-        Language.reload()
-        AiyatsbusSettings.conf.reload()
-        // 外置添加附魔的插件要在此时完成注册
-        // 这样会被添加到第三方附魔列表中
-        val event = AiyatsbusReloadEvent()
-        event.call()
-        Reloadables.execute()
-        ResettableLazy.reset()
-        (Aiyatsbus.api().getEnchantmentRegisterer() as? ModernEnchantmentRegisterer)?.freezeRegistry()
-        Aiyatsbus.api().getDisplayManager().getSettings().conf.reload()
-        Aiyatsbus.api().getSkillHandler().getSettings().conf.reload()
-        AnvilSupport.conf.reload()
-        EnchantingTableSupport.conf.reload()
-//        ExpModifier.conf.reload()
-        GrindstoneSupport.conf.reload()
-        VillagerSupport.conf.reload()
-        onlinePlayers.forEach(Player::updateInventory)
-        AiyatsbusCommand.init() // 重新生成 TabList
-        sender.sendLang("plugin-reload", System.currentTimeMillis() - time)
-        EnchantRegistrationHooks.unregisterHooks()
-        EnchantRegistrationHooks.registerHooks()
-        Aiyatsbus.isRestarting = false
+        reloadPlugin(sender)
     }
+}
+
+/**
+ * 执行完整的 Aiyatsbus 重载流程。
+ *
+ * 供 `/aiyatsbus reload` 和补丁应用成功后共用。
+ */
+fun reloadPlugin(sender: CommandSender) {
+    Aiyatsbus.isRestarting = true
+    val time = System.currentTimeMillis()
+    (Aiyatsbus.api().getEnchantmentRegisterer() as? ModernEnchantmentRegisterer)?.unfreezeRegistry()
+    Language.reload()
+    AiyatsbusSettings.conf.reload()
+    // 外置添加附魔的插件要在此时完成注册
+    // 这样会被添加到第三方附魔列表中
+    val event = AiyatsbusReloadEvent()
+    event.call()
+    Reloadables.execute()
+    Aiyatsbus.api().getEventExecutor().reloadEventMappings()
+    ResettableLazy.reset()
+    (Aiyatsbus.api().getEnchantmentRegisterer() as? ModernEnchantmentRegisterer)?.freezeRegistry()
+    Aiyatsbus.api().getDisplayManager().getSettings().conf.reload()
+    Aiyatsbus.api().getSkillHandler().getSettings().conf.reload()
+    AnvilSupport.conf.reload()
+    EnchantingTableSupport.conf.reload()
+//        ExpModifier.conf.reload()
+    GrindstoneSupport.conf.reload()
+    VillagerSupport.conf.reload()
+    onlinePlayers.forEach(Player::updateInventory)
+    AiyatsbusCommand.init() // 重新生成 TabList
+    sender.sendLang("plugin-reload", System.currentTimeMillis() - time)
+    EnchantRegistrationHooks.unregisterHooks()
+    EnchantRegistrationHooks.registerHooks()
+    Aiyatsbus.isRestarting = false
 }

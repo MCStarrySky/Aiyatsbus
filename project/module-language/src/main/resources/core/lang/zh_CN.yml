@@ -253,6 +253,16 @@ command-subCommands-mode-sender: '{prefix} &7成功将 &e{name} &7的菜单模�
 command-subCommands-mode-receiver: '{prefix} &7菜单模式修改为 &a{mode}'
 command-subCommands-mode-fail: '{prefix} &7控制台无法设置自己的菜单模式'
 
+command-subCommands-patch-description: '手动应用附魔包补丁（文件与事件映射）'
+command-subCommands-patch-usage: '&7<&8版本编号&7>'
+command-subCommands-patch-not-found: '{prefix} &7未找到补丁 &f{name}'
+command-subCommands-patch-added: '{prefix} &a补丁 &f{patch} &7已新增 &e{count} &7个文件: &f{files}'
+command-subCommands-patch-skipped: '{prefix} &7补丁 &f{patch} &7跳过 &e{count} &7个已存在文件: &f{files}'
+command-subCommands-patch-missing: '{prefix} &c补丁 &f{patch} &7有 &e{count} &7个文件不存在或添加失败: &f{files}'
+command-subCommands-patch-event-added: '{prefix} &a补丁 &f{patch} &7已新增 &e{count} &7个事件映射: &f{mappings}'
+command-subCommands-patch-event-skipped: '{prefix} &7补丁 &f{patch} &7跳过 &e{count} &7个已存在事件映射: &f{mappings}'
+command-subCommands-patch-event-missing: '{prefix} &c补丁 &f{patch} &7有 &e{count} &7个事件映射在插件中不存在: &f{mappings}'
+
 command-subCommands-reload-description: '重载插件'
 command-subCommands-reload-usage: ''
 

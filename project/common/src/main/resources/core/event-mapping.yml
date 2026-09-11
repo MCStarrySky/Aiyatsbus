@@ -74,6 +74,20 @@ mappings:
       - FEET
     player: 'entity'
 
+  # 实体受到其他实体攻击事件（不忽略已取消事件，用于盾牌弹反等）
+  entity-damaged-by-other-any:
+    class: 'org.bukkit.event.entity.EntityDamageByEntityEvent'
+    slots:
+      - HAND
+      - OFF_HAND
+      - HEAD
+      - CHEST
+      - LEGS
+      - FEET
+    player: 'entity'
+    priority: LOWEST
+    ignore-cancelled: false
+
   # 实体死亡事件
   entity-death:
     class: 'org.bukkit.event.entity.EntityDeathEvent'

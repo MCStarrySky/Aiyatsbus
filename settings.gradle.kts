@@ -20,11 +20,11 @@ include(
     "project:module-nms",
     // 1.20.5 NMS 实现
     "project:module-nms:j21",
-    // 旧版本自定义附魔注册器
-    "project:module-registration:registration-legacy",
-    // 1.20.4 (1.20.3) 自定义附魔注册器
-    "project:module-registration:registration-v12004-paper",
-    "project:module-registration:registration-v12004-vanilla",
+//    // 旧版本自定义附魔注册器
+//    "project:module-registration:registration-legacy",
+//    // 1.20.4 (1.20.3) 自定义附魔注册器
+//    "project:module-registration:registration-v12004-paper",
+//    "project:module-registration:registration-v12004-vanilla",
     // 跳过 1.20.5, 1.20.6
     // 1.21 (1.21.1) 自定义附魔注册器
     "project:module-registration:registration-v12100-paper",

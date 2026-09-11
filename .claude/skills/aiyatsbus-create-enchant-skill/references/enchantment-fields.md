@@ -51,7 +51,7 @@ variables:
     伤害增加百分比: "%:15.0*{level}"
 ```
 
-这里的 `{伤害增加百分比}` 已经会显示 `%`，不要写成 `{伤害增加百分比}%`。同理，如果变量配置为 `点:2.5*{level}`，正确写法是 `&a{damage}&7伤害`，不要写成 `&a{damage}点&7伤害`。
+这里的 `{伤害增加百分比}` 已经会显示 `%`，不要写成 `{伤害增加百分比}%`。同理，如果变量 `额外伤害` 配置为 `点:2.5*{level}`，正确写法是 `&a{额外伤害}&7`，不要写成 `&a{额外伤害}点&7`。
 
 `ORDINARY` 或 `MODIFIABLE` 单位示例：
 
@@ -59,30 +59,30 @@ variables:
 display:
   description:
     general: "效果持续一段时间后停止"
-    specific: "&7持续&a{test}秒&7才停止"
+    specific: "&7持续&a{持续时间}秒&7才停止"
 
 variables:
   ordinary:
-    test: 10
+    持续时间: 10
 ```
 
-正确片段是 `&a{test}秒&7`。以下写法错误：
+正确片段是 `&a{持续时间}秒&7`。以下写法错误：
 
 ```yaml
-specific: "&7持续&a{test}&7秒才停止" # 单位没有与数值同色
-specific: "&7持续&a{test}&7才停止"   # 有单位数值却遗漏单位
+specific: "&7持续&a{持续时间}&7秒才停止" # 单位没有与数值同色
+specific: "&7持续&a{持续时间}&7才停止"   # 有单位数值却遗漏单位
 ```
 
 ### 如何判断是否指定单位
 
 只有明确提供非空单位时，才算指定了单位：
 
-- 纯代码方案中，`.addVariable(VariableType.LEVELED, "test", "{level}*10")` 没有指定单位。
-- 纯代码方案中，`.addVariable(VariableType.LEVELED, "test", "{level}*10", "")` 也没有指定单位。
-- 纯代码方案中，`.addVariable(VariableType.LEVELED, "test", "{level}*10", "个")` 指定了单位 `个`。
-- YAML 配置中，`damage: "点:2.5*{level}"` 指定了单位 `点`。
-- YAML 配置中，`damage: "xxxxx:2.5*{level}"` 指定了单位 `xxxxx`。单位内容不需要是预设枚举，冒号前的非空文本都视为单位。
-- YAML 配置中，`damage: ":2.5*{level}"` 没有指定单位，因为冒号前为空。
+- 纯代码方案中，`.addVariable(VariableType.LEVELED, "数量", "{level}*10")` 没有指定单位。
+- 纯代码方案中，`.addVariable(VariableType.LEVELED, "数量", "{level}*10", "")` 也没有指定单位。
+- 纯代码方案中，`.addVariable(VariableType.LEVELED, "数量", "{level}*10", "个")` 指定了单位 `个`。
+- YAML 配置中，`伤害: "点:2.5*{level}"` 指定了单位 `点`。
+- YAML 配置中，`伤害: "xxxxx:2.5*{level}"` 指定了单位 `xxxxx`。单位内容不需要是预设枚举，冒号前的非空文本都视为单位。
+- YAML 配置中，`伤害: ":2.5*{level}"` 没有指定单位，因为冒号前为空。
 
 因此，只有 LEVELED 的单位非空时才禁止在描述中重复书写单位。不要仅因为变量值中存在冒号，就把空单位判断为已指定单位。没有配置单位的 LEVELED，以及无法配置单位的 ORDINARY/MODIFIABLE，如果语义需要单位，都应在 `specific` 中紧跟占位符补充，并保持变量颜色。
 
@@ -151,6 +151,37 @@ limitations:
 
 ## 变量
 
+### 变量命名语言
+
+变量名跟随开发者所用的语言，不要固定使用英文。判断依据按优先级为：当前请求的语言、附魔 `name` 与 `general`/`specific` 描述所用的语言、项目已有附魔配置的既有命名习惯。中文语境使用中文变量名，英文语境才使用英文变量名。
+
+同一个变量会在三处出现，必须使用完全一致的名称：
+
+1. `variables` 下的键，例如 `leveled` 中的 `伤害提升`。
+2. 描述占位符，例如 `specific` 中的 `{伤害提升}`。
+3. 效果读取：Fluxon 用 `&伤害提升`，Java 用 `enchant.getVariables().leveled("伤害提升", level, false)`。
+
+中文附魔的正确写法：
+
+```yaml
+display:
+  description:
+    general: "攻击时提高造成的伤害"
+    specific: "&7攻击时造成的伤害提高&a{伤害提升}&7"
+
+variables:
+  leveled:
+    伤害提升: "%:30"
+```
+
+同一个附魔中不要把变量命名成 `damage`、`chance`、`duration`、`kills` 等英文名，再在中文描述里引用 `{damage}`。这既不符合语言一致性，也容易在占位符、脚本和 Java 读取之间产生名称不匹配。
+
+命名例外，这些标识符不按上述语言规则改写：
+
+- `chance` 与 `概率` 是源码自动识别的概率保留名，只有这两个名称会被 Builtin 和 Artifact 当作自动概率读取。中文语境使用 `概率`。详见 `artifact-trigger.md`。
+- Skill 的 `cooldown.name` 指向一个附魔变量名，配置值与 `variables` 中的键保持一致即可，可以是中文。详见 `skill-trigger.md`。
+- `MODIFIABLE` 的 PDC/NBT 存储键、Bukkit 枚举名、粒子类型、API 常量等是技术标识符，遵循各自系统的命名习惯，不属于附魔变量命名，不要改成中文。
+
 ### 玩法数值必须变量化
 
 伤害、伤害倍率、概率、持续时间、冷却、范围、半径、速度、数量、资源消耗等可供服主或附魔设计者调整的玩法数值，能做成附魔变量时必须尽量变量化。不要在 Fluxon 脚本、Java Builtin 或纯代码回调中直接写死这些数值。
@@ -204,19 +235,21 @@ variables:
 ```yaml
 variables:
   leveled:
-    damage: "点:2.5*{level}"
-    chance:
+    伤害: "点:2.5*{level}"
+    概率:
       1: 10
       2: 25
       3: 40
       unit: "%"
   modifiable:
-    kills: enchant_kills=0
-    state: (NBT)custom.state=ready
+    击杀数: enchant_kills=0
+    状态: (NBT)custom.state=ready
   ordinary:
-    damage-type: magic
-    enabled: true
+    伤害类型: magic
+    启用: true
 ```
+
+上例是中文附魔，`leveled`、`modifiable` 和 `ordinary` 的键都用中文；概率变量使用保留名 `概率`。注意区分变量名和存储键：`击杀数` 是变量名，跟随语言使用中文，而 `=` 前的 `enchant_kills` 和 `(NBT)custom.state` 是 PDC/NBT 存储键，属于技术标识符，保持英文。`伤害类型` 的值 `magic` 是枚举式字符串，也不需要改成中文。
 
 `leveled` 公式使用 `level`，也可以为不同等级显式配置不同数值。显式等级表会选择“不高于当前附魔等级的最高配置等级”，不会进行插值。例如只配置了 `1`、`3`、`5` 级时，附魔等级 `4` 使用 `3` 级的值；至少配置 `1` 级，否则低于最小配置等级时可能无法取值。双层大括号只用于等级变量公式，可以引用另一个等级变量，但禁止循环引用；`ordinary` 和 `modifiable` 不会参与这种公式递归。`modifiable` 默认使用 PDC；存储键以 `(NBT)` 开头时使用 NBT；等号用于分隔存储键和默认值。`ordinary` 会保留 YAML 原始值类型，可以保存字符串、数字、布尔值或列表；Java 读取时应按实际类型处理。
 

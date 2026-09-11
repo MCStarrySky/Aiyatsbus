@@ -122,4 +122,13 @@ interface AiyatsbusAPI {
      * @return 附魔调度器实例
      */
     fun getTickHandler(): AiyatsbusTickHandler
+
+    /**
+     * 获取补丁管理器
+     *
+     * 负责附魔包补丁的查询和应用。
+     *
+     * @return 补丁管理器实例
+     */
+    fun getPatchManager(): AiyatsbusPatchManager
 }

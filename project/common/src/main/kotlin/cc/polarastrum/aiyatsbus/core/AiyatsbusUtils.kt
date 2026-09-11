@@ -239,11 +239,18 @@ fun ItemStack.etsAvailable(
 /**
  * 从特定品质中根据附魔权重抽取一个附魔
  *
- * 根据附魔的权重进行随机抽取。
+ * 根据附魔的权重进行随机抽取，已禁用或不可获得的附魔不会参与抽取。
+ * 权重为 0 的附魔天然不会被选中，可作为手动排除的开关。
  *
  * @return 随机抽取的附魔，如果没有该品质的附魔则返回 null
  */
-fun Rarity.drawEt(): AiyatsbusEnchantment? = RandomList(*aiyatsbusEts(this).associateWith { it.alternativeData.weight }.toList().toTypedArray()).random()
+fun Rarity.drawEt(): AiyatsbusEnchantment? = RandomList(
+    *aiyatsbusEts(this)
+        .filter { it.basicData.enable && !it.inaccessible }
+        .associateWith { it.alternativeData.weight }
+        .toList()
+        .toTypedArray()
+).random()
 
 /**
  * 从物品元数据获取附魔并自动转换为 AiyatsbusEnchantment

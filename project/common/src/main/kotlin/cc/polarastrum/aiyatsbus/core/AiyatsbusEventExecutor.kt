@@ -72,4 +72,11 @@ interface AiyatsbusEventExecutor {
      * @return 对应的事件解析器
      */
     fun <T: Event> getResolver(instance: T): EventResolver<T>?
+
+    /**
+     * 重载事件映射
+     *
+     * 重新从 event-mapping.yml 读取映射，并重新注册事件监听器。
+     */
+    fun reloadEventMappings()
 }

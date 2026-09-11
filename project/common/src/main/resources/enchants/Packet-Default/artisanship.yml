@@ -1,0 +1,70 @@
+
+
+#         Powered by TabooLib 6.3         #
+
+
+basic:
+  enable: true
+  disable-worlds: []
+  id: artisanship
+  name: "匠心"
+  max-level: 3
+
+rarity: 传奇
+targets:
+  - 镐
+  - 铲
+  - 锄
+
+limitations: []
+
+display:
+  format:
+    previous: "{default_previous}  &7阶数 &e{匠心阶数}阶 &7(&e{匠心进度}&7/&a{进阶需求}&7)"
+  description:
+    general: "挖掘方块累积匠心，积累越多挖掘越快"
+    specific: "&7挖掘方块累积匠心，每累积&a{进阶需求}&7提升一阶挖掘速度，最高&a{最大阶数}&7"
+
+variables:
+  leveled:
+    进阶需求: "个:5000-1000*{level}"
+    最大阶数: "阶:3"
+  modifiable:
+    匠心进度: artisanship_progress=0
+    匠心阶数: artisanship_tier=0
+
+mechanisms:
+  priority-listener: 0
+  priority-ticker: 0
+  listeners:
+    on-break:
+      listen: "block-break"
+      handle: |-
+        // 副手放同款工具时避免重复计数
+        if &triggerSlot != "HAND" {
+            return
+        }
+        tier = int(&匠心阶数)
+        if &tier >= &最大阶数 {
+            return
+        }
+        need = int(&进阶需求)
+        progress = int(&匠心进度) + 1
+        if &progress >= &need {
+            tier = &tier + 1
+            // 满阶后进度条保持满格
+            progress = if &tier >= &最大阶数 then &need else 0
+            variables::setModifiable(&enchant, &item, "匠心阶数", &tier)
+        }
+        variables::setModifiable(&enchant, &item, "匠心进度", &progress)
+
+  tickers:
+    artisanship-haste:
+      interval: 20
+      handle: |-
+        tier = min(int(&匠心阶数), &最大阶数)
+        if &tier <= 0 {
+            return
+        }
+        // 40 刻的药水配合 20 刻的检查周期, 工具离手后最多 2 秒自动过期
+        entity::addPotionEffect(&player, "HASTE", 40, &tier - 1, false, false, false)
