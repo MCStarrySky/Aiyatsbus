@@ -14,6 +14,10 @@ repositories {
     maven("https://ci.ender.zone/plugin/repository/everything/")              // FactionsUUID
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")     // RedProtect
     maven("https://eldonexus.de/repository/maven-releases/")                  // Landlord
+    maven("https://nexus.phoenixdevt.fr/repository/maven-public/")            // MMOItems
+    maven("https://r.irepo.space/maven/")                                     // NeigeItems
+    maven("https://repo.oraxen.com/releases")                                 // Oraxen
+    maven("https://repo.tabooproject.org/repository/releases")                // Zaphkiel
 }
 
 dependencies {
@@ -67,6 +71,14 @@ dependencies {
     compileOnly("ink.ptms:um:1.0.9")                                              // universe-mythic
     compileOnly("net.momirealms:craft-engine-core:26.6")                          // CraftEngine 核心 API
     compileOnly("net.momirealms:craft-engine-bukkit:26.6")                        // CraftEngine Bukkit API
+    compileOnly("com.github.LoneDev6:API-ItemsAdder:3.6.2-beta-r3-b")             // ItemsAdder
+    compileOnly("net.Indyuce:MMOItems-API:6.9.5-SNAPSHOT")                        // MMOItems
+    compileOnly("pers.neige.neigeitems:NeigeItems:1.15.96")                       // NeigeItems
+    compileOnly("io.th0rgal:oraxen:1.185.0")                                      // Oraxen
+    compileOnly("ink.ptms:Zaphkiel:2.0.14")                                       // Zaphkiel
+    compileOnly("public:sx-item:1")                                               // SX-Item
+    compileOnly("public:AzureFlow:1")                                             // AzureFlow
+    compileOnly("public:pxrpg:1")                                                 // PxRpg
 }
 
 // 子模块

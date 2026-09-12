@@ -6,15 +6,16 @@ import cc.polarastrum.aiyatsbus.core.data.registry.TargetItemSources
 import cc.polarastrum.aiyatsbus.core.data.registry.TargetItemType
 import cc.polarastrum.aiyatsbus.core.util.craftEngineEnabled
 import net.momirealms.craftengine.bukkit.api.CraftEngineItems
-import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 
-/** CraftEngine 物品目标来源。 */
+/** CraftEngine 物品目标来源，格式：`craftengine:<物品ID>`，例如 `craftengine:weapons:diamond_sword` */
 object CraftEngineTargetItemSource : TargetItemSource {
 
     override val id = "craftengine"
+
+    override val aliases = listOf("ce")
 
     override fun create(identifier: String, capability: Int?, enchantability: Int): TargetItemType? {
         if (!AiyatsbusSettings.supportCraftEngine || !craftEngineEnabled) return null
@@ -28,16 +29,10 @@ object CraftEngineTargetItemSource : TargetItemSource {
 }
 
 private class CraftEngineTargetItemType(
-    override val identifier: String,
-    override val capability: Int?,
-    override val enchantability: Int
-) : TargetItemType {
+    identifier: String,
+    capability: Int?,
+    enchantability: Int
+) : CustomItemTargetType(identifier, capability, enchantability) {
 
-    override val hasEnchantability = enchantability > 0
-    override val vanillaMaterial: Material? = null
-
-    override fun matches(item: ItemStack): Boolean {
-        val actual = runCatching { CraftEngineItems.getCustomItemId(item)?.toString() }.getOrNull()
-        return actual.equals(identifier, ignoreCase = true)
-    }
+    override fun resolveItemId(item: ItemStack): String? = CraftEngineItems.getCustomItemId(item)?.toString()
 }

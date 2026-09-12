@@ -7,6 +7,13 @@ import org.bukkit.inventory.ItemStack
 interface TargetItemSource {
     val id: String
 
+    /**
+     * 物品源的别名，便于按习惯书写，例如 `itemsadder` 的 `ia`。
+     *
+     * 别名不会覆盖已经注册的物品源 ID。
+     */
+    val aliases: List<String> get() = emptyList()
+
     fun create(identifier: String, capability: Int?, enchantability: Int): TargetItemType?
 }
 
@@ -29,6 +36,7 @@ object TargetItemSources {
 
     fun register(source: TargetItemSource) {
         sources[source.id.lowercase()] = source
+        source.aliases.forEach { sources.putIfAbsent(it.lowercase(), source) }
     }
 
     fun create(identifier: String, capability: Int?, enchantability: Int): TargetItemType? {

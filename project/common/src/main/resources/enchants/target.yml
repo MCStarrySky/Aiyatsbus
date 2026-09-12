@@ -19,6 +19,17 @@ swords:
     - COPPER_SWORD
 # 在物品 ID 后追加 ~<最大数量>，可以覆盖目标的默认最大附魔数量：
 # - craftengine:weapons:diamond_sword~8
+# 也可以直接填写第三方物品库的物品，格式为 <物品源>:<物品ID>：
+# - craftengine:weapons:diamond_sword
+# - itemsadder:myitems:ruby_sword
+# - oraxen:ruby_sword
+# - mmoitems:SWORD,RubySword
+# - neigeitems:RubySword
+# - zaphkiel:RubySword
+# - sxitem:RubySword
+# - azureflow:ruby_sword
+# - pxrpg:equip:RubySword
+# 物品源支持别名，例如 ce(CraftEngine), ia(ItemsAdder), ox(Oraxen), mi(MMOItems), ni(NeigeItems), zap(Zaphkiel)
 # 在物品 ID 后追加 ^<附魔能力值>，可以设置原版附魔台使用的附魔能力值；未填写时不会修改原版行为：
 # - SHIELD^1
 axes:
